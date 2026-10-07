@@ -1,0 +1,168 @@
+{
+  "date": "2026-09-22",
+  "issueNo": 13,
+  "issueSpan": 1,
+  "issueLabel": "第 13 期",
+  "issueNoLabel": "13",
+  "theme": "模型部署与安全边界 · 期权敏感度与名义敞口",
+  "themeRaw": "模型部署与安全边界 + 期权敏感度与名义敞口",
+  "note": "本期 5 词（3 AI + 2 金融），已与前 12 期 60 词去重",
+  "title": "每日英语 5 词 · 2026-09-22",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "system prompt",
+      "issueNoLocal": 13,
+      "phonetic": "/ˈsɪstəm prɒmpt/",
+      "pos": "n.",
+      "posRaw": "n.（相关：user prompt、instruction hierarchy、persona、prompt injection）",
+      "related": [
+        "user prompt",
+        "instruction hierarchy",
+        "persona",
+        "prompt injection"
+      ],
+      "meaning": "【AI】系统提示词——在对话开始前预置给模型的最高层指令，用来定义角色、边界与输出规范；它位于消息层级的最上层，普通用户输入通常无法覆盖它",
+      "gloss": "系统提示词",
+      "example": "A vague system prompt is the most common cause of a model that drifts off-persona after a few turns.",
+      "exampleCn": "系统提示词写得含糊，是模型几轮对话后跑偏人设最常见的原因。",
+      "memory": "**关键区分**：system prompt 是「规则」，user prompt 是「任务」。规则要稳定、可复用、能审计，任务才需要每轮变。**为什么重要**：它是产品行为的一部分——写进系统提示词的约束，等于把产品策略编码进了模型；因此它应当纳入版本管理与回归测试，而不是藏在代码里随手改。**常见坑**：把所有约束都堆进系统提示词，导致指令互相冲突、模型选择性忽略；更好的做法是分层——硬约束靠代码与工具层强制，软风格靠系统提示词引导。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "red teaming",
+      "issueNoLocal": 13,
+      "phonetic": "/red ˈtiːmɪŋ/",
+      "pos": "n.",
+      "posRaw": "n.（相关：jailbreak、adversarial testing、eval、attack surface）",
+      "related": [
+        "jailbreak",
+        "adversarial testing",
+        "eval",
+        "attack surface"
+      ],
+      "meaning": "【AI】红队测试——主动扮演攻击者，系统性地寻找模型或系统的安全漏洞、越狱路径与有害输出，把失败案例转化为改进清单",
+      "gloss": "红队测试",
+      "example": "Red teaming surfaced a jailbreak that the standard eval suite had never thought to try.",
+      "exampleCn": "红队测试挖出了一个标准评测集从未想到要去尝试的越狱手法。",
+      "memory": "**记忆锚点**：red team = 扮演敌人（军事演习里红军对蓝军）。与常规测试最大的区别在于**目标相反**——常规测试要证明「能工作」，红队要证明「能出错」。**产出形式**：不是「通过/不通过」，而是攻击面清单与失败样例集，后者可直接沉淀为回归测试用例。**为什么重要**：安全不是测一次就完——模型每更新一版、每接一个新工具，攻击面都会变，红队必须重跑。这个节奏与软件渗透测试完全一致。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "diffusion",
+      "issueNoLocal": 13,
+      "phonetic": "/dɪˈfjuːʒn/",
+      "pos": "n.",
+      "posRaw": "n.（相关：denoising、latent space、autoregressive、flow matching）",
+      "related": [
+        "denoising",
+        "latent space",
+        "autoregressive",
+        "flow matching"
+      ],
+      "meaning": "【AI】扩散模型；扩散——一类生成模型：训练时逐步给数据加噪声直到变成纯噪声，生成时再学着从噪声逐步去噪还原出数据；是当前图像、视频、音频生成的主流架构",
+      "gloss": "扩散模型",
+      "example": "Diffusion models generate by learning to reverse a noising process, not by predicting the next token.",
+      "exampleCn": "扩散模型靠学习「逆转加噪过程」来生成，而不是预测下一个 token。",
+      "memory": "词根 diffuse = 扩散、弥漫（如「气体扩散」「信息扩散」）。抓住这条**对称结构**：前向过程是加噪（无需学习，纯数学），反向过程是去噪（需要学习）——模型只学反向那一步。**与自回归的关系**：这是两条并行技术路线，一个并行去噪出整张图，一个逐 token 顺序生成；在视频生成领域两者正在互相融合（先自回归出关键帧、再扩散补细节）。**工程直觉**：扩散天然支持并行，因此对推理算力的利用方式与 LLM 完全不同。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "gamma",
+      "issueNoLocal": 13,
+      "phonetic": "/ˈɡæmə/",
+      "pos": "n.",
+      "posRaw": "n.（相关：delta、vega、theta、gamma squeeze、delta hedging）",
+      "related": [
+        "delta",
+        "vega",
+        "theta",
+        "gamma squeeze",
+        "delta hedging"
+      ],
+      "meaning": "【金融】伽马（Γ）——期权 delta 对标的价格变化的敏感度，即二阶导；它衡量对冲比率本身变化有多快，gamma 越大，delta 对冲越难维持",
+      "gloss": "伽马",
+      "example": "Short-dated options carry enormous gamma, so dealers must re-hedge constantly as the spot moves.",
+      "exampleCn": "短期期权携带极大的伽马，因此做市商必须随现价波动不停重新对冲。",
+      "memory": "**记忆阶梯（希腊字母家族）**：价格 → delta（一阶，方向敞口）→ gamma（二阶，delta 的变化率）；时间衰减用 theta，波动率用 vega。**一句话**：gamma 就是「对冲的加速度」。**关键机制**：gamma squeeze（伽马挤压）——做市商为维持 delta 中性，在上涨时被迫追买、下跌时被迫追卖，从而**放大**而非平抑波动；这是 2021 年 meme 股行情的重要放大器之一。**实践含义**：临近到期的平值期权 gamma 最大，此时对冲成本最高、市场最脆弱。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "notional",
+      "issueNoLocal": 13,
+      "phonetic": "/ˈnəʊʃənl/",
+      "pos": "n./adj.",
+      "posRaw": "n./adj.（相关：market value、capital at risk、leverage、derivative exposure）",
+      "related": [
+        "market value",
+        "capital at risk",
+        "leverage",
+        "derivative exposure"
+      ],
+      "meaning": "【金融】名义本金；名义的——衍生品合约据以计算现金流与风险敞口的参考金额，本身通常不发生实际交换；它是合约规模的标称值，不等于真实投入的资金",
+      "gloss": "名义本金",
+      "example": "The position carried $50 million in notional, but only a fraction of that was actually at risk.",
+      "exampleCn": "这个头寸的名义金额是五千万美元，但真正面临风险的只是其中一小部分。",
+      "memory": "**记忆锚点**：notional 来自 notion = 「名义上的、概念上的」，所以 notional = 「账面上的规模」。**核心区分（三个数字不能混）**：notional（名义规模）≠ market value（当前市值）≠ capital at risk（真实风险资本）。**为什么重要**：衍生品的杠杆恰恰藏在这个差额里——「名义 1 亿」的互换可能只需几百万保证金就能建仓。看到名义数字不要直接当成敞口，要追问「最坏情景下真实损失是多少」。**延伸**：利率互换的名义本金通常从不交换，只有净额利息在流动。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [
+    {
+      "no": "1",
+      "word": "system prompt",
+      "phonetic": "/ˈsɪstəm prɒmpt/",
+      "domain": "AI",
+      "point": "最高层规则，定义角色与边界；规则稳定、任务多变"
+    },
+    {
+      "no": "2",
+      "word": "red teaming",
+      "phonetic": "/red ˈtiːmɪŋ/",
+      "domain": "AI",
+      "point": "主动扮演攻击者找漏洞；产出是攻击面清单，需随版本重跑"
+    },
+    {
+      "no": "3",
+      "word": "diffusion",
+      "phonetic": "/dɪˈfjuːʒn/",
+      "domain": "AI",
+      "point": "前向加噪、反向去噪；与自回归并行的生成路线"
+    },
+    {
+      "no": "4",
+      "word": "gamma",
+      "phonetic": "/ˈɡæmə/",
+      "domain": "金融",
+      "point": "delta 的变化率，对冲的加速度；gamma squeeze 放大波动"
+    },
+    {
+      "no": "5",
+      "word": "notional",
+      "phonetic": "/ˈnəʊʃənl/",
+      "domain": "金融",
+      "point": "名义规模 ≠ 市值 ≠ 风险资本，杠杆藏于差额"
+    }
+  ],
+  "comparisons": [],
+  "progress": [
+    "本期：第 13 期，5 词",
+    "累计：**65 词**（39 AI + 26 金融）",
+    "归档格式：KAMI One-Pager PNG（`2026-09-22-英语单词_onepager.png`），同步推送 Markdown 列表至 Telegram"
+  ]
+}

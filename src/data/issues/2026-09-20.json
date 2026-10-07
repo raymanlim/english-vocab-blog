@@ -1,0 +1,155 @@
+{
+  "date": "2026-09-20",
+  "issueNo": 11,
+  "issueSpan": 1,
+  "issueLabel": "第 11 期",
+  "issueNoLabel": "11",
+  "theme": "模型上线约束 · 波动率与杠杆放大",
+  "themeRaw": "模型上线约束 + 波动率与杠杆放大",
+  "note": "本期 5 词（3 AI + 2 金融），已与前 10 期 50 词去重",
+  "title": "每日英语 5 词 · 2026-09-20",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "knowledge cutoff",
+      "issueNoLocal": 11,
+      "phonetic": "/ˈnɒlɪdʒ ˈkʌtʌf/",
+      "pos": "n.（常缩写为 cutoff；相关：training data cutoff、freshness）",
+      "posRaw": "n.（常缩写为 cutoff；相关：training data cutoff、freshness）",
+      "related": [],
+      "meaning": "【AI】知识截止日期——训练语料收集的终止时点；模型对该日期之后的现实世界一无所知",
+      "gloss": "知识截止日期",
+      "example": "The model's knowledge cutoff is early last year, so anything newer comes from search rather than memory.",
+      "exampleCn": "这个模型的知识截止于去年年初，所以更新的事情只能靠检索，而不是靠记忆。",
+      "memory": "cutoff 是「切断点」：语料被一刀切断的日期。**为什么重要**：它解释了大部分「一本正经的过时答案」，也是必须接 RAG 的根本原因。**关键陷阱**：模型往往不知道自己的边界，会把训练里没有的东西当作事实自信输出。**对策**：涉及价格、人事、版本号、政策的问题一律走检索，不要靠模型记忆。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "temperature",
+      "issueNoLocal": 11,
+      "phonetic": "/ˈtemprətʃə/",
+      "pos": "n.",
+      "posRaw": "n.（相关：top-p / nucleus sampling、greedy decoding）",
+      "related": [
+        "top-p",
+        "nucleus sampling",
+        "greedy decoding"
+      ],
+      "meaning": "【AI】温度——采样时用于缩放 logits 的超参数，控制输出的随机性",
+      "gloss": "温度",
+      "example": "We dropped the temperature to zero for the extraction job; creativity was the last thing that batch needed.",
+      "exampleCn": "做抽取任务时我们把温度设为零——那批数据最不需要的就是创造性。",
+      "memory": "借用物理隐喻：温度越高分子越乱。**判据**：T→0 时趋于选概率最高的 token，输出稳定、可复现；T 升高则长尾 token 被放大，输出更多样也更易出错。**实践口径**：抽取 / 分类 / 代码用低温（0~0.2），头脑风暴 / 文案用高温（0.7~1.0）。**注意**：温度调不动「知识边界」，它只改变选择分布，不能提高正确率。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "router",
+      "issueNoLocal": 11,
+      "phonetic": "/ˈruːtə/",
+      "pos": "n.",
+      "posRaw": "n.（相关：MoE routing、model gateway、expert choice）",
+      "related": [
+        "MoE routing",
+        "model gateway",
+        "expert choice"
+      ],
+      "meaning": "【AI】路由器——在多模型或多专家系统中，按输入特征把请求或 token 分派到最合适子模块的组件",
+      "gloss": "路由器",
+      "example": "The gateway router sends trivial prompts to a small model and escalates only the hard ones to the flagship.",
+      "exampleCn": "网关路由器把简单提示交给小模型，只把难题升级给旗舰模型。",
+      "memory": "和网络里的路由器同名同理：不负责生成，只负责「往哪儿送」。**两个战场**：① 系统层——多模型路由，用来降本（小模型吃简单请求）；② 模型层——MoE 的稀疏激活，决定每个 token 走哪几个专家。**为什么重要**：它是「同等算力下更强模型」的关键杠杆，也是推理成本结构的主要变量。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "implied volatility",
+      "issueNoLocal": 11,
+      "phonetic": "/ɪmˈplaɪd ˌvɒləˈtɪləti/",
+      "pos": "n.（缩写 IV；相关：realized volatility、volatility risk premium、IV rank）",
+      "posRaw": "n.（缩写 IV；相关：realized volatility、volatility risk premium、IV rank）",
+      "related": [],
+      "meaning": "【金融】隐含波动率——把期权市场价格反代进定价模型后解出的波动率，代表市场对未来波动的共识预期",
+      "gloss": "隐含波动率",
+      "example": "Earnings are two days away, and implied volatility is already pricing in an eight percent move.",
+      "exampleCn": "财报还有两天，隐含波动率已经在定价 8% 的波动。",
+      "memory": "implied = 被「蕴含在价格里」的。**关键区分**：IV 是市场出的价，RV（realized volatility）是实际走出的行情；两者之差就是**波动率风险溢价**，期权卖方赚的正是这个溢价。**为什么重要**：它是期权交易的语言——方向性交易之外，所有波动率策略（跨式、宽跨式、日历价差）都在交易 IV 与 RV 的偏离。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "short squeeze",
+      "issueNoLocal": 11,
+      "phonetic": "/ʃɔːt skwiːz/",
+      "pos": "n.",
+      "posRaw": "n.（相关：short interest、days to cover、long squeeze、gamma squeeze）",
+      "related": [
+        "short interest",
+        "days to cover",
+        "long squeeze",
+        "gamma squeeze"
+      ],
+      "meaning": "【金融】逼空 / 轧空——股价上涨迫使空头回补，而回补买盘又进一步推高股价的正反馈行情",
+      "gloss": "逼空 / 轧空",
+      "example": "The squeeze was violent but short-lived: once the shorts were flushed out, there was no one left to buy.",
+      "exampleCn": "这波逼空来得猛烈却短暂——空头一旦被挤出局，就再没有接盘的人了。",
+      "memory": "squeeze 是「挤压」：**空头的止损就是多头的燃料**。**观察指标**：short interest（空头持仓占比）越高、days to cover（回补天数）越长，燃料越足。**为什么重要**：它的终点不可持续，本质是仓位与杠杆的机械性行情，不代表基本面改善——一旦空头清空，买盘来源即消失。**反向对称**：多头拥挤时的下跌会形成 long squeeze（多头踩踏），机制完全相同。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [
+    {
+      "no": "1",
+      "word": "knowledge cutoff",
+      "phonetic": "/ˈnɒlɪdʒ ˈkʌtʌf/",
+      "domain": "AI",
+      "point": "语料被切断的日期，过时答案与幻觉的共同来源"
+    },
+    {
+      "no": "2",
+      "word": "temperature",
+      "phonetic": "/ˈtemprətʃə/",
+      "domain": "AI",
+      "point": "控制采样随机性，抽取用低温、创意用高温"
+    },
+    {
+      "no": "3",
+      "word": "router",
+      "phonetic": "/ˈruːtə/",
+      "domain": "AI",
+      "point": "按输入分派请求/专家，降本与 MoE 稀疏激活的核心"
+    },
+    {
+      "no": "4",
+      "word": "implied volatility",
+      "phonetic": "/ɪmˈplaɪd ˌvɒləˈtɪləti/",
+      "domain": "金融",
+      "point": "期权价格反解出的预期波动，与 RV 之差即风险溢价"
+    },
+    {
+      "no": "5",
+      "word": "short squeeze",
+      "phonetic": "/ʃɔːt skwiːz/",
+      "domain": "金融",
+      "point": "空头回补推动的正反馈暴涨，燃料是杠杆而非基本面"
+    }
+  ],
+  "comparisons": [],
+  "progress": [
+    "本期：第 11 期，5 词",
+    "累计：**55 词**（33 AI + 22 金融）",
+    "归档格式：KAMI One-Pager PNG（`2026-09-20-英语单词_onepager.png`），同步推送 Markdown 列表至 Telegram"
+  ]
+}

@@ -1,0 +1,126 @@
+{
+  "date": "2026-09-17",
+  "issueNo": 8,
+  "issueSpan": 1,
+  "issueLabel": "第 8 期",
+  "issueNoLabel": "8",
+  "theme": "提示与检索增强 · 基点与风险系数",
+  "themeRaw": "提示与检索增强 + 基点与风险系数",
+  "note": "本期 5 词，已与前 7 期 35 词去重",
+  "title": "每日英语 5 词 · 2026-09-17",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "prompt engineering",
+      "issueNoLocal": 8,
+      "phonetic": "/prɒmpt ˌendʒɪˈnɪərɪŋ/（美 /prɑːmpt ˌendʒɪˈnɪrɪŋ/）",
+      "pos": "n.（动词短语 prompt-engineer；从业者可称 prompt engineer）",
+      "posRaw": "n.（动词短语 prompt-engineer；从业者可称 prompt engineer）",
+      "related": [],
+      "meaning": "【AI】提示工程——通过设计指令的结构、措辞、示例与约束，让模型稳定产出目标输出的方法与技艺",
+      "gloss": "提示工程",
+      "example": "A week of prompt engineering cut the error rate from 18% to 4% without retraining a single weight.",
+      "exampleCn": "一周的提示工程把错误率从 18% 降到 4%，而没有重新训练任何一个权重。",
+      "memory": "prompt 本义「提示、催促」（动词：促使），引申为「喂给模型的指令」→ 把指令当成一门工程来做，就是 prompt engineering。核心手法：role assignment（角色设定）、output schema（输出格式约束）、few-shot examples（少样本示例）、delimiter（分隔符隔离内容）、step-by-step instruction。**为什么重要**：这是唯一「零成本、当天可上线」的模型调优手段，性价比高于微调（fine-tuning）——后者要数据、算力与迭代周期。**注意**：提示工程是「把已有能力逼出来」，不是「教会模型新能力」；能力上限由模型本身决定。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "chain-of-thought (CoT)",
+      "issueNoLocal": 8,
+      "phonetic": "/tʃeɪn əv θɔːt/",
+      "pos": "n.（缩写 CoT）",
+      "posRaw": "n.（缩写 CoT）",
+      "related": [],
+      "meaning": "【AI】思维链——让模型在给出最终答案前，先显式地分步推理，从而提升多步逻辑、数学与规划类任务的准确率",
+      "gloss": "思维链",
+      "example": "Adding \"let's think step by step\" — the classic zero-shot chain-of-thought prompt — lifted accuracy on the math set by 20 points.",
+      "exampleCn": "加上「让我们一步步思考」这句经典的零样本思维链提示，数学题集的准确率提升了 20 个百分点。",
+      "memory": "chain(链条) + of thought(思考) → 把「一步到答案」拆成「一环扣一环」。关键变体：**zero-shot CoT**（只加一句「一步步想」）、**few-shot CoT**（给出带推理过程的范例）、**self-consistency**（多次采样取多数答案）。与推理模型的关系：o1 / R1 这类模型把「先想再答」内化为训练目标（可称 implicit CoT 或长思考），而提示式 CoT 是在推理时手动触发。**注意**：模型说出的推理步骤**未必是**它真正的内部计算路径，可读但不可全信。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "retrieval-augmented generation (RAG)",
+      "issueNoLocal": 8,
+      "phonetic": "/rɪˈtriːvl ˈɔːɡmentɪd ˌdʒenəˈreɪʃn/",
+      "pos": "n.（缩写 RAG）",
+      "posRaw": "n.（缩写 RAG）",
+      "related": [],
+      "meaning": "【AI】检索增强生成——先到外部知识库检索相关片段，再把片段拼进提示让模型作答，以此注入模型参数之外的实时或私有知识",
+      "gloss": "检索增强生成",
+      "example": "RAG keeps the model from hallucinating on fresh filings — it answers from retrieved passages, not from memory.",
+      "exampleCn": "RAG 让模型不至于在新披露文件上产生幻觉——它是依据检索到的段落作答，而不是凭记忆。",
+      "memory": "retrieval(检索) + augmented(增强的) + generation(生成) → 「先去查资料，再动笔写」。拆词记：**R**etrieve → **A**ugment → **G**enerate。标准链路：chunking（切块）→ embedding（向量化）→ vector search（向量检索）→ rerank（重排）→ prompt 拼装。**为什么重要**：它绕开了「重训模型」的成本，且知识可即时更新、可溯源（能给出引用），是企业落地的默认方案。**对照**：RAG 解决「不知道」，fine-tuning 解决「不会做」——前者补知识，后者改风格与能力。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "basis point (bps)",
+      "issueNoLocal": 8,
+      "phonetic": "/ˈbeɪsɪs pɔɪnt/",
+      "pos": "n.（缩写 bp / bps）",
+      "posRaw": "n.（缩写 bp / bps）",
+      "related": [],
+      "meaning": "【金融】基点——万分之一（0.01%），利率、收益率与利差的标准计量单位",
+      "gloss": "基点",
+      "example": "The Fed's quarter-point cut moved the front end down 25 basis points, but the 10-year barely budged.",
+      "exampleCn": "美联储降息 25 个基点，短端随之下行，但 10 年期几乎没动。",
+      "memory": "basis(基准) + point(点) → 「基准利率上的一个点」被定义为万分之一，而非 1%。换算必背：**1 bp = 0.01%**；**100 bps = 1%**；**25 bps = 一次标准降息幅度（a quarter-point）**。**为什么不用百分比**：利差常在几十个基点的量级，用百分比要写成 0.08%，既啰嗦又易错位。高频搭配：a 50-basis-point hike、spread widened 80 bps、bps of yield。**易错**：读作 \"basis points\" 时通常带 s（即便数值为 1 也说 one basis point）。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "beta",
+      "issueNoLocal": 8,
+      "phonetic": "/ˈbiːtə/（美 /ˈbeɪtə/）",
+      "pos": "n.（也作 adj.：high-beta / low-beta）",
+      "posRaw": "n.（也作 adj.：high-beta / low-beta）",
+      "related": [],
+      "meaning": "【金融】贝塔——衡量个股或组合相对大盘系统性风险的敏感系数；β=1 与市场同步，β>1 波动放大，β<1 波动更小",
+      "gloss": "贝塔",
+      "example": "The portfolio's beta of 1.4 means a 10% index drop would imply roughly a 14% drawdown, all else equal.",
+      "exampleCn": "组合贝塔 1.4 意味着指数跌 10% 时，其他条件不变则大致回撤 14%。",
+      "memory": "与 **alpha** 成对记忆：**beta 赚市场的钱，alpha 赚本事的钱**。β=1 跟涨跟跌；β=1.4 放大 40%；β=0.6 只跟六成；β 为负则与大盘反向。**关键区分**：beta 度量的是**系统性风险**（不可分散，来自市场整体），公司特有风险可被分散掉，故不进入 beta。**注意**：beta 是历史统计值，随样本区间与基准指数变化，且不稳定——用它预测未来波动需谨慎；杠杆会直接放大组合 beta。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [],
+  "comparisons": [
+    {
+      "item": "**prompt engineering** vs fine-tuning",
+      "note": "推理时改指令，零成本即时生效 / 训练时改权重，需数据与算力"
+    },
+    {
+      "item": "**chain-of-thought** vs 直接作答",
+      "note": "先显式分步推理再给结论 / 一步到位，多步任务易错"
+    },
+    {
+      "item": "**RAG** vs fine-tuning",
+      "note": "外挂知识库，补「不知道」，可溯源 / 内化到参数，改「不会做」与风格"
+    },
+    {
+      "item": "**basis point** vs 百分比",
+      "note": "0.01%，用于小幅度利率与利差 / 1%，用于资产涨跌幅"
+    },
+    {
+      "item": "**beta** vs alpha",
+      "note": "市场给的系统性收益（被动）/ 超额收益，来自选股与择时（主动）"
+    }
+  ],
+  "progress": [
+    "累计：**40 词**（24 AI + 16 金融）",
+    "下期方向：上下文窗口与护栏（context window / guardrail / router / RLHF）· 票息与尾部风险（coupon / tail risk / notional / carry）"
+  ]
+}

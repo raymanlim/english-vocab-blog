@@ -1,0 +1,174 @@
+{
+  "date": "2026-09-26",
+  "issueNo": 17,
+  "issueSpan": 1,
+  "issueLabel": "第 17 期",
+  "issueNoLabel": "17",
+  "theme": "模型评测与治理 · 超额收益与估值倍数",
+  "themeRaw": "模型评测与治理 + 超额收益与估值倍数",
+  "note": "本期 5 词（3 AI + 2 金融），已与前 16 期 80 词去重",
+  "title": "每日英语 5 词 · 2026-09-26",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "eval",
+      "issueNoLocal": 17,
+      "phonetic": "/ˈiːvæl/",
+      "pos": "n.",
+      "posRaw": "n.（相关：benchmark、held-out set、data contamination、rubric、regression test）",
+      "related": [
+        "benchmark",
+        "held-out set",
+        "data contamination",
+        "rubric",
+        "regression test"
+      ],
+      "meaning": "【AI】评测；评估——用一套可复现的任务集与判分规则衡量模型能力的实践，既包括跑公开分（benchmark score），也包括上线前针对具体业务场景做的定向测试；工程语境中的 evals 常指一整套测试用例与自动判分管线，地位相当于软件工程里的单元测试",
+      "gloss": "评测",
+      "example": "A benchmark tells you how a model ranks against others; an eval tells you whether it will work in your product — and only the second one is your problem.",
+      "exampleCn": "基准测试告诉你模型在排行榜上排第几，评测告诉你它在你的产品里能不能用——而只有后者才是你的问题。",
+      "memory": "**记忆锚点**：benchmark 是公开统考，eval 是你自己出的岗位测试。**四类评测**：能力评测（知识、推理、代码，如 MMLU、SWE-bench）、行为评测（指令遵循、拒答、输出格式合规）、安全评测（越狱、注入、有害内容）、业务评测（你自己攒的 200 条真实 case，最重要）。**三个必踩的坑**：① 数据污染——评测集混进了训练语料，分数虚高；② 评测集过拟合——为刷分反复调提示词，线上毫无提升；③ 判分不可靠——用模型当裁判（LLM-as-judge）省事，但存在位置偏好、长度偏好与自我偏袒。**工程要点**：评测集应像代码一样纳入版本管理，每次改动都回归跑一遍，这就是「评测驱动开发」。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "model card",
+      "issueNoLocal": 17,
+      "phonetic": "/ˈmɒdl kɑːd/",
+      "pos": "n.",
+      "posRaw": "n.（相关：model governance、datasheet、intended use、limitation、system card）",
+      "related": [
+        "model governance",
+        "datasheet",
+        "intended use",
+        "limitation",
+        "system card"
+      ],
+      "meaning": "【AI】模型卡——随模型一同发布的标准化说明文档，披露预期用途、训练数据概况、评测结果、已知局限、偏见与安全考量；作用类似食品的营养成分表或药品说明书，让使用者在采用之前就知道「它能做什么、不能做什么、风险在哪」",
+      "gloss": "模型卡",
+      "example": "A model card is not marketing copy — its value is measured by how candidly it documents what the model cannot do.",
+      "exampleCn": "模型卡不是营销文案——它的价值取决于它有多坦诚地记录了模型做不到什么。",
+      "memory": "**记忆锚点**：模型卡 = 模型的说明书 + 成分表。**典型六项内容**：预期用途与明确不适用的场景、训练数据来源与时间截止、评测结果（含分项与基线）、已知局限与失败模式、偏见与公平性评估、安全与滥用风险。**为什么重要**：① 采购尽调——企业选型时它是第一手材料；② 合规——欧盟 AI 法案等监管要求高风险系统提供此类技术文档；③ 责任边界——事先写清「不适用于医疗诊断」，事后才不会被追责。**易混三者**：model card 描述一个已发布的模型（对外），system card 描述一个完整产品系统（含安全策略与外围防护），datasheet 通常指数据集本身的说明。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "zero-shot",
+      "issueNoLocal": 17,
+      "phonetic": "/ˈzɪəroʊ ʃɒt/",
+      "pos": "adj.",
+      "posRaw": "adj.（相关：one-shot、few-shot、in-context learning、generalization、prompt）",
+      "related": [
+        "one-shot",
+        "few-shot",
+        "in-context learning",
+        "generalization",
+        "prompt"
+      ],
+      "meaning": "【AI】零样本——模型在完全没有见过该任务示例的情况下，仅凭指令或任务描述就直接完成任务；与之相对，few-shot 是在提示里给几个示例（不改参数），fine-tuning 是改参数（需数据与算力）",
+      "gloss": "零样本",
+      "example": "Zero-shot performance is the honest measure of a model's generalization — the moment you add examples, you are partly measuring your own prompting skill.",
+      "exampleCn": "零样本表现才是对模型泛化能力的诚实度量——一旦加上示例，你测量的就有一部分是自己的提示词功力。",
+      "memory": "**记忆锚点**：zero-shot 不给例子，few-shot 给几个例子——两者都在提示里，都不改参数。**一条光谱**：zero-shot → one-shot → few-shot → fine-tuning，从左到右成本上升、可控性上升、泛化性下降。**工程判断**：能用 zero-shot 解决就不要写示例——示例越多，提示越脆（换个模型就可能失效），维护成本越高；只有当任务格式复杂、或输出必须严格结构化时才升级到 few-shot。**核心区分**：few-shot 是「提示里学」（in-context learning，参数不变、临时生效），fine-tuning 是「参数里学」（永久生效）。**注意**：厂商宣传的 zero-shot 分数常与用户的实际 zero-shot 体验不符，因为真实提示里往往暗含示例或格式约束。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "alpha",
+      "issueNoLocal": 17,
+      "phonetic": "/ˈælfə/",
+      "pos": "n.",
+      "posRaw": "n.（相关：beta、excess return、CAPM、information ratio、idiosyncratic risk）",
+      "related": [
+        "beta",
+        "excess return",
+        "CAPM",
+        "information ratio",
+        "idiosyncratic risk"
+      ],
+      "meaning": "【金融】阿尔法；超额收益——扣除承担市场风险（beta）本应获得的回报之后，由选股、择时等主动能力带来的那部分收益；即「与市场涨跌无关的那部分超额」，是判断主动管理是否真正创造价值的核心指标",
+      "gloss": "阿尔法",
+      "example": "Beta is what the market paid you for showing up; alpha is what you earned by knowing something — and the second is far harder to prove than the first.",
+      "exampleCn": "Beta 是市场付给你的「出场费」，alpha 是你靠认知赚到的钱——而后者比前者难证明得多。",
+      "memory": "**记忆锚点**：收益 = alpha + beta × 市场收益。beta 是「随市场漂」，alpha 是「比别人强」。**三个必须警惕的点**：① 统计显著性——用三年日频数据算出的 alpha 极易是噪声，经验上至少需要五到十年、且 t 值大于 2 才勉强可信；② alpha 会衰减——策略一旦被广泛复制，超额收益会被套利抹平，「过去十年有效」不等于「未来有效」；③ alpha 与 beta 常被混装——很多基金的高收益其实是加杠杆的 beta，而非真 alpha，业内称之为「beta in alpha's clothing」。**配套指标**：信息比率 = 主动收益 ÷ 跟踪误差，比单看 alpha 更能反映主动管理的稳定性。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "multiple",
+      "issueNoLocal": 17,
+      "phonetic": "/ˈmʌltɪpl/",
+      "pos": "n.",
+      "posRaw": "n.（相关：P/E、EV/EBITDA、comparable company、re-rating、denominator）",
+      "related": [
+        "P",
+        "E",
+        "EV",
+        "EBITDA",
+        "comparable company",
+        "re-rating",
+        "denominator"
+      ],
+      "meaning": "【金融】估值倍数——用股价或企业价值除以某个财务指标（盈利、EBITDA、营收、账面价值）得到的比率，如市盈率、EV/EBITDA；它是相对估值的核心工具：把目标公司与同业、与自身历史放在同一标尺上比较，判断贵贱",
+      "gloss": "估值倍数",
+      "example": "A multiple is a shorthand for a set of assumptions you have not written down — which is why \"it trades at 20x\" explains nothing until you ask what growth and margin that 20x implies.",
+      "exampleCn": "估值倍数是一组你没写下来的假设的缩写——所以「它 20 倍市盈率」什么也没解释，除非你追问：这 20 倍隐含了怎样的增长率和利润率。",
+      "memory": "**记忆锚点**：multiple = 价格 ÷ 某个财务指标，是相对估值的标尺。**四种常用**：P/E（最直观，但受一次性损益与资本结构干扰）、EV/EBITDA（剔除资本结构与折旧差异，适合跨公司比较）、P/B（适合金融与重资产）、P/S（适合尚未盈利的成长股）。**三条使用纪律**：① 倍数必须与增长、利润率、资本回报率一起看——高增长高 ROIC 理应享有高倍数，倍数相同但质地不同的两家公司不可比；② 分母必须干净——用调整后盈利还是 GAAP 盈利、是否剔除股权激励，会得出完全不同的结论；③ 警惕「倍数扩张」（re-rating）驱动的上涨——那部分是估值而非业绩，均值回归时跌得最快。**与 DCF 的关系**：倍数法是 DCF 的快捷替代，它把假设藏进了「可比公司」里，用得快，但也更容易自欺。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [
+    {
+      "no": "1",
+      "word": "eval",
+      "phonetic": "/ˈiːvæl/",
+      "domain": "AI",
+      "point": "自出岗位测试；防数据污染、防刷分、防裁判偏见"
+    },
+    {
+      "no": "2",
+      "word": "model card",
+      "phonetic": "/ˈmɒdl kɑːd/",
+      "domain": "AI",
+      "point": "模型的说明书 + 成分表；坦诚写清「不能做什么」"
+    },
+    {
+      "no": "3",
+      "word": "zero-shot",
+      "phonetic": "/ˈzɪəroʊ ʃɒt/",
+      "domain": "AI",
+      "point": "不给示例直接干；示例越多提示越脆，能零样本就别加"
+    },
+    {
+      "no": "4",
+      "word": "alpha",
+      "phonetic": "/ˈælfə/",
+      "domain": "金融",
+      "point": "收益 = alpha + beta x 市场；高收益常是加杠杆的 beta"
+    },
+    {
+      "no": "5",
+      "word": "multiple",
+      "phonetic": "/ˈmʌltɪpl/",
+      "domain": "金融",
+      "point": "价格 ÷ 指标；倍数必须配增长与 ROIC 一起看"
+    }
+  ],
+  "comparisons": [],
+  "progress": [
+    "本期：第 17 期，5 词",
+    "累计：**85 词**（51 AI + 34 金融）",
+    "归档格式：KAMI One-Pager PNG（`2026-09-26-英语单词_onepager.png`），同步推送 Markdown 列表至 Telegram"
+  ]
+}

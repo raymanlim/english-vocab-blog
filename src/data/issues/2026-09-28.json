@@ -1,0 +1,172 @@
+{
+  "date": "2026-09-28",
+  "issueNo": 18,
+  "issueSpan": 1,
+  "issueLabel": "第 18 期",
+  "issueNoLabel": "18",
+  "theme": "规模扩展与事实锚定 · 主动管理的偏离与成本",
+  "themeRaw": "规模扩展与事实锚定 + 主动管理的偏离与成本",
+  "note": "本期 5 词（3 AI + 2 金融），已与前 17 期 85 词去重",
+  "title": "每日英语 5 词 · 2026-09-28",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "scaling law",
+      "issueNoLocal": 18,
+      "phonetic": "/ˈskeɪlɪŋ lɔː/",
+      "pos": "n.",
+      "posRaw": "n.（相关：power law、Chinchilla、compute-optimal、emergent ability、data wall）",
+      "related": [
+        "power law",
+        "Chinchilla",
+        "compute-optimal",
+        "emergent ability",
+        "data wall"
+      ],
+      "meaning": "【AI】缩放定律——描述模型损失（loss）随参数量、训练数据量与训练算力增长而按幂律下降的经验规律；它把「模型越大越好」从直觉变成了可外推的工程预算公式，是决定训练资源如何分配的底层依据",
+      "gloss": "缩放定律",
+      "example": "Scaling laws do not tell you what a bigger model will be able to do — they only tell you how much lower its loss will be, and the gap between those two questions is where most of the disappointment lives.",
+      "exampleCn": "缩放定律不告诉你更大的模型能做什么——它只告诉你它的损失会低多少；而这两个问题之间的差距，正是大多数失望的来源。",
+      "memory": "**记忆锚点**：loss 与参数量呈负幂次关系，取对数后近似一条直线，所以才能外推。**两次关键修正**：① Kaplan et al.（2020）主张算力优先堆参数量；② Hoffmann et al.（2022）的 Chinchilla 实验推翻了它——给定算力预算，参数量与训练 token 数应大致同比例增长（约每参数 20 个 token），70B 的 Chinchilla 因此打败了 280B 的 Gopher。**实践反转**：Llama 3 等模型反而「超额训练」，远超 20 token/参数——因为训练贵一次、推理贵一辈子，用更多训练算力换更小的推理模型，是经济账而非物理账。**两个边界**：① 涌现能力（emergent ability）——有研究称某些能力在规模阈值处突然出现，但也有研究指出这可能是指标不连续的假象；② 数据墙——高质量文本有限，token 会先于算力耗尽。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "test-time compute",
+      "issueNoLocal": 18,
+      "phonetic": "/ˈtest taɪm kəmˈpjuːt/",
+      "pos": "n.",
+      "posRaw": "n.（相关：inference-time compute、chain-of-thought、self-consistency、best-of-n、verifier）",
+      "related": [
+        "inference-time compute",
+        "chain-of-thought",
+        "self-consistency",
+        "best-of-n",
+        "verifier"
+      ],
+      "meaning": "【AI】测试时计算（推理时计算）——在模型推理阶段额外投入算力换取更好答案的做法：让模型想得更久（更长的思维链）、多采样几次再投票、生成多个候选再用验证器挑最优、或做树搜索；与训练时计算相对，是「用推理成本换能力」的第二条扩展曲线",
+      "gloss": "测试时计算",
+      "example": "Test-time compute turns a latency budget into an accuracy budget — the same model, asked to think longer, can beat a much larger one that answers instantly.",
+      "exampleCn": "测试时计算把延迟预算变成准确率预算——同一个模型，让它多想一会儿，就能打败一个立刻作答的大得多的模型。",
+      "memory": "**记忆锚点**：train-time compute 决定「模型多聪明」，test-time compute 决定「这道题它愿意花多少力气」。**四种主流做法**：① 延长思维链（长思考）；② 自洽性（self-consistency，多次采样后多数投票）；③ best-of-n 加验证器（生成 N 个候选，用奖励模型打分挑最优）；④ 树搜索（MCTS 类）。**关键结论**：Snell et al.（2024）发现同等算力预算下，测试时扩展在简单与中等难度题目上可胜过参数量大得多的模型，但难题上收益骤减——它的收益强烈依赖题目难度分布，不是万能药。**工程取舍**：延迟、成本与准确率三者互斥；对延迟敏感的场景（客服、搜索）往往宁可用更大的模型一次性作答。**与 RAG 的区别**：RAG 是「去外面找资料」，测试时计算是「在原地多想一会儿」，二者常叠加使用。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "grounding",
+      "issueNoLocal": 18,
+      "phonetic": "/ˈɡraʊndɪŋ/",
+      "pos": "n.",
+      "posRaw": "n.（相关：hallucination、attribution、citation、retrieval-augmented generation、faithfulness）",
+      "related": [
+        "hallucination",
+        "attribution",
+        "citation",
+        "retrieval-augmented generation",
+        "faithfulness"
+      ],
+      "meaning": "【AI】接地；事实锚定——把模型输出绑定到可核查的外部依据（检索到的文档、数据库记录、工具返回值），使每句结论都能追溯到来源，是抑制幻觉的核心手段；也指模型把语言与真实世界指代对应起来的能力（如视觉 grounding：把「左边那辆红车」对应到图像中的具体区域）",
+      "gloss": "接地",
+      "example": "Grounding does not make a model truthful — it makes it auditable; the model can still misread the evidence, but at least you can see which evidence it misread.",
+      "exampleCn": "接地不会让模型变得诚实——它让模型变得可审计；模型依然可能误读证据，但至少你能看到它误读了哪一条。",
+      "memory": "**记忆锚点**：grounding = 说话要有出处。**三层落地**：① 检索接地（RAG，先检索再生成）；② 引用接地（生成时附带 citation，逐句可回溯）；③ 工具接地（用数据库、计算器、API 的真实返回值替代模型的记忆与心算）。**为什么重要**：幻觉的根因是模型在「续写」而非「查证」，接地把生成任务从「凭记忆作答」改造成「基于给定材料作答」。**别混淆三件事**：grounding（有依据）、faithfulness（忠实于依据）、factuality（符合事实）——一份忠实于错误文档的回答既 grounded 又 faithful，但依然不 factual。**工程要点**：接地的上限由检索质量决定，检索召回不到，后面再强的模型也只能编。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "tracking error",
+      "issueNoLocal": 18,
+      "phonetic": "/ˈtrækɪŋ ˌerər/",
+      "pos": "n.",
+      "posRaw": "n.（相关：active return、information ratio、benchmark、index fund、tracking difference）",
+      "related": [
+        "active return",
+        "information ratio",
+        "benchmark",
+        "index fund",
+        "tracking difference"
+      ],
+      "meaning": "【金融】跟踪误差——组合收益率与基准收益率之差（即主动收益）的标准差，通常年化，衡量组合偏离基准的波动幅度；被动指数基金追求极低的跟踪误差（越贴近基准越好），主动基金则主动承担较大的跟踪误差，以换取超额收益",
+      "gloss": "跟踪误差",
+      "example": "Tracking error is not how far you drifted from the benchmark — it is how unpredictably you drift; a fund can beat its index every year and still carry a large tracking error.",
+      "exampleCn": "跟踪误差不是你偏离基准有多远——而是你偏得有多没规律；一只基金可以年年跑赢指数，却依然承担着很大的跟踪误差。",
+      "memory": "**记忆锚点**：跟踪误差 = 主动收益的标准差，测的是「偏离的波动」，不是「偏离的平均值」。**两个易混概念**：tracking difference 是主动收益的平均值（方向性偏离），tracking error 是它的波动率（不确定性）——前者说「跑赢多少」，后者说「跑赢得多稳」。**量级参考**：宽基指数基金通常控制在 0.5% 以内（越小说明复制得越好）；主动股票基金常见 3%–8%，量化增强产品多在 2%–5%。**公式直觉**：先算出每期（日或月）的 Rp − Rb，再求这串数的标准差并年化。**配套指标**：信息比率 IR = 主动收益 ÷ 跟踪误差——同样的超额收益，跟踪误差越小 IR 越高，说明赚得越「稳」，这也是机构把跟踪误差当风险预算来管理的原因。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "turnover",
+      "issueNoLocal": 18,
+      "phonetic": "/ˈtɜːnəʊvə(r)/",
+      "pos": "n.",
+      "posRaw": "n.（相关：transaction cost、holding period、capacity、slippage、asset turnover）",
+      "related": [
+        "transaction cost",
+        "holding period",
+        "capacity",
+        "slippage",
+        "asset turnover"
+      ],
+      "meaning": "【金融】换手率；周转率——组合在一定时期内被替换掉的持仓比例，常按年化表示，反映交易频率与平均持有期；也用于企业语境，指资产周转率（营收 ÷ 总资产）或员工流失率。换手率是策略风格与交易成本的直接体现",
+      "gloss": "换手率",
+      "example": "Turnover is the tax a strategy pays for its own conviction — high turnover is not a flaw, but it must be paid for with returns large enough to survive the costs.",
+      "exampleCn": "换手率是策略为自己的信念缴纳的税——高换手不是缺陷，但它必须用足够大的收益来买单，才扛得住成本。",
+      "memory": "**记忆锚点**：年化换手率 100% ≈ 平均持有期一年，200% ≈ 半年。**三条成本链**：① 显性成本——佣金与税费；② 隐性成本——买卖价差（spread）与冲击成本（slippage），后者在大资金上往往远超佣金；③ 税负——短持有期在多数市场面临更高的资本利得税。**为什么机构盯得紧**：换手率直接决定策略的容量（capacity）——同样的超额收益，换手越高、能容纳的资金规模越小，因为交易本身会把收益磨掉。**一个反直觉点**：低换手不等于低风险，高换手也不等于高收益；换手只是「赚快钱还是赚慢钱」的取舍，真正要看的是扣除成本后的净超额。**企业语境**：asset turnover = 营收 ÷ 总资产，衡量每单位资产创造多少收入，是杜邦分析（ROE = 净利率 × 资产周转率 × 权益乘数）中的一环。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [
+    {
+      "no": "1",
+      "word": "scaling law",
+      "phonetic": "/ˈskeɪlɪŋ lɔː/",
+      "domain": "AI",
+      "point": "loss 随规模按幂律下降；Chinchilla 修正为参数与数据同比例扩展"
+    },
+    {
+      "no": "2",
+      "word": "test-time compute",
+      "phonetic": "/ˈtest taɪm kəmˈpjuːt/",
+      "domain": "AI",
+      "point": "推理时多想、多采样；简单题收益大，难题骤减"
+    },
+    {
+      "no": "3",
+      "word": "grounding",
+      "phonetic": "/ˈɡraʊndɪŋ/",
+      "domain": "AI",
+      "point": "说话要有出处；grounded 不等于 factual，检索质量定上限"
+    },
+    {
+      "no": "4",
+      "word": "tracking error",
+      "phonetic": "/ˈtrækɪŋ ˌerər/",
+      "domain": "金融",
+      "point": "主动收益的标准差；IR = 主动收益 ÷ 跟踪误差"
+    },
+    {
+      "no": "5",
+      "word": "turnover",
+      "phonetic": "/ˈtɜːnəʊvə(r)/",
+      "domain": "金融",
+      "point": "年化换手 100% ≈ 持有 1 年；高换手压低策略容量"
+    }
+  ],
+  "comparisons": [],
+  "progress": [
+    "本期：第 18 期，5 词",
+    "累计：**90 词**（54 AI + 36 金融）",
+    "归档格式：本期为账号迁移后人工补做，未生成 KAMI One-Pager PNG，未推送 Telegram"
+  ]
+}

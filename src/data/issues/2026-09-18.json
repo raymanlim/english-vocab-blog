@@ -1,0 +1,142 @@
+{
+  "date": "2026-09-18",
+  "issueNo": 9,
+  "issueSpan": 1,
+  "issueLabel": "第 9 期",
+  "issueNoLabel": "9",
+  "theme": "模型部署约束 · 债券现金流与极端风险",
+  "themeRaw": "模型部署约束 + 债券现金流与极端风险",
+  "note": "本期 5 词（3 AI + 2 金融），已与前 8 期 40 词去重",
+  "title": "每日英语 5 词 · 2026-09-18",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "context window",
+      "issueNoLocal": 9,
+      "phonetic": "/ˈkɒntekst ˈwɪndəʊ/（美 /ˈkɑːntekst ˈwɪndoʊ/）",
+      "pos": "n.（亦可写作 context length）",
+      "posRaw": "n.（亦可写作 context length）",
+      "related": [],
+      "meaning": "【AI】上下文窗口——模型在一次推理中能够同时「看见」的 token 上限，涵盖输入提示与已生成的输出",
+      "gloss": "上下文窗口",
+      "example": "Anything past the model's context window gets silently truncated, so we chunk long filings before retrieval.",
+      "exampleCn": "超出模型上下文窗口的内容会被静默截断，所以长文件要先切块再做检索。",
+      "memory": "context(上下文) + window(窗口)：窗口就是「视野边界」，窗外的字机器看不见。**为什么重要**：它是长文档处理、多轮对话与 RAG 分块策略的硬约束，也是模型定价的主要维度之一（按输入 token 计费）。**注意**：超出窗口的内容通常**不报错**，而是被静默截断或丢弃，这是排查「模型答非所问」时第一个要查的点。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "guardrail",
+      "issueNoLocal": 9,
+      "phonetic": "/ˈɡɑːdreɪl/（美 /ˈɡɑːrdreɪl/）",
+      "pos": "n.（常用复数 guardrails）",
+      "posRaw": "n.（常用复数 guardrails）",
+      "related": [],
+      "meaning": "【AI】护栏——部署层对模型输入输出施加的约束机制，用于拦截有害内容、敏感话题或越权操作，同时约束 Agent 可调用的工具范围",
+      "gloss": "护栏",
+      "example": "Input and output guardrails caught the prompt-injection attempt before the agent could touch the billing API.",
+      "exampleCn": "输入与输出护栏在 Agent 触及计费接口之前就拦截了这次提示注入。",
+      "memory": "高速公路的护栏：**不阻止你开车，只阻止你冲出路面**。与 alignment 的区别：alignment 靠训练（重训才生效），guardrail 在推理时生效（改规则即可上线）。常见形态：输入过滤、输出审查、工具白名单、速率与金额限制。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "few-shot",
+      "issueNoLocal": 9,
+      "phonetic": "/ˌfjuː ˈʃɒt/（美 /ˌfjuː ˈʃɑːt/）",
+      "pos": "adj.（亦作名词 few-shot learning）",
+      "posRaw": "adj.（亦作名词 few-shot learning）",
+      "related": [],
+      "meaning": "【AI】少样本的——在提示中给出少量（通常 1 至 5 个）输入输出示例，让模型自行归纳任务模式，无需更新任何权重",
+      "gloss": "少样本的",
+      "example": "A five-shot prompt worked better than fine-tuning for our internal classification task.",
+      "exampleCn": "对我们的内部分类任务来说，五样本提示的效果好于微调。",
+      "memory": "few(少) + shot(次尝试)：给几个样例让它「照做」。**对照表**：zero-shot 0 例 / one-shot 1 例 / few-shot 数例。**为什么重要**：它落在「训练」与「零样本」之间，是投入产出比最高的一档；当 few-shot 与微调效果接近时，优先选 few-shot（无需数据标注与算力）。**注意**：示例的顺序与措辞会显著影响结果，示例本身也可能引入偏见。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "coupon",
+      "issueNoLocal": 9,
+      "phonetic": "/ˈkuːpɒn/（美 /ˈkuːpɑːn/）",
+      "pos": "n.（coupon rate 指票面利率）",
+      "posRaw": "n.（coupon rate 指票面利率）",
+      "related": [],
+      "meaning": "【金融】票息——债券按面值约定的定期利息支付额，通常以年化票面利率表示",
+      "gloss": "票息",
+      "example": "The bond trades at 92 cents on the dollar because its 3% coupon is far below prevailing yields.",
+      "exampleCn": "该债券以面值的 92 美分交易，因为其 3% 的票息远低于当前市场收益率。",
+      "memory": "coupon 本义「票券、息票」：旧时实体债券附有息票，剪下一张换一次利息，所以票息叫 coupon。**反直觉要点**：票息越低，久期越长，对利率越敏感（低票息意味着现金流更靠后）。**关键区分**：coupon 决定的是**现金流**，yield 反映的是**买入价格与回报**；溢价/折价债券的当期收益率与票面利率不相等。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "tail risk",
+      "issueNoLocal": 9,
+      "phonetic": "/teɪl rɪsk/",
+      "pos": "n.（形容词形式 tail-risk）",
+      "posRaw": "n.（形容词形式 tail-risk）",
+      "related": [],
+      "meaning": "【金融】尾部风险——发生概率极低但一旦发生损失极大的极端事件风险，位于收益分布的两端尾部",
+      "gloss": "尾部风险",
+      "example": "Cheap out-of-the-money puts are the classic hedge against tail risk.",
+      "exampleCn": "便宜的低行权价看跌期权是对冲尾部风险的经典工具。",
+      "memory": "分布曲线的两端叫 tail(尾巴)，极端值落在尾巴上，故名。**为什么重要**：正常时期的波动率常低估尾部事件，因此在险价值（VaR）在极端行情下容易失守；压力测试与凸性对冲正是为它而设。**相关词**：black swan（黑天鹅，不可预期）、fat tail（肥尾，极端值比正态分布更常见）。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [
+    {
+      "no": "1",
+      "word": "context window",
+      "phonetic": "/ˈkɒntekst ˈwɪndəʊ/",
+      "domain": "AI",
+      "point": "单次推理可见的 token 上限，超限静默截断"
+    },
+    {
+      "no": "2",
+      "word": "guardrail",
+      "phonetic": "/ˈɡɑːdreɪl/",
+      "domain": "AI",
+      "point": "推理时的输入输出约束，改规则即生效"
+    },
+    {
+      "no": "3",
+      "word": "few-shot",
+      "phonetic": "/ˌfjuː ˈʃɒt/",
+      "domain": "AI",
+      "point": "提示中给 1 至 5 个示例，不动权重"
+    },
+    {
+      "no": "4",
+      "word": "coupon",
+      "phonetic": "/ˈkuːpɒn/",
+      "domain": "金融",
+      "point": "债券定期利息，决定现金流，与价格共同决定收益率"
+    },
+    {
+      "no": "5",
+      "word": "tail risk",
+      "phonetic": "/teɪl rɪsk/",
+      "domain": "金融",
+      "point": "小概率大损失的极端事件风险"
+    }
+  ],
+  "comparisons": [],
+  "progress": [
+    "本期：第 9 期，5 词",
+    "累计：**45 词**（27 AI + 18 金融）",
+    "归档格式：本期为 KAMI One-Pager PNG（`2026-09-18-英语单词_onepager.png`），同步推送 Markdown 列表至 Telegram"
+  ]
+}

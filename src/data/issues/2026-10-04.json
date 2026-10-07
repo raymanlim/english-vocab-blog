@@ -1,0 +1,168 @@
+{
+  "date": "2026-10-04",
+  "issueNo": 23,
+  "issueSpan": 1,
+  "issueLabel": "第 23 期",
+  "issueNoLabel": "23",
+  "theme": "以少撬多的杠杆效应 · 利润与方向敞口的放大",
+  "themeRaw": "以少撬多的杠杆效应 + 利润与方向敞口的放大",
+  "note": "本期 5 词（3 AI + 2 金融），已与前 22 期 110 词去重",
+  "title": "每日英语 5 词 · 2026-10-04",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "instruction tuning",
+      "issueNoLocal": 23,
+      "phonetic": "/ɪnˈstrʌkʃn ˈtuːnɪŋ/",
+      "pos": "n.、post-training、alignment、demonstration、generalization）",
+      "posRaw": "n.（相关：supervised fine-tuning (SFT)、post-training、alignment、demonstration、generalization）",
+      "related": [
+        "supervised fine-tuning (SFT"
+      ],
+      "meaning": "【AI】指令微调——在预训练模型之上，用「指令 → 期望回答」成对的高质量数据继续训练，使模型从「会补全文本」转变为「会听从指令完成任务」。它是基座模型（base model）变成可用助手（assistant）的关键一步，也是 post-training 阶段的第一环",
+      "gloss": "指令微调",
+      "example": "A base model can continue any sentence; instruction tuning is what teaches it that the sentence was a request.",
+      "exampleCn": "基座模型能续写任何句子；指令微调教会它的是——这个句子其实是一个请求。",
+      "memory": "**记忆锚点**：预训练教「语言是什么」，指令微调教「任务要怎么做」。**为什么必要**：预训练目标只是预测下一个词，模型学到的能力很广但不会「按需调用」；指令微调用大量（指令、输入、输出）三元组，把这种潜在能力对齐到人类期望的交互格式上。**关键权衡**：① 数据质量 > 数据数量——少量精标数据（数千到数万条）常胜过百万条噪声数据，因为错误格式会被稳定模仿；② 多样性 vs 一致性——指令类型覆盖不足会导致模型在没见过的任务上泛化差，但风格过于混杂又会让输出不稳定；③ 过拟合风险——指令数据远少于预训练语料，训练轮次过多会损害模型的通用能力（灾难性遗忘）。**实践要点**：① 先把任务分类（生成、抽取、分类、改写），每类都要有代表性样本，避免偏科；② 保留一部分「拒绝样本」（该拒答的场景）与「不确定样本」，否则模型会学会硬编；③ 指令微调之后通常还有偏好对齐（RLHF / DPO）阶段，两者解决的问题不同：前者教「怎么做」，后者教「哪种做法更好」。**易混点**：instruction tuning 与 prompt engineering 不同——前者改权重（永久生效、成本高），后者改输入（临时生效、成本低）；能用提示词解决的场景不必做微调。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "parameter-efficient fine-tuning (PEFT)",
+      "issueNoLocal": 23,
+      "phonetic": "/pəˈræmɪtər ɪˈfɪʃnt ˌfaɪn ˈtuːnɪŋ/",
+      "pos": "n.",
+      "posRaw": "n.（相关：LoRA、adapter、full fine-tuning、frozen weights、rank）",
+      "related": [
+        "LoRA",
+        "adapter",
+        "full fine-tuning",
+        "frozen weights",
+        "rank"
+      ],
+      "meaning": "【AI】参数高效微调——微调时冻结绝大部分预训练权重，只训练极少量新增或选定的参数（典型为原模型参数的 0.01%~1%），以极低的显存、存储与算力成本达到接近全量微调的效果。代表方法是 LoRA（低秩适配器），是「用少量参数撬动大模型能力」这一思路的工程化体现",
+      "gloss": "参数高效微调",
+      "example": "Full fine-tuning gives every task its own copy of the model; PEFT gives every task a few megabytes of adapter, and the base model is shared.",
+      "exampleCn": "全量微调让每个任务都拥有一份模型副本；PEFT 只给每个任务几兆的适配器，基座模型共享。",
+      "memory": "**记忆锚点**：PEFT 的本质是**假设微调所需的改变是低维的**——任务适配不必动用全部参数，只需在原权重旁加一个小增量。**LoRA 的直觉**：把权重更新 ΔW 分解为两个小矩阵之积（A×B，秩 r 远小于原维度），只训练 A 和 B；推理时可把 A×B 合并回原权重，**不增加推理延迟**，这是它比 adapter 层更流行的关键原因。**核心收益**：① 显存下降一个数量级（不必存全部梯度与优化器状态）；② 每个任务只存几 MB 适配器，一个基座可挂几十个任务；③ 切换任务只需换适配器，部署成本极低。**代价与权衡**：① 表达能力有上限，任务与预训练分布差异极大时不如全量微调；② 秩 r、目标层选择、学习率是敏感超参，调参成本并未消失只是转移；③ 多适配器同时服务时的批处理与调度复杂度上升。**实践要点**：① 从较小的 r 起步（8~16）逐步上调，观察验证集收益是否递减；② 优先在注意力层的 Q、V 投影上加载适配器，是性价比最高的默认选择；③ 评估时必须与「全量微调」和「纯提示词」两个基线同时对比，否则无法判断这笔投入是否值得。**易混点**：PEFT 是方法家族（含 LoRA、prefix tuning、adapter 等），LoRA 只是其中最常用的一个成员，不要把两者等同。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "emergent ability",
+      "issueNoLocal": 23,
+      "phonetic": "/ɪˈmɜːdʒənt əˈbɪləti/",
+      "pos": "n.",
+      "posRaw": "n.（相关：scaling law、threshold、in-context learning、capability jump、evaluation）",
+      "related": [
+        "scaling law",
+        "threshold",
+        "in-context learning",
+        "capability jump",
+        "evaluation"
+      ],
+      "meaning": "【AI】涌现能力——模型规模（参数量、数据量、算力）跨过某个阈值后，突然获得在小模型上几乎观察不到的、非线性的新能力，例如多步推理、算术、按示例学习。它的争议点在于：这到底是模型真实的能力跃迁，还是评估指标造成的度量假象",
+      "gloss": "涌现能力",
+      "example": "The capability did not improve gradually; it appeared — which is why emergent abilities make capability planning so hard.",
+      "exampleCn": "这种能力不是逐步提升，而是突然出现——这正是涌现能力让能力规划如此困难的原因。",
+      "memory": "**记忆锚点**：涌现 = **非线性**——不是「好一点」，而是「从无到有」。**为什么重要**：若能力是平滑增长的，可以用小模型外推大模型表现；若存在阈值突变，则必须实际训练到那个规模才能知道能力是否出现，这直接改变了研发规划与投资节奏。**重要争议（务必知道）**：有研究指出，部分「涌现」是**指标选择造成的假象**——用精确匹配（全对才算对）衡量时曲线陡峭，换成部分给分（按 token 或步骤给分）后曲线变得平滑；也就是说，突变有时出现在**测量方式**里，而不全在模型里。**判断建议**：看到「涌现」结论时先问三件事——用什么指标衡量、阈值是否经过多个规模点验证、是否可复现；三者缺一，结论的置信度都应下调。**实践含义**：① 能力预测要做情景化处理，给「阈值提前/推迟出现」留出预算弹性；② 评估集必须能区分「完全不会」与「会一部分」，否则会系统性误判能力边界；③ 不要把小模型上的负面结果直接外推为大模型也不行。**易混点**：涌现能力（能力在规模阈值处突然出现）与 scaling law（损失随规模平滑下降）并不矛盾——损失可以平滑下降，而某项具体任务的通过率仍可能阶跃上升，因为任务的通过条件本身是非连续的。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "operating leverage",
+      "issueNoLocal": 23,
+      "phonetic": "/ˈɒpəreɪtɪŋ ˈliːvərɪdʒ/",
+      "pos": "n.",
+      "posRaw": "n.（相关：fixed cost、variable cost、contribution margin、breakeven、earnings volatility）",
+      "related": [
+        "fixed cost",
+        "variable cost",
+        "contribution margin",
+        "breakeven",
+        "earnings volatility"
+      ],
+      "meaning": "【金融】经营杠杆——企业成本结构中固定成本占比所导致的「收入变动被放大到营业利润」的效应。固定成本占比越高，收入小幅增长就能带来利润大幅增长；但收入下滑时，利润也会以同样幅度加速恶化。它是「同一门生意，为何有的公司利润弹性远大于同行」的核心解释",
+      "gloss": "经营杠杆",
+      "example": "Two companies with identical revenue growth reported very different profit growth: the difference was not demand, it was operating leverage.",
+      "exampleCn": "两家营收增速完全相同的公司，利润增速却相差悬殊——差别不在需求，而在经营杠杆。",
+      "memory": "**记忆锚点**：经营杠杆 = **固定成本的放大效应**，方向是双向的——向上放大利润，向下放大亏损。**量化直觉**：可用「营业利润变动% ÷ 收入变动%」衡量（即 DOL，经营杠杆系数）；固定成本越高、越接近盈亏平衡点，该系数越大。**为什么会这样**：固定成本（厂房、设备、研发、基础人力）不随销量变化，因此每多卖一件，边际贡献几乎全额落到利润上。**核心权衡**：高杠杆公司在需求上行期是极佳的投资标的（利润增速远超收入），在下行期则是重灾区（收入小跌、利润大跌甚至转亏），**因此对它的估值必须与周期位置绑定**，脱离周期谈「利润弹性」没有意义。**实践要点**：① 分析时先拆分固定成本与可变成本，识别成本刚性的来源（重资产、长协、刚性人力）；② 关注产能利用率——它同时决定经营杠杆的强度与方向，利用率低时杠杆最危险；③ 与财务杠杆（负债）区分开：经营杠杆来自成本结构，财务杠杆来自资本结构，两者会叠加放大股东回报的波动；④ 在基准情景之外，务必测算「收入下滑 20%」的悲观情景下利润与现金流的承受力。**易混点**：经营杠杆（成本结构决定的利润弹性）与 operating margin（利润率水平）不是一回事——一家高利润率公司可能杠杆很低，一家低利润率公司也可能杠杆极高。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "delta",
+      "issueNoLocal": 23,
+      "phonetic": "/ˈdeltə/",
+      "pos": "n.",
+      "posRaw": "n.（相关：gamma、vega、theta、option greeks、directional exposure）",
+      "related": [
+        "gamma",
+        "vega",
+        "theta",
+        "option greeks",
+        "directional exposure"
+      ],
+      "meaning": "【金融】Delta——期权价格对标的价格变动的敏感度：标的价格每变动 1 元，期权价格理论上的变动幅度。看涨期权 delta 介于 0 与 1，看跌期权介于 −1 与 0。它同时被当作「方向性敞口」的度量，常用来衡量持仓的等效股票头寸",
+      "gloss": "Delta",
+      "example": "Owning a call with a delta of 0.6 is not the same as owning 60 shares: delta changes as the stock moves, and that is where gamma comes in.",
+      "exampleCn": "持有一份 delta 为 0.6 的看涨期权，并不等于持有 60 股股票——delta 会随股价变动，而这正是 gamma 的用武之地。",
+      "memory": "**记忆锚点**：delta = **方向敏感度**，也是把期权换算成「等效股数」的汇率。**几个关键位置**：① 深度价内（in-the-money）的看涨期权 delta 趋近 1，几乎等同于持有股票；② 平值（at-the-money）附近 delta 约为 0.5；③ 深度价外趋近 0，对价格变动几乎不敏感。**为什么重要**：① 组合层面，把所有持仓的 delta 加总即可得到整体方向敞口，是风控的第一步；② delta 会随标的价格变动而变化，这个变化率就是 gamma——**delta 是速度，gamma 是加速度**；③ 因此「买入期权」并不等于「买入固定数量的股票敞口」，敞口是动态的。**实践要点**：① 用 delta 而非名义金额来比较不同期权头寸的真实风险；② delta 中性（delta-neutral）只是**瞬时**中性，标的一动就会偏离，需要动态对冲，而对冲频率与交易成本之间存在明确权衡；③ 期权买方通常承受正 gamma、负 theta——方向敞口随时放大，但要持续支付时间价值，这正是「以小博大」的真实代价；④ 卖方则相反，收时间价值但承担负 gamma 的尾部风险。**易混点**：delta 是敏感度（一阶导数），不是概率——虽然平值期权的 delta≈0.5 常被粗略类比为「约 50% 概率到期在价内」，但两者在数学上并不等价，深度价外时偏差尤其明显。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [
+    {
+      "no": "1",
+      "word": "instruction tuning",
+      "phonetic": "/ɪnˈstrʌkʃn ˈtuːnɪŋ/",
+      "domain": "AI",
+      "point": "预训练教「语言是什么」，指令微调教「任务怎么做」；数据质量 > 数量"
+    },
+    {
+      "no": "2",
+      "word": "parameter-efficient fine-tuning (PEFT)",
+      "phonetic": "/pəˈræmɪtər ɪˈfɪʃnt ˌfaɪn ˈtuːnɪŋ/",
+      "domain": "AI",
+      "point": "只训练 <1% 参数；LoRA 可合并回权重，不增推理延迟"
+    },
+    {
+      "no": "3",
+      "word": "emergent ability",
+      "phonetic": "/ɪˈmɜːdʒənt əˈbɪləti/",
+      "domain": "AI",
+      "point": "非线性跃迁，非「好一点」；部分「涌现」实为指标假象"
+    },
+    {
+      "no": "4",
+      "word": "operating leverage",
+      "phonetic": "/ˈɒpəreɪtɪŋ ˈliːvərɪdʒ/",
+      "domain": "金融",
+      "point": "固定成本的放大效应，双向；估值必须绑定周期位置"
+    },
+    {
+      "no": "5",
+      "word": "delta",
+      "phonetic": "/ˈdeltə/",
+      "domain": "金融",
+      "point": "方向敏感度 = 等效股数汇率；delta 是速度，gamma 是加速度"
+    }
+  ],
+  "comparisons": [],
+  "progress": [
+    "本期：第 23 期，5 词",
+    "累计：**115 词**（69 AI + 46 金融）",
+    "归档格式：MD 词卡 + KAMI One-Pager PNG + Telegram 推送"
+  ]
+}

@@ -1,0 +1,126 @@
+{
+  "date": "2026-09-16",
+  "issueNo": 7,
+  "issueSpan": 1,
+  "issueLabel": "第 7 期",
+  "issueNoLabel": "7",
+  "theme": "稀疏与混合专家 · 利率与定价",
+  "themeRaw": "稀疏与混合专家 + 利率与定价",
+  "note": "本期 5 词，已与前 6 期 30 词去重",
+  "title": "每日英语 5 词 · 2026-09-16",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "sparse",
+      "issueNoLocal": 7,
+      "phonetic": "/spɑːs/（美 /spɑːrs/）",
+      "pos": "adj.（名词 sparsity，副词 sparsely）",
+      "posRaw": "adj.（名词 sparsity，副词 sparsely）",
+      "related": [],
+      "meaning": "【AI/数学】稀疏的——矩阵或模型中绝大多数取值为零，只有少量元素非零或真正参与计算",
+      "gloss": "稀疏的",
+      "example": "A sparse model activates only 8 of its 256 experts per token, cutting compute by an order of magnitude.",
+      "exampleCn": "稀疏模型每个 token 只激活 256 个专家中的 8 个，算力消耗降低了一个数量级。",
+      "memory": "与 scatter 同族，本义「撒开、零散分布」→ 信息只集中在少数点上。**反义** dense（稠密的）。核心术语：sparse matrix（稀疏矩阵）、sparsity（稀疏度）、sparse attention（稀疏注意力，如 Longformer）、sparse activation。**为什么重要**：稠密模型每个 token 都要过全部参数，稀疏化则让「大模型」不必「全量计算」——这是当前降本的主流工程方向。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "mixture-of-experts (MoE)",
+      "issueNoLocal": 7,
+      "phonetic": "/ˈmɪkstʃə əv ˈekspɜːts/",
+      "pos": "n.（缩写 MoE）",
+      "posRaw": "n.（缩写 MoE）",
+      "related": [],
+      "meaning": "【AI】混合专家（架构）——把前馈层拆成多个「专家」子网络，由路由器（router）为每个 token 只挑选少数几个专家参与计算",
+      "gloss": "混合专家",
+      "example": "The 671B-parameter model is a mixture of experts, so each token only touches a small slice of the network.",
+      "exampleCn": "这个 671B 参数的模型采用混合专家架构，因此每个 token 只触及网络中的一小部分。",
+      "memory": "mixture(混合) + experts(专家) → 一群专科医生会诊，每次只叫相关科室进门，其余在候诊。**关键区分**：总参数（total parameters）vs 激活参数（active parameters）——后者才决定实际算力与延迟。与 **sparse** 互为表里：MoE 是实现稀疏化的主流路径。代表：Mixtral 8x7B、DeepSeek-V3、Qwen-MoE。**注意**：MoE 省算力但不省显存，部署门槛依然很高。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "agentic",
+      "issueNoLocal": 7,
+      "phonetic": "/ˌeɪdʒənˈtɪk/",
+      "pos": "adj.（名词 agent，agency）",
+      "posRaw": "adj.（名词 agent，agency）",
+      "related": [],
+      "meaning": "【AI】智能体化的——系统能自主规划、调用工具、多步执行并自我纠错，而非只回答单轮问题",
+      "gloss": "智能体化的",
+      "example": "Agentic workflows can loop for dozens of steps, so token cost — not model quality — becomes the binding constraint.",
+      "exampleCn": "智能体化工作流可能循环数十步，于是制约因素变成了 token 成本，而非模型质量本身。",
+      "memory": "agent(代理人) + -ic → 「像代理人那样干活的」。四大特征：planning（规划）、tool use（工具调用）、memory（记忆）、self-correction（自我纠错）。对照传统 chatbot 的「一问一答」。高频搭配：agentic AI、agentic loop、agentic coding、agent framework。**注意**：步数越多，误差累积与成本失控风险越大——「能自动跑完」不等于「能便宜跑完」。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "duration",
+      "issueNoLocal": 7,
+      "phonetic": "/djuˈreɪʃn/（美 /duˈreɪʃn/）",
+      "pos": "n.",
+      "posRaw": "n.",
+      "related": [],
+      "meaning": "【金融】久期——债券价格对利率变动的敏感度，近似等于以年为单位的加权平均回收时间",
+      "gloss": "久期",
+      "example": "A 7-year duration means a 1% rise in yields knocks roughly 7% off the bond's price.",
+      "exampleCn": "7 年久期意味着收益率上行 1%，债券价格大致下跌 7%。",
+      "memory": "日常义「持续时长」→ 债券的「加权平均还款时间」也是时长，恰好可用来衡量利率风险，一词两用。**经验法则**：久期越长，利率敏感度越高；零息债的久期 = 到期期限。变体：Macaulay duration（麦考利久期）、modified duration（修正久期，用于算价格变动百分比）、key rate duration（关键利率久期）。搭配：short/long duration、duration risk、duration gap。**易混**：maturity（到期期限）是时间刻度，duration 是风险刻度，含息票与现金流结构，通常短于 maturity。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "spread",
+      "issueNoLocal": 7,
+      "phonetic": "/spred/",
+      "pos": "n. / v.",
+      "posRaw": "n. / v.",
+      "related": [],
+      "meaning": "【金融】① 利差/价差（两个利率或价格之差）② 买卖价差（bid-ask spread）③（风险、情绪）蔓延",
+      "gloss": "① 利差/价差",
+      "example": "Credit spreads widened 80 basis points in a week as refinancing risk came back into focus.",
+      "exampleCn": "随着再融资风险重回视野，信用利差一周内走阔 80 个基点。",
+      "memory": "本义「铺开」→ 两个价格之间「铺开的那段距离」就是价差。高频搭配：bid-ask spread（买卖价差，流动性指标）、credit spread（信用利差，信用风险指标）、yield spread（收益率利差）、option-adjusted spread、spread widening / tightening（走阔/收窄）。**易混**：**margin** 是保证金或利润率（单点数值），**spread** 是两个报价之间的差额（区间距离）；做市商赚的就是 spread。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [],
+  "comparisons": [
+    {
+      "item": "**sparse** vs dense",
+      "note": "只有少数元素参与计算 / 全部参数都要过一遍"
+    },
+    {
+      "item": "**MoE** vs dense model",
+      "note": "总参数大但每 token 只激活一小部分 / 每个 token 走全量参数"
+    },
+    {
+      "item": "**agentic** vs chatbot",
+      "note": "多步规划+调工具+自纠错 / 单轮问答"
+    },
+    {
+      "item": "**duration** vs maturity",
+      "note": "利率风险刻度（含现金流结构）/ 单纯的时间刻度"
+    },
+    {
+      "item": "**spread** vs margin",
+      "note": "两个报价之间的距离（区间）/ 单点数值（保证金或利润率）"
+    }
+  ],
+  "progress": [
+    "累计：**35 词**（21 AI + 14 金融）",
+    "下期方向：提示工程与推理链（prompt engineering / chain-of-thought / RAG）· 基点与票息（basis point / coupon / beta）"
+  ]
+}

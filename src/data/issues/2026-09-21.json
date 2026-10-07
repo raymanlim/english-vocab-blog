@@ -1,0 +1,157 @@
+{
+  "date": "2026-09-21",
+  "issueNo": 12,
+  "issueSpan": 1,
+  "issueLabel": "第 12 期",
+  "issueNoLabel": "12",
+  "theme": "模型可解释性与评测 · 信用利差与流动性溢价",
+  "themeRaw": "模型可解释性与评测 + 信用利差与流动性溢价",
+  "note": "本期 5 词（3 AI + 2 金融），已与前 11 期 55 词去重",
+  "title": "每日英语 5 词 · 2026-09-21",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "interpretability",
+      "issueNoLocal": 12,
+      "phonetic": "/ɪnˌtɜːprɪtəˈbɪləti/",
+      "pos": "n.（形容词 interpretable；相关：explainability、mechanistic interpretability、probing）",
+      "posRaw": "n.（形容词 interpretable；相关：explainability、mechanistic interpretability、probing）",
+      "related": [],
+      "meaning": "【AI】可解释性——理解模型内部为什么给出某个输出的能力，即打开黑箱、定位到具体神经元、特征或推理环节",
+      "gloss": "可解释性",
+      "example": "Interpretability research found a single direction in the residual stream that controls how risk-averse the model sounds.",
+      "exampleCn": "可解释性研究在残差流里找到了一个方向，它控制着模型说话时的风险厌恶程度。",
+      "memory": "interpret = 「解读」，-ability = 「能被……的性质」。**关键区分**：interpretability 指真正看懂内部机制（白箱），explainability 常指事后给一个人类可读的理由（可能只是合理化）。**为什么重要**：安全与合规都需要它——不能解释就无法审计、无法定向修复、无法证明对齐。**实践口径**：做产品时先用「可观测性」（日志、归因）兜底，不必等机制可解释性成熟。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "reward model",
+      "issueNoLocal": 12,
+      "phonetic": "/rɪˈwɔːd ˈmɒdl/",
+      "pos": "n.（缩写 RM；相关：RLHF、preference data、reward hacking、verifier）",
+      "posRaw": "n.（缩写 RM；相关：RLHF、preference data、reward hacking、verifier）",
+      "related": [],
+      "meaning": "【AI】奖励模型——从人类偏好数据中训练出的打分器，把「哪个回答更好」变成可优化的标量信号，是 RLHF 链条里的裁判",
+      "gloss": "奖励模型",
+      "example": "The policy learned to flatter the reward model instead of answering correctly — classic reward hacking.",
+      "exampleCn": "策略学会了讨好奖励模型而不是把问题答对——典型的奖励劫持。",
+      "memory": "关键认知：**奖励模型只是人类偏好的代理（proxy），不是真理本身**。优化压力越大，策略越会去找代理的漏洞，这就是 reward hacking（奖励劫持）。**工程含义**：RM 的质量上限决定对齐上限；需要定期用真实人类评测校准，否则模型会「刷分」。**延伸**：可验证领域（数学、代码）正在用 verifier / 规则判定替代 RM，因为答案对错可以机器校验。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "speculative decoding",
+      "issueNoLocal": 12,
+      "phonetic": "/spekˈjʊlətɪv dɪˈkəʊdɪŋ/",
+      "pos": "n.",
+      "posRaw": "n.（相关：draft model、acceptance rate、KV cache、parallel decoding）",
+      "related": [
+        "draft model",
+        "acceptance rate",
+        "KV cache",
+        "parallel decoding"
+      ],
+      "meaning": "【AI】投机解码——用小模型先快速草拟多个 token，再由大模型一次性并行校验，校验通过的草稿直接采用，从而在不改变输出分布的前提下加速推理",
+      "gloss": "投机解码",
+      "example": "Speculative decoding cut latency by more than half with zero quality loss, because the draft tokens are verified rather than trusted.",
+      "exampleCn": "投机解码把延迟降低了一半以上且没有质量损失，因为草稿 token 是被校验而不是被信任的。",
+      "memory": "核心直觉：**大模型逐 token 生成时算力是闲置的**，投机解码用「并行校验」把这部分算力换成速度。**关键性质**：它属于精确加速（exact），输出分布与原始模型一致——这与量化、蒸馏等有损近似有本质区别。**为什么重要**：它把「快」和「好」的取舍从模型层面挪到了系统层面，是推理成本结构优化的主要杠杆之一。**相关指标**：acceptance rate（接受率）决定实际加速比。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "credit spread",
+      "issueNoLocal": 12,
+      "phonetic": "/ˈkredɪt spred/",
+      "pos": "n.",
+      "posRaw": "n.（相关：option-adjusted spread、high yield、investment grade、default risk）",
+      "related": [
+        "option-adjusted spread",
+        "high yield",
+        "investment grade",
+        "default risk"
+      ],
+      "meaning": "【金融】信用利差——公司债收益率与同期限无风险利率（通常为国债）之差，是市场为承担违约风险索要的补偿",
+      "gloss": "信用利差",
+      "example": "Credit spreads widened sharply in March, which told us the market was repricing default risk rather than rate risk.",
+      "exampleCn": "信用利差在三月大幅走阔，这说明市场在重定价违约风险，而不是利率风险。",
+      "memory": "一句话公式：**信用利差 = 违约风险的价格**。走阔（widen）＝市场恐慌、融资收紧；收窄（tighten）＝风险偏好回升、企业融资成本下降。**关键区分**：国债收益率动是「利率风险」，信用利差动是「违约风险」——两者常同时发生但成因完全不同。**为什么重要**：它是宏观的先行指标，信用利差急剧走阔往往先于衰退与流动性事件出现，比股市更早发出信号。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "liquidity premium",
+      "issueNoLocal": 12,
+      "phonetic": "/lɪˈkwɪdəti ˈpriːmiəm/",
+      "pos": "n.",
+      "posRaw": "n.（相关：illiquidity discount、bid-ask spread、market depth、liquidity risk）",
+      "related": [
+        "illiquidity discount",
+        "bid-ask spread",
+        "market depth",
+        "liquidity risk"
+      ],
+      "meaning": "【金融】流动性溢价——投资者因持有难以快速变现的资产而额外要求的收益率补偿；资产越难卖、交易成本越高，溢价越大",
+      "gloss": "流动性溢价",
+      "example": "Private credit yields carry a real liquidity premium: you are paid for the years you cannot get your money back.",
+      "exampleCn": "私募信贷的收益率里含有一块真实的流动性溢价：这笔钱你几年内取不回来，这就是补偿。",
+      "memory": "premium = 「额外补偿」。**对称概念**：对买方是 liquidity premium（多要收益），对资产价格就是 illiquidity discount（估值打折）——同一件事的两个视角。**为什么重要**：它解释了私募股权、私募信贷、小盘股、非上市资产长期跑赢的一部分收益，但代价是**在压力时刻无法退出**，且这种相关性会在危机中同时爆发。**实践口径**：评估非流动资产时，先问「退出通道在压力情景下还成立吗」，再谈溢价是否值得。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [
+    {
+      "no": "1",
+      "word": "interpretability",
+      "phonetic": "/ɪnˌtɜːprɪtəˈbɪləti/",
+      "domain": "AI",
+      "point": "看懂模型内部机制；与事后解释（explainability）不同"
+    },
+    {
+      "no": "2",
+      "word": "reward model",
+      "phonetic": "/rɪˈwɔːd ˈmɒdl/",
+      "domain": "AI",
+      "point": "人类偏好的代理打分器，优化压力下易被 reward hacking"
+    },
+    {
+      "no": "3",
+      "word": "speculative decoding",
+      "phonetic": "/spekˈjʊlətɪv dɪˈkəʊdɪŋ/",
+      "domain": "AI",
+      "point": "小模型起草、大模型并行校验，精确加速不损质量"
+    },
+    {
+      "no": "4",
+      "word": "credit spread",
+      "phonetic": "/ˈkredɪt spred/",
+      "domain": "金融",
+      "point": "违约风险的价格；走阔先于衰退，是宏观先行指标"
+    },
+    {
+      "no": "5",
+      "word": "liquidity premium",
+      "phonetic": "/lɪˈkwɪdəti ˈpriːmiəm/",
+      "domain": "金融",
+      "point": "为无法快速变现索要的额外收益，危机中同时失效"
+    }
+  ],
+  "comparisons": [],
+  "progress": [
+    "本期：第 12 期，5 词",
+    "累计：**60 词**（36 AI + 24 金融）",
+    "归档格式：KAMI One-Pager PNG（`2026-09-21-英语单词_onepager.png`），同步推送 Markdown 列表至 Telegram"
+  ]
+}

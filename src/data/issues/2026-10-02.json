@@ -1,0 +1,168 @@
+{
+  "date": "2026-10-02",
+  "issueNo": 21,
+  "issueSpan": 1,
+  "issueLabel": "第 21 期",
+  "issueNoLabel": "21",
+  "theme": "检索质量与成本效率 · 企业质量与护城河",
+  "themeRaw": "检索质量与成本效率 + 企业质量与护城河",
+  "note": "本期 5 词（3 AI + 2 金融），已与前 20 期 100 词去重",
+  "title": "每日英语 5 词 · 2026-10-02",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "chunking",
+      "issueNoLocal": 21,
+      "phonetic": "/ˈtʃʌŋkɪŋ/",
+      "pos": "n.、embedding、context window、reranking、overlap）",
+      "posRaw": "n.（相关：retrieval-augmented generation (RAG)、embedding、context window、reranking、overlap）",
+      "related": [
+        "retrieval-augmented generation (RAG"
+      ],
+      "meaning": "【AI】分块——把长文档切分成较小文本单元（chunk）再向量化入库的过程，是检索增强生成（RAG）流水线的第一步。分块粒度直接决定检索质量：块太大，噪声稀释语义、浪费上下文预算；块太小，语义不完整、答案被切断。核心工程权衡是「语义完整性」与「检索精度」的对立",
+      "gloss": "分块",
+      "example": "Chunking looks like a preprocessing detail, but it quietly sets the ceiling on retrieval quality — no reranker can recover an answer that was split across two chunks.",
+      "exampleCn": "分块看起来只是预处理细节，却悄悄给检索质量设了上限——如果答案被切散在两个块里，再好的重排序也无法把它找回来。",
+      "memory": "**记忆锚点**：分块是 RAG 的「分辨率」设置，这一步调错，后面全部打折。**三个关键参数**：① 块大小（常用 200–800 token，视内容类型而定）；② 重叠（overlap，通常 10–20%，防止答案恰好被切在边界上）；③ 切分依据——按固定长度、按结构（段落/标题）、还是按语义相似度，结构切分通常优于机械等长切分。**为何难**：一段完整推理可能横跨多个段落，任何硬切都会破坏它；而块太大又会让检索命中率下降——一个块里混了多个主题，向量被平均成「什么都不像」。**工程实践**：① 把元数据（来源文件、章节标题、页码）前置进块文本，让检索可按来源过滤；② 表格、代码、清单单独成块，不与正文混合；③ 分块策略必须与评测集一起迭代——用真实问题测召回率，而不是凭直觉定 512。**易混点**：chunking 决定「能不能被检索到」（召回），reranking 决定「检索到之后排得对不对」（精度），两者解决的是不同环节的问题。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "reranking",
+      "issueNoLocal": 21,
+      "phonetic": "/ˌriːˈræŋkɪŋ/",
+      "pos": "n.",
+      "posRaw": "n.（相关：retrieval、embedding、bi-encoder、cross-encoder、hybrid search）",
+      "related": [
+        "retrieval",
+        "embedding",
+        "bi-encoder",
+        "cross-encoder",
+        "hybrid search"
+      ],
+      "meaning": "【AI】重排序——检索流水线的第二阶段：先用向量或关键词检索快速召回一批候选文档，再用更强的模型对「问题—文档」逐对精算相关性，重新排序后取前若干条送入生成模型。它把「快而粗」的召回与「慢而准」的精排分离，是提升 RAG 答案质量性价比最高的手段之一",
+      "gloss": "重排序",
+      "example": "Vector search is optimized for speed, not for precision; reranking exists because the top-50 candidates it returns are usually good enough to contain the answer, but almost never correctly ordered.",
+      "exampleCn": "向量检索为速度而非精度优化；重排序之所以存在，是因为它返回的前 50 个候选通常足以包含答案，却几乎从不按正确顺序排列。",
+      "memory": "**记忆锚点**：召回求全（bi-encoder：问题与文档分别编码，可预先算好，故快），重排求准（cross-encoder：问题与文档拼在一起过模型，无法预计算，故慢）。**代价与收益**：cross-encoder 精度显著更高，但每条候选都要跑一次完整前向计算，所以只能用在几十条候选上——这正是「两阶段」架构的根本原因。**核心旋钮是召回数量 K**：K 太小，正确答案根本没进候选池，重排无从下手；K 太大，延迟与成本线性上升。**实践要点**：① 先用评测集确认「正确答案落在 top-K 内的比例」（召回率），再决定是否值得上重排；② 重排后通常只保留 3–8 条给生成模型，塞太多反而引入噪声、拉高成本；③ 混合检索（向量 + BM25 关键词）先合并候选再重排，效果常优于单一向量检索。**易混点**：reranking 是「对已有候选重新排序」，不是「再检索一轮」——它不会引入候选池之外的新文档，因此无法弥补召回的缺失。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "prompt caching",
+      "issueNoLocal": 21,
+      "phonetic": "/prɒmpt ˈkæʃɪŋ/",
+      "pos": "n.",
+      "posRaw": "n.（相关：KV cache、latency、token budget、prefix caching、cost per token）",
+      "related": [
+        "KV cache",
+        "latency",
+        "token budget",
+        "prefix caching",
+        "cost per token"
+      ],
+      "meaning": "【AI】提示缓存——把多次请求中重复出现的前缀部分（系统提示、工具定义、长文档、少样本示例）在服务端缓存其计算结果（KV cache），后续请求直接复用、不必重新计算。它同时降低延迟与成本，是长系统提示与固定知识库场景下的标准优化手段",
+      "gloss": "提示缓存",
+      "example": "Most production prompts are 90% identical from one call to the next; prompt caching is the difference between paying for that repetition every time and paying for it once.",
+      "exampleCn": "生产环境中的提示，相邻两次调用往往 90% 是相同的；提示缓存决定了你是每次都为此付费，还是只付一次。",
+      "memory": "**记忆锚点**：重复的前缀只算一次钱。**为何有效**：Transformer 处理输入时需为每个 token 算出一份键值状态（KV cache）；前缀不变，这份状态就不变，可直接从缓存读取，省掉重复的前向计算。**三条硬约束**：① 只有**前缀**能命中——提示必须「开头完全一致」，把变化的内容（用户问题）放在最后；② 有最短长度门槛（通常数百至上千 token），短提示不值得缓存；③ 缓存有生存时间（通常几分钟到一小时），间隔太久即失效，故只有高频调用才划算。**最常见误区**：以为「内容一样」就能命中——实际上只要前缀多一个空格、一个时间戳或一个随机会话 ID，缓存就全部作废；把动态内容（当前日期、用户 ID）放在系统提示开头，是最典型的自毁做法。**成本结构**：命中部分通常按大幅折扣计价，未命中部分按原价，写入缓存可能略有溢价——因此它优化的是「重复度高」的场景，一次性调用毫无收益。**与 KV cache 的关系（易混点）**：KV cache 是推理时的通用机制（单次请求内部避免重复计算），prompt caching 是跨请求复用同一份 KV cache 的产品化能力，二者是同一底层机制的不同层级。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "economic moat",
+      "issueNoLocal": 21,
+      "phonetic": "/ˌiːkəˈnɒmɪk məʊt/",
+      "pos": "n.",
+      "posRaw": "n.（相关：competitive advantage、pricing power、switching cost、network effect、ROIC）",
+      "related": [
+        "competitive advantage",
+        "pricing power",
+        "switching cost",
+        "network effect",
+        "ROIC"
+      ],
+      "meaning": "【金融】经济护城河——企业长期抵御竞争对手、维持超额资本回报（ROIC 持续高于 WACC）的结构性优势。它不是一个可读出的数字指标，而是对「这家公司的高回报能维持多久」的判断。巴菲特将其比作城堡周围的护城河，其宽度决定超额利润的持续时间",
+      "gloss": "经济护城河",
+      "example": "A high ROIC tells you a company earned excess returns last year; the moat tells you whether it will still be earning them in ten.",
+      "exampleCn": "高 ROIC 告诉你这家公司去年赚到了超额回报；护城河告诉你它十年后是否还在赚。",
+      "memory": "**记忆锚点**：护城河 = 超额回报的**持续时间**，而非当前高度。**五种经典来源**（晨星框架）：① 无形资产——品牌、专利、监管牌照；② 转换成本——客户迁移代价高（企业软件、银行账户）；③ 网络效应——用户越多价值越大（支付网络、交易平台）；④ 成本优势——规模、工艺或资源带来的结构性低成本；⑤ 有效规模——市场容量只够容纳少数玩家，新进入者无利可图。**如何验证（最重要）**：看**长期**（10 年以上）ROIC 是否稳定高于 WACC，而不是看一两个季度的毛利率；只有稳定高于资本成本，才说明确实有东西在挡着竞争者。**三条常见误判**：① 把高增长当护城河——增长是结果，若没有结构性壁垒，高回报会引来竞争并将其抹平；② 把优秀管理层当护城河——人会离开，结构不会；③ 把市场份额当护城河——份额可能是买来的（补贴、低价），一旦停手即流失。**与技术壁垒的关系**：技术领先往往是最脆弱的护城河之一，它会被追赶、被绕过、被下一代范式淘汰，除非已沉淀为专利组合、生态锁定或规模成本优势。**实践要点**：判断护城河时问三个问题——竞争对手要复制它需要多久、需要多少钱、需要什么它拿不到的东西？",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "quality of earnings",
+      "issueNoLocal": 21,
+      "phonetic": "/ˈkwɒləti əv ˈɜːnɪŋz/",
+      "pos": "n.",
+      "posRaw": "n.（相关：accruals、free cash flow、cash conversion、one-off item、non-GAAP）",
+      "related": [
+        "accruals",
+        "free cash flow",
+        "cash conversion",
+        "one-off item",
+        "non-GAAP"
+      ],
+      "meaning": "【金融】盈利质量——会计利润在多大程度上反映真实、可持续的现金创造能力。高质量盈利由经营性现金流支撑、来自主营业务、可重复；低质量盈利依赖会计估计、一次性收益或激进的确认时点。它是识别「报表好看但生意变差」的核心工具",
+      "gloss": "盈利质量",
+      "example": "Earnings are an opinion, cash is a fact — quality of earnings is the work of measuring how far apart the two have drifted.",
+      "exampleCn": "利润是一种观点，现金是事实——盈利质量的工作，就是测量这两者偏离了多远。",
+      "memory": "**记忆锚点**：净利润与经营现金流长期背离，就是警报。**四个主要危险信号**：① 应收账款增速持续快于营收——可能靠放宽信用条件「买」收入；② 存货增速快于营收——产品可能卖不动；③ 经营现金流长期低于净利润（应计项目 accruals 偏高）——利润停留在纸面；④ 频繁的「一次性」费用或 non-GAAP 调整——如果年年都发生，它就不是一次性的。**为何会失真**：权责发生制按「权利义务发生」而非「现金收付」确认收入费用，这给了管理层估计空间——收入确认时点、坏账准备、折旧年限、资产减值时点，都可被用来平滑或美化利润。**分析动作**：把净利润与经营现金流画在同一张图上比对 5–10 年趋势，再核对「现金转换率」（经营现金流 / 净利润），长期显著低于 1 就需要解释。**易混点**：盈利质量（利润是否真实）与盈利水平（利润是否够多）是两件事——盈利质量差的公司可能有很高的账面利润，盈利质量高的公司也可能利润微薄。**与护城河的关系**：护城河决定超额回报能否持续，盈利质量决定报表上的回报是否真实存在——两者合看，才能判断一家公司的价值是否可信。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [
+    {
+      "no": "1",
+      "word": "chunking",
+      "phonetic": "/ˈtʃʌŋkɪŋ/",
+      "domain": "AI",
+      "point": "RAG 的「分辨率」；块大小/重叠/切分依据三参数，结构切分优于等长切分"
+    },
+    {
+      "no": "2",
+      "word": "reranking",
+      "phonetic": "/ˌriːˈræŋkɪŋ/",
+      "domain": "AI",
+      "point": "召回求全、重排求准；重排只能排序，不能补回没召回的内容"
+    },
+    {
+      "no": "3",
+      "word": "prompt caching",
+      "phonetic": "/prɒmpt ˈkæʃɪŋ/",
+      "domain": "AI",
+      "point": "只缓存前缀，重复的提示只付一次钱；动态内容放在开头即自毁"
+    },
+    {
+      "no": "4",
+      "word": "economic moat",
+      "phonetic": "/ˌiːkəˈnɒmɪk məʊt/",
+      "domain": "金融",
+      "point": "护城河 = 超额回报的持续时间；看 10 年 ROIC 是否稳定高于 WACC"
+    },
+    {
+      "no": "5",
+      "word": "quality of earnings",
+      "phonetic": "/ˈkwɒləti əv ˈɜːnɪŋz/",
+      "domain": "金融",
+      "point": "利润是观点、现金是事实；净利与经营现金流长期背离即为警报"
+    }
+  ],
+  "comparisons": [],
+  "progress": [
+    "本期：第 21 期，5 词",
+    "累计：**105 词**（63 AI + 42 金融）",
+    "归档格式：MD 词卡 + KAMI One-Pager PNG + Telegram 推送"
+  ]
+}

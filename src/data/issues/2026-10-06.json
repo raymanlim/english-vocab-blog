@@ -1,0 +1,175 @@
+{
+  "date": "2026-10-06",
+  "issueNo": 25,
+  "issueSpan": 1,
+  "issueLabel": "第 25 期",
+  "issueNoLabel": "25",
+  "theme": "不靠加投入的增长 · 资本效率与股本纪律",
+  "themeRaw": "不靠加投入的增长 + 资本效率与股本纪律",
+  "note": "本期 5 词（3 AI + 2 金融），已与前 24 期 120 词去重",
+  "title": "每日英语 5 词 · 2026-10-06",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "in-context learning (ICL)",
+      "issueNoLocal": 25,
+      "phonetic": "/ˌɪn ˈkɒntekst ˈlɜːnɪŋ/",
+      "pos": "n.",
+      "posRaw": "n.（相关：few-shot、zero-shot、demonstration、meta-learning、weight update）",
+      "related": [
+        "few-shot",
+        "zero-shot",
+        "demonstration",
+        "meta-learning",
+        "weight update"
+      ],
+      "meaning": "【AI】上下文学习——模型**不更新任何权重**，仅凭提示（prompt）中给出的几个示例或说明，就在当前这一次调用中完成一个新任务的能力。它是 few-shot 之所以有效背后的机制，也是大模型区别于传统「一个任务训一个模型」范式的根本原因",
+      "gloss": "上下文学习",
+      "example": "We did not retrain anything — we pasted four examples into the prompt and the model picked up the format. That is in-context learning, and it costs tokens instead of GPUs.",
+      "exampleCn": "我们没重训任何东西——只是把四个示例粘进提示里，模型就学会了格式。这就是上下文学习，它花的是 token，不是显卡。",
+      "memory": "**记忆锚点**：上下文学习等于**把「训练」搬到了提示里**——权重一个字节不动，能力却当场出现。**为什么重要**：它把「适配一个新任务」的成本从「标注数据 + 训练 + 部署」降到「写一段提示」，这是 LLM 能被业务方直接使用的核心前提；同时它解释了为什么**长上下文与检索（RAG）有价值**——能被放进上下文的信息，就是模型当场可用的信息。**关键权衡**：① ICL 能力**不是免费的**：示例与说明都要占用上下文窗口，示例越多效果通常越好但成本与延迟线性上升，且会被上下文长度截断；② ICL 学到的**是临时的**——这一次调用结束即消失，无法沉淀为可复用的能力，需要稳定能力仍要微调；③ ICL 对示例的**顺序、格式、标签分布**敏感，示例有偏（比如只给正例）会让模型系统性偏向，且这种偏差难以察觉；④ 示例质量比数量重要得多——一个标注错误的示例足以让整批输出走偏。**实践要点**：① 先用 ICL 验证可行性，确认任务稳定、量足够大、且对延迟敏感时，再考虑微调固化；② 示例要**覆盖边界情况**（空值、异常输入、应该拒绝的输入），而不只是标准正例；③ 固定示例的顺序与格式并版本化，否则同一个提示在不同人手里表现不一致；④ 把「模型从示例里学到了什么」当成一个真实的假设去测——在留出集上验证，而不是凭直觉认为它学会了。**易混点**：ICL（提示里的临时学习，零参数更新）与微调（fine-tuning，真正修改权重、能力持久）是两条互补路线，不是替代关系；ICL 也不是「检索」——检索是从外部取回资料，ICL 是从提示里取回模式，两者常一起用但机制不同",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "synthetic data",
+      "issueNoLocal": 25,
+      "phonetic": "/sɪnˈθetɪk ˈdeɪtə/",
+      "pos": "n.",
+      "posRaw": "n.（相关：data flywheel、distillation、data contamination、privacy、sim-to-real）",
+      "related": [
+        "data flywheel",
+        "distillation",
+        "data contamination",
+        "privacy",
+        "sim-to-real"
+      ],
+      "meaning": "【AI】合成数据——由模型、仿真器或规则生成，而非从真实世界采集并人工标注的数据。它用于缓解高质量真实数据枯竭、标注昂贵、隐私受限三类约束，是当前训练与评测数据的重要补充来源",
+      "gloss": "合成数据",
+      "example": "Real labelled data ran out first, so we generated the rest — and then had to check that we had not quietly taught the model our own mistakes.",
+      "exampleCn": "真实标注数据先耗尽了，于是剩下的我们自己生成——然后不得不回头检查：有没有把我们的错误悄悄教给了模型。",
+      "memory": "**记忆锚点**：合成数据等于**用模型生产模型的教材**。**为什么重要**：① 高质量人类标注数据正接近枯竭，且成本随时间线性上升；② 合成数据可**按需定向生成**稀缺场景（罕见故障、长尾边界、危险操作），而这些恰恰是真实数据里最少、却最需要模型学会的部分；③ 在隐私敏感领域（医疗、金融）可替代真实个人数据。**关键权衡（这是本词最要紧的部分）**：① **模型崩塌（model collapse）风险**——用自己（或同族模型）的输出反复训练，分布尾部会逐代收窄、多样性流失、错误被放大固化，最终模型只会生成「平均答案」；② **多样性—保真度权衡**——合成数据越像真实数据就越安全但新增信息越少，越有创造性越可能引入系统性偏差；③ **评估污染**——用合成数据做评测集时，若生成模型与被评模型同源，分数会虚高，形成「自己考自己」；④ 合成数据**不能凭空创造知识**，它只能重组与放大模型已有的知识，因此无法突破原始数据的信息上限。**实践要点**：① 保持**真实数据的锚定比例**（常见做法是真实数据占多数，合成数据用于补长尾与增多样性），并监控逐轮训练后的分布宽度；② 用**更强或不同族的模型**生成、用**人工抽检**验证，避免同源自噬；③ 合成数据必须**与评测集严格隔离**，并记录生成模型、版本与提示词，否则结论不可复现；④ 优先合成「真实世界拿不到」的场景（罕见故障、对抗样本），而不是简单复制已有的常见样本——后者只增加数量不增加信息。**易混点**：合成数据（人为生成的新样本）与数据增强（对真实样本做变换，如旋转、改写）不同——前者可产生原分布之外的新内容，后者只在原分布附近扩展；另注意与**数据污染（data contamination）**的区别：污染是评测数据泄漏进训练集，合成数据是训练数据的来源问题，两者都会让指标失真但修法完全不同",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "time to first token (TTFT)",
+      "issueNoLocal": 25,
+      "phonetic": "/taɪm tə fɜːst ˈtəʊkən/",
+      "pos": "n.",
+      "posRaw": "n.（相关：latency、throughput、streaming、prefill、p95、inter-token latency）",
+      "related": [
+        "latency",
+        "throughput",
+        "streaming",
+        "prefill",
+        "p95",
+        "inter-token latency"
+      ],
+      "meaning": "【AI】首字延迟——从客户端发出请求，到收到**第一个**输出 token 所经过的时间。它决定用户感知到的「这个系统快不快」，与衡量整体产能的吞吐量（throughput）、以及衡量输出流畅度的逐字延迟（inter-token latency）构成三个相互独立的速度维度",
+      "gloss": "首字延迟",
+      "example": "Total generation took four seconds, but the first word appeared in 300 milliseconds — and users called it instant, because TTFT is what the eye actually waits for.",
+      "exampleCn": "整段生成花了四秒，但第一个词 300 毫秒就出现了——用户却说它「秒回」，因为眼睛真正等的是首字延迟。",
+      "memory": "**记忆锚点**：TTFT 等于**从按下回车到看见第一个字的时间**——它衡量的不是总产能，而是**第一口反馈**。**为什么重要**：人机交互的感知阈值极短，几百毫秒内出现首字会被体验为「即时」，而同样总时长若前两秒空白则会被体验为「卡死」；这也是流式输出（streaming）之所以成为标配的原因——它不缩短总耗时，只把等待从「两秒空白」变成「立刻有反馈」。**三个速度维度务必分清（核心易混点）**：① **TTFT**（首字延迟）——由输入长度与预填充（prefill）计算决定，输入越长、上下文越大，TTFT 越长；② **吞吐量（throughput）**——单位时间能服务多少 token 或多少请求，决定成本与并发容量；③ **逐字延迟（inter-token latency）**——每个后续 token 的间隔，决定输出「是否顺滑」，它主要受解码阶段显存带宽限制。三者可互相背离：**批量处理能显著提高吞吐量，却往往恶化 TTFT**，因为新请求要排队等待已有的长批量算完——这正是推理服务调度的核心矛盾。**关键权衡**：① 大 batch 提升 GPU 利用率、降低单位成本，但抬高 TTFT 与排队延迟，适合离线任务；小 batch 或连续批处理（continuous batching）优先保住 TTFT，适合交互式产品；② 把模型变小、量化、或减少上下文可降低 TTFT，代价是质量或可处理的信息量；③ 提示缓存（prompt caching）能大幅削减重复前缀的 prefill 成本，是改善 TTFT 最直接的手段之一。**实践要点**：① 面向用户的产品必须**分别**监控 TTFT 与总时长，且看 **p95 / p99 而非平均值**——平均值会掩盖尾部请求的糟糕体验；② 首屏体验要尽快出字（哪怕先出一个过渡态），不要让用户面对空白；③ 优化时先测量再动手：TTFT 长通常是**输入侧**问题（上下文过长、检索塞得太多），逐字延迟长才是**输出侧**问题，两者的解法完全不同。**易混点**：TTFT 与延迟（latency）不是同义词——延迟是泛指，TTFT 专指「到第一个 token」这一段；同样，用户抱怨「慢」时，先分清是首字慢（交互问题）还是整体慢（产能问题），否则优化方向会完全错",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "return on equity (ROE)",
+      "issueNoLocal": 25,
+      "phonetic": "/rɪˈtɜːn ɒn ˈekwəti/",
+      "pos": "n.",
+      "posRaw": "n.（相关：ROIC、ROA、book value、leverage、DuPont analysis、shareholder equity）",
+      "related": [
+        "ROIC",
+        "ROA",
+        "book value",
+        "leverage",
+        "DuPont analysis",
+        "shareholder equity"
+      ],
+      "meaning": "【金融】净资产收益率——净利润除以股东权益（净资产），衡量股东每投入一元自有资本，公司一年能为其创造多少利润。它是衡量「股东资本的赚钱效率」最常用的指标，也是杜邦分析体系的顶层数字",
+      "gloss": "净资产收益率",
+      "example": "Both firms earn the same 15% ROE, but one borrows to get there and the other does not — and only the second one is actually good at its business.",
+      "exampleCn": "两家公司 ROE 同为 15%，但一家靠借钱做到、另一家没有——只有第二家是生意本身做得好。",
+      "memory": "**记忆锚点**：ROE 等于**净利润 ÷ 股东权益**，衡量的是「股东自己的钱」的回报率——注意分母**只算股东的钱，不含借来的钱**。**为什么重要**：它是股东最关心的数字，也是「管理层是否有效运用了我的资本」最直接的答案；在**不需要额外资本就能增长**的公司里（高 ROE、低资本开支），ROE 高意味着利润可以高比例分给股东而不必留存再投入，这类公司往往是长期复利机器的候选。**与 ROIC 的关键区别（本词最重要的易混点）**：ROE 的分母是股东权益，**借款不进入分母**，因此**加杠杆能人为抬高 ROE**——借债回购股票、或大量举债经营，都能在不改善生意的情况下把 ROE 做上去；而 **ROIC（投入资本回报率）** 的分母包含债务与股权，衡量的是「全部投入资本的回报」，因此**不受资本结构影响**，更能反映生意的真实质量。经验上：**ROE 高而 ROIC 低，通常意味着高杠杆而非好生意**。**关键权衡**：① ROE 对资本结构极度敏感，跨公司、跨行业比较前必须看负债水平；② 高 ROE 可能来自「权益被做小」而非「利润做大」——大额回购、资产减值、甚至权益为负（此时 ROE 失去意义）都会扭曲该指标；③ 轻资产、高周转的商业模式天然拥有高 ROE，重资产行业则天然偏低，因此**同行业内比较才有意义**。**实践要点**：① **ROE 必须与 ROIC、净负债率一起看**，三者同时看才能区分「好生意」与「高杠杆」；② 用**杜邦分解**（ROE = 净利率 × 资产周转率 × 权益乘数）定位来源：利润率驱动、周转驱动、还是杠杆驱动，结论完全不同；③ 用**多年 ROE 的稳定性**而非单年数值判断质地——稳定在 15% 以上且不靠杠杆，是稀缺特征；④ 警惕权益为负或极小的公司，此时 ROE 在数学上会变成巨大数字甚至负数，指标失效。**易混点**：ROE（股东资本回报，受杠杆影响）、ROA（总资产回报，不受资本结构影响但受会计政策影响）、ROIC（投入资本回报，最接近「生意本身的质量」）——三个指标不是替代关系，而是从不同视角看同一家公司，单看任何一个都可能被误导",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "share buyback",
+      "issueNoLocal": 25,
+      "phonetic": "/ʃeə ˈbaɪbæk/",
+      "pos": "n.",
+      "posRaw": "n.（相关：dilution、dividend、EPS、free cash flow、capital allocation、treasury stock）",
+      "related": [
+        "dilution",
+        "dividend",
+        "EPS",
+        "free cash flow",
+        "capital allocation",
+        "treasury stock"
+      ],
+      "meaning": "【金融】股份回购——公司用自有现金在市场上买回自己的股票（通常注销或转为库存股），从而减少流通股数量、提高每股收益与股东持股比例。它与现金分红并列为把现金返还股东的两种主要方式",
+      "gloss": "股份回购",
+      "example": "The buyback did not make the company better; it just made the same profit sit on fewer shares — which is exactly why the price moved.",
+      "exampleCn": "回购并没有让公司变得更好，只是让同样的利润分在更少的股份上——这正是股价上涨的原因。",
+      "memory": "**记忆锚点**：回购等于**用公司的现金买回自己的股份**——总利润不变，股数变少，于是每股价值被动上升。它正是**稀释（dilution）的反向操作**：发股是「把蛋糕切给更多人」，回购是「把切出去的份额收回来」。**为什么重要**：它是资本配置（capital allocation）能力最直观的体现——同样是「账上有多余现金」，管理层可以选择回购、分红、投资扩产或还债，四种选择对股东的含义截然不同；长期看，**在股价低于内在价值时回购，是增值的**；在高估时回购，则是**用股东的钱高价接盘**，属于价值毁灭。**关键权衡（务必分清两种情况）**：① **低估时回购 = 用便宜价格买回未来现金流**，留下股东的每股价值提升，是真正的资本配置；② **高估时回购 = 把现金换成被高估的股票**，只是把价值从留存股东转移给卖出方，长期回报反而下降；③ 回购的钱若来自**借债**，则在抬高每股收益的同时显著抬高财务风险，一旦盈利下滑杠杆会迅速反噬；④ 回购 vs 分红：分红是**确定、即时、所有股东平等**的现金返还，回购则**依赖股价、只惠及留下的股东**，且在股价高估时会损害价值。**为什么常被质疑**：回购会推高 EPS 与股价、且高管薪酬常与 EPS 挂钩，因此存在**用回购掩盖主业增长乏力、或短期拉抬股价**的动机；此外回购减少权益、抬高 ROE 与杠杆，会让财务指标看起来更好。**实践要点**：① 判断回购质量，先看**现金来源**——自由现金流支撑的回购是健康的，靠举债支撑的需要警惕；② 比较**回购均价与内在价值估算**，均价远高于合理估值时，回购反而应视为负面信号；③ 与**股本稀释（股权激励、增发）** 合起来看**净股数变化**——很多公司一边回购、一边被股权激励稀释，净效果可能是零；④ 与分红一起纳入**股东总回报（total shareholder return）** 口径评估，不要只看股价。**易混点**：回购（公司买回自己的股票，减少股本、提升 EPS）与内部人增持（高管个人买入，只传递信心信号、不改变股本）是两件完全不同的事，常被市场混为一谈",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [
+    {
+      "no": "1",
+      "word": "in-context learning (ICL)",
+      "phonetic": "/ˌɪn ˈkɒntekst ˈlɜːnɪŋ/",
+      "domain": "AI",
+      "point": "不改权重、只靠提示中的示例当场学会；能力临时、不沉淀，示例质量重于数量"
+    },
+    {
+      "no": "2",
+      "word": "synthetic data",
+      "phonetic": "/sɪnˈθetɪk ˈdeɪtə/",
+      "domain": "AI",
+      "point": "用模型造教材；能补长尾但会引发模型崩塌，必须保留真实数据锚定比例"
+    },
+    {
+      "no": "3",
+      "word": "time to first token (TTFT)",
+      "phonetic": "/taɪm tə fɜːst ˈtəʊkən/",
+      "domain": "AI",
+      "point": "首字延迟决定「感觉快不快」；与吞吐量、逐字延迟三维正交，大 batch 会恶化 TTFT"
+    },
+    {
+      "no": "4",
+      "word": "return on equity (ROE)",
+      "phonetic": "/rɪˈtɜːn ɒn ˈekwəti/",
+      "domain": "金融",
+      "point": "净利润 ÷ 股东权益；分母不含债务，故杠杆可抬高 ROE —— 必须与 ROIC 同看"
+    },
+    {
+      "no": "5",
+      "word": "share buyback",
+      "phonetic": "/ʃeə ˈbaɪbæk/",
+      "domain": "金融",
+      "point": "回购即稀释的反向操作；低估时增值、高估时毁灭价值，关键看现金来源与均价"
+    }
+  ],
+  "comparisons": [],
+  "progress": [
+    "本期：第 25 期，5 词",
+    "累计：**125 词**（75 AI + 50 金融）",
+    "归档格式：MD 词卡 + KAMI One-Pager PNG + Telegram 推送"
+  ]
+}

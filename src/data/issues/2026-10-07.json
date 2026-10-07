@@ -1,0 +1,174 @@
+{
+  "date": "2026-10-07",
+  "issueNo": 26,
+  "issueSpan": 1,
+  "issueLabel": "第 26 期",
+  "issueNoLabel": "26",
+  "theme": "反直觉的模型行为 · 价值与时间的定价",
+  "themeRaw": "反直觉的模型行为 + 价值与时间的定价",
+  "note": "本期 5 词（3 AI + 2 金融），已与前 25 期 125 词去重",
+  "title": "每日英语 5 词 · 2026-10-07",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "catastrophic forgetting",
+      "issueNoLocal": 26,
+      "phonetic": "/ˌkætəˈstrɒfɪk fəˈɡetɪŋ/",
+      "pos": "n.",
+      "posRaw": "n.（相关：continual learning、fine-tuning、rehearsal、adapter、LoRA）",
+      "related": [
+        "continual learning",
+        "fine-tuning",
+        "rehearsal",
+        "adapter",
+        "LoRA"
+      ],
+      "meaning": "【AI】灾难性遗忘——模型在学会新任务或新数据后，**在旧任务上的性能急剧崩塌**的现象。它不是「慢慢淡忘」，而是在一次参数更新中发生的**断崖式丢失**，是持续学习（continual learning）面临的核心障碍",
+      "gloss": "灾难性遗忘",
+      "example": "We fine-tuned the model on last quarter's tickets and it got better at those — and worse at everything else, overnight. That is catastrophic forgetting.",
+      "exampleCn": "我们用上季度的工单微调了模型，它在这些工单上变好了——同时在一夜之间把其他所有事情都做差了。这就是灾难性遗忘。",
+      "memory": "**记忆锚点**：灾难性遗忘等于**对大脑做覆盖式重写**——神经网络的权重是**共享**的，新任务的最优解常常落在与旧任务冲突的参数方向上，一次梯度更新就能把旧能力抹掉。**为什么重要**：① 真实业务的数据是**流式到来**的（今天的用户行为与昨天不同），若每次增量训练都摧毁旧能力，就无法构建持续演进的系统；② 它解释了为什么「拿最新数据重训」常常不如预期——指标在训练分布上变好，在整体上反而变差；③ 它也是多任务模型与领域微调互相冲突的根源。**关键权衡**：① **可塑性—稳定性两难**——模型越容易学新东西（可塑性强），就越容易忘旧的；越抗遗忘，就越难适应新任务，这是一对不可兼得的力量；② 全量重训能避免遗忘，但成本随数据量线性上升，且需要保留全部历史数据（可能已不可得）；③ 冻结主干、只训顶层或加适配器能缓解遗忘，代价是新任务的拟合能力受限；④ 回放旧数据（rehearsal）效果最好，但需要**保存旧样本**，涉及存储与隐私成本。**实践要点**：① **每次增量训练后必须在固定的旧任务评测集上做回归测试**，把「旧任务指标是否下降」设为发布门槛，而不是只看新任务涨了多少；② 优先考虑 **LoRA / 适配器 / 冻结主干** 这类参数隔离方案，把新知识装进独立模块而非覆盖共享权重；③ 保留一小份**代表性旧样本**做回放，通常 1%~5% 的混合比例即可显著缓解遗忘；④ 若数据可全量获取且重训成本可接受，**周期性全量重训**往往比复杂算法更可靠。**易混点**：灾难性遗忘（新任务摧毁旧任务）与**过拟合（overfitting）**不同——过拟合是模型在训练集上太好、泛化差；灾难性遗忘是模型在新分布上变好、在旧分布上变差。另注意与**分布偏移（distribution shift）**的区别：分布偏移是数据变了、模型没变；灾难性遗忘是模型被改了、旧能力真的丢了；另与已学的 `instruction tuning`、`parameter-efficient fine-tuning (PEFT)` 同属「微调的副作用与对策」这条线，本期补上其中最关键的副作用",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "lost in the middle",
+      "issueNoLocal": 26,
+      "phonetic": "/lɒst ɪn ðə ˈmɪdl/",
+      "pos": "n.",
+      "posRaw": "n.（相关：long context、context window、needle in a haystack、reranking、position bias）",
+      "related": [
+        "long context",
+        "context window",
+        "needle in a haystack",
+        "reranking",
+        "position bias"
+      ],
+      "meaning": "【AI】中段失效——大模型处理长上下文时，**位于开头与结尾的信息能被有效利用，位于中间部分的信息常被忽略**的现象。它说明「把资料全部塞进上下文」并不等于「模型真的用上了这些资料」",
+      "gloss": "中段失效",
+      "example": "We pasted the whole policy manual into the prompt and the model still missed the clause — it was page 40 of 80, right where attention gets thin.",
+      "exampleCn": "我们把整本政策手册粘进了提示，模型还是漏掉了那一条——它在 80 页里的第 40 页，恰是注意力最稀薄的位置。",
+      "memory": "**记忆锚点**：把长上下文想成一张**注意力分布图**——首尾两端亮，中段暗。**为什么重要**：① 它直接否定了「上下文窗口越大越好」的直觉——容量变大不等于**有效利用率**变高，模型仍可能系统性忽略中段信息；② 它决定了检索系统（RAG）的设计取向：**检索到的内容「放哪里」与「放多少」同样重要**；③ 它解释了为什么「我已经把全文给它了」之后模型仍然答错——问题不在容量，在位置。**关键权衡**：① 检索条数越多，召回率上升，但**噪声与位置稀释**同时上升，中段内容被忽略的概率变大；② 把关键内容放在提示**开头或结尾**（尤其结尾，紧邻问题）通常最有效，但这一位置是稀缺资源，无法容纳全部候选；③ 长上下文模型的**标称窗口与有效窗口是两回事**，宣传的 1M token 不等于 1M token 都能被用上。**实践要点**：① **不要靠塞满上下文解决问题**——先做检索与重排（reranking），把最相关的内容压到前几位；② 关键指令与关键证据放在**首尾**，中间放次要支撑材料；③ 用 **needle-in-a-haystack 式测试**在**多个位置**上验证自己的场景（只在开头测会得出过于乐观的结论）；④ 长文档任务优先做**分块 + 摘要 + 多轮引用**，而不是单轮全量投喂；⑤ 监控「上下文长度 vs 答案质量」曲线，找到自己场景的**有效窗口**。**易混点**：lost in the middle（位置偏差，属模型能力问题）与**上下文过长导致成本与延迟上升**（属工程问题）是两件事，前者要靠排布解决，后者要靠裁剪解决；也区别于 `chunking` / `reranking`——那两个是**手段**，lost in the middle 是这些手段要解决的**问题本身**",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "direct preference optimization (DPO)",
+      "issueNoLocal": 26,
+      "phonetic": "/dəˈrekt ˈprefərəns ˌɒptɪmaɪˈzeɪʃn/",
+      "pos": "n.",
+      "posRaw": "n.（相关：RLHF、reward model、preference data、alignment、KL divergence）",
+      "related": [
+        "RLHF",
+        "reward model",
+        "preference data",
+        "alignment",
+        "KL divergence"
+      ],
+      "meaning": "【AI】直接偏好优化——一种**跳过奖励模型与强化学习、直接用人类偏好数据微调语言模型**的对齐方法。它把「让模型更符合偏好」这一目标重写成一个可直接优化的分类式损失，从而在效果接近 RLHF 的同时大幅简化训练流程",
+      "gloss": "直接偏好优化",
+      "example": "RLHF needed a reward model and a reinforcement-learning loop; DPO just needs pairs of better and worse answers, and one training run.",
+      "exampleCn": "RLHF 需要一个奖励模型加一整套强化学习循环；DPO 只需要「较好 / 较差」的答案对，以及一次训练。",
+      "memory": "**记忆锚点**：DPO 等于**把「偏好排序」直接变成损失函数**——不训练打分器，也不需要 RL 循环，模型本身就成为隐式的奖励模型。**为什么重要**：① 它把对齐的门槛从「拥有 RL 基础设施的团队」降到「会做监督微调的团队」，是开源模型对齐能力快速普及的关键推手；② 训练**更稳定**——RLHF 的 RL 环节对超参敏感、易训练崩溃，DPO 是标准监督式训练，复现性明显更好；③ 计算成本显著更低（省掉奖励模型训练与在线采样）。**关键权衡**：① DPO 依赖**静态偏好数据**，而 RLHF 可在训练中不断采样新回答并由奖励模型打分，因此 RLHF 在**探索性**上更强；② DPO 存在**偏好数据分布偏移**问题——训练越久，模型偏离数据分布越远，可能出现「过度优化」导致输出退化（如冗长、谄媚）；③ 数据质量决定上限：偏好对若标注不一致，DPO 会稳定地学到这些不一致；④ 在需要复杂推理或长链条任务上，单纯 DPO 通常不如带可验证奖励的强化学习方法（如已学的 RLVR）。**实践要点**：① 偏好对必须**同源同题、只差在优劣**，避免把「不同难度的题」当成偏好对；② 控制训练轮数与 KL 约束（β 参数），**早停**往往优于训到收敛；③ 训练后在**留出偏好集与能力评测集上同时验证**，防止「更讨喜但更笨」；④ 常见工程路径是 **SFT → DPO**：先用监督数据教会格式与基本能力，再用偏好数据做偏好塑形。**易混点**：RLHF（先训奖励模型、再用 RL 优化策略，链路长但在线探索）与 DPO（直接用偏好数据做监督式优化，链路短但依赖静态数据）是同一目标下的两条路线，不是新旧替代关系；另注意 DPO 与**指令微调（instruction tuning）**的区别：前者学「在好答案与坏答案之间偏好哪一个」，后者学「照着好答案模仿」——一个教取向，一个教能力",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "discounted cash flow (DCF)",
+      "issueNoLocal": 26,
+      "phonetic": "/dɪsˈkaʊntɪd kæʃ fləʊ/",
+      "pos": "n.",
+      "posRaw": "n.（相关：terminal value、discount rate、WACC、free cash flow、net present value、enterprise value）",
+      "related": [
+        "terminal value",
+        "discount rate",
+        "WACC",
+        "free cash flow",
+        "net present value",
+        "enterprise value"
+      ],
+      "meaning": "【金融】现金流折现——一种**内在价值**估值方法：把公司未来预计产生的全部自由现金流，按反映其风险的资金成本率逐年折算回今天并加总，得到企业价值。其核心主张是「一项资产的价值，等于它未来能带给你的现金的现值之和」",
+      "gloss": "现金流折现",
+      "example": "The stock trades at 30 times earnings, but on a discounted cash flow basis it is worth less than half the price — the market is paying for growth the model cannot yet see.",
+      "exampleCn": "这只股票按 30 倍市盈率交易，但按现金流折现算，它的价值不到市价的一半——市场在为模型还看不到的增长付钱。",
+      "memory": "**记忆锚点**：DCF 等于**把未来的钱按风险打回今天的价格**——两个输入决定一切：**未来的现金流有多少**，以及**用多高的折现率把它拉回现在**。**为什么重要**：① 它是唯一从**基本面因果**出发的估值方法（价值来自现金流），相对估值法（P/E、EV/EBITDA）只是拿同行做参照，若整个行业被高估则无从发现；② 它把「投资」还原成一个可检验的判断：你对未来的假设到底是什么；③ 它天然体现时间价值与风险——越远的现金流折现越狠，越不确定的生意折现率越高。**关键权衡（务必清楚）**：① **DCF 对假设极度敏感**——折现率 ±1%、永续增长率 ±0.5% 就能让结果变动 20%~30%，因此它输出的是**区间**而非精确值，任何「精确到小数点后两位的目标价」都是伪精确；② **终值（terminal value）通常占估值 60%~80%**，意味着结论主要由「永续假设」决定，而非前五年的详细预测，这是 DCF 最大的脆弱点；③ 它**不适用于现金流极不稳定或尚未产生正现金流的公司**（早期科技、生物医药），此时终值假设近乎凭空捏造；④ 折现率若用 WACC，则债务成本与资本结构假设也一并进入模型，牵一发动全身。**实践要点**：① 必须做**敏感性分析**（折现率 × 永续增长率矩阵），并公开区间而非单点；② 用 **reverse DCF（反向折现）**——不问「它值多少」，而问「当前股价隐含了什么样的增长假设」，再判断该假设是否合理，这比正向估算更不容易自欺；③ 现金流口径用**自由现金流（FCF）**而非净利润，避免被会计处理误导；④ 与相对估值**并用**：DCF 看内在逻辑，倍数看市场定价，两者背离处往往就是超额收益或价值陷阱所在。**易混点**：DCF（绝对估值，从现金流出发）与**相对估值 / 可比公司法（multiple）**（看 P/E、EV/EBITDA 等同业倍数）是两条互补路径，不是替代关系；另注意口径陷阱——用企业自由现金流（FCFF）配 WACC 得到**企业价值**，再减净债得到**股权价值**，两者混用是 DCF 最常见的错误。与已学的 `WACC`、`free cash flow`、`multiple` 构成完整的一条估值线，本期补上「内在价值」这一端",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "theta",
+      "issueNoLocal": 26,
+      "phonetic": "/ˈθiːtə/",
+      "pos": "n.",
+      "posRaw": "n.（相关：delta、gamma、vega、time decay、option premium、expiration）",
+      "related": [
+        "delta",
+        "gamma",
+        "vega",
+        "time decay",
+        "option premium",
+        "expiration"
+      ],
+      "meaning": "【金融】西塔——期权希腊字母之一，衡量**期权价格对时间流逝的敏感度**，即每过一天（其他条件不变）期权价值减少多少。对期权买方通常为负（时间是敌人），对卖方通常为正（时间是朋友）",
+      "gloss": "西塔",
+      "example": "The stock did not move at all for three days, and the option still lost a third of its value — that is theta working against the buyer.",
+      "exampleCn": "标的股票三天纹丝未动，期权却仍蒸发了三分之一的价值——这就是 theta 在与买方为敌。",
+      "memory": "**记忆锚点**：theta 等于**每过一天，期权自动蒸发的那部分价值**——它买的是「时间」，而时间只向一个方向走。**为什么重要**：① 它解释了期权最反直觉的一点：**看对方向也可能亏钱**——若标的涨得不够快、不够多，时间价值的衰减足以吃掉方向上的收益；② 期权时间价值在**到期前最后几十天加速衰减**（近似非线性），这意味着「一直持有到最后」往往是最差的策略；③ 它是所有卖方策略（covered call、卖权、价差）的收益来源——卖方收的就是 theta。**关键权衡**：① **买方与卖方是一对镜像**：买方付 theta 换取杠杆与凸性（convexity），卖方收 theta 承担尾部风险，两者没有绝对优劣，取决于你对「波动会不会发生」的判断；② 时间价值衰减速度与**剩余期限、隐含波动率、价内外程度**都有关——平值（ATM）期权的时间价值最多、衰减也最快，深度价内 / 价外的时间价值很小；③ 高隐含波动率时期权贵、theta 绝对值也大，卖方收得多，但被一次大波动击穿的风险同样大。**实践要点**：① 买方要**给方向判断加上时间约束**——判断「多久之内会发生」，因为即使方向对，慢一步也可能不赚钱；② 不要因为「便宜」去买临近到期的期权，那通常是 theta 最快的区间；③ 卖方策略的核心不是「收 theta」，而是**风险管理**——仓位与对冲决定了能不能活过那一次极端行情；④ 与 **vega（波动率敏感度）** 分开思考：买期权同时是买时间价值与买波动率，亏钱时先分清是**时间**吃掉了钱，还是**波动率下降**吃掉了钱。**易混点**：theta（时间衰减，随时间必然发生）与 **vega**（波动率敏感度，随市场情绪变化）是期权价值的两个不同来源——横盘不动时亏的是 theta，波动率崩塌时亏的是 vega，两者常同时发生但归因完全不同；另注意 **theta 为正不等于稳赚**：卖方每天收 theta，但一次跳空可能一次亏掉几个月的收入。本期补齐希腊字母体系——此前已学 delta / gamma / vega，theta 是缺失的第四个",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [
+    {
+      "no": "1",
+      "word": "catastrophic forgetting",
+      "phonetic": "/ˌkætəˈstrɒfɪk fəˈɡetɪŋ/",
+      "domain": "AI",
+      "point": "学新忘旧、断崖式丢失；源于权重共享，对策是参数隔离与旧数据回放"
+    },
+    {
+      "no": "2",
+      "word": "lost in the middle",
+      "phonetic": "/lɒst ɪn ðə ˈmɪdl/",
+      "domain": "AI",
+      "point": "长上下文首尾亮、中段暗；容量 ≠ 有效利用率，关键内容必须放在首尾"
+    },
+    {
+      "no": "3",
+      "word": "direct preference optimization (DPO)",
+      "phonetic": "/dəˈrekt ˈprefərəns ˌɒptɪmaɪˈzeɪʃn/",
+      "domain": "AI",
+      "point": "跳过奖励模型与 RL，直接用偏好对做监督优化；稳定便宜，但依赖静态数据"
+    },
+    {
+      "no": "4",
+      "word": "discounted cash flow (DCF)",
+      "phonetic": "/dɪsˈkaʊntɪd kæʃ fləʊ/",
+      "domain": "金融",
+      "point": "价值 = 未来现金流现值之和；对折现率与终值极敏感，输出区间而非单点"
+    },
+    {
+      "no": "5",
+      "word": "theta",
+      "phonetic": "/ˈθiːtə/",
+      "domain": "金融",
+      "point": "期权每过一天自动蒸发的价值；看对方向也可能亏钱，横盘即买方之敌"
+    }
+  ],
+  "comparisons": [],
+  "progress": [
+    "本期：第 26 期，5 词",
+    "累计：**130 词**（78 AI + 52 金融）",
+    "归档格式：MD 词卡 + KAMI One-Pager PNG + Telegram 推送"
+  ]
+}

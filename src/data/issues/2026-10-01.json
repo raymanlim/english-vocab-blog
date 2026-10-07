@@ -1,0 +1,170 @@
+{
+  "date": "2026-10-01",
+  "issueNo": 20,
+  "issueSpan": 1,
+  "issueLabel": "第 20 期",
+  "issueNoLabel": "20",
+  "theme": "智能体的运行机制与边界 · 资本成本与安全边际",
+  "themeRaw": "智能体的运行机制与边界 + 资本成本与安全边际",
+  "note": "本期 5 词（3 AI + 2 金融），已与前 19 期 95 词去重",
+  "title": "每日英语 5 词 · 2026-10-01",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "ReAct",
+      "issueNoLocal": 20,
+      "phonetic": "/riˈækt/",
+      "pos": "n.、planning、observation）",
+      "posRaw": "n.（相关：agent loop、tool calling、chain-of-thought (CoT)、planning、observation）",
+      "related": [
+        "agent loop",
+        "tool calling",
+        "chain-of-thought (CoT"
+      ],
+      "meaning": "【AI】ReAct（Reason + Act，推理—行动循环）——一种让语言模型交替进行「推理」与「行动」的智能体范式：模型先输出一段推理（Thought），据此决定下一步调用什么工具（Action），执行结果作为观察（Observation）回填上下文，再进入下一轮推理。它把「一次性答题」变成「边想边做、依据反馈修正」的闭环，是当前绝大多数工具型智能体的基本骨架",
+      "gloss": "ReAct",
+      "example": "A single-shot model answers from what it already knows; a ReAct loop lets it look something up, notice the result contradicts its plan, and change course mid-task.",
+      "exampleCn": "单次调用只能凭已有知识作答；ReAct 循环让它能去查一下，发现结果与自己的计划矛盾，并在任务中途改变方向。",
+      "memory": "**记忆锚点**：Thought → Action → Observation，三步一循环。**与 CoT 的区别**：CoT 只在脑内推理、不接触外部世界，错了一路错到底；ReAct 每轮都从环境取回真实信息，因而具备纠错能力。**为何有效**：把长链条推理拆成多个短步，每步都有外部证据锚定，降低了单次推理的误差累积。**四个工程要点**：① 循环必须有终止条件（最大轮数、预算上限、显式 finish 动作），否则会无限打转；② 每轮只保留必要观察，全量回填会迅速撑爆上下文（与 context engineering 直接相关）；③ 工具返回的错误信息要如实回填——很多失败源于模型看不到自己错在哪；④ 观察结果需压缩去重，否则同一份文档被反复读入。**易混点**：ReAct 是「控制流模式」（怎么循环），tool calling 是「接口能力」（能不能调工具），后者是前者的依赖项，但不是同一件事。**实践启示**：Agent 效果不好时，先看轨迹（trace）而不是先换模型——多数问题出在循环设计、工具描述与错误回填，而非模型智力。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "reinforcement learning with verifiable rewards (RLVR)",
+      "issueNoLocal": 20,
+      "phonetic": "/ˌriːɪnˈfɔːsmənt ˈlɜːnɪŋ wɪð ˈverɪfaɪəbl rɪˈwɔːdz/",
+      "pos": "n.",
+      "posRaw": "n.（相关：RLHF、reward model、verifier、test-time compute、reward hacking）",
+      "related": [
+        "RLHF",
+        "reward model",
+        "verifier",
+        "test-time compute",
+        "reward hacking"
+      ],
+      "meaning": "【AI】可验证奖励强化学习——一种后训练方法：不以人类偏好打分（RLHF）为奖励来源，而用**可程序化自动判定对错**的任务（数学题、代码单元测试、形式化证明、逻辑谜题）提供奖励信号，让模型通过大量试错学会更长的推理链。其关键优势是奖励客观、可无限扩展、难以被讨好，是 2024–2025 年推理模型（o 系列、DeepSeek-R1 一类）能力跃升的主要训练手段",
+      "gloss": "可验证奖励强化学习",
+      "example": "RLVR works because the reward is not an opinion — a unit test either passes or it does not, and that binary signal can be generated at scale without a single human labeler.",
+      "exampleCn": "RLVR 之所以有效，是因为奖励不是一种观点——单元测试要么通过要么不通过，而这个二值信号可以大规模生成，无需任何人工标注。",
+      "memory": "**记忆锚点**：RLHF 靠人打分（主观），RLVR 靠程序判对错（客观）。**为何重要**：它把后训练的瓶颈从「人类标注产能」换成「可验证任务的数量」——后者可由程序无限生成，扩展性高出一个量级。**核心机制**：模型采样多条推理路径 → 用验证器筛出正确的那条 → 提高其概率（拒绝采样 / 策略梯度）；奖励稀疏但可靠。**三条关键限制（务必记住）**：① 只适用于**有客观对错**的领域——写作、咨询、审美、开放式研究没有验证器，RLVR 直接失效；② 易被钻空子——模型可能学会「通过测试」而非「解决问题」（reward hacking），例如硬编码期望输出、篡改测试文件；③ 可能收窄探索多样性，出现「推理越来越长但泛化未提升」。**易混点**：verifier 是「判分器」，reward model 是「学出来的人类偏好代理」，RLVR 用的是前者。**实践启示**：判断一个领域的模型能力能否被 RLVR 快速拉升，只需问一句——这个任务的对错能否被廉价、可靠地自动判定？",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "sandboxing",
+      "issueNoLocal": 20,
+      "phonetic": "/ˈsændbɒksɪŋ/",
+      "pos": "n.",
+      "posRaw": "n.（相关：tool calling、agent harness、permission、guardrail、blast radius）",
+      "related": [
+        "tool calling",
+        "agent harness",
+        "permission",
+        "guardrail",
+        "blast radius"
+      ],
+      "meaning": "【AI】沙箱化——把智能体执行代码、读写文件、访问网络等动作限制在隔离环境内（独立进程、容器、虚拟机或受限文件系统），使其即使出错、被提示注入操纵或行为异常，也无法影响宿主系统与真实数据。它是「让智能体真正动手」与「不让它造成不可逆损害」之间的工程平衡点",
+      "gloss": "沙箱化",
+      "example": "The moment an agent can run code, sandboxing stops being a security nicety and becomes the precondition for letting it run at all.",
+      "exampleCn": "一旦智能体能执行代码，沙箱化就不再是可选的锦上添花，而是允许它运行的前提条件。",
+      "memory": "**记忆锚点**：给智能体动手的能力，就必须同时给它划边界。**威胁模型（为何必需）**：① 提示注入——网页、邮件、文档中藏匿指令，诱导智能体执行恶意操作；② 模型幻觉——自信地写下破坏性命令；③ 目标错位——为完成目标而清除「障碍」（典型场景：为腾出磁盘空间而删掉用户数据）。**四层隔离强度（由弱到强）**：进程级（限权限、限目录）→ 容器（独立文件系统与网络命名空间）→ 虚拟机/微虚机（强隔离，启动稍慢）→ 无网络的一次性环境（最严，适合运行不可信代码）。**四条配套原则**：最小权限（只给完成任务必需的权限）、可逆优先（先复制再修改、优先软删除）、人类在环（危险动作需确认）、审计留痕（完整记录每次调用）。**易混点**：sandboxing 管「不能造成多大破坏」（隔离与权限），guardrail 管「不许做什么」（内容与策略约束）——前者是能力边界，后者是行为规则，二者互补而非替代。**实践要点**：评估任何 Agent 产品时先问三件事——文件系统是真实还是虚拟？网络出口是否受控？危险操作是否有确认与回滚？答案决定你敢不敢把生产数据交给它。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "weighted average cost of capital (WACC)",
+      "issueNoLocal": 20,
+      "phonetic": "/ˈweɪtɪd ˈævərɪdʒ kɒst əv ˈkæpɪtl/",
+      "pos": "n.",
+      "posRaw": "n.（相关：ROIC、cost of equity、CAPM、discount rate、economic profit）",
+      "related": [
+        "ROIC",
+        "cost of equity",
+        "CAPM",
+        "discount rate",
+        "economic profit"
+      ],
+      "meaning": "【金融】加权平均资本成本——企业为全部资本（债务 + 股权）支付的平均税后成本，按各自市值权重加权。债务成本是税后利息率，股权成本通常以 CAPM 估算（无风险利率 + β × 股权风险溢价）。它同时承担两个角色：DCF 估值中的贴现率，以及衡量经营效率的门槛率（hurdle rate）",
+      "gloss": "加权平均资本成本",
+      "example": "WACC is the price a company pays for other people's money, and any project that cannot beat it is quietly transferring value from shareholders to whoever the money was borrowed from.",
+      "exampleCn": "WACC 是企业使用他人资金的代价；任何回报率低于它的项目，都在悄悄把价值从股东手里转移给资金提供方。",
+      "memory": "**记忆锚点**：WACC = 债务成本 ×（1 − 税率）× 债务权重 + 股权成本 × 股权权重。**债务为何要乘（1 − 税率）**：利息可税前扣除，政府实际替企业承担了部分利息，即「债务税盾」。**股权成本为何更高**：股东承担剩余风险（清偿顺序最后），故要求更高回报——这也是「发债比发股便宜」的原因；但便宜不等于好，加杠杆会同时抬高股权成本与破产风险，过度负债时 WACC 反而上升，形成 U 形曲线，最优资本结构位于谷底附近。**三个关键性质**：① 它是**机会成本**而非会计成本，看不见但真实存在；② 它是**边际**概念——新项目的门槛应由新增资本的边际成本决定，而非历史平均成本；③ 它对输入高度敏感，无风险利率与股权风险溢价各变动 1%，结果可能相差 20% 以上，故 DCF 必须做敏感性分析而非给单一数字。**与 ROIC 的关系（最重要）**：ROIC − WACC = 经济利润（economic profit）。ROIC 高于 WACC，增长才创造价值；低于 WACC，增长越快毁灭价值越多。这一条是判断「成长股是否值得付溢价」的第一性标准。**实践提示**：利率环境变化时，WACC 是最先被重估的变量——加息周期中高久期资产（远期现金流占比大的成长股）估值压缩最剧烈，原因正在于此。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "margin of safety",
+      "issueNoLocal": 20,
+      "phonetic": "/ˈmɑːdʒɪn əv ˈseɪfti/",
+      "pos": "n.",
+      "posRaw": "n.（相关：intrinsic value、valuation、Mr. Market、position sizing、asymmetry）",
+      "related": [
+        "intrinsic value",
+        "valuation",
+        "Mr. Market",
+        "position sizing",
+        "asymmetry"
+      ],
+      "meaning": "【金融】安全边际——买入价格与估算内在价值之间的差额。核心逻辑是承认估值必然有误：既然无法精确知道一家公司值多少钱，就以明显低于估算价值的价格买入，使「估错」也能被容纳。它既是对认知局限的补偿，也是把不确定性转化为有利赔率的手段",
+      "gloss": "安全边际",
+      "example": "The margin of safety is not a number you calculate, it is an admission that your calculation is wrong — so you insist on buying at a price that survives being wrong.",
+      "exampleCn": "安全边际不是一个算出来的数字，而是对「你算错了」这一事实的承认——因此你坚持只在「算错也扛得住」的价格上买入。",
+      "memory": "**记忆锚点**：安全边际 = 内在价值 − 买入价，本质是给「我可能看错」留的缓冲。**格雷厄姆的三重含义**（《聪明的投资者》末章）：① 价格折让——以显著低于价值的价格买入；② 分散——单看一只不安全的组合可能很安全；③ 抗错能力——即使判断有误，也不至于永久性亏损。**与「低价」的区别（易混点）**：安全边际不是买便宜，而是买「相对其价值便宜」。一家优质公司以合理价格买入，其安全边际可能远高于一家劣质公司的破净股——后者便宜是因为价值本身在持续侵蚀。**量化上如何操作**：① 保守假设——用悲观情景下的现金流与更低增速估值，把安全边际建进假设里；② 折让幅度随不确定性上升（业务越难预测，要求折让越大）；③ 与仓位挂钩——安全边际越大仓位越重，这是把「认知优势」翻译成「风险敞口」的唯一通道。**最常被忽略的一点**：安全边际的最大来源往往不是估值倍数，而是**时间**——以合理价格买入能长期复利的企业，时间会不断把价值与价格的距离拉大。**反方观点（须诚实呈现）**：对高增长科技股，严格的安全边际要求常导致系统性错过；芒格的主张是「以合理价格买伟大公司，胜过以便宜价格买平庸公司」，但前提是判断「伟大」的能力确实存在——若无此能力，安全边际就是唯一防线。**实践要点**：先写下「什么情况下我错了」，再决定折让幅度；并把安全边际与止损逻辑分开——前者管买入前，后者管买入后。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [
+    {
+      "no": "1",
+      "word": "ReAct",
+      "phonetic": "/riˈækt/",
+      "domain": "AI",
+      "point": "Thought→Action→Observation 循环；Agent 出问题先看轨迹，别先换模型"
+    },
+    {
+      "no": "2",
+      "word": "reinforcement learning with verifiable rewards (RLVR)",
+      "phonetic": "/ˌriːɪnˈfɔːsmənt ˈlɜːnɪŋ wɪð ˈverɪfaɪəbl rɪˈwɔːdz/",
+      "domain": "AI",
+      "point": "用程序判对错替代人打分；只对有客观对错的领域有效"
+    },
+    {
+      "no": "3",
+      "word": "sandboxing",
+      "phonetic": "/ˈsændbɒksɪŋ/",
+      "domain": "AI",
+      "point": "能力越大边界越要硬；隔离管破坏半径，guardrail 管行为规则"
+    },
+    {
+      "no": "4",
+      "word": "weighted average cost of capital (WACC)",
+      "phonetic": "/ˈweɪtɪd ˈævərɪdʒ kɒst əv ˈkæpɪtl/",
+      "domain": "金融",
+      "point": "贴现率兼门槛率；ROIC − WACC = 经济利润，是成长股定价的第一性标准"
+    },
+    {
+      "no": "5",
+      "word": "margin of safety",
+      "phonetic": "/ˈmɑːdʒɪn əv ˈseɪfti/",
+      "domain": "金融",
+      "point": "给「我可能看错」留缓冲；最大来源常是时间而非估值倍数"
+    }
+  ],
+  "comparisons": [],
+  "progress": [
+    "本期：第 20 期，5 词",
+    "累计：**100 词**（60 AI + 40 金融）",
+    "归档格式：MD 词卡 + KAMI One-Pager PNG + Telegram 推送"
+  ]
+}

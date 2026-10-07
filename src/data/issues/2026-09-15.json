@@ -1,0 +1,126 @@
+{
+  "date": "2026-09-15",
+  "issueNo": 6,
+  "issueSpan": 1,
+  "issueLabel": "第 6 期",
+  "issueNoLabel": "6",
+  "theme": "模型核心机制 · 权益与杠杆",
+  "themeRaw": "模型核心机制 + 权益与杠杆",
+  "note": "本期 5 词，已与前 5 期 25 词去重",
+  "title": "每日英语 5 词 · 2026-09-15",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "attention",
+      "issueNoLocal": 6,
+      "phonetic": "/əˈtenʃn/",
+      "pos": "n.（形容词 attentional）",
+      "posRaw": "n.（形容词 attentional）",
+      "related": [],
+      "meaning": "【AI】注意力（机制）——模型为序列中每个位置动态分配权重，决定「该看谁多一点」",
+      "gloss": "注意力",
+      "example": "Attention lets the decoder pull the relevant clause from 3,000 tokens away without losing the thread.",
+      "exampleCn": "注意力机制让解码器能从 3000 个 token 之外准确取回相关从句而不丢失脉络。",
+      "memory": "日常义「注意」→ 模型也在「注意」输入的不同部位。论文标题 *Attention Is All You Need*（2017）正是 Transformer 的起点。核心术语：self-attention（自注意力）、multi-head attention（多头注意力）、attention weight / attention map。**易混**：attention 是「权重分配」，embedding 是「向量表示」，二者常被一起提及但职责不同。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "regularization",
+      "issueNoLocal": 6,
+      "phonetic": "/ˌreɡjələraɪˈzeɪʃn/",
+      "pos": "n.（动词 regularize）",
+      "posRaw": "n.（动词 regularize）",
+      "related": [],
+      "meaning": "【AI/统计】正则化（给损失函数加惩罚项或引入约束，抑制模型过度复杂，从而改善泛化）",
+      "gloss": "正则化",
+      "example": "A small weight-decay term acted as regularization and cut the validation gap in half.",
+      "exampleCn": "一项很小的权重衰减起到了正则化作用，把验证集差距缩小了一半。",
+      "memory": "regular(规则的) + ize → 把模型「管规矩」，不许它背特例。常见手段：L1/L2（weight decay）、dropout、early stopping、data augmentation、label smoothing。它是 **overfitting** 的标准对策——正则化越强，训练集表现通常越差、但测试集往往更好，这一取舍称为 bias-variance trade-off。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "multimodal",
+      "issueNoLocal": 6,
+      "phonetic": "/ˌmʌltiˈməʊdl/（美 /ˌmʌltiˈmoʊdl/）",
+      "pos": "adj.（名词 multimodality）",
+      "posRaw": "adj.（名词 multimodality）",
+      "related": [],
+      "meaning": "【AI】多模态的（模型能同时处理文本、图像、音频、视频等一种以上模态的输入或输出）",
+      "gloss": "多模态的",
+      "example": "The multimodal model reads the chart image and answers in text — no OCR pipeline required.",
+      "exampleCn": "该多模态模型直接读图作答，无需额外 OCR 管线。",
+      "memory": "multi(多) + modal(模态/模式) → 五官齐用。对照：unimodal（单模态，纯文本）、cross-modal（跨模态，如「文生图」）。相关能力词：VLM（视觉语言模型）、image captioning、vision encoder。**注意**：多模态不等于「更强」——引入视觉 token 会显著抬高推理成本与延迟。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "equity",
+      "issueNoLocal": 6,
+      "phonetic": "/ˈekwəti/",
+      "pos": "n.",
+      "posRaw": "n.",
+      "related": [],
+      "meaning": "【金融】① 股票；权益（对公司的剩余索取权）②（资产负债表上的）所有者权益",
+      "gloss": "① 股票",
+      "example": "The fund rotated out of bonds and into equities as real yields fell.",
+      "exampleCn": "实际收益率下行之际，该基金从债券轮动至股票。",
+      "memory": "与 equal 同源——「平等的索取权」，即公司清偿完所有债务后剩下的才归股东。搭配：equity market（股市）、private equity（私募股权）、return on equity, ROE（净资产收益率）、shareholders' equity。**易混**：equity 强调「权益/所有权」，stock/shares 强调「可交易的份额」；衍生品语境下 equity 还可指「标的为股票的」，如 equity options。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "margin",
+      "issueNoLocal": 6,
+      "phonetic": "/ˈmɑːdʒɪn/（美 /ˈmɑːrdʒɪn/）",
+      "pos": "n. / v.",
+      "posRaw": "n. / v.",
+      "related": [],
+      "meaning": "【金融】① 保证金（融资/衍生品交易需缴纳的抵押资金）② 利润率；毛利（收入与成本之差）③ 边际",
+      "gloss": "① 保证金",
+      "example": "A 20% drawdown on 3x margin wiped out two-thirds of his account in a week.",
+      "exampleCn": "3 倍杠杆下 20% 的回撤，一周内抹去了他账户三分之二的资金。",
+      "memory": "本义「边缘/余地」→ 交易里的「余地」就是保证金，财务里的「余地」就是利润空间。三类用法务必按语境区分：**保证金**（margin call 追加保证金、initial/maintenance margin、Reg T margin）、**利润率**（gross / operating / net margin）、**边际**（marginal cost、at the margin）。**注意**：margin 与 leverage 是一体两面——保证金比例越低，杠杆越高，风险放大越快。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [],
+  "comparisons": [
+    {
+      "item": "**attention** vs embedding",
+      "note": "动态分配「看哪里的权重」/ 静态给出「每个 token 的向量」"
+    },
+    {
+      "item": "**regularization** vs overfitting",
+      "note": "前者是「药」，后者是「病」；正则化强度↑，训练集表现↓、泛化↑"
+    },
+    {
+      "item": "**multimodal** vs unimodal",
+      "note": "文本+图像+音频多通道 / 仅单一模态"
+    },
+    {
+      "item": "**equity** vs stock",
+      "note": "强调「权益与所有权」/ 强调「可交易的份额」"
+    },
+    {
+      "item": "**margin** vs leverage",
+      "note": "保证金比例是「因」，杠杆倍数是「果」：margin 越低 → leverage 越高"
+    }
+  ],
+  "progress": [
+    "累计：**30 词**（18 AI + 12 金融）",
+    "下期方向：稀疏与混合专家（sparse / MoE / RLHF）· 债券与定价（duration / beta / basis point）"
+  ]
+}

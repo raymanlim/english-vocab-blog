@@ -1,0 +1,171 @@
+{
+  "date": "2026-10-05",
+  "issueNo": 24,
+  "issueSpan": 1,
+  "issueLabel": "第 24 期",
+  "issueNoLabel": "24",
+  "theme": "模型可信度的度量 · 主动管理的技能甄别",
+  "themeRaw": "模型可信度的度量 + 主动管理的技能甄别",
+  "note": "本期 5 词（3 AI + 2 金融），已与前 23 期 115 词去重",
+  "title": "每日英语 5 词 · 2026-10-05",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "calibration",
+      "issueNoLocal": 24,
+      "phonetic": "/ˌkælɪˈbreɪʃn/",
+      "pos": "n.、abstention）",
+      "posRaw": "n.（相关：confidence、overconfidence、reliability diagram、expected calibration error (ECE)、abstention）",
+      "related": [
+        "confidence",
+        "overconfidence",
+        "reliability diagram",
+        "expected calibration error (ECE"
+      ],
+      "meaning": "【AI】校准——模型给出的置信度与其实际正确率之间的一致程度。一个校准良好的模型，在它自称 80% 把握的那些问题上，长期确实答对约 80%。它与「准确率」是两件不同的事：模型可以很准却过度自信，也可以不太准却清楚自己不确定",
+      "gloss": "校准",
+      "example": "A model that is right 90% of the time but claims 99% confidence is accurate and badly calibrated — and it will make you stop checking at exactly the wrong moment.",
+      "exampleCn": "一个正确率 90% 却自称 99% 把握的模型，既准确又严重失准——它会在最不该停止核查的时刻让你停止核查。",
+      "memory": "**记忆锚点**：校准等于「说几分把握，就真有几分对」——它衡量的是置信度与正确率的**一致性**，而不是正确率本身。**为什么重要**：在自动化流程里，模型输出往往直接触发动作（发邮件、下单、改配置），此时「知道自己不确定」比「答得对」更关键——校准好的模型能在低置信时主动弃权（abstention）或转人工，把错误挡在系统之外；校准差的模型会在错误答案上给出高置信度，使下游的兜底机制形同虚设。**关键权衡**：① 准确率与校准度可以背离且优化目标不同——经人类偏好对齐（RLHF）后的模型通常更准确，但往往**更过度自信**，因为偏好数据隐含奖励了「笃定的语气」；② 后处理校准（temperature scaling、Platt scaling）能低成本改善校准，但会牺牲一部分区分度，且需要独立校准集，分布一变就要重做；③ 采样温度直接改变校准——调高 temperature 让输出更多样，同时把置信度打散。**实践要点**：① 用可靠性图（reliability diagram）与期望校准误差（ECE）评估，不要只看准确率；② 把「置信度阈值」写进流程：低于阈值不自动执行；③ 高风险场景要求模型输出可验证的中间依据，而不是只给结论配一个数字置信度。**易混点**：校准（confidence 与 accuracy 是否匹配）与准确率（答对比例）是两个独立维度——「很准但过度自信」与「不太准但很诚实」都存在，前者对自动化流程最危险",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "distribution shift",
+      "issueNoLocal": 24,
+      "phonetic": "/ˌdɪstrɪˈbjuːʃn ʃɪft/",
+      "pos": "n.",
+      "posRaw": "n.（相关：covariate shift、label shift、concept drift、out-of-distribution、data drift）",
+      "related": [
+        "covariate shift",
+        "label shift",
+        "concept drift",
+        "out-of-distribution",
+        "data drift"
+      ],
+      "meaning": "【AI】分布偏移——模型部署后遇到的输入数据分布，与训练时见到的分布不再一致的现象。它是模型上线后性能衰减的头号原因，也是「离线指标漂亮、线上效果崩坏」最常见的解释",
+      "gloss": "分布偏移",
+      "example": "The model did not get worse; the world moved. That is distribution shift, and no amount of retraining on the old data will fix it.",
+      "exampleCn": "不是模型变差了，是世界移动了。这就是分布偏移，用旧数据再怎么重训也修不好。",
+      "memory": "**记忆锚点**：分布偏移等于**训练时的世界 ≠ 上线后的世界**。**按成因分三类（务必分清）**：① 协变量偏移（covariate shift）——输入分布变了（用户群体、设备、季节），但输入到输出的规律没变；② 标签偏移（label shift）——各类别的先验比例变了（欺诈率从 0.1% 升到 2%）；③ 概念漂移（concept drift）——输入到输出的映射本身变了（用户偏好、市场机制、对手策略改变）。**为什么重要**：它决定了模型的**有效期**——没有永久有效的模型，只有被持续监控和更新的模型；也解释了为什么「用历史数据训练」必然隐含「过去能代表未来」这一假设，而该假设的寿命取决于业务变化速度，金融与对抗性场景中最短。**关键权衡**：① 定期重训能跟上漂移，但会引入新数据的偏差与标签噪声，且频繁重训让线上版本难以追溯；② 漂移告警阈值是权衡——太灵敏会被正常波动淹没，太迟钝就只能等用户先发现；③ 过度依赖单一监控指标会漏报，因为不同漂移类型的可见信号不同。**实践要点**：① 上线即建立输入分布与预测分布的监控，而非只监控准确率——准确率往往因标签延迟而滞后数周才可见；② 优先监控**业务可解释的统计量**（关键特征均值、缺失率、类别占比），比抽象的距离指标更早触发、更好归因；③ 预留「分布变化时如何降级」的预案（回退旧版本、收紧阈值、转人工）；④ 建模阶段就用时间切分（time-based split）而非随机切分做验证，并单独留出 out-of-distribution 评估集。**易混点**：分布偏移与数据污染（data contamination）不同——前者是**上线后**世界变化导致，后者是**训练时**测试数据泄漏进训练集导致；两者都会让指标失真，但修法完全不同",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "LLM-as-a-judge",
+      "issueNoLocal": 24,
+      "phonetic": "/ˌel el ˈem æz ə ˈdʒʌdʒ/",
+      "pos": "n.",
+      "posRaw": "n.（相关：eval、rubric、human evaluation、pairwise comparison、position bias）",
+      "related": [
+        "eval",
+        "rubric",
+        "human evaluation",
+        "pairwise comparison",
+        "position bias"
+      ],
+      "meaning": "【AI】用大模型当评审——把评估任务交给另一个（通常更强的）大模型，让它按评分标准对输出打分或做两两比较，以替代昂贵、缓慢、难以规模化的人工评估。它把评估从「人工抽样」变成「可批量运行的程序」，但引入了新的系统性偏差",
+      "gloss": "用大模型当评审",
+      "example": "Human review does not scale, so we let a model grade the model — then spent a month discovering the grader prefers answers that sound like itself.",
+      "exampleCn": "人工评审无法规模化，于是我们让模型给模型打分——然后花了一个月才发现，这位评审偏爱听起来像它自己的答案。",
+      "memory": "**记忆锚点**：LLM-as-a-judge 等于**把「评审」也变成一个可批量调用的模型**。**为什么出现**：人工评估准确但昂贵、缓慢、不可复现；规则型评估（字符串匹配、BLEU）便宜却无法衡量语义质量。用模型当评审是在成本与质量之间的折中，也是「用 AI 监督 AI」在评估环节的落地，直接支撑了 RLHF 偏好数据的规模化生产。**已确认的系统性偏差（务必知道）**：① 位置偏见（position bias）——两两比较时偏爱排在前的答案，须交换顺序各评一次；② 长度偏见（verbosity bias）——偏爱更长、更「全面」的回答；③ 自我偏好（self-preference）——偏爱与自己风格相同、甚至自己生成的答案；④ 谄媚（sycophancy）——容易被回答中的自信语气或提问中的暗示带偏；⑤ 对数值与算术的判断力明显弱于对文本的判断力。**关键权衡**：① 评审模型越强越准，但成本与延迟越高，用最强模型评最便宜模型在经济上可能不成立；② 评分标准（rubric）越细，一致性越高，但越容易把评审锁死在写标准者的先验里，漏掉标准之外的质量问题；③ 与被评模型同源或同族的评审会系统性抬高分数，形成「自己给自己打分」的乐观偏差。**实践要点**：① 先用一小批**人工标注**样本校准评审模型，报告评审与人工的一致率，而不是直接采信评审分数；② 两两比较通常比绝对打分更稳定，且必须交换位置以消除位置偏见；③ 把 rubric 与「扣分示例」一起给评审，比只给抽象标准有效得多；④ 定期人工抽检复核，防止评审模型与被评模型一同漂移；⑤ 公开结论时说明评审模型、版本与提示词——评估结果不可复现就等于不可信。**易混点**：LLM-as-a-judge 与 reward model 不同——前者是**推理时**用通用模型按提示词评分（灵活、可改、成本高），后者是**专门训练**的小模型（快、便宜、用于 RL 训练内循环）；两者常配合使用",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "information ratio (IR)",
+      "issueNoLocal": 24,
+      "phonetic": "/ˌɪnfəˈmeɪʃn ˈreɪʃiəʊ/",
+      "pos": "n.",
+      "posRaw": "n.（相关：tracking error、active return、Sharpe ratio、benchmark、active share）",
+      "related": [
+        "tracking error",
+        "active return",
+        "Sharpe ratio",
+        "benchmark",
+        "active share"
+      ],
+      "meaning": "【金融】信息比率——主动收益（组合收益减基准收益）除以跟踪误差（主动收益的波动率），衡量每承担一单位「偏离基准的风险」能换来多少超额收益。它是判断主动管理「是真本事还是运气」的核心指标之一",
+      "gloss": "信息比率",
+      "example": "Two funds beat the index by the same 3%, but one did it with a third of the tracking error — and the information ratio says only one of them was paid to take that bet.",
+      "exampleCn": "两只基金同样跑赢指数 3%，但一只只用了三分之一的跟踪误差——信息比率说明，只有其中一只的这次偏离值得付钱去赌。",
+      "memory": "**记忆锚点**：IR 等于**主动收益 ÷ 跟踪误差**，衡量的是「偏离基准的每一单位风险，换回了多少超额收益」。**与 Sharpe 的区别（最重要的易混点）**：Sharpe 的分母是**总波动率**，回答「这笔钱整体值不值得投」（绝对收益视角，用于评估基金或组合本身）；IR 的分母是**跟踪误差**（主动收益的波动率），回答「这个人偏离基准的操作值不值得付费」（相对基准视角，用于评估主动管理能力）。**为什么重要**：只看超额收益会奖励「承担巨大偏离风险」的赌博——两只基金同样跑赢 3%，跟踪误差 3% 的那只 IR≈1（优秀），跟踪误差 15% 的那只 IR≈0.2（基本是运气叠加高波动）；IR 把「运气」与「稳定技能」区分开。**经验参考（非定律）**：IR 持续大于 0.5 已属不错，大于 1 属优秀，长期大于 1 极为罕见——因此遇到宣称 IR 高达 3 的产品，应先怀疑跟踪误差被低估、基准选得过于宽松，或样本期太短。**实践要点**：① 必须问清基准是什么——基准越宽松，超额收益越容易做出来，IR 的可比性就越差，这也是 IR 被滥用最多的地方；② 计算窗口要足够长（至少覆盖一个完整市场周期）并报告滚动值，短窗口的 IR 极不稳定；③ IR 高但换手率也高时，必须扣除交易成本后重算，否则超额收益可能只是未计成本的纸面数字；④ 与主动份额（active share）一起看：主动份额很低而 IR 很高的组合，往往是伪装的指数基金。**易混点**：IR 与 Sharpe 的分母不同（跟踪误差 vs 总波动率），一个衡量相对能力，一个衡量绝对性价比；此外 IR 与「胜率」也不同——高胜率低赔率与低胜率高赔率都可能有不错的 IR，两者不能互相替代",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "performance attribution",
+      "issueNoLocal": 24,
+      "phonetic": "/pəˈfɔːməns ˌætrɪˈbjuːʃn/",
+      "pos": "n.",
+      "posRaw": "n.（相关：Brinson model、allocation effect、selection effect、interaction、factor exposure）",
+      "related": [
+        "Brinson model",
+        "allocation effect",
+        "selection effect",
+        "interaction",
+        "factor exposure"
+      ],
+      "meaning": "【金融】业绩归因——把组合相对基准的超额收益拆解到具体来源（资产配置、行业选择、个股选择、因子暴露、汇率、择时等）的分析方法。它回答的不是「赚了多少」，而是「钱到底是从哪里赚来的」",
+      "gloss": "业绩归因",
+      "example": "The fund's return looked like stock picking until attribution showed three quarters of it came from a single sector overweight.",
+      "exampleCn": "这只基金的收益看起来像选股能力，直到归因分析显示其中四分之三来自对单一行业的超配。",
+      "memory": "**记忆锚点**：归因等于**把「赚了多少」拆成「从哪赚的」**——它不做预测，只做事后拆账。**经典框架（Brinson 模型）**：把超额收益拆成三块——① 资产配置效应（allocation）：在行业或资产类别上的超配/低配是否正确；② 个股选择效应（selection）：在同一类别内选股是否正确；③ 交互项（interaction）：两者叠加产生的部分。扩展框架再叠加因子暴露（value、momentum、quality、size）、汇率与择时等来源。**为什么重要**：① 区分**技能与运气**——连续三年跑赢可能只是押对了同一个宏观变量，归因能识别收益是来自可复制的流程还是一次性的行业贝塔；② 识别**隐性风险**——归因常揭示组合在某个因子上长期暴露过大，业绩好看但风险高度集中；③ 直接服务于产品设计——若超额收益全部来自行业配置，产品定位与团队配置就应围绕自上而下，而不是包装成选股能力。**关键权衡**：① 归因结果高度依赖模型选择（基准、因子集、拆分方法），同一组合用不同框架可得出不同结论，因此**必须披露方法与假设**；② 拆分越细残差越小、解释力越强，但过拟合与虚假归因的风险也越高；③ 归因是**事后**的，不能直接外推为未来的可持续收益——它的用途是诊断流程，不是预测收益。**实践要点**：① 至少按「配置 / 选股 / 交互」三层拆分，再看是否需要用因子模型进一步解释；② 归因必须与基准选择一起讨论——基准不对，归因结论全错；③ 把归因结果与投资流程对照：若宣称的流程与归因显示的收益来源不一致，**以归因结果为准**（钱的来路比说法更可信）；④ 对个人投资者而言，最低成本的归因是**按因子拆解自己的持仓**（是否只是买了一堆同质化的科技股），这一步往往就能解释大部分盈亏。**易混点**：业绩归因（分解**已实现**收益的来源）与风险归因（分解**风险敞口**的来源）是两件事——一个问「钱从哪来」，一个问「风险在哪」；成熟流程两者都做，因为收益来源与风险来源常常并不一致",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [
+    {
+      "no": "1",
+      "word": "calibration",
+      "phonetic": "/ˌkælɪˈbreɪʃn/",
+      "domain": "AI",
+      "point": "置信度与正确率的一致性，不等于准确率；对齐后模型常更过度自信"
+    },
+    {
+      "no": "2",
+      "word": "distribution shift",
+      "phonetic": "/ˌdɪstrɪˈbjuːʃn ʃɪft/",
+      "domain": "AI",
+      "point": "训练时世界 ≠ 上线后世界；协变量/标签/概念漂移三类，修法不同"
+    },
+    {
+      "no": "3",
+      "word": "LLM-as-a-judge",
+      "phonetic": "/ˌel el ˈem æz ə ˈdʒʌdʒ/",
+      "domain": "AI",
+      "point": "用模型评模型；位置/长度/自我偏好三类偏见必须先消"
+    },
+    {
+      "no": "4",
+      "word": "information ratio (IR)",
+      "phonetic": "/ˌɪnfəˈmeɪʃn ˈreɪʃiəʊ/",
+      "domain": "金融",
+      "point": "主动收益 ÷ 跟踪误差；分母是跟踪误差而非总波动率，这是与 Sharpe 的分界"
+    },
+    {
+      "no": "5",
+      "word": "performance attribution",
+      "phonetic": "/pəˈfɔːməns ˌætrɪˈbjuːʃn/",
+      "domain": "金融",
+      "point": "把超额收益拆到配置/选股/交互；钱的来路比说法更可信"
+    }
+  ],
+  "comparisons": [],
+  "progress": [
+    "本期：第 24 期，5 词",
+    "累计：**120 词**（72 AI + 48 金融）",
+    "归档格式：MD 词卡 + KAMI One-Pager PNG + Telegram 推送"
+  ]
+}

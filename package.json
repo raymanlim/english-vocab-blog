@@ -1,0 +1,30 @@
+{
+  "name": "english-vocab-blog",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "AI × Finance English — 个人英语单词知识博客（内容源：Obsidian english words 目录）",
+  "scripts": {
+    "sync": "node scripts/sync.mjs",
+    "dev": "node scripts/dev.mjs",
+    "dev:plain": "node scripts/sync.mjs && vite",
+    "build": "node scripts/sync.mjs && vite build",
+    "build:ci": "vite build",
+    "verify": "npm run typecheck && npm run build:ci",
+    "preview": "vite preview --port 4173",
+    "audit": "node scripts/audit.mjs",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.2",
+    "playwright-core": "^1.63.0",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.10"
+  }
+}

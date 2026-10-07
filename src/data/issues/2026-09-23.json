@@ -1,0 +1,174 @@
+{
+  "date": "2026-09-23",
+  "issueNo": 14,
+  "issueSpan": 1,
+  "issueLabel": "第 14 期",
+  "issueNoLabel": "14",
+  "theme": "智能体接口与攻击面 · 波动率敏感度与执行摩擦",
+  "themeRaw": "智能体接口与攻击面 + 波动率敏感度与执行摩擦",
+  "note": "本期 5 词（3 AI + 2 金融），已与前 13 期 65 词去重",
+  "title": "每日英语 5 词 · 2026-09-23",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "agent harness",
+      "issueNoLocal": 14,
+      "phonetic": "/ˈeɪdʒənt ˈhɑːnɪs/",
+      "pos": "n.",
+      "posRaw": "n.（相关：agent loop、orchestration、tool calling、retry policy、scaffolding）",
+      "related": [
+        "agent loop",
+        "orchestration",
+        "tool calling",
+        "retry policy",
+        "scaffolding"
+      ],
+      "meaning": "【AI】智能体外壳；编排框架——智能体的运行时框架，把模型、工具调用、记忆、循环控制、错误重试与权限边界打包在一起的编排层；模型只负责单步推理，harness 决定它能做什么、最多做几轮、失败后如何处置",
+      "gloss": "智能体外壳",
+      "example": "The same model can behave very differently under a different agent harness — the loop, the tools, and the retry policy matter as much as the weights.",
+      "exampleCn": "同一个模型换一套智能体外壳，表现可能天差地别——循环结构、工具集与重试策略，和权重本身一样重要。",
+      "memory": "**记忆锚点**：harness = 马具，作用是把马的力量导向车——agent harness 就是「把模型能力导向任务」的那套约束装置。**关键区分**：model 是引擎，harness 是底盘＋传动＋刹车。**为什么重要**：同一个模型在不同 harness 下评测分数差异很大，一部分差距来自外壳而非权重，这解释了为什么有时「换壳」比「换模型」收益更高。**工程含义**：harness 是确定性的，可以测试、可以版本管理，别把它当胶水代码随手写。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "model context protocol (MCP)",
+      "issueNoLocal": 14,
+      "phonetic": "/ˈmɒdl ˈkɒntekst ˈprəʊtəkɒl/",
+      "pos": "n.",
+      "posRaw": "n.（相关：tool server、client/server、function calling、plugin、permission scoping）",
+      "related": [
+        "tool server",
+        "client",
+        "server",
+        "function calling",
+        "plugin",
+        "permission scoping"
+      ],
+      "meaning": "【AI】模型上下文协议——一套开放协议，用统一方式把模型连接到外部工具、数据源与业务系统，使「模型侧」与「工具侧」解耦；工具方只需实现一次 MCP 服务端，即可被任意支持该协议的客户端调用",
+      "gloss": "模型上下文协议",
+      "example": "MCP turns tool integration from an N-by-M problem into an N-plus-M one — each server is written once and reused by every client.",
+      "exampleCn": "MCP 把工具集成从 N×M 的问题变成 N+M——每个服务端只写一次，就能被所有客户端复用。",
+      "memory": "**记忆锚点**：类比「USB-C 接口」——此前每个模型对每个工具都要单独写适配器，MCP 统一了这个插口。**核心价值在解耦**：工具作者不必关心谁在用，模型侧不必内置每个系统的 SDK。**风险提示**：接入即扩大攻击面——一个服务端可以读文件、发请求、改数据，等于把外部系统的一部分权限交给模型；因此权限最小化与人工确认必须设计在**客户端侧**，协议本身不提供这层保护。**配套概念**：MCP 的权限边界与 prompt injection 是同一枚硬币的两面。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "prompt injection",
+      "issueNoLocal": 14,
+      "phonetic": "/prɒmpt ɪnˈdʒekʃn/",
+      "pos": "n.",
+      "posRaw": "n.（相关：jailbreak、guardrail、untrusted content、exfiltration、indirect injection）",
+      "related": [
+        "jailbreak",
+        "guardrail",
+        "untrusted content",
+        "exfiltration",
+        "indirect injection"
+      ],
+      "meaning": "【AI】提示注入——一类攻击：攻击者把指令藏在模型会读到的内容里（网页、文档、邮件、工具返回结果），诱导模型把这些内容当作用户指令执行，从而绕过原有约束",
+      "gloss": "提示注入",
+      "example": "A single line of hidden text in a fetched web page was enough to make the agent email the attacker its own conversation history.",
+      "exampleCn": "网页里一行隐藏文字，就足以让智能体把整段对话记录发邮件给攻击者。",
+      "memory": "**记忆锚点**：injection 借自 SQL 注入，本质相同——**数据被当成了代码（指令）**。**三件套区分**：prompt injection 是攻击本身，jailbreak 是针对模型安全策略的越狱，guardrail 是防御机制。**为什么难防**：模型无法从根本上区分「指令」与「数据」，两者都只是 token；这点与 SQL 可以用参数化查询彻底隔离不同。**实践防线**：把外部内容一律标记为不可信数据，高权限动作必须经过人工确认或确定性代码校验，而不是指望模型自己分辨。**变体**：indirect injection——攻击载荷不由用户直接输入，而是藏在模型将要读取的外部内容中，危害更大。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "vega",
+      "issueNoLocal": 14,
+      "phonetic": "/ˈveɪɡə/",
+      "pos": "n.",
+      "posRaw": "n.（相关：delta、gamma、theta、rho、implied volatility、vol surface）",
+      "related": [
+        "delta",
+        "gamma",
+        "theta",
+        "rho",
+        "implied volatility",
+        "vol surface"
+      ],
+      "meaning": "【金融】维加（ν）——期权价格对隐含波动率变化的敏感度；隐含波动率每变动 1 个百分点，期权价格约变动 vega 对应的金额。它衡量的是「波动率本身的敞口」，与标的涨跌方向无关",
+      "gloss": "维加",
+      "example": "The book was delta-neutral but carried heavy vega, so a collapse in implied volatility hurt more than the direction ever did.",
+      "exampleCn": "这个头寸虽然是 delta 中性的，却背着很重的 vega，隐含波动率一崩，亏损比方向本身更致命。",
+      "memory": "**记忆阶梯（希腊字母家族收尾）**：价格 → delta（方向）→ gamma（delta 的变化率）；时间 → theta；波动率 → vega；利率 → rho。**一句话**：vega 是「你为波动率付了多少钱」。**关键机制**：vega 在长期限、平值期权上最大，并随到期临近而衰减——做多 vega ≈ 赌波动率上升（财报前、重大事件前），做空 vega ≈ 卖保险收权利金、但承担波动率飙升风险。**命名陷阱**：vega 不是真希腊字母，是为 volatility 生造的名字（希腊字母表里并没有它）。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "slippage",
+      "issueNoLocal": 14,
+      "phonetic": "/ˈslɪpɪdʒ/",
+      "pos": "n.",
+      "posRaw": "n.（相关：spread、market impact、liquidity、strategy capacity、commission）",
+      "related": [
+        "spread",
+        "market impact",
+        "liquidity",
+        "strategy capacity",
+        "commission"
+      ],
+      "meaning": "【金融】滑点；滑价——实际成交价与预期价之间的差额，源于下单到成交之间价格变动或订单深度不足；它是交易摩擦成本的核心组成部分，也是策略容量的隐形天花板",
+      "gloss": "滑点",
+      "example": "The backtest looked brilliant until realistic slippage was applied — two-thirds of the edge disappeared.",
+      "exampleCn": "回测结果看着很漂亮，直到加上真实的滑点——三分之二的超额收益直接消失了。",
+      "memory": "**记忆锚点**：slip = 滑，价格在你手里「滑走」了。**两个来源**：① 时滞，你看到的价格不是你能成交的价格；② 冲击成本，你的单子本身推动了价格。**为什么重要**：策略越大滑点越高，很多「高夏普」策略一放大资金就失效，这就是容量（capacity）约束。**实践含义**：回测必须计入滑点并按流动性分层假设（大盘 ETF 可能 1bp，小盘股或流动性差的加密资产可达几十 bp）；高频策略里滑点通常超过手续费，是真正的成本主项。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [
+    {
+      "no": "1",
+      "word": "agent harness",
+      "phonetic": "/ˈeɪdʒənt ˈhɑːnɪs/",
+      "domain": "AI",
+      "point": "模型是引擎、harness 是底盘；换壳有时比换模型更有效"
+    },
+    {
+      "no": "2",
+      "word": "model context protocol (MCP)",
+      "phonetic": "/ˈmɒdl ˈkɒntekst ˈprəʊtəkɒl/",
+      "domain": "AI",
+      "point": "工具接入的「USB-C」，把 N×M 变 N+M；接入即扩大攻击面"
+    },
+    {
+      "no": "3",
+      "word": "prompt injection",
+      "phonetic": "/prɒmpt ɪnˈdʒekʃn/",
+      "domain": "AI",
+      "point": "数据被当成指令；模型原理上难区分，需靠外部校验兜底"
+    },
+    {
+      "no": "4",
+      "word": "vega",
+      "phonetic": "/ˈveɪɡə/",
+      "domain": "金融",
+      "point": "波动率敞口；长期限平值最大；希腊字母家族收尾"
+    },
+    {
+      "no": "5",
+      "word": "slippage",
+      "phonetic": "/ˈslɪpɪdʒ/",
+      "domain": "金融",
+      "point": "时滞＋冲击成本；策略容量的隐形天花板"
+    }
+  ],
+  "comparisons": [],
+  "progress": [
+    "本期：第 14 期，5 词",
+    "累计：**70 词**（42 AI + 28 金融）",
+    "归档格式：KAMI One-Pager PNG（`2026-09-23-英语单词_onepager.png`），同步推送 Markdown 列表至 Telegram"
+  ]
+}

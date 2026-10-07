@@ -1,0 +1,126 @@
+{
+  "date": "2026-09-14",
+  "issueNo": 5,
+  "issueSpan": 1,
+  "issueLabel": "第 5 期",
+  "issueNoLabel": "5",
+  "theme": "模型训练链路 · 市场结构",
+  "themeRaw": "模型训练链路 + 市场结构",
+  "note": "本期 5 词，已与前 4 期 20 词去重",
+  "title": "每日英语 5 词 · 2026-09-14",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "tokenization",
+      "issueNoLocal": 5,
+      "phonetic": "/ˌtəʊkənaɪˈzeɪʃn/（美 /ˌtoʊkənaɪˈzeɪʃn/）",
+      "pos": "n.（动词 tokenize）",
+      "posRaw": "n.（动词 tokenize）",
+      "related": [],
+      "meaning": "【AI】分词；标记化（把原始文本切成模型可处理的最小单元 token 的过程）",
+      "gloss": "分词",
+      "example": "Aggressive tokenization of Chinese text can inflate the token count by 40%.",
+      "exampleCn": "中文文本的分词往往会把 token 数量膨胀约 40%。",
+      "memory": "token(标记) + ize → 把句子「切块」喂给模型。这与成本直接相关——**API 按 token 计价，同一段中文通常比英文更费 token**。反向过程为 detokenization。相关概念：BPE（字节对编码）、vocabulary size（词表大小）。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "distillation",
+      "issueNoLocal": 5,
+      "phonetic": "/ˌdɪstɪˈleɪʃn/",
+      "pos": "n.（动词 distill）",
+      "posRaw": "n.（动词 distill）",
+      "related": [],
+      "meaning": "【AI】蒸馏（用大模型「教师」的输出训练小模型「学生」，把能力迁移到更轻量的架构）",
+      "gloss": "蒸馏",
+      "example": "Knowledge distillation let them ship a 3B model that matched the 70B teacher on routing tasks.",
+      "exampleCn": "知识蒸馏让他们上线了一个 3B 小模型，在路由任务上追平 70B 的教师模型。",
+      "memory": "本义「蒸馏提纯」——把大模型里浓缩的「知识蒸馏液」倒进小瓶子。常见变体：knowledge distillation（知识蒸馏）、self-distillation、data distillation。**易混**：quantization 压「精度」，distillation 压「规模」。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "throughput",
+      "issueNoLocal": 5,
+      "phonetic": "/ˈθruːpʊt/",
+      "pos": "n.",
+      "posRaw": "n.",
+      "related": [],
+      "meaning": "【AI/系统】吞吐量（单位时间内系统能处理的请求数或 token 数）",
+      "gloss": "吞吐量",
+      "example": "Batching tripled throughput, though it added a few hundred milliseconds to each request.",
+      "exampleCn": "批处理让吞吐量翻了三倍，但给每个请求增加了数百毫秒延迟。",
+      "memory": "through(穿过) + put(放) → 单位时间「穿过去」的流量。务必与 **latency** 区分：latency 是「单次多快」，throughput 是「总量干多少」。二者常互相博弈——加大 batch 提吞吐，往往推高延迟。常用指标：tokens/sec、requests per second (RPS)。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "volatility",
+      "issueNoLocal": 5,
+      "phonetic": "/ˌvɒləˈtɪləti/（美 /ˌvɑːləˈtɪləti/）",
+      "pos": "n.（形容词 volatile）",
+      "posRaw": "n.（形容词 volatile）",
+      "related": [],
+      "meaning": "【金融】波动率（资产价格变动的剧烈程度，常以收益率标准差或年化 σ 衡量）",
+      "gloss": "波动率",
+      "example": "Implied volatility on semis spiked to a two-year high before the earnings print.",
+      "exampleCn": "财报公布前，半导体板块的隐含波动率飙升至两年高位。",
+      "memory": "volatile(易挥发的) → 价格像酒精一样「一碰就挥发」。关键搭配：implied volatility（隐含波动率）、historical/realized volatility（历史/已实现波动率）、VIX（波动率指数）。对期权交易者而言，波动率本身就是可交易的资产。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "arbitrage",
+      "issueNoLocal": 5,
+      "phonetic": "/ˈɑːbɪtrɑːʒ/（美 /ˈɑːrbɪtrɑːʒ/）",
+      "pos": "n. / v.",
+      "posRaw": "n. / v.",
+      "related": [],
+      "meaning": "【金融】套利；套汇（利用同一资产在不同市场的价差，低买高卖赚取近乎无风险的收益）",
+      "gloss": "套利",
+      "example": "The spread closed within milliseconds, leaving the arbitrage desk with almost nothing to capture.",
+      "exampleCn": "价差在数毫秒内被抹平，套利台几乎无利可图。",
+      "memory": "源自法语，原指「仲裁」——在价差之间充当「中间商」。常见类型：statistical arbitrage（统计套利）、merger arbitrage（并购套利）、triangular arbitrage（三角套汇）。**注意**：理论上的「无风险」在现实中常伴随执行风险、流动性风险与滑点。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [],
+  "comparisons": [
+    {
+      "item": "**distillation** vs quantization",
+      "note": "压「模型规模与知识迁移」/ 压「权重精度」"
+    },
+    {
+      "item": "**throughput** vs latency",
+      "note": "单位时间处理多少 / 单次响应多快"
+    },
+    {
+      "item": "**volatility** vs drawdown",
+      "note": "衡量整体上下摆动 / 只看「最深那一跌」"
+    },
+    {
+      "item": "**arbitrage** vs speculation",
+      "note": "捕捉已存在的价差 / 主动承担方向性风险"
+    },
+    {
+      "item": "**tokenization** vs embedding",
+      "note": "把文本切块 / 把 token 映射为向量"
+    }
+  ],
+  "progress": [
+    "累计：**25 词**",
+    "下期方向：注意力机制（attention / regularization / sparse）· 估值与收益率曲线（equity / margin / duration）"
+  ]
+}

@@ -1,0 +1,146 @@
+{
+  "date": "2026-09-19",
+  "issueNo": 10,
+  "issueSpan": 1,
+  "issueLabel": "第 10 期",
+  "issueNoLabel": "10",
+  "theme": "推理与人类反馈 · 市场结构与利率曲线",
+  "themeRaw": "推理与人类反馈 + 市场结构与利率曲线",
+  "note": "本期 5 词（3 AI + 2 金融），已与前 9 期 45 词去重",
+  "title": "每日英语 5 词 · 2026-09-19",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "reasoning",
+      "issueNoLocal": 10,
+      "phonetic": "/ˈriːzənɪŋ/",
+      "pos": "n.（动词原形 reason；形容词 reasoning model 推理模型）",
+      "posRaw": "n.（动词原形 reason；形容词 reasoning model 推理模型）",
+      "related": [],
+      "meaning": "【AI】推理——模型在给出答案之前进行多步逻辑推演的过程",
+      "gloss": "推理",
+      "example": "The new model spends far more tokens on reasoning, so it is slower but markedly more accurate on math.",
+      "exampleCn": "新模型把多得多的 token 花在推理上，因此更慢，但在数学题上准确得多。",
+      "memory": "reason(推理) + -ing。**关键区分**：reasoning 是「思考这件事本身」，chain-of-thought 是「思考的写法」（提示工程层面的引导）。**为什么重要**：推理型模型把思考变成显式、可计费的 token 步骤，所以准确率与账单同时上升；产品上必须在「思考预算」与「响应时延」之间取平衡。**注意**：推理步数并非越多越好，过长会带来过度思考（overthinking）与成本失控。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "RLHF",
+      "issueNoLocal": 10,
+      "phonetic": "/ˌɑːr el eɪtʃ ˈef/",
+      "pos": "n. 缩写（reinforcement learning from human feedback）",
+      "posRaw": "n. 缩写（reinforcement learning from human feedback）",
+      "related": [],
+      "meaning": "【AI】基于人类反馈的强化学习——先让人对多个回答排序，据此训练奖励模型，再用强化学习让语言模型最大化该奖励，从而学会遵循指令",
+      "gloss": "基于人类反馈的强化学习",
+      "example": "RLHF is the step that turns a raw pretrained model into an assistant that actually follows instructions.",
+      "exampleCn": "RLHF 就是把原始预训练模型变成真正会遵循指令的助手的那个环节。",
+      "memory": "拆字母记：**R** 强化学习 + **L** 基于 + **HF** 人类反馈。三步走：① 人工排序 → ② 训奖励模型 → ③ 用强化学习优化策略。**为什么重要**：它补上了预训练学不到的东西——「人喜欢什么」。预训练学的是「文本长什么样」，RLHF 学的是「什么回答算好」。**代价**：过度优化奖励模型会带来谄媚（sycophancy）与奖励黑客（reward hacking）。**相关词**：RLAIF（用 AI 反馈替代人工反馈）、DPO（直接偏好优化，跳过奖励模型）。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "tool calling",
+      "issueNoLocal": 10,
+      "phonetic": "/tuːl ˈkɔːlɪŋ/",
+      "pos": "n.（同义术语 function calling）",
+      "posRaw": "n.（同义术语 function calling）",
+      "related": [],
+      "meaning": "【AI】工具调用——模型在推理过程中主动调用外部函数、接口或数据库，以获取实时信息或执行实际动作的能力",
+      "gloss": "工具调用",
+      "example": "Instead of guessing the exchange rate, the agent used tool calling to query the FX API directly.",
+      "exampleCn": "与其猜汇率，Agent 直接通过工具调用查询了外汇接口。",
+      "memory": "模型既不会算数、也拿不到实时数据，工具调用就是给它接上「手」。**为什么重要**：它把大模型从「会说话」升级为「能做事」，是 Agent 的技术底座——搜索、查库、下单、发邮件都靠它。**注意**：工具调用把提示注入的风险从「胡说」升级为「真动手」，因此必须配 guardrail（工具白名单 + 参数校验）。**相关词**：MCP（模型上下文协议，工具接入的标准化接口）。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "market maker",
+      "issueNoLocal": 10,
+      "phonetic": "/ˈmɑːkɪt ˈmeɪkə/",
+      "pos": "n.（缩写 MM；动词短语 make a market）",
+      "posRaw": "n.（缩写 MM；动词短语 make a market）",
+      "related": [],
+      "meaning": "【金融】做市商——持续同时报出买卖双边价格、以自有库存承接对手方交易并提供流动性的机构",
+      "gloss": "做市商",
+      "example": "The market maker widened its spread the moment volatility spiked, and liquidity dried up within minutes.",
+      "exampleCn": "波动率飙升的瞬间做市商就扩大了价差，流动性在几分钟内枯竭。",
+      "memory": "maker 是「制造者」，做市商即「制造市场的人」。**盈利模式**：不赌方向，赚买卖价差（spread）与库存管理，因此最怕单边行情。**为什么重要**：流动性是它租给你的，不是永远都在——波动率上升时它先扩价差、再缩量、最后撤离，这正是流动性螺旋（liquidity spiral）的起点。**对照**：taker（吃单方）主动成交，maker 被动挂单；做市商即典型的 maker。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "yield curve",
+      "issueNoLocal": 10,
+      "phonetic": "/jiːld kɜːv/",
+      "pos": "n.",
+      "posRaw": "n.（相关：curve steepening 陡峭化 / flattening 平坦化 / inversion 倒挂）",
+      "related": [
+        "curve steepening 陡峭化",
+        "flattening 平坦化",
+        "inversion 倒挂"
+      ],
+      "meaning": "【金融】收益率曲线——同一发行人（通常指国债）不同剩余期限债券的到期收益率连成的曲线",
+      "gloss": "收益率曲线",
+      "example": "The yield curve inverted for the longest stretch in decades, and such inversions have preceded recessions.",
+      "exampleCn": "收益率曲线出现数十年来最长的倒挂，而历史上这种倒挂往往先于衰退出现。",
+      "memory": "横轴期限、纵轴收益率，连起来是一条曲线。**正常形态**：向上倾斜，期限越长补偿越高（期限溢价）。**倒挂（inverted）**：短端高于长端，等于市场押注「未来降息、经济转弱」，历史上是衰退的领先指标。**为什么重要**：它是全部资产定价的无风险基准——股票估值、信贷利差、房贷利率都从它出发。**相关词**：10Y-2Y spread（最常被引用的倒挂指标）。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [
+    {
+      "no": "1",
+      "word": "reasoning",
+      "phonetic": "/ˈriːzənɪŋ/",
+      "domain": "AI",
+      "point": "多步逻辑推演，用 token 换准确率"
+    },
+    {
+      "no": "2",
+      "word": "RLHF",
+      "phonetic": "/ˌɑːr el eɪtʃ ˈef/",
+      "domain": "AI",
+      "point": "人工排序 → 奖励模型 → 强化学习，学会「人喜欢什么」"
+    },
+    {
+      "no": "3",
+      "word": "tool calling",
+      "phonetic": "/tuːl ˈkɔːlɪŋ/",
+      "domain": "AI",
+      "point": "模型调用外部接口，Agent 的技术底座"
+    },
+    {
+      "no": "4",
+      "word": "market maker",
+      "phonetic": "/ˈmɑːkɪt ˈmeɪkə/",
+      "domain": "金融",
+      "point": "双边报价提供流动性，赚价差，压力时刻先撤"
+    },
+    {
+      "no": "5",
+      "word": "yield curve",
+      "phonetic": "/jiːld kɜːv/",
+      "domain": "金融",
+      "point": "各期限收益率曲线，倒挂是衰退领先指标"
+    }
+  ],
+  "comparisons": [],
+  "progress": [
+    "本期：第 10 期，5 词",
+    "累计：**50 词**（30 AI + 20 金融）",
+    "归档格式：本期为 KAMI One-Pager PNG（`2026-09-19-英语单词_onepager.png`），同步推送 Markdown 列表至 Telegram"
+  ]
+}

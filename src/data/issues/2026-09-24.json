@@ -1,0 +1,172 @@
+{
+  "date": "2026-09-24",
+  "issueNo": 15,
+  "issueSpan": 1,
+  "issueLabel": "第 15 期",
+  "issueNoLabel": "15",
+  "theme": "长上下文与智能体记忆 · 套息交易与债券凸性",
+  "themeRaw": "长上下文与智能体记忆 + 套息交易与债券凸性",
+  "note": "本期 5 词（3 AI + 2 金融），已与前 14 期 70 词去重",
+  "title": "每日英语 5 词 · 2026-09-24",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "long context",
+      "issueNoLocal": 15,
+      "phonetic": "/lɒŋ ˈkɒntekst/",
+      "pos": "n.",
+      "posRaw": "n.（相关：context window、RAG、lost in the middle、attention cost、chunking）",
+      "related": [
+        "context window",
+        "RAG",
+        "lost in the middle",
+        "attention cost",
+        "chunking"
+      ],
+      "meaning": "【AI】长上下文；长上下文能力——模型单次推理可容纳的输入长度大幅扩展的能力与工程方向，把文档、代码库、会议记录整段放进上下文，而不是先切块再检索；它改变的不只是容量，而是「用法」：从「检索片段」转向「整篇理解」",
+      "gloss": "长上下文",
+      "example": "Long context is not just a bigger window — attention cost grows faster than linearly, so where you place the evidence matters as much as how much you can fit.",
+      "exampleCn": "长上下文不只是把窗口开大——注意力开销的增长快于线性，所以「证据放在哪里」和「能装多少」同样重要。",
+      "memory": "**记忆锚点**：context window 是容量，long context 是「容量大到足以改变用法」。**用法分水岭**：小窗口时代必须切块＋检索（RAG），长窗口时代可把整份材料直接放进去，减少切块造成的信息断裂。**两个反直觉点**：① 有效上下文常显著小于标称窗口——「中间遗忘」（lost in the middle）使位于中段的证据最易被忽略；② 成本与延迟随长度上升，超长输入会挤压单位经济性。**实践含义**：长上下文与检索不是替代关系，常见最优解是「检索粗筛＋长上下文精读」，并把关键证据放在开头或结尾。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "agent memory",
+      "issueNoLocal": 15,
+      "phonetic": "/ˈeɪdʒənt ˈmeməri/",
+      "pos": "n.",
+      "posRaw": "n.（相关：working memory、episodic memory、semantic memory、persistence、retrieval）",
+      "related": [
+        "working memory",
+        "episodic memory",
+        "semantic memory",
+        "persistence",
+        "retrieval"
+      ],
+      "meaning": "【AI】智能体记忆——智能体跨会话保留与复用信息的能力，通常分三层：工作记忆（当前上下文）、情景记忆（历史交互与结果）、语义记忆（沉淀下来的事实与偏好）；它要解决的不是「存不存」，而是「什么值得记、何时写入、何时取出」",
+      "gloss": "智能体记忆",
+      "example": "Without a write policy, agent memory degrades into a landfill — retrieval then surfaces stale or contradictory facts with full confidence.",
+      "exampleCn": "没有写入策略，智能体记忆就会变成垃圾场——检索环节随后会以十足的把握，把过期或自相矛盾的事实端出来。",
+      "memory": "**记忆锚点**：memory = 上下文之外的那本笔记。**关键区分**：context window 是内存（断电即失），agent memory 是硬盘（持久化＋可检索）。**三个必答设计问题**：写什么（只记决策与偏好，不记寒暄）、怎么组织（结构化字段优于原始对话流）、何时遗忘（过期、被推翻、低置信度的都要能删）。**最大风险不是「记不住」而是「记错并反复引用」**——错误的持久记忆会被后续每一步放大，所以人工可查看、可编辑、可回滚是底线要求。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "jailbreak",
+      "issueNoLocal": 15,
+      "phonetic": "/ˈdʒeɪlbreɪk/",
+      "pos": "n.",
+      "posRaw": "n.（相关：prompt injection、alignment、guardrail、refusal、red teaming）",
+      "related": [
+        "prompt injection",
+        "alignment",
+        "guardrail",
+        "refusal",
+        "red teaming"
+      ],
+      "meaning": "【AI】越狱；提示越狱——通过角色扮演、编码变形、多轮诱导等手段绕过模型安全策略，使其输出本应被拒绝的内容；与 prompt injection 的区别在于攻击者身份：越狱者本身就是用户，攻击面是模型自身的对齐，提示注入则是第三方内容冒充指令",
+      "gloss": "越狱",
+      "example": "Jailbreaks rarely break the model — they persuade it, which is why patching one phrasing tends to produce ten new ones.",
+      "exampleCn": "越狱很少是「攻破」模型，而是「说服」模型——这就是为什么堵住一种说法，往往会冒出来十种新的。",
+      "memory": "**记忆锚点**：jail = 监狱，破的是模型自己的规矩，不是外部系统的权限。**与 prompt injection 一句话区分**：越狱是「我自己想干坏事」，注入是「别人借我的手干坏事」。**为什么打地鼠打不完**：对齐约束是在概率空间里施加的软倾向，不是访问控制那样的硬开关，只要输出空间足够大，总能找到绕行路径。**实践含义**：不要指望「完美提示词」解决问题，安全必须靠模型之外的确定性控制——权限最小化、输出过滤、高权限动作人工确认。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "carry trade",
+      "issueNoLocal": 15,
+      "phonetic": "/ˈkæri treɪd/",
+      "pos": "n.",
+      "posRaw": "n.（相关：interest rate differential、funding currency、roll yield、term premium、risk reversal）",
+      "related": [
+        "interest rate differential",
+        "funding currency",
+        "roll yield",
+        "term premium",
+        "risk reversal"
+      ],
+      "meaning": "【金融】套息交易；利差交易——借入低利率货币、投向高利率资产，赚取利差与持有收益的策略；收益来源是稳定的利差，风险则集中在汇率与波动率：一旦融资货币急升或波动率跳涨，多年利差可能被单日汇损吞掉",
+      "gloss": "套息交易",
+      "example": "The carry trade looks like free money until volatility spikes — the payoff is a steady drip of interest and the risk is a cliff.",
+      "exampleCn": "套息交易看起来像白捡钱，直到波动率跳升——收益是稳定的利息细流，风险却是一道悬崖。",
+      "memory": "**记忆锚点**：carry = 持有本身带来的收益，与价格涨跌无关。**三个收益来源**：利差（低息借、高息投）、期限溢价（短借长投）、展期收益（期货贴水时做多）。**风险特征极不对称**：平时小赚、偶发巨亏，收益分布像「在压路机前捡硬币」，因此不能用波动率高低判断安全。**关键信号**：融资货币升值、跨资产波动率指数跳升、杠杆拥挤度上升——三者常同时出现，构成平仓触发器。**别把它当「稳定套利」，它本质是卖尾部保险**。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "convexity",
+      "issueNoLocal": 15,
+      "phonetic": "/ˌkɒnˈvɜːsəti/",
+      "pos": "n.",
+      "posRaw": "n.（相关：duration、yield curve、MBS、negative convexity、second-order risk）",
+      "related": [
+        "duration",
+        "yield curve",
+        "MBS",
+        "negative convexity",
+        "second-order risk"
+      ],
+      "meaning": "【金融】凸性——债券价格与收益率之间关系的曲率；久期给出的是线性近似（价格对收益率的斜率），凸性描述这条曲线本身弯曲的程度，使利率下行时的涨幅大于同幅度上行时的跌幅",
+      "gloss": "凸性",
+      "example": "Long-dated bonds carry the most convexity, which is why they outperform when yields fall and hurt less than duration alone would suggest when yields rise.",
+      "exampleCn": "长久期债券的凸性最大——这正是为什么收益率下行时它涨得更多，上行时跌幅也小于仅按久期估算的结果。",
+      "memory": "**记忆阶梯**：久期＝一阶（斜率，方向）；凸性＝二阶（曲率，加速度）。**一句话**：凸性是「免费获得的非对称保护」。**方向含义**：正凸性（持有普通债券）在利率大幅波动时有利，所以市场愿意为它付溢价（表现为更低的收益率）；负凸性（如可提前还款的 MBS）恰好相反，波动越大越吃亏。**实战用法**：预期利率大幅变动（无论上下）时，凸性比久期更值得付费；预期波动小且方向明确时，为凸性付溢价并不划算。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [
+    {
+      "no": "1",
+      "word": "long context",
+      "phonetic": "/lɒŋ ˈkɒntekst/",
+      "domain": "AI",
+      "point": "容量改变用法；有效上下文小于标称窗口；检索粗筛＋长上下文精读"
+    },
+    {
+      "no": "2",
+      "word": "agent memory",
+      "phonetic": "/ˈeɪdʒənt ˈmeməri/",
+      "domain": "AI",
+      "point": "上下文是内存、记忆是硬盘；风险在「记错并反复引用」"
+    },
+    {
+      "no": "3",
+      "word": "jailbreak",
+      "phonetic": "/ˈdʒeɪlbreɪk/",
+      "domain": "AI",
+      "point": "说服而非攻破；对齐是软倾向，安全须建在模型之外"
+    },
+    {
+      "no": "4",
+      "word": "carry trade",
+      "phonetic": "/ˈkæri treɪd/",
+      "domain": "金融",
+      "point": "收益细流、风险悬崖；负偏收益分布；本质是卖尾部保险"
+    },
+    {
+      "no": "5",
+      "word": "convexity",
+      "phonetic": "/ˌkɒnˈvɜːsəti/",
+      "domain": "金融",
+      "point": "久期的二阶修正；正凸性＝免费的非对称保护"
+    }
+  ],
+  "comparisons": [],
+  "progress": [
+    "本期：第 15 期，5 词",
+    "累计：**75 词**（45 AI + 30 金融）",
+    "归档格式：KAMI One-Pager PNG（`2026-09-24-英语单词_onepager.png`），同步推送 Markdown 列表至 Telegram"
+  ]
+}

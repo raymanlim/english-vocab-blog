@@ -1,0 +1,169 @@
+{
+  "date": "2026-10-03",
+  "issueNo": 22,
+  "issueSpan": 1,
+  "issueLabel": "第 22 期",
+  "issueNoLabel": "22",
+  "theme": "智能体的分工与把关 · 资本配置与股权代价",
+  "themeRaw": "智能体的分工与把关 + 资本配置与股权代价",
+  "note": "本期 5 词（3 AI + 2 金融），已与前 21 期 105 词去重",
+  "title": "每日英语 5 词 · 2026-10-03",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "orchestration",
+      "issueNoLocal": 22,
+      "phonetic": "/ˌɔːkɪˈstreɪʃn/",
+      "pos": "n.",
+      "posRaw": "n.（相关：orchestrator、subagent、workflow、routing、state machine）",
+      "related": [
+        "orchestrator",
+        "subagent",
+        "workflow",
+        "routing",
+        "state machine"
+      ],
+      "meaning": "【AI】编排——在多步骤、多组件（模型、工具、子智能体、外部服务）的系统中，决定「谁在什么时候做什么、结果如何传递、失败如何回退」的控制层逻辑。它本身通常不含智能，只负责调度与状态管理；智能体系统从「一次调用」走向「一条流水线」时，编排就成了主要复杂度来源",
+      "gloss": "编排",
+      "example": "The model is rarely the bottleneck once you ship an agent; orchestration is: deciding what runs in parallel, what must wait, and what happens when step four fails.",
+      "exampleCn": "一旦把智能体上线，模型很少是瓶颈，编排才是——决定什么可以并行、什么必须等待，以及第四步失败时该怎么办。",
+      "memory": "**记忆锚点**：编排 = 控制流，不是智能本身。**与提示词工程的分界**：提示词决定单次调用的质量，编排决定整条链路的结构；把复杂任务全塞进一个超长提示，是编排缺位的典型症状。**三种常见形态**：① 固定流水线（步骤写死的 DAG，可预测、易调试）；② 动态路由（由模型决定下一步走哪个分支）；③ 自主循环（边做边决定下一步）。自由度越高，能力上限越高，可测性与可控性越低，这是核心权衡。**实践要点**：① 能用确定性代码做的判断，不要交给模型，if/else 比 LLM 更便宜也更可靠；② 每个步骤的输入输出都要落盘留痕，否则失败时无法定位；③ 明确设置最大步数、超时与预算上限，防止循环失控；④ 把真正可并行的步骤并行化，是延迟优化中最容易拿到的一块收益。**易混点**：orchestration 在传统 IT 里指服务或容器编排，在 AI 语境下特指模型、工具与子智能体之间的调度，同词不同层级。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "subagent",
+      "issueNoLocal": 22,
+      "phonetic": "/ˈsʌbˌeɪdʒənt/",
+      "pos": "n.",
+      "posRaw": "n.（相关：orchestrator、context window、delegation、parallelism、isolation）",
+      "related": [
+        "orchestrator",
+        "context window",
+        "delegation",
+        "parallelism",
+        "isolation"
+      ],
+      "meaning": "【AI】子智能体——由主智能体（orchestrator）派生、只负责某个子任务的独立智能体实例。它拥有自己的上下文窗口与工具集，完成子任务后只把结论回传给主智能体。核心价值是**上下文隔离**：把大量中间过程留在子智能体内部，避免主智能体的上下文被噪声占满",
+      "gloss": "子智能体",
+      "example": "A subagent is not just a helper; it is a context firewall: the messy search results stay inside, and only the conclusion travels back up.",
+      "exampleCn": "子智能体不只是帮手，它是一道上下文防火墙——杂乱的检索过程留在里面，只有结论回到上层。",
+      "memory": "**记忆锚点**：子智能体首先解决的是**上下文预算**问题，其次才是分工问题。**为什么需要**：单个智能体的上下文窗口有限，长任务中大量工具输出会挤占空间、抬高成本、稀释注意力；把「读 30 个文件」这类脏活交给子智能体，主智能体只收到一段摘要，上下文保持干净。**代价**：① 信息有损——回传的是摘要，细节丢失后主智能体无法追问；② 协调开销——派生、等待、汇总都要花时间与 token；③ 一致性风险——多个子智能体可能给出互相矛盾的结论，需要主智能体裁决。**何时值得**：子任务彼此独立、可并行、且中间过程冗长（检索、批量读取、代码探索）时收益最大；若子任务强依赖前序细节、需要来回澄清，拆出去反而更差。**实践要点**：给每个子智能体写清「任务边界 + 期望输出格式 + 停止条件」，否则它要么做过头，要么做得太浅。**易混点**：subagent（独立上下文、只回传结论）与同一会话内的多角色提示不是一回事，后者共享同一上下文，省事但无法隔离噪声。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "human-in-the-loop",
+      "issueNoLocal": 22,
+      "phonetic": "/ˌhjuːmən ɪn ðə ˈluːp/",
+      "pos": "n.",
+      "posRaw": "n.（相关：approval gate、guardrail、escalation、autonomy、audit trail）",
+      "related": [
+        "approval gate",
+        "guardrail",
+        "escalation",
+        "autonomy",
+        "audit trail"
+      ],
+      "meaning": "【AI】人在环——在自动化流程的关键节点保留人类审批、确认或纠偏的设计模式。它不是能力不足时的妥协，而是把不可逆、高风险或涉及外部影响的操作交给人类把关，使系统在保持效率的同时具备可控性与责任归属",
+      "gloss": "人在环",
+      "example": "The question is not whether to remove humans from the loop, but where to keep them: at every step you lose speed, at none you lose the ability to stop.",
+      "exampleCn": "问题不是要不要把人移出流程，而是把人留在哪里——每一步都留人则失去速度，一步都不留则失去叫停的能力。",
+      "memory": "**记忆锚点**：决定「人在环」放在哪里，本质是在**速度与可撤销性**之间做取舍。**判断标准**：按「可逆性 × 影响范围」给动作分级——只读、可回滚的操作（检索、起草、内部分析）应当全自动；不可逆或影响外部（发消息、下单、发布、删除、付款）的操作必须留人。**三种常见形态**：① 事前审批（执行前确认）；② 事后复核（先执行、异常再人工介入）；③ 例外上报（置信度低于阈值才转人）。**实践要点**：① 审批粒度要落在「一次批准覆盖一类动作」上，逐条确认会让人迅速点同意，审批形同虚设；② 必须记录完整审计轨迹（谁批的、依据什么），否则出事无法追责；③ 定期回看被人工改掉的案例，那是最有价值的规则来源。**易混点**：人在环（human-in-the-loop）不等于人在流程之上（human-on-the-loop），后者只监控、不逐步介入，适合成熟度高的系统。**与 guardrail 的关系**：护栏是自动的硬性限制（拒答、脱敏、额度），人在环是护栏之外的最后一道人工闸门，二者互补而非替代。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "capital allocation",
+      "issueNoLocal": 22,
+      "phonetic": "/ˈkæpɪtl ˌæləˈkeɪʃn/",
+      "pos": "n.",
+      "posRaw": "n.（相关：ROIC、buyback、dividend、capex、M&A、opportunity cost）",
+      "related": [
+        "ROIC",
+        "buyback",
+        "dividend",
+        "capex",
+        "M&A",
+        "opportunity cost"
+      ],
+      "meaning": "【金融】资本配置——管理层决定把公司赚到的现金投向何处的过程：再投资于主业、并购、偿还债务、回购股票，还是分红。它是决定长期股东回报的最重要变量之一，因为同样的现金流，配置效率不同，十年后的价值可以相差数倍",
+      "gloss": "资本配置",
+      "example": "Most companies are judged on how much they earn; the ones that compound are judged on what they do with it: capital allocation is where a good business becomes a good stock.",
+      "exampleCn": "多数公司被评判的是赚了多少；真正能复利的公司被评判的是拿它做了什么——资本配置正是「好生意」变成「好股票」的地方。",
+      "memory": "**记忆锚点**：资本配置 = 用**机会成本**给五个出口排序。**五个出口与排序原则**：① 再投资主业（若边际 ROIC 高于资本成本，这是最优解）；② 并购（多数实证研究表明溢价收购平均摧毁价值）；③ 偿债（确定性收益，相当于以债务成本买回自己的债券）；④ 回购（只有股价低于内在价值时才创造价值，高价回购是价值转移而非创造）；⑤ 分红（把决策权交还股东，适合缺乏高回报再投资机会的成熟企业）。**判断标准**：把每一元的去向与资本成本比较，低于 WACC 的再投资规模越大、毁灭越多；不少公司的问题不是不增长，而是**在低回报项目上增长**。**实践要点**：① 看十年期的「增量 ROIC」（增量利润 / 增量投入资本），比单年 ROIC 更能反映配置能力；② 警惕以「战略转型」为名的高价并购，尤其是用股票支付（等于以自家股权折价买入）；③ 回购只有在低价时发生才有意义，管理层在高位大举回购往往说明其估值判断并不可靠。**易混点**：资本配置（如何用钱）与资本结构（用多少债、多少股）是两个决策，前者决定价值创造，后者主要影响风险与税盾。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "dilution",
+      "issueNoLocal": 22,
+      "phonetic": "/daɪˈluːʃn/",
+      "pos": "n.、buyback、fully diluted shares、equity issuance、per-share value）",
+      "posRaw": "n.（相关：share-based compensation (SBC)、buyback、fully diluted shares、equity issuance、per-share value）",
+      "related": [
+        "share-based compensation (SBC"
+      ],
+      "meaning": "【金融】稀释——因增发新股、股权激励或可转债转股，使现有股东持股比例与每股收益被摊薄的现象。它不改变企业总价值，却直接减少每位股东对这份价值的索取权；长期看，它是「每股」指标与「总量」指标背离的主要原因",
+      "gloss": "稀释",
+      "example": "Revenue grew 20% and the stock went nowhere, because the share count grew just as fast: dilution quietly ate the entire gain.",
+      "exampleCn": "营收增长 20%，股价却原地不动——因为股本增长得一样快，稀释悄悄吃掉了全部增长。",
+      "memory": "**记忆锚点**：公司变大不等于每股变大；稀释就是两者之间那道漏斗。**主要来源**：① 股权激励（SBC，科技公司最常见，也是最容易被忽视的一项真实成本）；② 增发或配股融资；③ 可转债、期权、认股权证转股。**为什么容易被忽视**：SBC 常被排除在 non-GAAP 利润之外，于是「调整后利润」看起来很美，但股本在实实在在地增长——**SBC 是真实成本，只是以稀释而非现金的形式支付**。**核心指标**：看**股本增速**与**每股指标**，而不是只看总营收与总利润；净稀释 = 新增发行 − 回购注销，很多公司的回购只是抵消了激励带来的稀释，并未真正减少股本。**实践要点**：① 分析时优先用完全稀释后股数（fully diluted shares）计算每股价值；② 把 SBC 从现金流中扣除后再算自由现金流，得到更保守也更真实的口径；③ 对持续以股票支付收购的公司格外谨慎，这是最隐蔽的稀释渠道。**易混点**：稀释（dilution，股东占比下降）与摊薄（EPS 被摊薄）常被混用，但前者是原因、后者是结果；另外账面「回购」不等于股本减少，需核对期末股数是否真的下降。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [
+    {
+      "no": "1",
+      "word": "orchestration",
+      "phonetic": "/ˌɔːkɪˈstreɪʃn/",
+      "domain": "AI",
+      "point": "编排 = 控制流；确定性判断别交给模型，先固定流水线再放开自主循环"
+    },
+    {
+      "no": "2",
+      "word": "subagent",
+      "phonetic": "/ˈsʌbˌeɪdʒənt/",
+      "domain": "AI",
+      "point": "本质是上下文防火墙；独立可并行的脏活才值得拆出去"
+    },
+    {
+      "no": "3",
+      "word": "human-in-the-loop",
+      "phonetic": "/ˌhjuːmən ɪn ðə ˈluːp/",
+      "domain": "AI",
+      "point": "按可逆性 × 影响范围决定人在哪；不可逆动作必须留人"
+    },
+    {
+      "no": "4",
+      "word": "capital allocation",
+      "phonetic": "/ˈkæpɪtl ˌæləˈkeɪʃn/",
+      "domain": "金融",
+      "point": "用机会成本给五个出口排序；低回报再投资规模越大毁灭越多"
+    },
+    {
+      "no": "5",
+      "word": "dilution",
+      "phonetic": "/daɪˈluːʃn/",
+      "domain": "金融",
+      "point": "公司变大 ≠ 每股变大；看股本增速，SBC 是真实成本"
+    }
+  ],
+  "comparisons": [],
+  "progress": [
+    "本期：第 22 期，5 词",
+    "累计：**110 词**（66 AI + 44 金融）",
+    "归档格式：MD 词卡 + KAMI One-Pager PNG + Telegram 推送"
+  ]
+}

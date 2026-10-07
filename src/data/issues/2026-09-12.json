@@ -1,0 +1,126 @@
+{
+  "date": "2026-09-12",
+  "issueNo": 3,
+  "issueSpan": 1,
+  "issueLabel": "第 3 期",
+  "issueNoLabel": "3",
+  "theme": "AI 技术 · 金融投资",
+  "themeRaw": "AI 技术 + 金融投资",
+  "note": "本期 5 词，已与前两期 10 词去重",
+  "title": "每日英语 5 词 · 2026-09-12",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "fine-tuning",
+      "issueNoLocal": 3,
+      "phonetic": "/ˌfaɪn ˈtjuːnɪŋ/（美 /ˌfaɪn ˈtuːnɪŋ/）",
+      "pos": "n.（动词短语 fine-tune）",
+      "posRaw": "n.（动词短语 fine-tune）",
+      "related": [],
+      "meaning": "微调；【AI】微调（在预训练权重基础上用领域数据继续训练，使模型适配特定任务）",
+      "gloss": "微调",
+      "example": "Fine-tuning a base model on 10,000 domain examples can beat a much larger general-purpose model.",
+      "exampleCn": "用 1 万条领域样本微调一个基础模型，效果可能胜过规模大得多的通用模型。",
+      "memory": "fine(精细) + tune(调音) → 像调钢琴，基础音准已定，只做局部精修。关键对比：**pre-training** 是「从零学语言」，**fine-tuning** 是「定向打磨手艺」，**inference** 是「上岗干活」。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "embedding",
+      "issueNoLocal": 3,
+      "phonetic": "/ɪmˈbedɪŋ/",
+      "pos": "n.",
+      "posRaw": "n.",
+      "related": [],
+      "meaning": "【AI】嵌入（把文本、图像等映射为高维向量，使语义相近者距离更近）",
+      "gloss": "嵌入",
+      "example": "The search engine converts each query into an embedding and retrieves the nearest neighbors in vector space.",
+      "exampleCn": "搜索引擎把每个查询转成嵌入向量，再在向量空间中检索最近邻。",
+      "memory": "embed =「嵌进去」——把「意思」嵌进一串数字坐标里，坐标距离近就等于语义近。高频搭配：embedding model、vector embedding，以及 RAG（检索增强生成）里的向量检索。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "alignment",
+      "issueNoLocal": 3,
+      "phonetic": "/əˈlaɪnmənt/",
+      "pos": "n.",
+      "posRaw": "n.",
+      "related": [],
+      "meaning": "对齐；【AI】目标对齐（让模型的行为与人类真实意图和价值观保持一致）",
+      "gloss": "对齐",
+      "example": "Alignment research aims to keep increasingly capable models pursuing the goals humans actually intend.",
+      "exampleCn": "对齐研究旨在让能力越来越强的模型追求人类真正想要的目标。",
+      "memory": "align(排成一线) + -ment，本义「对齐、校准」。AI 语境下与 RLHF、Constitutional AI 强绑定；反义 **misalignment**（目标失准）是 AI 安全讨论的核心风险词。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "valuation",
+      "issueNoLocal": 3,
+      "phonetic": "/ˌvæljuˈeɪʃn/",
+      "pos": "n.",
+      "posRaw": "n.",
+      "related": [],
+      "meaning": "估值；定价；评价",
+      "gloss": "估值",
+      "example": "After the rally, the stock's valuation reached 40x forward earnings, well above its five-year average.",
+      "exampleCn": "经历这轮上涨后，该股估值达到 40 倍预期市盈率，远高于其五年均值。",
+      "memory": "value + -ation。与 **price** 的区别是核心：price 是市场当下给的价，valuation 是你对「它究竟值多少」的判断。高频搭配：valuation multiple（估值倍数）、stretched valuation（估值偏高）、valuation gap（估值差）。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "liquidity",
+      "issueNoLocal": 3,
+      "phonetic": "/lɪˈkwɪdəti/",
+      "pos": "n.",
+      "posRaw": "n.",
+      "related": [],
+      "meaning": "流动性（资产变现的难易程度与市场承接资金的能力）",
+      "gloss": "流动性",
+      "example": "Thin liquidity in small caps means a single large order can move the price sharply.",
+      "exampleCn": "小盘股流动性稀薄，一笔大单就能显著推动价格。",
+      "memory": "liquid(液体) → 资产能否像液体一样迅速流动变现。反义 **illiquid**（难变现）。务必与 **solvency** 分清：liquidity 是「现在手头有没有现金」，solvency 是「长期还不还得起债」。常见搭配：liquidity crunch（流动性紧缩）、liquidity premium（流动性溢价）。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [],
+  "comparisons": [
+    {
+      "item": "pre-training vs **fine-tuning** vs inference",
+      "note": "从零学 / 定向打磨 / 上岗使用"
+    },
+    {
+      "item": "**embedding** 与向量检索",
+      "note": "语义被映射为坐标，距离即相似度"
+    },
+    {
+      "item": "**alignment** vs misalignment",
+      "note": "目标与人类意图一致 / 失准"
+    },
+    {
+      "item": "**valuation** vs price",
+      "note": "主观判断的「值多少」/ 市场成交价"
+    },
+    {
+      "item": "**liquidity** vs solvency",
+      "note": "短期现金能力 / 长期偿债能力"
+    }
+  ],
+  "progress": [
+    "累计：**15 词**",
+    "下期方向：模型工程 · 市场风险（quantization / latency / volatility / drawdown 等）"
+  ]
+}

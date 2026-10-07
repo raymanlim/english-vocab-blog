@@ -1,0 +1,52 @@
+name: Verify
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: verify-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      # 类型检查：纯 tsc --noEmit，零副作用
+      - name: Typecheck
+        run: npm run typecheck
+
+      # 构建：必须用 build:ci（= 纯 vite build，**不跑 sync**）
+      #
+      #   为什么不能用 `npm run build`：
+      #     build = `node scripts/sync.mjs && vite build`
+      #     而 sync.mjs 需要本机 Obsidian vault
+      #     （D:\Obsidian\obsidian_valut\pinghe\english words）——
+      #     CI runner 上没有，sync 会以 exit 1 中止（见 sync.mjs 的源目录检查）。
+      #
+      #   为什么 build:ci 能成功：
+      #     src/data/ 是派生数据，但**已提交进仓库**，构建时无需重新生成。
+      #     本地实测基线：77 modules transformed → dist/ 28 个文件。
+      #
+      #   ⚠️ src/data/ 若被误加进 .gitignore，这一步会构建出空站点 —— 见 AGENTS.md §1。
+      - name: Build
+        run: npm run build:ci

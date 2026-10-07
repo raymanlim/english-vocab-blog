@@ -1,0 +1,126 @@
+{
+  "date": "2026-09-13",
+  "issueNo": 4,
+  "issueSpan": 1,
+  "issueLabel": "第 4 期",
+  "issueNoLabel": "4",
+  "theme": "模型工程 · 市场风险",
+  "themeRaw": "模型工程 + 市场风险",
+  "note": "本期 5 词，已与前 3 期 15 词去重",
+  "title": "每日英语 5 词 · 2026-09-13",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "quantization",
+      "issueNoLocal": 4,
+      "phonetic": "/ˌkwɒntaɪˈzeɪʃn/（美 /ˌkwɑːntəˈzeɪʃn/）",
+      "pos": "n.（动词 quantize）",
+      "posRaw": "n.（动词 quantize）",
+      "related": [],
+      "meaning": "【AI】量化（把模型权重从高精度浮点压缩为低比特表示，以换取更小体积、更快推理、更低显存占用）",
+      "gloss": "量化",
+      "example": "4-bit quantization shrank the model to a quarter of its size with only a marginal drop in accuracy.",
+      "exampleCn": "4 比特量化把模型体积压到原来的四分之一，而精度只出现了边缘性下降。",
+      "memory": "quantity(数量) → 用「更少的档位」去近似原本连续精细的数值，就像把 256 级灰度压成 16 级。常见搭配：post-training quantization（训练后量化）、quantization-aware training（量化感知训练）、INT8/FP4 精度。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "overfitting",
+      "issueNoLocal": 4,
+      "phonetic": "/ˌəʊvəˈfɪtɪŋ/（美 /ˌoʊvərˈfɪtɪŋ/）",
+      "pos": "n.（动词 overfit）",
+      "posRaw": "n.（动词 overfit）",
+      "related": [],
+      "meaning": "【AI/统计】过拟合（模型把训练数据的噪声与特例也当成规律记住，导致在未见数据上泛化变差）",
+      "gloss": "过拟合",
+      "example": "The model scored 99% on the training set but collapsed to 61% on the holdout set — a textbook case of overfitting.",
+      "exampleCn": "该模型在训练集上拿到 99%，在留出集上却跌到 61%，是典型的过拟合。",
+      "memory": "over(过度) + fit(贴合) → 把训练数据「背得太死」，反而丢了通用规律。反义 **underfitting**（欠拟合，学得太浅）。对策关键词：regularization（正则化）、dropout、early stopping、更多数据。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "latency",
+      "issueNoLocal": 4,
+      "phonetic": "/ˈleɪtnsi/",
+      "pos": "n.",
+      "posRaw": "n.",
+      "related": [],
+      "meaning": "延迟；时延（从发出请求到收到响应之间的耗时）",
+      "gloss": "延迟",
+      "example": "Streaming tokens cuts perceived latency even when total generation time stays the same.",
+      "exampleCn": "即便总生成时间不变，流式输出 token 也能显著降低用户的感知延迟。",
+      "memory": "源自 latent(潜伏的)——「潜伏」的时间就是延迟。务必与 **throughput**（吞吐量）区分：latency 是「单次多快」，throughput 是「单位时间能干多少」。指标搭配：p50/p99 latency、time-to-first-token。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "drawdown",
+      "issueNoLocal": 4,
+      "phonetic": "/ˈdrɔːdaʊn/",
+      "pos": "n.",
+      "posRaw": "n.",
+      "related": [],
+      "meaning": "【金融】回撤（资产净值从历史高点到随后低点的跌幅，衡量下行风险与账户承压程度）",
+      "gloss": "回撤",
+      "example": "The fund's maximum drawdown during the 2022 selloff was 38%, far deeper than its benchmark's 22%.",
+      "exampleCn": "该基金在 2022 年抛售中的最大回撤达 38%，远深于基准的 22%。",
+      "memory": "draw(拉) + down(向下) → 净值被「往下拉」的那一段。核心指标：maximum drawdown（最大回撤）、drawdown duration（回撤持续期）。与 **volatility** 不同：波动率衡量上下摆动幅度，回撤只盯「最疼的那一跌」。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "hedge",
+      "issueNoLocal": 4,
+      "phonetic": "/hedʒ/",
+      "pos": "v. / n.",
+      "posRaw": "v. / n.",
+      "related": [],
+      "meaning": "对冲；套期保值（用反向或相关性资产抵消原有头寸的风险敞口）；n. 对冲手段、篱笆",
+      "gloss": "对冲",
+      "example": "They hedged their semiconductor exposure by buying puts on the SOX index ahead of earnings.",
+      "exampleCn": "他们在财报前买入费城半导体指数看跌期权，为半导体持仓做了对冲。",
+      "memory": "本义是「篱笆」——围着持仓筑一道防线，挡的不是收益，而是意外。常见搭配：hedge against inflation（对冲通胀）、hedge fund（对冲基金）、natural hedge（自然对冲）。注意 hedge 通常降低风险也摊薄收益，不是免费保险。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [],
+  "comparisons": [
+    {
+      "item": "**quantization** vs 蒸馏 distillation",
+      "note": "压「精度」/ 压「模型规模与知识迁移」"
+    },
+    {
+      "item": "**overfitting** vs underfitting",
+      "note": "学得太死（泛化差）/ 学得太浅（欠拟合）"
+    },
+    {
+      "item": "**latency** vs throughput",
+      "note": "单次响应多快 / 单位时间处理多少"
+    },
+    {
+      "item": "**drawdown** vs volatility",
+      "note": "只看「最深那一跌」/ 衡量整体上下摆动"
+    },
+    {
+      "item": "**hedge** vs speculation",
+      "note": "削减既有风险敞口 / 主动承担风险博收益"
+    }
+  ],
+  "progress": [
+    "累计：**20 词**",
+    "下期方向：模型训练链路 · 市场结构（tokenization / distillation / volatility / arbitrage 等）"
+  ]
+}

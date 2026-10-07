@@ -1,0 +1,172 @@
+{
+  "date": "2026-09-29",
+  "issueNo": 19,
+  "issueSpan": 1,
+  "issueLabel": "第 19 期",
+  "issueNoLabel": "19",
+  "theme": "上下文工程与数据退化 · 现金流质量与资本效率",
+  "themeRaw": "上下文工程与数据退化 + 现金流质量与资本效率",
+  "note": "本期 5 词（3 AI + 2 金融），已与前 18 期 90 词去重",
+  "title": "每日英语 5 词 · 2026-09-29",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "context engineering",
+      "issueNoLocal": 19,
+      "phonetic": "/ˈkɒntekst ˌendʒɪˈnɪərɪŋ/",
+      "pos": "n.",
+      "posRaw": "n.（相关：prompt engineering、context window、context rot、compaction、just-in-time retrieval）",
+      "related": [
+        "prompt engineering",
+        "context window",
+        "context rot",
+        "compaction",
+        "just-in-time retrieval"
+      ],
+      "meaning": "【AI】上下文工程——系统地设计与管理「模型在单次调用中能看到什么」的工程实践：决定放入哪些信息（系统提示、工具定义、检索结果、对话历史、示例），以什么顺序与格式放入，何时压缩或丢弃，何时按需检索。它把「写一句好提示词」扩展为「为一次推理构造一整个信息环境」，是提示工程在长上下文与智能体时代的升级形态",
+      "gloss": "上下文工程",
+      "example": "Prompt engineering asks how to phrase the question; context engineering asks what the model should be holding in its head when it answers — and in agent systems, the second determines the ceiling.",
+      "exampleCn": "提示工程问的是「这句话该怎么说」；上下文工程问的是「模型作答时脑子里该装着什么」——在智能体系统里，后者决定上限。",
+      "memory": "**记忆锚点**：prompt engineering 管「措辞」，context engineering 管「素材」。**四个必做决策**：① 选什么（系统提示、工具 schema、检索片段、记忆、示例）；② 怎么排（关键信息放首尾，中间最易被忽略，即 lost in the middle）；③ 装不下怎么办（压缩、摘要、只留最近 N 轮）；④ 何时去取（预先全塞 vs 按需检索）。**核心张力**：上下文不是越多越好——塞满会同时抬高成本与延迟，并稀释注意力（context rot），准确率反而下降。**工程要点**：把上下文当作有预算约束的资源来分配，像管理内存一样管理它；Agent 场景下最常见的失败不是模型不够强，而是关键信息压根没被放进去，或被无关信息淹没。**易混点**：context window 是容量上限（模型参数），context engineering 是如何用好这个容量（工程方法）。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "data contamination",
+      "issueNoLocal": 19,
+      "phonetic": "/ˈdeɪtə kənˌtæmɪˈneɪʃn/",
+      "pos": "n.",
+      "posRaw": "n.（相关：benchmark、eval、leakage、memorization、decontamination）",
+      "related": [
+        "benchmark",
+        "eval",
+        "leakage",
+        "memorization",
+        "decontamination"
+      ],
+      "meaning": "【AI】数据污染；数据泄漏——评测集（或测试集）的样本以某种形式混入了模型训练语料，使模型是在「背答案」而非「解题」，评测分数虚高、失去区分度。它是模型评测可信度的头号威胁，直接决定能力宣称能否成立",
+      "gloss": "数据污染",
+      "example": "A contaminated benchmark does not measure capability — it measures how thoroughly the model memorized the answer key, and the score will look excellent right up until the data is refreshed.",
+      "exampleCn": "被污染的基准测不出能力——它测的是模型把答案背得多熟；而分数会一直很好看，直到数据集换新为止。",
+      "memory": "**记忆锚点**：训练集里混进了考题 = 分数虚高。**三条污染路径**：① 直接收录——评测题来自公开网站，被爬虫一并抓进训练语料；② 间接泄漏——训练数据里含解题讨论、答案帖、开源仓库的测试文件；③ 生成式污染——用模型合成数据时，模型本身已「记得」考题。**检测手段**：n-gram 重叠检查、嵌入相似度检索、时序切分（只用模型训练截止日之后发布的题）。**为何难根除**：厂商通常不公开训练语料，外部无法独立验证；且「答对」与「见过」在输出层面无法区分。**实践启示**：① 看榜单先问数据截止日期与去污染说明；② 自建私有评测集（未公开、未上传）才是最可靠的护城河；③ 模型版本升级时，别把「公开分涨了」直接当作能力提升的证据。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "model collapse",
+      "issueNoLocal": 19,
+      "phonetic": "/ˈmɒdl kəˈlæps/",
+      "pos": "n.",
+      "posRaw": "n.（相关：synthetic data、data contamination、distribution shift、generational training、mode collapse）",
+      "related": [
+        "synthetic data",
+        "data contamination",
+        "distribution shift",
+        "generational training",
+        "mode collapse"
+      ],
+      "meaning": "【AI】模型崩塌；模型退化——当模型反复用自己（或前代模型）生成的合成数据训练后代模型时，真实数据分布的尾部与罕见模式被逐步抹平，输出多样性持续衰减、误差代际累积，最终丧失对真实世界的覆盖能力，表现为回答趋同、偏见固化、对长尾输入失灵",
+      "gloss": "模型崩塌",
+      "example": "Model collapse is not a sudden crash but a slow erosion: each generation trained on the last one's output keeps the average and quietly discards the tail, until the model is fluent about a world that no longer exists.",
+      "exampleCn": "模型崩塌不是突然的崩溃，而是缓慢的侵蚀：每一代都在上一代的输出上训练，保留了平均值，悄悄丢掉了长尾，直到模型流利地谈论一个已不存在的世界。",
+      "memory": "**记忆锚点**：AI 吃自己产出的数据，越吃越窄。**机理三步**：① 分布尾部先丢失（罕见样本最先消失）；② 误差在代际间累积（每代把上一代的错当作真值）；③ 多样性坍缩（输出趋于模板化）。**关键前提**：崩塌的前提是「纯合成数据闭环」；Shumailov et al.（Nature, 2024）用语言模型实验演示了这条退化路径。**别过度推论**：真实场景中，合成数据与真实数据混合、并加入人工标注锚点，通常不会崩塌，反而能提升效率（蒸馏、数据增广皆是）。因此严谨表述是「合成数据闭环有退化风险」，而非「合成数据有毒」。**与 mode collapse 的区别**：mode collapse 是 GAN 类生成模型在训练内部丢失模式多样性；model collapse 是跨代训练的数据生态问题。**投资启示**：优质真实数据（尤其独家、非公开、可持续产生的数据源）稀缺性因此上升，这是数据资产估值的一个结构性支撑。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "free cash flow",
+      "issueNoLocal": 19,
+      "phonetic": "/friː kæʃ fləʊ/",
+      "pos": "n.",
+      "posRaw": "n.（相关：operating cash flow、capex、FCF conversion、FCF yield、capital allocation）",
+      "related": [
+        "operating cash flow",
+        "capex",
+        "FCF conversion",
+        "FCF yield",
+        "capital allocation"
+      ],
+      "meaning": "【金融】自由现金流——经营活动现金流扣除资本性支出（capex）后的余额，即「维持与扩张业务之后真正剩下、可由管理层自由支配的现金」。它可用于分红、回购、偿债、并购或再投资，是衡量企业自我造血能力与股东回报潜力的核心指标，也是 DCF 估值的分子基础",
+      "gloss": "自由现金流",
+      "example": "Earnings are an opinion, cash is a fact — and free cash flow is the only line that tells you whether the business can fund itself without asking anyone for permission.",
+      "exampleCn": "利润是一种观点，现金是事实——而自由现金流是唯一能告诉你「这门生意能否不靠别人点头就养活自己」的那一行。",
+      "memory": "**记忆锚点**：FCF = 经营性现金流 − 资本性支出。**为何比净利润可靠**：净利润受会计政策、非现金项目与收入确认时点影响；FCF 更接近真金白银。**三个必看配套**：① 现金转换率（FCF ÷ 净利润，长期应接近或高于 1，持续低于 0.8 要查原因）；② capex 强度（capex ÷ 营收，重资产行业天然偏高，但也是护城河）；③ FCF yield（FCF ÷ 市值，是「用现金说话」的估值口径，可跨资本结构比较）。**两类陷阱**：一是把「经营现金流」当成 FCF——若 capex 巨大，两者可能天差地别；二是周期性行业在景气顶点的 FCF 极具误导性，须用完整周期平均。**与 EBITDA 的关系**：EBITDA 忽略 capex 与营运资本，是「毛口径」；FCF 扣掉这两项，才是「净口径」。**资本配置视角**：管理层怎么用 FCF（再投资、回购、分红、还债、并购）比 FCF 本身更能反映其能力——高 FCF 配上糟糕的资本配置，等于销毁价值。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "return on invested capital (ROIC)",
+      "issueNoLocal": 19,
+      "phonetic": "/rɪˈtɜːn ɒn ɪnˈvestɪd ˈkæpɪtl/",
+      "pos": "n.",
+      "posRaw": "n.（相关：ROE、WACC、economic profit、capital intensity、DuPont analysis）",
+      "related": [
+        "ROE",
+        "WACC",
+        "economic profit",
+        "capital intensity",
+        "DuPont analysis"
+      ],
+      "meaning": "【金融】投入资本回报率——税后经营利润（NOPAT）除以投入资本（有息负债 + 股东权益，或经营性资产净额），衡量企业每投入一元资本能产生多少税后经营利润。它剔除了资本结构的干扰，回答的是「这门生意本身的赚钱效率有多高」，是判断企业是否创造价值、护城河是否真实存在的最硬指标之一",
+      "gloss": "投入资本回报率",
+      "example": "Growth without ROIC above the cost of capital destroys value rather than creating it — a company can double its revenue and still make its shareholders poorer.",
+      "exampleCn": "ROIC 低于资本成本的增长是在毁灭价值而非创造价值——一家公司可以营收翻倍，同时让股东更穷。",
+      "memory": "**记忆锚点**：ROIC > WACC 才创造价值，差值就是「经济利润」（economic profit）。**与 ROE 的关键区别**：ROE 只拿股东权益作分母，可通过加杠杆美化；ROIC 的分母含全部有息资本，故更真实地反映经营效率——两家公司 ROE 相同，ROIC 高者质地更好。**半导体与重资产行业的用法**：这类行业资本密集，ROIC 天然偏低，判断要点是「ROIC 是否持续高于 WACC」，以及「capex 投下去后 ROIC 是被摊薄还是被抬升」——后者正是区分「有效扩张」与「产能军备竞赛」的核心。**三条使用纪律**：① 用多年平均，单年数据会被周期与一次性项目扭曲；② 注意口径（是否加回商誉、是否用期初期末平均投入资本），口径不同不可直接比较；③ 与增长率一起看——高 ROIC + 高再投资率 = 复利机器，这正是「赚钱机器」的量化定义。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [
+    {
+      "no": "1",
+      "word": "context engineering",
+      "phonetic": "/ˈkɒntekst ˌendʒɪˈnɪərɪŋ/",
+      "domain": "AI",
+      "point": "管素材而非措辞；上下文不是越多越好，context rot 会稀释注意力"
+    },
+    {
+      "no": "2",
+      "word": "data contamination",
+      "phonetic": "/ˈdeɪtə kənˌtæmɪˈneɪʃn/",
+      "domain": "AI",
+      "point": "考题混进训练语料 = 分数虚高；私有评测集是唯一护城河"
+    },
+    {
+      "no": "3",
+      "word": "model collapse",
+      "phonetic": "/ˈmɒdl kəˈlæps/",
+      "domain": "AI",
+      "point": "纯合成数据闭环逐代丢失长尾；混合真实数据可规避"
+    },
+    {
+      "no": "4",
+      "word": "free cash flow",
+      "phonetic": "/friː kæʃ fləʊ/",
+      "domain": "金融",
+      "point": "FCF = 经营现金流 − capex；利润是观点，现金是事实"
+    },
+    {
+      "no": "5",
+      "word": "return on invested capital (ROIC)",
+      "phonetic": "/rɪˈtɜːn ɒn ɪnˈvestɪd ˈkæpɪtl/",
+      "domain": "金融",
+      "point": "ROIC > WACC 才创造价值；低 ROIC 的增长毁灭价值"
+    }
+  ],
+  "comparisons": [],
+  "progress": [
+    "本期：第 19 期，5 词",
+    "累计：**95 词**（57 AI + 38 金融）",
+    "归档格式：MD 词卡 + KAMI One-Pager PNG + Telegram 推送"
+  ]
+}

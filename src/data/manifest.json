@@ -1,0 +1,595 @@
+{
+  "generatedAt": "2026-10-07T17:02:59.804Z",
+  "source": "D:\\Obsidian\\obsidian_valut\\pinghe\\english words",
+  "totals": {
+    "issues": 26,
+    "days": 25,
+    "words": 130,
+    "ai": 78,
+    "finance": 52,
+    "both": 0,
+    "other": 0
+  },
+  "issues": [
+    {
+      "date": "2026-10-07",
+      "issueNo": 26,
+      "issueSpan": 1,
+      "issueLabel": "第 26 期",
+      "issueNoLabel": "26",
+      "theme": "反直觉的模型行为 · 价值与时间的定价",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 25 期 125 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "catastrophic forgetting",
+        "lost in the middle",
+        "direct preference optimization (DPO)",
+        "discounted cash flow (DCF)",
+        "theta"
+      ]
+    },
+    {
+      "date": "2026-10-06",
+      "issueNo": 25,
+      "issueSpan": 1,
+      "issueLabel": "第 25 期",
+      "issueNoLabel": "25",
+      "theme": "不靠加投入的增长 · 资本效率与股本纪律",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 24 期 120 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "in-context learning (ICL)",
+        "synthetic data",
+        "time to first token (TTFT)",
+        "return on equity (ROE)",
+        "share buyback"
+      ]
+    },
+    {
+      "date": "2026-10-05",
+      "issueNo": 24,
+      "issueSpan": 1,
+      "issueLabel": "第 24 期",
+      "issueNoLabel": "24",
+      "theme": "模型可信度的度量 · 主动管理的技能甄别",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 23 期 115 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "calibration",
+        "distribution shift",
+        "LLM-as-a-judge",
+        "information ratio (IR)",
+        "performance attribution"
+      ]
+    },
+    {
+      "date": "2026-10-04",
+      "issueNo": 23,
+      "issueSpan": 1,
+      "issueLabel": "第 23 期",
+      "issueNoLabel": "23",
+      "theme": "以少撬多的杠杆效应 · 利润与方向敞口的放大",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 22 期 110 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "instruction tuning",
+        "parameter-efficient fine-tuning (PEFT)",
+        "emergent ability",
+        "operating leverage",
+        "delta"
+      ]
+    },
+    {
+      "date": "2026-10-03",
+      "issueNo": 22,
+      "issueSpan": 1,
+      "issueLabel": "第 22 期",
+      "issueNoLabel": "22",
+      "theme": "智能体的分工与把关 · 资本配置与股权代价",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 21 期 105 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "orchestration",
+        "subagent",
+        "human-in-the-loop",
+        "capital allocation",
+        "dilution"
+      ]
+    },
+    {
+      "date": "2026-10-02",
+      "issueNo": 21,
+      "issueSpan": 1,
+      "issueLabel": "第 21 期",
+      "issueNoLabel": "21",
+      "theme": "检索质量与成本效率 · 企业质量与护城河",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 20 期 100 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "chunking",
+        "reranking",
+        "prompt caching",
+        "economic moat",
+        "quality of earnings"
+      ]
+    },
+    {
+      "date": "2026-10-01",
+      "issueNo": 20,
+      "issueSpan": 1,
+      "issueLabel": "第 20 期",
+      "issueNoLabel": "20",
+      "theme": "智能体的运行机制与边界 · 资本成本与安全边际",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 19 期 95 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "ReAct",
+        "reinforcement learning with verifiable rewards (RLVR)",
+        "sandboxing",
+        "weighted average cost of capital (WACC)",
+        "margin of safety"
+      ]
+    },
+    {
+      "date": "2026-09-29",
+      "issueNo": 19,
+      "issueSpan": 1,
+      "issueLabel": "第 19 期",
+      "issueNoLabel": "19",
+      "theme": "上下文工程与数据退化 · 现金流质量与资本效率",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 18 期 90 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "context engineering",
+        "data contamination",
+        "model collapse",
+        "free cash flow",
+        "return on invested capital (ROIC)"
+      ]
+    },
+    {
+      "date": "2026-09-28",
+      "issueNo": 18,
+      "issueSpan": 1,
+      "issueLabel": "第 18 期",
+      "issueNoLabel": "18",
+      "theme": "规模扩展与事实锚定 · 主动管理的偏离与成本",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 17 期 85 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "scaling law",
+        "test-time compute",
+        "grounding",
+        "tracking error",
+        "turnover"
+      ]
+    },
+    {
+      "date": "2026-09-26",
+      "issueNo": 17,
+      "issueSpan": 1,
+      "issueLabel": "第 17 期",
+      "issueNoLabel": "17",
+      "theme": "模型评测与治理 · 超额收益与估值倍数",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 16 期 80 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "eval",
+        "model card",
+        "zero-shot",
+        "alpha",
+        "multiple"
+      ]
+    },
+    {
+      "date": "2026-09-25",
+      "issueNo": 16,
+      "issueSpan": 1,
+      "issueLabel": "第 16 期",
+      "issueNoLabel": "16",
+      "theme": "推理缓存与模型验证 · 风险调整收益与在险价值",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 15 期 75 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "KV cache",
+        "verifier",
+        "reward hacking",
+        "Sharpe ratio",
+        "value at risk (VaR)"
+      ]
+    },
+    {
+      "date": "2026-09-24",
+      "issueNo": 15,
+      "issueSpan": 1,
+      "issueLabel": "第 15 期",
+      "issueNoLabel": "15",
+      "theme": "长上下文与智能体记忆 · 套息交易与债券凸性",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 14 期 70 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "long context",
+        "agent memory",
+        "jailbreak",
+        "carry trade",
+        "convexity"
+      ]
+    },
+    {
+      "date": "2026-09-23",
+      "issueNo": 14,
+      "issueSpan": 1,
+      "issueLabel": "第 14 期",
+      "issueNoLabel": "14",
+      "theme": "智能体接口与攻击面 · 波动率敏感度与执行摩擦",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 13 期 65 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "agent harness",
+        "model context protocol (MCP)",
+        "prompt injection",
+        "vega",
+        "slippage"
+      ]
+    },
+    {
+      "date": "2026-09-22",
+      "issueNo": 13,
+      "issueSpan": 1,
+      "issueLabel": "第 13 期",
+      "issueNoLabel": "13",
+      "theme": "模型部署与安全边界 · 期权敏感度与名义敞口",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 12 期 60 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "system prompt",
+        "red teaming",
+        "diffusion",
+        "gamma",
+        "notional"
+      ]
+    },
+    {
+      "date": "2026-09-21",
+      "issueNo": 12,
+      "issueSpan": 1,
+      "issueLabel": "第 12 期",
+      "issueNoLabel": "12",
+      "theme": "模型可解释性与评测 · 信用利差与流动性溢价",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 11 期 55 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "interpretability",
+        "reward model",
+        "speculative decoding",
+        "credit spread",
+        "liquidity premium"
+      ]
+    },
+    {
+      "date": "2026-09-20",
+      "issueNo": 11,
+      "issueSpan": 1,
+      "issueLabel": "第 11 期",
+      "issueNoLabel": "11",
+      "theme": "模型上线约束 · 波动率与杠杆放大",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 10 期 50 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "knowledge cutoff",
+        "temperature",
+        "router",
+        "implied volatility",
+        "short squeeze"
+      ]
+    },
+    {
+      "date": "2026-09-19",
+      "issueNo": 10,
+      "issueSpan": 1,
+      "issueLabel": "第 10 期",
+      "issueNoLabel": "10",
+      "theme": "推理与人类反馈 · 市场结构与利率曲线",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 9 期 45 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "reasoning",
+        "RLHF",
+        "tool calling",
+        "market maker",
+        "yield curve"
+      ]
+    },
+    {
+      "date": "2026-09-18",
+      "issueNo": 9,
+      "issueSpan": 1,
+      "issueLabel": "第 9 期",
+      "issueNoLabel": "9",
+      "theme": "模型部署约束 · 债券现金流与极端风险",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 8 期 40 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "context window",
+        "guardrail",
+        "few-shot",
+        "coupon",
+        "tail risk"
+      ]
+    },
+    {
+      "date": "2026-09-17",
+      "issueNo": 8,
+      "issueSpan": 1,
+      "issueLabel": "第 8 期",
+      "issueNoLabel": "8",
+      "theme": "提示与检索增强 · 基点与风险系数",
+      "note": "本期 5 词，已与前 7 期 35 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "prompt engineering",
+        "chain-of-thought (CoT)",
+        "retrieval-augmented generation (RAG)",
+        "basis point (bps)",
+        "beta"
+      ]
+    },
+    {
+      "date": "2026-09-16",
+      "issueNo": 7,
+      "issueSpan": 1,
+      "issueLabel": "第 7 期",
+      "issueNoLabel": "7",
+      "theme": "稀疏与混合专家 · 利率与定价",
+      "note": "本期 5 词，已与前 6 期 30 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "sparse",
+        "mixture-of-experts (MoE)",
+        "agentic",
+        "duration",
+        "spread"
+      ]
+    },
+    {
+      "date": "2026-09-15",
+      "issueNo": 6,
+      "issueSpan": 1,
+      "issueLabel": "第 6 期",
+      "issueNoLabel": "6",
+      "theme": "模型核心机制 · 权益与杠杆",
+      "note": "本期 5 词，已与前 5 期 25 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "attention",
+        "regularization",
+        "multimodal",
+        "equity",
+        "margin"
+      ]
+    },
+    {
+      "date": "2026-09-14",
+      "issueNo": 5,
+      "issueSpan": 1,
+      "issueLabel": "第 5 期",
+      "issueNoLabel": "5",
+      "theme": "模型训练链路 · 市场结构",
+      "note": "本期 5 词，已与前 4 期 20 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "tokenization",
+        "distillation",
+        "throughput",
+        "volatility",
+        "arbitrage"
+      ]
+    },
+    {
+      "date": "2026-09-13",
+      "issueNo": 4,
+      "issueSpan": 1,
+      "issueLabel": "第 4 期",
+      "issueNoLabel": "4",
+      "theme": "模型工程 · 市场风险",
+      "note": "本期 5 词，已与前 3 期 15 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "quantization",
+        "overfitting",
+        "latency",
+        "drawdown",
+        "hedge"
+      ]
+    },
+    {
+      "date": "2026-09-12",
+      "issueNo": 3,
+      "issueSpan": 1,
+      "issueLabel": "第 3 期",
+      "issueNoLabel": "3",
+      "theme": "AI 技术 · 金融投资",
+      "note": "本期 5 词，已与前两期 10 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "fine-tuning",
+        "embedding",
+        "alignment",
+        "valuation",
+        "liquidity"
+      ]
+    },
+    {
+      "date": "2026-09-11",
+      "issueNo": 1,
+      "issueSpan": 2,
+      "issueLabel": "第 1–2 期",
+      "issueNoLabel": "1–2",
+      "theme": "AI 技术 · 金融投资",
+      "note": "本期含第 1 期、第 2 期共 10 词（同日补发第二组）",
+      "wordCount": 10,
+      "counts": {
+        "ai": 6,
+        "finance": 4,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "inference",
+        "hallucination",
+        "latent",
+        "dividend",
+        "monetary",
+        "benchmark",
+        "parameter",
+        "bias",
+        "yield",
+        "leverage"
+      ]
+    }
+  ]
+}

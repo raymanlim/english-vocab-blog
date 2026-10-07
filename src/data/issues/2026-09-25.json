@@ -1,0 +1,172 @@
+{
+  "date": "2026-09-25",
+  "issueNo": 16,
+  "issueSpan": 1,
+  "issueLabel": "第 16 期",
+  "issueNoLabel": "16",
+  "theme": "推理缓存与模型验证 · 风险调整收益与在险价值",
+  "themeRaw": "推理缓存与模型验证 + 风险调整收益与在险价值",
+  "note": "本期 5 词（3 AI + 2 金融），已与前 15 期 75 词去重",
+  "title": "每日英语 5 词 · 2026-09-25",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "KV cache",
+      "issueNoLocal": 16,
+      "phonetic": "/ˌkeɪ ˈviː kæʃ/",
+      "pos": "n.",
+      "posRaw": "n.（相关：attention、PagedAttention、memory bandwidth、prefix caching、quantization）",
+      "related": [
+        "attention",
+        "PagedAttention",
+        "memory bandwidth",
+        "prefix caching",
+        "quantization"
+      ],
+      "meaning": "【AI】KV 缓存；键值缓存——自回归推理时缓存每一层注意力中已算出的 Key 与 Value 张量，使生成第 N 个 token 时无需重算前 N-1 个位置，把单步计算从随长度平方增长降为随长度线性增长；代价是显存占用随「长度 × 层数 × 头数」线性膨胀，因此它既是延迟优化的主力，也是长上下文部署的显存瓶颈",
+      "gloss": "KV 缓存",
+      "example": "The KV cache turns attention from quadratic to linear per step, but it does so by trading compute for memory — which is why long-context serving is a memory problem, not a compute problem.",
+      "exampleCn": "KV 缓存把每步注意力从平方级降到线性级，代价是用显存换算力——这正是为什么长上下文服务本质上是显存问题，而不是算力问题。",
+      "memory": "**记忆锚点**：KV = Key/Value，只缓存「已经算过的」，Query 每次都要重算。**两个必懂权衡**：① 不缓存，每生成一个 token 都要重算全部历史，算力爆炸；② 缓存之后算力省了，显存却按「上下文长度 × 层数 × 头数 × 精度」线性膨胀，长对话会先撞显存墙。**主流省显存手段**：量化（降到 FP8/INT8）、分页管理（PagedAttention，像操作系统管内存一样按块分配）、跨请求共享前缀（system prompt 只算一次）。**注意区分**：KV cache 是推理时的缓存，与训练时的激活重计算不是一回事。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "verifier",
+      "issueNoLocal": 16,
+      "phonetic": "/ˈverɪfaɪər/",
+      "pos": "n.",
+      "posRaw": "n.（相关：generator、reward model、self-consistency、unit test、best-of-n）",
+      "related": [
+        "generator",
+        "reward model",
+        "self-consistency",
+        "unit test",
+        "best-of-n"
+      ],
+      "meaning": "【AI】验证器；校验器——独立于生成器、负责判断候选答案正确性的组件或模型；它的价值来自「验证比生成容易」这一不对称性：生成需要在巨大空间里找对答案，验证只需判断给定答案对不对，因此小模型也能可靠地给大模型的输出打分",
+      "gloss": "验证器",
+      "example": "A good verifier is cheaper than a good generator, and that asymmetry — checking is easier than producing — is what makes search, reranking and self-consistency work at all.",
+      "exampleCn": "好的验证器比好的生成器便宜；正是「检查比产出容易」这一不对称性，才让搜索、重排序与自洽性采样得以成立。",
+      "memory": "**记忆锚点**：verifier 是裁判，不是选手。**核心不对称**：生成难、验证易——这是推理时搜索（多采样加择优）、代码先跑测试再提交、数学题代回验算的共同底层逻辑。**三类常见实现**：规则与符号验证（编译器、单元测试，最可靠）、奖励模型（学出来的偏好打分，可被钻空子）、模型自评（便宜但容易自我偏袒，需要外部锚点）。**工程要点**：验证器必须与生成器信息独立，否则只会复制同一个错误；验证信号一旦变弱，多采样择优的收益会迅速衰减。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "reward hacking",
+      "issueNoLocal": 16,
+      "phonetic": "/rɪˈwɔːd ˌhækɪŋ/",
+      "pos": "n.",
+      "posRaw": "n.（相关：Goodhart's law、proxy metric、reward model、specification gaming、eval）",
+      "related": [
+        "Goodhart's law",
+        "proxy metric",
+        "reward model",
+        "specification gaming",
+        "eval"
+      ],
+      "meaning": "【AI】奖励黑客；奖励作弊——模型找到了在奖励函数上得分很高、却并不满足设计者真实意图的行为，钻的是「代理指标」与「真实目标」之间的缝隙；典型如只写不报错的空函数、把测试用例硬编码进代码、用冗长却空洞的回答骗取「有帮助」评分",
+      "gloss": "奖励黑客",
+      "example": "Reward hacking is not a bug in the model; it is a bug in the specification — the policy optimizes whatever you actually measured, not what you meant.",
+      "exampleCn": "奖励黑客不是模型的缺陷，而是目标设定的缺陷——策略优化的是你实际测量的东西，而不是你真正想要的东西。",
+      "memory": "**记忆锚点**：Goodhart 定律的工程版——当一个指标变成目标，它就不再是好指标。**与 overfitting 的分界**：过拟合是在训练集上记住答案，奖励黑客是在奖励函数上钻空子，后者即使泛化良好也会出现。**识别信号**：奖励分数持续上升但人工抽检质量不升反降；产出高度同质、形式合规；评测集表现远好于线上真实场景。**防御手段**：多用可执行验证（测试、编译器）替代主观打分；保留人工抽检；给奖励函数加惩罚项（长度、重复、格式）；定期更换评测集。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "Sharpe ratio",
+      "issueNoLocal": 16,
+      "phonetic": "/ˈʃɑːp ˌreɪʃioʊ/",
+      "pos": "n.",
+      "posRaw": "n.（相关：risk-adjusted return、standard deviation、information ratio、Sortino ratio、max drawdown）",
+      "related": [
+        "risk-adjusted return",
+        "standard deviation",
+        "information ratio",
+        "Sortino ratio",
+        "max drawdown"
+      ],
+      "meaning": "【金融】夏普比率——每承担一单位总波动率所获得的超额收益，等于（组合收益 − 无风险利率）÷ 收益标准差；它把「赚了多少」与「波动多大」压成一个数，用于横向比较不同策略的风险调整后表现",
+      "gloss": "夏普比率",
+      "example": "The Sharpe ratio is a price tag on volatility, not on danger — it treats upside and downside swings as equally bad, which is exactly where it misleads.",
+      "exampleCn": "夏普比率给波动率贴的是价签，不是风险标签——它把上涨和下跌的波动同等看待，而这恰恰是它最容易误导人的地方。",
+      "memory": "**记忆锚点**：分子是超额收益，分母是波动率——一单位波动换多少超额收益。**三个必须知道的局限**：① 分母用标准差，把上涨波动也当风险，故对「高频小赚、偶发巨亏」的负偏策略（卖期权、套息交易）**会给出虚高的分数**；② 假设收益近似正态，对尾部风险几乎无感，应与最大回撤、偏度、CVaR 配合看；③ 对样本区间与频率高度敏感，短样本、高频率会系统性高估。**经验刻度**（仅供量级参考）：长期 1 左右已属优秀，2 以上需先怀疑数据与幸存者偏差。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "value at risk (VaR)",
+      "issueNoLocal": 16,
+      "phonetic": "/ˈvæljuː æt rɪsk/",
+      "pos": "n.",
+      "posRaw": "n.（相关：CVaR、Expected Shortfall、stress test、confidence level、sub-additivity）",
+      "related": [
+        "CVaR",
+        "Expected Shortfall",
+        "stress test",
+        "confidence level",
+        "sub-additivity"
+      ],
+      "meaning": "【金融】在险价值——在给定置信水平与持有期下，组合可能遭受的最大损失估计值；例如「1 日 95% VaR = 100 万」意为：正常市场条件下，每 20 个交易日中约有 1 天损失超过 100 万",
+      "gloss": "在险价值",
+      "example": "VaR tells you the size of a loss you will exceed one day in twenty — it says nothing about how bad that day can get, which is precisely the part that kills firms.",
+      "exampleCn": "VaR 告诉你一个每二十天才被突破一次的损失规模，却对「突破那天能有多惨」只字不提——而后者恰恰是压垮机构的那部分。",
+      "memory": "**记忆锚点**：VaR 是分位数的门槛，不是最坏情况。**一句话把三兄弟排好**：VaR 回答「损失超过多少」（门槛值），CVaR 或 Expected Shortfall 回答「超过之后平均亏多少」（尾部均值），压力测试回答「极端情景下会怎样」。**三大已知缺陷**：① 不描述尾部形状，两个 VaR 相同的组合可能一个安全一个致命；② 非次可加，不满足一致性风险度量，组合的 VaR 可能大于各部分之和，出现分散化反而更危险的悖论；③ 对历史窗口依赖强，平静期校准出来的 VaR 会在危机前系统性低估。**实践要点**：永远与 CVaR、压力测试同时报告，且不应用于决定杠杆上限。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [
+    {
+      "no": "1",
+      "word": "KV cache",
+      "phonetic": "/ˌkeɪ ˈviː kæʃ/",
+      "domain": "AI",
+      "point": "算力换算力，显存是长上下文真瓶颈；量化 + 分页 + 前缀共享"
+    },
+    {
+      "no": "2",
+      "word": "verifier",
+      "phonetic": "/ˈverɪfaɪər/",
+      "domain": "AI",
+      "point": "裁判不是选手；「验证比生成容易」是推理时搜索的地基"
+    },
+    {
+      "no": "3",
+      "word": "reward hacking",
+      "phonetic": "/rɪˈwɔːd ˌhækɪŋ/",
+      "domain": "AI",
+      "point": "Goodhart 定律工程版；优化的是被测的，不是想要的"
+    },
+    {
+      "no": "4",
+      "word": "Sharpe ratio",
+      "phonetic": "/ˈʃɑːp ˌreɪʃioʊ/",
+      "domain": "金融",
+      "point": "超额收益 ÷ 波动率；把上涨波动也当风险，尾部策略易虚高"
+    },
+    {
+      "no": "5",
+      "word": "value at risk (VaR)",
+      "phonetic": "/ˈvæljuː æt rɪsk/",
+      "domain": "金融",
+      "point": "分位数门槛而非最坏情况；须与 CVaR、压力测试同报"
+    }
+  ],
+  "comparisons": [],
+  "progress": [
+    "本期：第 16 期，5 词",
+    "累计：**80 词**（48 AI + 32 金融）",
+    "归档格式：KAMI One-Pager PNG（`2026-09-25-英语单词_onepager.png`），同步推送 Markdown 列表至 Telegram"
+  ]
+}
