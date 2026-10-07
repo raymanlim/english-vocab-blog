@@ -1,11 +1,24 @@
 import { useEffect, useMemo, useState } from 'react';
 import { SearchBox } from '../components/SearchBox';
 import { WordRow } from '../components/WordRow';
-import { searchIndex } from '../lib/data';
+import { loadSearchIndex, totalWords } from '../lib/data';
 import { SEARCH_SUGGESTIONS, search } from '../lib/search';
+import type { SearchEntry } from '../lib/types';
 
 export function SearchPage({ initialQuery }: { initialQuery: string }) {
   const [q, setQ] = useState(initialQuery);
+  const [index, setIndex] = useState<SearchEntry[] | null>(null);
+
+  // 搜索索引按需加载（约 160 KB，Vite 单独分包，不进主 chunk）
+  useEffect(() => {
+    let alive = true;
+    loadSearchIndex().then((data) => {
+      if (alive) setIndex(data);
+    });
+    return () => {
+      alive = false;
+    };
+  }, []);
 
   // 输入时同步到地址栏（replaceState 不触发 hashchange，不会打断输入）
   useEffect(() => {
@@ -15,20 +28,27 @@ export function SearchPage({ initialQuery }: { initialQuery: string }) {
     window.history.replaceState(null, '', target);
   }, [q]);
 
-  const results = useMemo(() => search(q), [q]);
+  const results = useMemo(() => (index ? search(index, q) : []), [index, q]);
 
   return (
     <div className="reading">
       <div className="page-head" style={{ borderBottom: 'none', paddingBottom: 22 }}>
         <h1 className="page-title">Search</h1>
         <p className="page-lede">
-          检索全部 {searchIndex.length} 个词条 —— 支持英文单词、中文释义、音标、领域与例句。
+          检索全部 {totalWords} 个词条 —— 支持英文单词、中文释义、音标、领域与例句。
         </p>
       </div>
 
       <SearchBox value={q} onChange={setQ} autoFocus />
 
-      {!q && (
+      {!index && (
+        <div className="empty">
+          正在加载检索索引…
+          <div className="empty-hint">首次进入需要下载一次，之后浏览器会缓存</div>
+        </div>
+      )}
+
+      {index && !q && (
         <>
           <div className="chip-row">
             {SEARCH_SUGGESTIONS.map((s) => (
@@ -46,7 +66,7 @@ export function SearchPage({ initialQuery }: { initialQuery: string }) {
         </>
       )}
 
-      {q && (
+      {index && q && (
         <>
           <div className="search-meta">
             <span className="search-count">

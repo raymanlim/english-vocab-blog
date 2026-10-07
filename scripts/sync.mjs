@@ -66,6 +66,20 @@ function assertOutsideVault(target) {
   process.exit(1);
 }
 
+/**
+ * 把数据源路径表示为「vault 内相对路径」（POSIX 风格）。
+ *
+ * ⚠️ manifest.json 里的 source 字段会随前端 bundle **发布到线上**，
+ *    写本机绝对路径（`D:\Obsidian\...`）等于公开本机目录结构。
+ *    不在 vault 内时退化为末级目录名。
+ */
+function toVaultRelative(dir) {
+  const abs = path.resolve(dir);
+  const rel = path.relative(path.resolve(VAULT_ROOT), abs);
+  const inside = !!rel && !rel.startsWith('..') && !path.isAbsolute(rel);
+  return (inside ? rel : path.basename(abs)).split(path.sep).join('/');
+}
+
 assertOutsideVault(DATA_DIR);
 
 // 源目录本应位于 vault 内；不在则大概率是换了机器或路径漂移，提示但不阻断。
@@ -655,7 +669,8 @@ function main() {
 
   const manifest = {
     generatedAt: new Date().toISOString(),
-    source: SOURCE_DIR,
+    // 只写 vault 内相对路径 —— 该字段会进前端 bundle 并发布上线，不可含本机绝对路径。
+    source: toVaultRelative(SOURCE_DIR),
     totals,
     issues: issues
       .map((i) => ({

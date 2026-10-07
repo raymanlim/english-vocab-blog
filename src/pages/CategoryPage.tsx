@@ -1,8 +1,9 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { WordRow } from '../components/WordRow';
-import { formatDate, issueMeta } from '../lib/data';
+import { formatDate, issueMeta, loadSearchIndex } from '../lib/data';
 import { filterByDomain, groupByDate } from '../lib/search';
 import { linkProps } from '../lib/router';
+import type { SearchEntry } from '../lib/types';
 
 const META = {
   ai: {
@@ -20,7 +21,23 @@ const META = {
 };
 
 export function CategoryPage({ domain }: { domain: 'ai' | 'finance' }) {
-  const entries = useMemo(() => filterByDomain(domain), [domain]);
+  const [index, setIndex] = useState<SearchEntry[] | null>(null);
+
+  // 搜索索引按需加载（约 160 KB，与搜索页共用同一份缓存）
+  useEffect(() => {
+    let alive = true;
+    loadSearchIndex().then((data) => {
+      if (alive) setIndex(data);
+    });
+    return () => {
+      alive = false;
+    };
+  }, []);
+
+  const entries = useMemo(
+    () => (index ? filterByDomain(index, domain) : []),
+    [index, domain]
+  );
   const groups = useMemo(() => groupByDate(entries), [entries]);
   const meta = META[domain];
 
@@ -49,7 +66,14 @@ export function CategoryPage({ domain }: { domain: 'ai' | 'finance' }) {
         </a>
       </div>
 
-      {groups.length === 0 && (
+      {!index && (
+        <div className="empty">
+          正在加载词条…
+          <div className="empty-hint">首次进入需要下载一次，之后浏览器会缓存</div>
+        </div>
+      )}
+
+      {index && groups.length === 0 && (
         <div className="empty">
           该分类下暂无词条。
           <div className="empty-hint">运行 npm run sync 后重试。</div>

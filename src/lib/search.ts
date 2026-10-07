@@ -1,18 +1,19 @@
-import { searchIndex } from './data';
 import type { Domain, SearchEntry } from './types';
 
 /**
  * 纯前端检索：所有关键词都必须命中（AND），命中位置决定排序权重。
  * 数据量级（数千词）下性能充足。
+ *
+ * 索引由调用方传入（`loadSearchIndex()`）—— 它约 160 KB，按需加载，不进主 chunk。
  */
-export function search(query: string, limit = 300): SearchEntry[] {
+export function search(index: SearchEntry[], query: string, limit = 300): SearchEntry[] {
   const q = query.trim().toLowerCase();
   if (!q) return [];
 
   const terms = q.split(/\s+/).filter(Boolean);
   const scored: { entry: SearchEntry; score: number }[] = [];
 
-  for (const entry of searchIndex) {
+  for (const entry of index) {
     const word = entry.word.toLowerCase();
     const brief = entry.brief.toLowerCase();
     const example = entry.example.toLowerCase();
@@ -45,8 +46,8 @@ export function search(query: string, limit = 300): SearchEntry[] {
   return scored.slice(0, limit).map((s) => s.entry);
 }
 
-export function filterByDomain(domain: Domain): SearchEntry[] {
-  return searchIndex.filter((e) =>
+export function filterByDomain(index: SearchEntry[], domain: Domain): SearchEntry[] {
+  return index.filter((e) =>
     domain === 'ai'
       ? e.domain === 'ai' || e.domain === 'both'
       : e.domain === 'finance' || e.domain === 'both'

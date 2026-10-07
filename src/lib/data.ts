@@ -1,9 +1,26 @@
 import manifestJson from '../data/manifest.json';
-import indexJson from '../data/index.json';
 import type { Issue, IssueMeta, Manifest, SearchEntry } from './types';
 
 export const manifest = manifestJson as unknown as Manifest;
-export const searchIndex = indexJson as unknown as SearchEntry[];
+
+/**
+ * 搜索索引（约 160 KB）改为**按需加载**。
+ *
+ * 它只在搜索页与分类页用到；静态 import 会让它进主 chunk、拖慢首屏。
+ * 词条总数改从 `manifest.totals.words` 取（见 `totalWords`），无需加载索引。
+ * Vite 会把动态 import 的 JSON 单独分包，首次进入搜索 / 分类页时才下载。
+ */
+let searchIndexCache: SearchEntry[] | null = null;
+
+export async function loadSearchIndex(): Promise<SearchEntry[]> {
+  if (searchIndexCache) return searchIndexCache;
+  const mod = await import('../data/index.json');
+  searchIndexCache = mod.default as unknown as SearchEntry[];
+  return searchIndexCache;
+}
+
+/** 词条总数 —— 取自 manifest，无需加载搜索索引 */
+export const totalWords: number = manifest.totals.words;
 
 /** 全部期次，最新在前 */
 export const issuesNewestFirst: IssueMeta[] = manifest.issues;
