@@ -1,0 +1,178 @@
+{
+  "date": "2026-10-11",
+  "issueNo": 30,
+  "issueSpan": 1,
+  "issueLabel": "第 30 期",
+  "issueNoLabel": "30",
+  "theme": "模型输出的收敛机制 · 市场预期的形成机制——从一团可能性到一个确定值",
+  "themeRaw": "模型输出的收敛机制 + 市场预期的形成机制——从一团可能性到一个确定值",
+  "note": "本期 5 词（3 AI + 2 金融），已与前 29 期 145 词去重",
+  "title": "每日英语 5 词 · 2026-10-11",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "logits",
+      "issueNoLocal": 30,
+      "phonetic": "/ˈlɒdʒɪts/",
+      "pos": "n.",
+      "posRaw": "n.（相关：softmax、probability distribution、temperature、logprobs、top-p sampling、cross-entropy）",
+      "related": [
+        "softmax",
+        "probability distribution",
+        "temperature",
+        "logprobs",
+        "top-p sampling",
+        "cross-entropy"
+      ],
+      "meaning": "【AI】原始分数、逻辑值——模型最后一层输出的**未归一化分数**：词表里每个候选词对应一个实数，可正可负、无上下界、加起来也不必等于 1。它只表达**相对偏好**（谁的分更高），要变成概率还得过 softmax",
+      "gloss": "原始分数、逻辑值",
+      "example": "The API can return the top logprobs for each token, which tells you how confident the model was — but the raw logits are unbounded scores, not probabilities.",
+      "exampleCn": "API 可以返回每个 token 的 top logprobs，让你看到模型的置信程度——但原始 logits 是无界分数，不是概率。",
+      "memory": "**记忆锚点**：logits 是**尚未开票的选票**——只是一堆原始票数，谁多谁少一目了然，但还没换算成百分比。**为什么重要**：① 它是理解**模型输出机制**的起点：模型每一步其实只做一件事——给词表里每个词打一个分，再从中选一个；② 它是**所有采样参数的施力点**：已学 temperature 与本期 softmax / top-p 全部作用在这组分数上，改的都是「怎么把分数变成选择」；③ **logprobs**（对数概率）是 API 里最常暴露的形态，可用于置信度估计、分类打分与幻觉检测（低置信度常伴随编造）；④ 它的**相对性**是关键：分数 3.2 与 2.1 之间没有绝对含义，只有「前者更可能」——单看数值大小无法判断置信度。**关键权衡**：① logits 的**绝对量级**会随模型规模、训练状态、输入长度漂移，跨模型比较分数没有意义（必须转成概率或做归一化）；② 高分不等于正确——已学 reward hacking 与 sycophancy 都说明模型可以对错误答案给出极高分数；③ 直接对 logits 做算术（如把两个词的分数相加）在语义上不成立，因为 softmax 是非线性的。**实践要点**：① 需要置信度时优先取 **logprobs**（对数域更稳定，且避免下溢）；② 用 **logit_bias** 类参数可在不改提示词的前提下微调某个词的倾向；③ 做分类任务时，比较各标签**首 token 的 logprobs** 往往比让模型自由生成再解析更可靠；④ 看到某 token 概率极高（如 0.999）时，警惕这可能是**训练数据高度重复**带来的过拟合式确定性。**易混点**：logits（**未归一化分数**，无界、不可直接比较、只表相对偏好）与 probability（**已归一化概率**，0~1、和为 1、可直接解释）是「过不过 softmax」的关系；也区别于 **logprobs**（logits 过 softmax 后再取对数，是概率的对数形态，API 常暴露这一层）",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "softmax",
+      "issueNoLocal": 30,
+      "phonetic": "/ˈsɒftmæks/",
+      "pos": "n.",
+      "posRaw": "n.（相关：logits、probability distribution、temperature、cross-entropy、normalization、attention）",
+      "related": [
+        "logits",
+        "probability distribution",
+        "temperature",
+        "cross-entropy",
+        "normalization",
+        "attention"
+      ],
+      "meaning": "【AI】归一化指数函数——把一组无界的原始分数（logits）**压缩成一组和为 1 的概率**：分数越高得到的概率越大，且差距被指数放大。它是模型从「分数」走向「概率」的那道换算，也是注意力机制里给各位置分配权重的同一把工具",
+      "gloss": "归一化指数函数",
+      "example": "Temperature is applied inside the softmax, so lowering it makes the distribution peakier — the top token gets almost all the probability mass.",
+      "exampleCn": "温度作用在 softmax 内部，所以调低温度会让分布更尖锐——得分最高的那个词几乎拿走全部概率。",
+      "memory": "**记忆锚点**：softmax 是**把票数换算成百分比**——谁高谁低不变，但换算后才能说「这个占 92%、那个占 1%」。名字里的 soft 指它给出的是**软**（连续概率）而非**硬**（只选一个）的分配。**为什么重要**：① 它是**概率的出口**：所有基于概率的下游操作——采样（top-p、temperature）、困惑度、交叉熵损失、注意力权重——都必须先经过它；② 它**放大差距**（指数效应）：分数差 1 分，概率可能差好几倍，这解释了「模型看起来很自信」——softmax 本身就会把领先者推向接近 1；③ 它是**注意力的核心**：attention 用 softmax 把「查询与各键的相似度」变成权重，这是 Transformer 能聚焦关键信息的机制（与已学 attention 呼应）；④ 它把**不可比的分数**统一到概率空间，使不同长度、不同规模的输出可以比较。**关键权衡**：① 指数运算**放大噪声**：原本只高一点的分数会变成压倒性概率，容易让模型显得过度自信；② 它对**极端值敏感**，工程实现须先减去最大值（数值稳定技巧），否则会溢出；③ softmax 的**归一化是全局的**——新增一个长尾词会分走其他所有词的概率，所以词表变化会改变绝对概率值；④ 它**不可逆地丢失信息**：只保留相对关系，绝对分数水平无法还原。**实践要点**：① 看到「模型概率 99%」不要直接当作事实置信度，它可能只是 softmax 的放大效应；② 需要**更温和的分布**（更多样性）时提高 temperature，本质是缩小 softmax 输入端的差距；③ 做分类打分优先用 **log 概率**（数值稳定）；④ 在提示里要求模型输出「带概率的判断」并不能真的改善校准（已学 calibration），因为那是生成出来的文字，不是内部 softmax。**易混点**：softmax（**多分类**、和为 1、各类相互竞争）与 sigmoid（**独立二元**、各自 0~1、互不影响）用途不同——多标签用 sigmoid，单选用 softmax；也区别于已学 calibration——softmax 给的是**模型自称的**概率，calibration 检验的正是这个自称准不准",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "top-p (nucleus) sampling",
+      "issueNoLocal": 30,
+      "phonetic": "/tɒp piː ˈnjuːkliəs ˈsæmplɪŋ/",
+      "pos": "n.",
+      "posRaw": "n.（相关：temperature、top-k、greedy decoding、beam search、logits、softmax）",
+      "related": [
+        "temperature",
+        "top-k",
+        "greedy decoding",
+        "beam search",
+        "logits",
+        "softmax"
+      ],
+      "meaning": "【AI】核采样、前 p 概率采样——先把候选词按概率从高到低排序并累加，**只保留累计概率刚超过 p（如 0.9）的那一小撮词**（称为「核」nucleus），再在这个动态候选集里随机抽一个。p 越小越保守，p 越大越发散",
+      "gloss": "核采样、前 p 概率采样",
+      "example": "With top-p set to 0.9, the model ignores the long tail of unlikely tokens but still varies its wording — which is why it reads naturally without drifting off topic.",
+      "exampleCn": "把 top-p 设为 0.9，模型会忽略长尾的低概率词，但措辞仍有变化——所以输出读起来自然又不跑题。",
+      "memory": "**记忆锚点**：top-p 是**按累计概率划一条线**——从最可能的词往下累加，凑够 90% 就停，只在这几个词里抽签。与固定取前 K 个（top-k）不同，它的候选数量会**随分布的尖锐程度自动伸缩**。**为什么重要**：① 它是**控制输出多样性的主力旋钮**：与已学 temperature 一软一硬配合（温度改分布形状，top-p 切掉长尾），是 API 里最常调的采样参数；② 它**砍掉的正是长尾风险**——那些概率极低却荒谬的词（在长文里累积会毁掉整段输出）就是被截断的对象；③ 它的**动态性**是核心优势：分布很尖时只留几个词，分布很平时保留几十个词，比固定 top-k 更贴合真实不确定性；④ 它解释了「同一个提示为什么每次回答不同」——采样是随机的，而这正是已学 self-consistency 能靠多次采样投票的前提。**关键权衡**：① **p 越低越可靠但越呆板**，越高越有创意但越易跑偏，没有普适最优值，须按任务调（代码/事实问答偏低，头脑风暴偏高）；② top-p 与 temperature **相互耦合**——温度已改变分布形状，再叠加 top-p 会让实际效果难以预估，调参时最好只动一个；③ 它与 top-k 的**取舍**：top-p 自适应但候选数不可预测（延迟与显存不稳），top-k 固定但可能切掉合理词；④ 采样引入**不可复现性**，需要确定性输出时只能关掉采样（温度设 0 / 贪心解码），代价是失去多样性。**实践要点**：① 事实类任务用 **低 p（0.1~0.5）或温度 0**，创意类任务用 **0.9~0.95**；② 不要同时大幅调整 temperature 与 top-p，先固定一个；③ 需要可复现（测试、评测）时用 **greedy decoding**（每步取最高分）并固定随机种子；④ 长文本生成中，top-p 能显著减少「越写越离谱」的漂移。**易混点**：top-p（**按累计概率**动态取候选，候选数不固定）与 top-k（**按排名**固定取前 K 个）是两种截断策略，常被混为一谈；也区别于 greedy decoding（**不随机**，永远取最高分）与 beam search（**保留多条路径**再选整体最优，适合翻译等目标明确的任务）——后两者是「搜索」，前两者是「采样」",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "guidance",
+      "issueNoLocal": 30,
+      "phonetic": "/ˈɡaɪdns/",
+      "pos": "n.",
+      "posRaw": "n.（相关：consensus estimate、earnings、outlook、forecast、pre-announcement、whisper number）",
+      "related": [
+        "consensus estimate",
+        "earnings",
+        "outlook",
+        "forecast",
+        "pre-announcement",
+        "whisper number"
+      ],
+      "meaning": "【金融】业绩指引——公司在财报或电话会上**主动给出的未来业绩预期区间**（下季度或全年的营收、EPS、毛利率等）。它是管理层对未来的正式承诺，也是市场形成一致预期的核心输入",
+      "gloss": "业绩指引",
+      "example": "The company beat on the quarter but guided next quarter below consensus — the stock fell 9% on the guidance, not on the results.",
+      "exampleCn": "公司本季业绩超预期，但下季指引低于一致预期——股价因指引跌了 9%，而不是因为业绩。",
+      "memory": "**记忆锚点**：guidance 是**公司自己出的考题答案**——先给出一个未来的数字区间，再由市场拿实际结果去对答案。**为什么重要**：① 它是**股价反应的主要驱动**：已学 EPS 的比较对象是「一致预期」，而预期很大程度由公司自己的 guidance 塑造——指引下调会让分析师集体下修，形成连锁反应；② 它揭示了**股价看未来而非过去**：财报是后视镜，guidance 是挡风玻璃，这解释了「业绩超预期但股价下跌」为何是常态；③ 它是**管理层引导预期的工具**：通过「保守指引 + 超预期达成」，公司可持续制造正向惊喜（与已学 quality of earnings 的治理视角呼应）；④ 它是**信息不对称的合法释放渠道**，也是监管重点（选择性披露、指引撤回的合规风险）。**关键权衡**：① **指引越保守越安全**——低指引容易超预期，但长期损害可信度；高指引一旦落空，估值与信誉双杀；② **许多公司不给指引**（尤其成长股与周期股），此时市场只能依赖分析师模型，不确定性更高；③ 指引的**口径灵活**：GAAP / 非 GAAP、是否含汇率影响、是否含并购贡献，都可能让「超预期」失去可比性；④ 指引本身会**自我实现或自我挫败**——因指引低而股价下跌，融资与招聘受阻，反过来真的影响经营。**实践要点**：① 读财报**先看 guidance 相对 consensus 的方向与幅度**，再看当季实际数字；② 关注**指引口径**（GAAP / 非 GAAP、是否含一次性项）与**区间宽度**（区间越宽说明管理层越没把握）；③ 追踪**指引修正历史**——常年低指引的公司，「超预期」含金量较低；④ 注意**撤回或暂停指引**这一强信号，通常意味着能见度极低。**易混点**：guidance（**公司给的**前瞻预期，具名且带责任）与 consensus estimate（**分析师汇总的**预期，市场自发形成）是两个不同来源的锚，股价反应取决于「实际 vs 两者」；也区别于已学 forward P/E 里的「预测盈利」——那是用 consensus 算出来的，而 consensus 又被 guidance 牵引",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "consensus estimate",
+      "issueNoLocal": 30,
+      "phonetic": "/kənˈsensəs ˈestɪmət/",
+      "pos": "n.",
+      "posRaw": "n.（相关：guidance、earnings surprise、analyst rating、whisper number、EPS、forward P/E）",
+      "related": [
+        "guidance",
+        "earnings surprise",
+        "analyst rating",
+        "whisper number",
+        "EPS",
+        "forward P",
+        "E"
+      ],
+      "meaning": "【金融】一致预期——把多家分析师的盈利、营收预测**汇总平均**后得到的市场基准预期（常取均值或中位数）。它是「市场认为公司会做到多少」的量化表达，也是判定财报「超预期 / 不及预期」的基准",
+      "gloss": "一致预期",
+      "example": "The company missed consensus by two cents, and the stock dropped despite revenue growing 12% year over year.",
+      "exampleCn": "公司每股收益比一致预期低两美分，尽管营收同比增长 12%，股价仍然下跌。",
+      "memory": "**记忆锚点**：consensus 是**全班平均分**——没人知道标准答案，于是把所有人的预测平均一下，当作市场的预期基准。**为什么重要**：① 它是**「超预期」这个词的定义基准**：脱离 consensus，说「业绩好」没有意义——已学 EPS 与 P/E 的价值都建立在「与预期比较」之上；② 它是**前瞻估值的输入**：forward P/E 用的就是 consensus 预测盈利，因此 consensus 一改，估值倍数立刻变（与已学 P/E 分母的稳定性直接相关）；③ 它有**自我修正机制**：公司给 guidance 后分析师上修或下修，consensus 随之移动，形成「预期—指引—实际」的动态循环；④ 它的**离散度**本身是信息——分析师分歧大（标准差高）意味着不确定性高，通常伴随更高波动率与更宽估值区间。**关键权衡**：① 均值会**被离群值扭曲**，少数极端乐观或更新滞后的分析师会拉偏整体，因此中位数有时更稳；② consensus **更新滞后**：分析师未必及时跟随最新信息，导致「已过时的预期」仍在被比较；③ 存在 **whisper number**（市场私下流传的更高预期）——即便超越官方 consensus，股价仍可能下跌，说明真实基准常高于纸面共识；④ 覆盖分析师的**数量与质量**差异大，冷门股的一致预期可能只由 2~3 家构成，参考价值有限。**实践要点**：① 财报季先看 **consensus 与 guidance 的相对位置**，判断预期是否已被抬到难以超越的高度；② 关注**预期修正的方向与节奏**（近 30 天上修/下修比例），趋势比单点更有意义；③ 结合**分析师分歧度**评估风险——分歧大时仓位应更保守；④ 用 **forward P/E 交叉验证**：若 consensus 盈利大幅上修而股价未动，估值倍数被动下降，可能是机会（也可能是市场不信）。**易混点**：consensus estimate（**分析师群体**汇总，外部、可分散、无单一责任主体）与 guidance（**公司自身**给出的前瞻，内部、单一、带承诺）是预期体系的两端；也区别于已学 EPS——EPS 是**已发生**的实际值，consensus 是**未发生**的预期值，两者的差就是「盈利惊喜」（earnings surprise）",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [
+    {
+      "no": "1",
+      "word": "logits",
+      "phonetic": "/ˈlɒdʒɪts/",
+      "domain": "AI",
+      "point": "模型输出的未归一化原始分数；只表相对偏好，是 temperature / softmax / 采样的共同施力点"
+    },
+    {
+      "no": "2",
+      "word": "softmax",
+      "phonetic": "/ˈsɒftmæks/",
+      "domain": "AI",
+      "point": "把分数压成和为 1 的概率；指数效应放大差距，既是采样入口也是注意力权重的来源"
+    },
+    {
+      "no": "3",
+      "word": "top-p (nucleus) sampling",
+      "phonetic": "/tɒp piː ˈnjuːkliəs ˈsæmplɪŋ/",
+      "domain": "AI",
+      "point": "按累计概率截断长尾再随机抽词；候选数随分布自动伸缩，是控制多样性的主力旋钮"
+    },
+    {
+      "no": "4",
+      "word": "guidance",
+      "phonetic": "/ˈɡaɪdns/",
+      "domain": "金融",
+      "point": "公司自给的未来业绩区间；股价看未来，指引常比当季业绩更影响股价"
+    },
+    {
+      "no": "5",
+      "word": "consensus estimate",
+      "phonetic": "/kənˈsensəs ˈestɪmət/",
+      "domain": "金融",
+      "point": "分析师预测的汇总基准；「超预期」的判定尺，也是 forward P/E 的分母来源"
+    }
+  ],
+  "comparisons": [],
+  "progress": [
+    "本期：第 30 期，5 词",
+    "累计：**150 词**（90 AI + 60 金融）",
+    "归档格式：MD 词卡 + KAMI One-Pager PNG + Telegram 推送"
+  ]
+}

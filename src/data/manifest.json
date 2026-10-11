@@ -1,16 +1,108 @@
 {
-  "generatedAt": "2026-10-07T23:47:40.150Z",
+  "generatedAt": "2026-10-11T02:21:53.055Z",
   "source": "pinghe/english words",
   "totals": {
-    "issues": 26,
-    "days": 25,
-    "words": 130,
-    "ai": 78,
-    "finance": 52,
+    "issues": 30,
+    "days": 29,
+    "words": 150,
+    "ai": 90,
+    "finance": 60,
     "both": 0,
     "other": 0
   },
   "issues": [
+    {
+      "date": "2026-10-11",
+      "issueNo": 30,
+      "issueSpan": 1,
+      "issueLabel": "第 30 期",
+      "issueNoLabel": "30",
+      "theme": "模型输出的收敛机制 · 市场预期的形成机制——从一团可能性到一个确定值",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 29 期 145 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "logits",
+        "softmax",
+        "top-p (nucleus) sampling",
+        "guidance",
+        "consensus estimate"
+      ]
+    },
+    {
+      "date": "2026-10-10",
+      "issueNo": 29,
+      "issueSpan": 1,
+      "issueLabel": "第 29 期",
+      "issueNoLabel": "29",
+      "theme": "可信评测与估值口径——同一把尺子上的比较与检验",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 28 期 140 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "ablation study",
+        "sycophancy",
+        "ground truth",
+        "earnings per share (EPS)",
+        "price-to-earnings (P/E) ratio"
+      ]
+    },
+    {
+      "date": "2026-10-09",
+      "issueNo": 28,
+      "issueSpan": 1,
+      "issueLabel": "第 28 期",
+      "issueNoLabel": "28",
+      "theme": "节奏与配比——推理的两阶段与资金的长期纪律",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 27 期 135 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "prefill",
+        "autoregressive",
+        "continuous batching",
+        "compounding",
+        "position sizing"
+      ]
+    },
+    {
+      "date": "2026-10-08",
+      "issueNo": 27,
+      "issueSpan": 1,
+      "issueLabel": "第 27 期",
+      "issueNoLabel": "27",
+      "theme": "约束下的取舍——算力预算与资本口径",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 26 期 130 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "pruning",
+        "self-consistency",
+        "model cascade",
+        "enterprise value (EV)",
+        "goodwill impairment"
+      ]
+    },
     {
       "date": "2026-10-07",
       "issueNo": 26,

@@ -1,0 +1,171 @@
+{
+  "date": "2026-10-09",
+  "issueNo": 28,
+  "issueSpan": 1,
+  "issueLabel": "第 28 期",
+  "issueNoLabel": "28",
+  "theme": "节奏与配比——推理的两阶段与资金的长期纪律",
+  "themeRaw": "节奏与配比——推理的两阶段与资金的长期纪律",
+  "note": "本期 5 词（3 AI + 2 金融），已与前 27 期 135 词去重",
+  "title": "每日英语 5 词 · 2026-10-09",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "prefill",
+      "issueNoLocal": 28,
+      "phonetic": "/ˈpriːfɪl/",
+      "pos": "n.、KV cache、prompt caching、context window）",
+      "posRaw": "n.（相关：decode、time to first token (TTFT)、KV cache、prompt caching、context window）",
+      "related": [
+        "decode",
+        "time to first token (TTFT"
+      ],
+      "meaning": "【AI】预填充——大模型推理的**第一个阶段**：把整段输入提示（系统提示 + 对话历史 + 用户问题）一次性、并行地送进模型，算出每个位置的中间状态并写入 KV 缓存。它决定首字延迟（TTFT），计算量随输入长度增长，属**计算密集型（compute-bound）**",
+      "gloss": "预填充",
+      "example": "The prompt is 30,000 tokens long, so prefill alone takes two seconds before the model emits a single word — that is exactly where your time-to-first-token goes.",
+      "exampleCn": "提示有三万 token，所以光是预填充就要两秒，模型还没吐出一个词——首字延迟就花在这里。",
+      "memory": "**记忆锚点**：prefill 等于**先把整张卷子一次性读完**（并行），decode 则是再一个字一个字地写答案（串行）。**为什么重要**：① 它是推理成本的**主要来源之一**——长提示下 prefill 的算力量与输入长度成正比，且它属于「一次性大额支出」，每生成一个 token 只发生一次；② 它决定用户感知的**首字延迟**（TTFT，已学），是交互式产品体验的第一道关；③ 它是**计算密集型**——矩阵乘规模大、并行度高，GPU 利用率高；而 decode 阶段是**显存带宽密集型**，利用率低，两者需要完全不同的优化手段；④ 它产生的 KV 缓存是 decode 阶段复用的基础，也是显存占用的主要部分。**关键权衡**：① prefill 与 decode **争抢同一块 GPU**——长提示的 prefill 会把并发的 decode 请求延迟顶起来，因此生产系统常用 **chunked prefill**（把长提示切片，与 decode 交错执行）来平衡；② 同一个「推理慢」的问题，两个阶段的瓶颈与解法完全不同：prefill 看**算力**，decode 看**显存带宽**；③ 提示越长 prefill 越贵，这直接催生了已学的 prompt caching——把不变的前缀缓存下来，跳过重复的 prefill。**实践要点**：① 优化 TTFT 就优化 prefill：缩短提示、启用前缀缓存、用 chunked prefill 避免长提示独占算力；② 不要用「总延迟」一个指标衡量推理——**TTFT 看 prefill，每 token 时间看 decode**，混在一起无法定位瓶颈；③ 把 prefill 与 decode 分离到不同实例（prefill-decode disaggregation）是当前主流部署方向。**易混点**：prefill（处理**输入**，并行，计算密集，决定 TTFT）与 decode（生成**输出**，串行，带宽密集，决定吞吐）是推理的两个阶段，常被笼统说成「推理」而混淆；prefill 也不同于 prompt caching——**prefill 是计算动作，prompt caching 是跳过重复计算的机制**，前者是过程、后者是优化",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "autoregressive",
+      "issueNoLocal": 28,
+      "phonetic": "/ˌɔːtəʊrɪˈɡresɪv/",
+      "pos": "a.",
+      "posRaw": "a.（相关：decode、next-token prediction、token、prefill、speculative decoding）",
+      "related": [
+        "decode",
+        "next-token prediction",
+        "token",
+        "prefill",
+        "speculative decoding"
+      ],
+      "meaning": "【AI】自回归的——指**把上一步的输出当作下一步的输入**、逐个 token 生成序列的建模方式。大语言模型本质上是自回归模型：每次只预测下一个 token，再把新 token 接回输入，继续预测下一个，如此循环直到输出结束符",
+      "gloss": "自回归的",
+      "example": "The model never writes a sentence in one shot — it is autoregressive, predicting one token at a time and feeding each one back in as input.",
+      "exampleCn": "模型从不一次写完一句话——它是自回归的，一次只预测一个 token，再把每个 token 送回输入。",
+      "memory": "**记忆锚点**：自回归等于**接龙**——每写一个字，就把这个字接到前面，再想下一个字。**为什么重要**：① 它解释了 LLM 的**本质**：不是「先想清楚再输出」，而是「不断预测下一个最可能的 token」，这也正是幻觉（hallucination，已学）的机制根源——每一步只做局部最优的概率选择，没有全局规划；② 它解释了为什么生成长度直接决定**总延迟**：N 个 token 就要串行跑 N 次前向，无法并行，这是 decode 阶段慢的根本原因（与 prefill 的并行形成对照）；③ 它解释了为什么**流式输出**天然可行——token 是一个个产生的，可以边生成边推给用户；④ 它决定了误差会**累积**：一步选错，错误成为下一步的输入，可能越走越偏。**关键权衡**：① 自回归**串行**，与 GPU 擅长的**并行**相冲突——decode 阶段 GPU 利用率通常只有个位数到十几个百分点，这是推理成本高企的结构性原因；② 它只能做**局部最优**，因此存在「先选错就一路错」的风险，长链条推理任务尤其明显；③ 停止条件靠模型自己判断（输出结束符），可能出现不终止或过早终止；④ 与已学 speculative decoding 的关系：投机解码正是为了打破这个串行瓶颈——小模型先草拟多个 token，大模型再一次性并行校验，把 N 次串行压成 1 次并行。**实践要点**：① 想降低生成长度带来的延迟，优先**限制输出长度**（要求简洁、结构化输出）而不是换模型；② 流式输出不只是体验优化，它把「总延迟」转化为「首字延迟」，用户感知改善极大；③ 对确定性任务把 temperature 调低，减少错误累积；④ 理解这一点后就能明白：**同一模型、同一提示两次回答不同，是自回归采样的正常行为，不是故障**（与已学 self-consistency 的动机呼应）。**易混点**：autoregressive（自回归，逐 token 串行生成，描述**生成方式**）与 attention（注意力，单次前向内部的信息聚合机制，描述**网络结构**）是两个层面的事，不要混谈；也区别于 encoder-decoder 这类**架构**分类——自回归描述的是**解码方式**，编码器-解码器模型同样可以是自回归的",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "continuous batching",
+      "issueNoLocal": 28,
+      "phonetic": "/kənˈtɪnjuəs ˈbætʃɪŋ/",
+      "pos": "n.",
+      "posRaw": "n.（相关：throughput、latency、prefill、KV cache、scheduling、paged attention）",
+      "related": [
+        "throughput",
+        "latency",
+        "prefill",
+        "KV cache",
+        "scheduling",
+        "paged attention"
+      ],
+      "meaning": "【AI】连续批处理——一种推理服务调度技术：**在每个生成步骤结束后就重新组批**，把已完成的请求移出、把新到达的请求立即插入空位，而不是等整批请求全部结束再开下一批。它把批处理从「整批同步」变成「逐 token 动态填充」，显著提升吞吐",
+      "gloss": "连续批处理",
+      "example": "With continuous batching the server refills the batch every step, so one slow request no longer blocks the ten thousand short ones behind it.",
+      "exampleCn": "有了连续批处理，服务器每一步都重新填满批次，一个慢请求再也不会堵住后面一万个短请求。",
+      "memory": "**记忆锚点**：连续批处理等于**流水线上的空位随时补人**——谁做完了就让他下场、新来的立刻顶上，而不是等一整个班组全做完才换下一班。**为什么重要**：① 它直击 decode 阶段的**结构性低效**：自回归是逐 token 串行的，单个请求的 GPU 利用率极低，只能靠**批**把并行度堆上去；② 真实流量中请求长度**高度不均衡**（有的生成 20 个 token，有的生成 2000 个），若按整批同步，短请求必须等长请求结束，GPU 出现大量空转——连续批处理把这种浪费几乎消除；③ 它是现代推理框架（vLLM、TensorRT-LLM 等）吞吐提升数倍的核心机制之一，也是「单位 token 成本」下降的直接来源；④ 它与已学的 KV cache 强耦合——批中每个请求都要保留自己的缓存，动态进出对显存管理提出高要求（这也是 PagedAttention 这类技术出现的原因）。**关键权衡**：① 它主要提升**吞吐**，对**单请求延迟**改善有限，甚至可能因批更大而略微变差——**吞吐与延迟是权衡关系**（与已学 throughput / latency 呼应）；② 动态组批使显存占用**不可预测**，需要更复杂的内存管理与抢占（preemption）策略，工程复杂度高；③ 长请求仍会占用批内资源较久，因此常配合 chunked prefill 与优先级调度；④ 它不能突破单卡算力上限，只解决「利用率」问题，不是免费的加速。**实践要点**：① 高并发、长度不均的服务场景收益最大；② 观察指标看 **GPU 利用率**与**单位 token 成本**，而不是单请求延迟；③ 与 prompt caching 叠加可进一步省下重复 prefill；④ 若业务对尾延迟（p99）敏感，需显式设置批大小上限与优先级，避免被长请求拖累。**易混点**：continuous batching（**逐 token 动态重组批**，请求可随时进出）与传统的 **static batching**（等整批全部完成才换批，短请求被长请求拖住）是两代技术，不要混为一谈；也区别于一般意义上的 batching——连续批处理的关键在「**连续**」，即批次在时间维度上持续流动",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "compounding",
+      "issueNoLocal": 28,
+      "phonetic": "/kəmˈpaʊndɪŋ/",
+      "pos": "n.",
+      "posRaw": "n.（相关：compound interest、annualized return、time horizon、drawdown、reinvestment）",
+      "related": [
+        "compound interest",
+        "annualized return",
+        "time horizon",
+        "drawdown",
+        "reinvestment"
+      ],
+      "meaning": "【金融】复利——收益**再投入**后产生新收益的累积过程，即「利滚利」。它使本金按指数而非线性增长，增长速度由**收益率**与**时间**两个变量共同决定，其中时间的影响常被严重低估",
+      "gloss": "复利",
+      "example": "A 10% annual return doubles your money in about seven years — not because the return is large, but because compounding lets each year's gain earn the next year's return.",
+      "exampleCn": "年化 10% 的回报约七年翻一倍——不是因为回报高，而是因为复利让每一年的收益都能赚取下一年的回报。",
+      "memory": "**记忆锚点**：复利等于**利息也会生利息**——第一年赚的钱，从第二年起就跟你原来的本金一起干活。**为什么重要**：① 它是长期投资**唯一**可依赖的数学机制：短期看收益率高低，长期看的是「收益率 × 时间」的指数叠加，而时间是复利中唯一**不可替代**的变量；② 它解释了为什么**早开始**比**高回报**更重要——晚十年入场，往往无法用更高的年化收益率弥补；③ 它同样作用于**成本与亏损**：费用按年侵蚀等于反向复利，而亏损 50% 需要上涨 100% 才回本，这是回撤（drawdown，已学）如此致命的数学原因；④ 它是「72 法则」的基础：72 ÷ 年化收益率 ≈ 资金翻倍所需年数，是快速估算的实用工具。**关键权衡**：① 复利的威力**高度依赖时间与不中断**——任何一次重大回撤都会把指数曲线打回原形，因此**风险控制优先于收益最大化**；② 高收益率与长期可持续性通常**互斥**——追求年化 30% 往往意味着承担更高的永久性损失概率，而一次归零会让所有前期复利作废；③ 复利假设**收益可再投资**，对分红被花掉的资产或高税率账户，实际复利效应会打折；④ 通胀会反向侵蚀实际购买力，名义复利不等于实际复利。**实践要点**：① 用 72 法则做快速心算，判断一个收益目标是否现实；② 把**费用率**当作负复利看——1% 的年费在 30 年里会吃掉可观的终值；③ 优先保证「不被迫中断」（不爆仓、不高杠杆、有现金流缓冲），复利才能持续；④ 分析公司时，**再投资回报率（ROIC，已学）**决定了增长是否真正创造复利价值——低回报的扩张只是把复利稀释掉。**易混点**：compounding（复利，收益再投入后指数累积）与 simple interest（单利，只对本金计息）是两种增长模型；也区别于「年化收益率」这一**静态指标**——复利强调的是**时间路径与再投资**，两个年化收益率相同的策略，因波动路径不同，最终结果可能差很多（波动拖累，volatility drag）",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "position sizing",
+      "issueNoLocal": 28,
+      "phonetic": "/pəˈzɪʃn ˈsaɪzɪŋ/",
+      "pos": "n.",
+      "posRaw": "n.（相关：risk management、risk-reward ratio、drawdown、Kelly criterion、portfolio construction、stop-loss）",
+      "related": [
+        "risk management",
+        "risk-reward ratio",
+        "drawdown",
+        "Kelly criterion",
+        "portfolio construction",
+        "stop-loss"
+      ],
+      "meaning": "【金融】仓位管理——决定**每一笔投资投入多少资金**（占组合多大比例）的规则与流程。它把「买什么」与「买多少」两个问题分开，核心目标是在**单笔判断错误时把损失控制在可承受范围内**，同时让判断正确时的收益足够有意义",
+      "gloss": "仓位管理",
+      "example": "The trade was right, but the position was too large — a 5% drawdown in the stock turned into a 20% hit on the portfolio, and position sizing is exactly what would have prevented that.",
+      "exampleCn": "这笔交易方向是对的，但仓位太重——股票跌 5% 就变成组合亏 20%，而仓位管理本来能避免这一点。",
+      "memory": "**记忆锚点**：仓位管理等于**先决定能亏多少，再决定买多少**——顺序不能颠倒，它管的是「活下来」，不是「赚最多」。**为什么重要**：① 它是**唯一能系统性控制永久性损失**的工具：选股能力有运气成分，但仓位是你可以主动、确定地控制的变量；② 它把「判断对不对」与「结果好不好」解耦——即使胜率只有 50%，只要赢时赚得多、输时亏得少（正期望值），长期就能盈利，而这完全由仓位与止损纪律决定；③ 它决定**生存**：单笔重仓一次归零，前面所有复利（本期第 4 词）全部作废，这是「风险优先」的数学基础；④ 它也是**组合层面**的事——多笔头寸之间的相关性决定整体风险敞口，看似分散的仓位可能在同一次冲击中同时下跌。**关键权衡**：① **仓位太小**则即使判断正确也赚不到有意义的钱，长期跑不赢基准；**仓位太大**则一次不利波动就可能出局——两端都是失败，需要找到与自身判断置信度、波动率匹配的区间；② 常见方法各有取舍：**固定比例**（简单、稳健）、**固定风险（按止损距离反推仓位）**（把每笔最大损失锁定为组合的固定百分比，最符合风险管理逻辑）、**凯利公式**（数学上最优增长，但对收益率估计误差极度敏感，实务上通常只用其**分数版**，如 1/4 凯利）；③ 仓位与**置信度**的关系容易被高估——人对自己的判断普遍过度自信（与已学 calibration 呼应），因此仓位规则应当**机械化**、减少主观加码；④ 高波动标的在相同名义仓位下风险远高于低波动标的，必须按**波动率**调整。**实践要点**：① 先定「单笔最大可承受损失」（如组合的 1%~2%），再由止损位反推仓位大小；② 用**风险收益比**（潜在盈利 ÷ 潜在亏损）筛选机会，通常要求 ≥ 2:1 才值得出手；③ 避免在相关性高的标的上同时满仓；④ 把仓位规则**写成清单并执行**，不因一时情绪放大。**易混点**：position sizing（**买多少**，风险维度）与 security selection（**买什么**，收益维度）是两个独立决策，专业机构里常由不同角色承担；也区别于 diversification（分散，跨标的降低相关性）——分散解决的是「组合整体风险」，仓位管理解决的是「单笔风险敞口」，两者互补但不可互相替代",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [
+    {
+      "no": "1",
+      "word": "prefill",
+      "phonetic": "/ˈpriːfɪl/",
+      "domain": "AI",
+      "point": "推理第一阶段：整段提示并行处理，计算密集，决定首字延迟；优化靠缩短提示与前缀缓存"
+    },
+    {
+      "no": "2",
+      "word": "autoregressive",
+      "phonetic": "/ˌɔːtəʊrɪˈɡresɪv/",
+      "domain": "AI",
+      "point": "逐 token 串行生成（接龙）；决定总延迟、幻觉机制与误差累积，流式输出的基础"
+    },
+    {
+      "no": "3",
+      "word": "continuous batching",
+      "phonetic": "/kənˈtɪnjuəs ˈbætʃɪŋ/",
+      "domain": "AI",
+      "point": "每步重组批、空位即时补人；把 GPU 空转降到最低，换吞吐不换单请求延迟"
+    },
+    {
+      "no": "4",
+      "word": "compounding",
+      "phonetic": "/kəmˈpaʊndɪŋ/",
+      "domain": "金融",
+      "point": "利滚利的指数累积；时间是唯一不可替代的变量，一次重大回撤即重置曲线"
+    },
+    {
+      "no": "5",
+      "word": "position sizing",
+      "phonetic": "/pəˈzɪʃn ˈsaɪzɪŋ/",
+      "domain": "金融",
+      "point": "先定能亏多少再定买多少；唯一能系统性控制永久性损失的工具，管的是生存"
+    }
+  ],
+  "comparisons": [],
+  "progress": [
+    "本期：第 28 期，5 词",
+    "累计：**140 词**（84 AI + 56 金融）",
+    "归档格式：MD 词卡 + KAMI One-Pager PNG + Telegram 推送"
+  ]
+}

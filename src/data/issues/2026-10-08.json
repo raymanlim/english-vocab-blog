@@ -1,0 +1,170 @@
+{
+  "date": "2026-10-08",
+  "issueNo": 27,
+  "issueSpan": 1,
+  "issueLabel": "第 27 期",
+  "issueNoLabel": "27",
+  "theme": "约束下的取舍——算力预算与资本口径",
+  "themeRaw": "约束下的取舍——算力预算与资本口径",
+  "note": "本期 5 词（3 AI + 2 金融），已与前 26 期 130 词去重",
+  "title": "每日英语 5 词 · 2026-10-08",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "pruning",
+      "issueNoLocal": 27,
+      "phonetic": "/ˈpruːnɪŋ/",
+      "pos": "n.",
+      "posRaw": "n.（相关：quantization、distillation、sparsity、structured pruning、fine-tuning）",
+      "related": [
+        "quantization",
+        "distillation",
+        "sparsity",
+        "structured pruning",
+        "fine-tuning"
+      ],
+      "meaning": "【AI】剪枝——通过**移除模型中不重要的权重、神经元或整个结构单元**来压缩模型的模型压缩技术。分为非结构化剪枝（删单个权重，压缩率极高但通用硬件难以加速）与结构化剪枝（删整行/整列/整个注意力头，可直接缩小矩阵、真实提速）",
+      "gloss": "剪枝",
+      "example": "Quantization shrank the file size; pruning cut the actual compute — after removing 40% of the attention heads, latency dropped by a third.",
+      "exampleCn": "量化缩小了文件体积；剪枝减少的是真实算力——去掉 40% 的注意力头之后，延迟下降了三分之一。",
+      "memory": "**记忆锚点**：剪枝等于**给模型修剪枝叶**——先长出一张过度茂密的网，再把不影响输出的部分剪掉。**为什么重要**：① 训练时过参数化有利（损失面更平滑、更易优化），推理时过参数化纯属浪费，两者目标不同，剪枝正是把「训练用的冗余」剥离；② 它直接决定推理成本（延迟、显存、单位 token 成本），在规模化部署中与量化并列为降本主力；③ 它揭示了一个事实：大模型内部存在大量冗余，能力并不均匀地分布在所有参数上。**关键权衡**：① **非结构化剪枝**压缩率可高达 90% 以上稀疏度，但**需要专用内核/硬件才能真正提速**，否则只省了存储、速度纹丝不动；**结构化剪枝**提速立竿见影，但精度损失更大、可达压缩率更低；② 精度对剪枝比例是**非线性**的——存在「悬崖点」，超过阈值精度骤降；③ 「剪完不重训」几乎必然掉点，必须做恢复性微调（prune → fine-tune），这部分成本常被低估；④ 与量化正交，可叠加使用，但误差会累积，需重新验证。**实践要点**：① 顺序上**先量化**（通用、近乎无损、工具成熟）再考虑剪枝（风险更高、收益更依赖硬件）；② 无专用推理栈时优先结构化剪枝；③ 剪枝后必须在**目标任务评测集**上回归，通用基准（MMLU 之类）不敏感，会掩盖真实损失；④ 用渐进式剪枝 + 每轮微调，比一次剪到位更稳。**易混点**：剪枝（删结构/权重，减小**计算量**）、量化（降低数值精度，减小**存储与带宽**）、蒸馏（用大模型教小模型，改变**训练方式**）常被并称「模型压缩」，但机制与收益不同；另注意已学的 `sparse`（稀疏）是**结果状态**，剪枝是达成稀疏的**手段**——先有剪枝，才有稀疏",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "self-consistency",
+      "issueNoLocal": 27,
+      "phonetic": "/ˌself kənˈsɪstənsi/",
+      "pos": "n.、majority voting、sampling temperature、test-time compute、ensemble）",
+      "posRaw": "n.（相关：chain-of-thought (CoT)、majority voting、sampling temperature、test-time compute、ensemble）",
+      "related": [
+        "chain-of-thought (CoT"
+      ],
+      "meaning": "【AI】自洽性——一种推理增强的解码策略：对同一问题以较高温度**多次采样**生成多条推理路径，再对最终答案做**多数投票**，以得票最高者为输出。它不改变任何权重，只在推理时用额外算力换取更可靠的答案",
+      "gloss": "自洽性",
+      "example": "One chain-of-thought pass gave the wrong total; sampling twenty and taking the majority vote got it right — self-consistency buys accuracy with compute.",
+      "exampleCn": "单次思维链给出了错误的总数；采样二十次取多数投票就对了——自洽性是用算力买准确率。",
+      "memory": "**记忆锚点**：自洽性等于**让模型答二十遍，取票数最多的那个**——赌的是「正确答案比错误答案更容易被多条不同路径同时抵达」。**为什么重要**：① 它是「**用推理时算力换质量**」最简洁的范例，与已学的 test-time compute 同一条线，但更轻量、无需任何训练；② 它解释了为什么同一模型对同一问题反复提问会给出不同答案——单次采样是**随机变量**，单次结果不能代表模型能力，也不能代表它「不会」；③ 在数学、逻辑、多步推理任务上提升显著，是评测与生产都可低成本启用的手段。**关键权衡**：① 成本随采样数**线性上升**，收益却**递减**——通常 5~20 条已接近上限，再增加性价比很低；② 它要求**答案可比较**（数值、选项、短实体），对开放式生成（写文章、做方案）几乎不适用，因为无法投票；③ 它依赖一个假设：错误答案**分散**、正确答案**收敛**——若模型存在**系统性误解**（同一错误反复出现），投票会把错误答案高票选出，反而制造虚假信心；④ 需要温度 > 0，与「追求确定性输出」的 temperature = 0 部署取向相冲突。**实践要点**：① 只在**有唯一正确答案**的任务上启用；② 采样数从 5~10 起步，观察收益曲线再决定是否加码；③ 与 CoT 搭配（先让模型展开推理再投票）效果最好；④ 投票前先做**答案抽取与归一化**，否则「1,200」「1200」「$1.2k」会被算成三张不同的票。**易混点**：self-consistency（同一模型的多次采样 + 投票，不训练）与 **ensemble（多模型集成）**不同，后者用的是多个**不同**模型；也区别于已学的 `calibration`（校准，衡量「置信度本身是否可信」）——自洽性提高的是**准确率**，不直接改善置信度的可信度，二者常被混为一谈",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "model cascade",
+      "issueNoLocal": 27,
+      "phonetic": "/ˈmɒdl kæˈskeɪd/",
+      "pos": "n.",
+      "posRaw": "n.（相关：router、cost per token、escalation、fallback、LLM-as-a-judge）",
+      "related": [
+        "router",
+        "cost per token",
+        "escalation",
+        "fallback",
+        "LLM-as-a-judge"
+      ],
+      "meaning": "【AI】模型级联——一种**分层调用**的推理架构：先让最便宜的小模型尝试回答，再用一个质量判据（置信度、规则校验或评审模型）判断是否达标；不达标才升级到更大更贵的模型。目标是在守住质量的前提下把**平均成本**压到最低",
+      "gloss": "模型级联",
+      "example": "Most tickets are simple lookups, so the cascade answers 80% of them with the small model and only escalates the hard ones to the frontier model.",
+      "exampleCn": "大多数工单只是简单查询，所以级联用小模型解决 80%，只把难题升级给前沿模型。",
+      "memory": "**记忆锚点**：级联等于**分诊台**——先让全科医生看，处理不了才转专家。**为什么重要**：① 真实流量的难度**高度不均衡**，用同一个大模型处理全部请求，等于为 20% 的难题给 100% 的流量付高价；② 它把「模型选择」从静态配置变成**按请求动态决策**，是 LLM 应用降本最有效的手段之一；③ 它天然提供了一根成本—质量的连续旋钮，可以按预算调工作点。**关键权衡**：① **升级判据的准确性是命门**——判据太宽松会让错误答案直接漏给用户（质量下降且难以察觉），太严格则大量请求被升级（省不下钱）；② 级联增加**链路延迟**：简单请求很快，但被升级的请求要串行走两遍，**尾延迟（p99）**可能明显变差；③ 需要维护多个模型与判据，工程复杂度与评测负担上升；④ 与已学的 `router` 区别在**是否串行尝试**——路由是一次性判断走哪条路（快但判错就错），级联是先试便宜的、不行再升级（稳但慢）。**实践要点**：① 升级判据优先用**可验证信号**（格式校验、规则检查、检索一致性），其次才是模型自评置信度——后者普遍**过度自信**；② 用一小份标注集**校准判据阈值**，画出成本—质量曲线再选工作点；③ 持续监控**升级率**，它突变往往意味着上游输入分布变了（与已学的 distribution shift 呼应）；④ 把最贵的模型留给真正需要的请求，而不是当默认选项。**易混点**：model cascade（串行升级，先便宜后贵，因**难度**触发）与 `router`（一次性分派，只走一条路）是两种正交的成本优化架构；也区别于 `fallback`（故障兜底，因**错误**触发切换）——触发原因完全不同，设计时不要混用",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "enterprise value (EV)",
+      "issueNoLocal": 27,
+      "phonetic": "/ˈentəpraɪz ˈvæljuː/",
+      "pos": "n.",
+      "posRaw": "n.（相关：market capitalization、net debt、EBITDA、equity value、multiple、minority interest）",
+      "related": [
+        "market capitalization",
+        "net debt",
+        "EBITDA",
+        "equity value",
+        "multiple",
+        "minority interest"
+      ],
+      "meaning": "【金融】企业价值——衡量**整个企业（含债权人与股东在内的全部资本）**价值的指标，计算式为：市值 + 总债务 − 现金及现金等价物（必要时再调整少数股东权益与优先股）。它代表收购整个业务、并承接其债务所需支付的对价",
+      "gloss": "企业价值",
+      "example": "The company's market cap is small, but after adding its debt and subtracting cash, its enterprise value is twice as large — the balance sheet is the story here.",
+      "exampleCn": "这家公司市值不大，但加上债务、减去现金后，企业价值是市值两倍——真正的故事在资产负债表上。",
+      "memory": "**记忆锚点**：EV 等于**买下整个公司的价钱**——不只买股票（市值），还要替它还债，但可以拿走它账上的现金。**为什么重要**：① 它把「股权视角」与「全体资本提供者视角」明确分开，是**跨资本结构可比**的基础——两家市值相同但负债率天差地别的公司，EV 可能差一倍；② EV/EBITDA 比 P/E 更抗资本结构干扰，因此是并购定价与跨公司比较的首选倍数；③ 它确立了「分子分母必须同口径」的纪律，是读估值表的第一道关。**关键权衡**：① **现金要不要扣、债务要不要加**取决于口径与用途（控股权收购通常全额扣现金，少数股权投资则不然），不同数据源算法不一致，直接比 EV 极易出错；② 表外负债（经营租赁、或有负债、养老金缺口）常不进公式，会系统性低估 EV；③ 对**高现金、低负债**的科技公司，EV 可能远低于市值，P/E 与 EV/EBITDA 会给出**方向相反**的结论；④ 对金融企业（银行、保险），债务是经营原料而非融资工具，EV 基本无意义，不应使用。**实践要点**：① 看倍数时**先确认分子分母是否同口径**——EV 配 EBITDA / EBIT / FCFF，市值配净利润 / 股权自由现金流，混用是最常见错误（与已学 DCF 的口径陷阱同源）；② 同业比较前统一现金与债务的定义；③ 关注**净债（net debt）**的变动趋势，它决定经营改善对股权价值的放大或侵蚀；④ 重资产、高杠杆行业优先用 EV 视角，往往比市值更接近真相。**易混点**：market capitalization（只算股权，股东视角）与 enterprise value（股权 + 债权 − 现金，全体资本视角）不是同义词，实务中却常被混用；与已学 `multiple` 联用时尤须警惕——P/E 用市值、EV/EBITDA 用企业价值，同一家公司用两个口径可能得出**相反的贵贱判断**",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "goodwill impairment",
+      "issueNoLocal": 27,
+      "phonetic": "/ˈɡʊdwɪl ɪmˈpeəmənt/",
+      "pos": "n.",
+      "posRaw": "n.（相关：goodwill、acquisition、write-down、intangible assets、book value、quality of earnings）",
+      "related": [
+        "goodwill",
+        "acquisition",
+        "write-down",
+        "intangible assets",
+        "book value",
+        "quality of earnings"
+      ],
+      "meaning": "【金融】商誉减值——当被收购业务的**实际可回收价值低于当初收购时确认的商誉账面值**，公司须在利润表中一次性计提的**非现金减记**。它等于管理层公开承认：当年为这笔收购支付的溢价，没有兑现",
+      "gloss": "商誉减值",
+      "example": "The write-off wiped out two years of reported profit in a single quarter — goodwill impairment is how an overpaid acquisition finally shows up in the numbers.",
+      "exampleCn": "这笔减记在一个季度里抹掉了两年的报表利润——商誉减值就是一笔出价过高的收购最终在数字上现形的方式。",
+      "memory": "**记忆锚点**：商誉减值等于**为当年多付的收购溢价补一张欠条**——溢价先挂在资产里不摊销，直到撑不住时一次性认账。**为什么重要**：① 它是会计对过去的诚实，但**时点由管理层裁量**，因此是财报中最容易被推迟与操纵的项目之一；② 它常是「资本配置失误」的迟到证据（与已学的 capital allocation 直接相连）；③ 它不计入现金流，但会大幅压低账面权益与 ROE，并可能触发债务契约（covenant）条款，把会计问题变成真实的融资问题。**关键权衡**：① **非现金**——不影响当期现金流，因此「利润暴跌但现金流健康」是典型形态：只看现金流会漏掉治理信号，只看利润会误判为经营恶化；② 时点自由裁量：管理层倾向推迟到「**洗大澡（big bath）**」的时点集中计提，把坏消息一次释放，为后续利润留出空间；③ 商誉一经减值**不可转回**，是永久性的账面损失；④ 减值测试依赖主观的现金流预测与折现率假设，与已学 DCF 一样对参数高度敏感。**实践要点**：① 分析并购驱动型公司时，**跟踪商誉占总资产比例及其变动**，比例过高意味着未来减值风险大；② 把减值从「经常性利润」中剔除以计算调整后利润，但**不要因此忽略它**——那是真金白银已经付出去的钱；③ 留意减值前后的管理层激励安排（是否刚好换 CEO、是否伴随重组计划），这往往说明时点是「选择」出来的；④ 交叉验证：若商誉巨大且被收购标的业绩持续不及承诺，减值只是时间问题。**易混点**：impairment（账面值高于可回收金额，涵盖商誉、固定资产、无形资产）与 **write-down / write-off** 实务中常混用，前者是减值测试的会计动作，后者更强调注销结果；与**折旧摊销（depreciation / amortization）**不同——那是**按期分摊**成本，减值是一次性的价值否定；也区别于已学的 `quality of earnings`——QoE 关注利润的**现金含量**，商誉减值关注的是一次性项目对利润的**扭曲**，两者都是「读懂报表」这条线上的关键工具",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [
+    {
+      "no": "1",
+      "word": "pruning",
+      "phonetic": "/ˈpruːnɪŋ/",
+      "domain": "AI",
+      "point": "剪掉冗余权重/结构以省算力；非结构化省存储、结构化才提速，必须重训"
+    },
+    {
+      "no": "2",
+      "word": "self-consistency",
+      "phonetic": "/ˌself kənˈsɪstənsi/",
+      "domain": "AI",
+      "point": "多采样 + 多数投票换准确率；只适用于有唯一答案的任务，系统偏差会投出错误"
+    },
+    {
+      "no": "3",
+      "word": "model cascade",
+      "phonetic": "/ˈmɒdl kæˈskeɪd/",
+      "domain": "AI",
+      "point": "小模型先答、不达标再升级；升级判据是命门，尾延迟会变差"
+    },
+    {
+      "no": "4",
+      "word": "enterprise value (EV)",
+      "phonetic": "/ˈentəpraɪz ˈvæljuː/",
+      "domain": "金融",
+      "point": "市值 + 债务 − 现金 = 买下整个公司的价钱；分子分母必须同口径"
+    },
+    {
+      "no": "5",
+      "word": "goodwill impairment",
+      "phonetic": "/ˈɡʊdwɪl ɪmˈpeəmənt/",
+      "domain": "金融",
+      "point": "收购溢价没兑现时的一次性非现金减记；不影响现金流但击穿账面权益"
+    }
+  ],
+  "comparisons": [],
+  "progress": [
+    "本期：第 27 期，5 词",
+    "累计：**135 词**（81 AI + 54 金融）",
+    "归档格式：MD 词卡 + KAMI One-Pager PNG + Telegram 推送"
+  ]
+}
