@@ -1,16 +1,39 @@
 {
-  "generatedAt": "2026-10-11T02:21:53.055Z",
+  "generatedAt": "2026-10-12T02:29:41.048Z",
   "source": "pinghe/english words",
   "totals": {
-    "issues": 30,
-    "days": 29,
-    "words": 150,
-    "ai": 90,
-    "finance": 60,
+    "issues": 31,
+    "days": 30,
+    "words": 155,
+    "ai": 93,
+    "finance": 62,
     "both": 0,
     "other": 0
   },
   "issues": [
+    {
+      "date": "2026-10-12",
+      "issueNo": 31,
+      "issueSpan": 1,
+      "issueLabel": "第 31 期",
+      "issueNoLabel": "31",
+      "theme": "模型的隐形胶水 · 报表口径挡在门外的重资产——看不见的支撑结构",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 30 期 150 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "positional encoding",
+        "residual connection",
+        "layer normalization",
+        "EBITDA",
+        "capital expenditure (capex)"
+      ]
+    },
     {
       "date": "2026-10-11",
       "issueNo": 30,
