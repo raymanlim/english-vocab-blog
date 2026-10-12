@@ -1,0 +1,174 @@
+{
+  "date": "2026-10-12",
+  "issueNo": 31,
+  "issueSpan": 1,
+  "issueLabel": "第 31 期",
+  "issueNoLabel": "31",
+  "theme": "模型的隐形胶水 · 报表口径挡在门外的重资产——看不见的支撑结构",
+  "themeRaw": "模型的隐形胶水 + 报表口径挡在门外的重资产——看不见的支撑结构",
+  "note": "本期 5 词（3 AI + 2 金融），已与前 30 期 150 词去重",
+  "title": "每日英语 5 词 · 2026-10-12",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "positional encoding",
+      "issueNoLocal": 31,
+      "phonetic": "/pəˈzɪʃənl ɪnˈkoʊdɪŋ/",
+      "pos": "n.",
+      "posRaw": "n.（相关：attention、self-attention、token embedding、RoPE、long context、context window）",
+      "related": [
+        "attention",
+        "self-attention",
+        "token embedding",
+        "RoPE",
+        "long context",
+        "context window"
+      ],
+      "meaning": "【AI】位置编码——给每个 token 额外叠加（或在注意力计算中施加）一段能表达「它在序列里排第几」的信息。因为注意力机制本身对顺序完全无感（把句子打乱，注意力算出的只是重新排列的结果），必须由外部显式注入位置，模型才知道谁在前、谁在后",
+      "gloss": "位置编码",
+      "example": "Without positional encoding, the attention mechanism is permutation-invariant — \"dog bites man\" and \"man bites dog\" would look identical to the model.",
+      "exampleCn": "没有位置编码，注意力机制对排列不敏感——「狗咬人」和「人咬狗」在模型看来完全一样。",
+      "memory": "**记忆锚点**：位置编码是**给每个词发一个座位号**——注意力只认内容不认次序，座位号是唯一告诉模型「谁先谁后」的东西。**为什么重要**：① 它是理解**注意力缺陷**的关键：self-attention 本质是集合运算、天生无序，位置信息必须外挂（与已学 attention 正好互补）；② 它是**长上下文能力的真正瓶颈**：已学 long context / context window 能否兑现，很大程度取决于位置编码能否外推到训练时没见过的长度；③ 它是**现代模型卡里的高频词**：RoPE（旋转位置编码）几乎出现在每一份开源模型说明里，而长上下文扩展技术（YaRN、NTK 插值）改的正是它；④ 它解释了**位置偏差**：已学 lost in the middle 现象与位置编码的衰减特性直接相关。**关键权衡**：① 学习式位置编码**无法外推**——训练用 4k、推理给 8k 就崩；正弦式可解析外推但表达力弱；RoPE 兼顾两者，但对超长序列仍需插值改造；② **绝对 vs 相对**：绝对位置（第 5 位）在长度变化时不稳定，相对位置（相距 3 位）更贴近语言本质，是当前主流；③ 位置编码**与注意力计算深度耦合**（RoPE 直接旋转查询与键向量），换编码方式往往需要重训或至少微调；④ 它**占用维度预算**：用来表达位置的维度不能同时用来表达语义。**实践要点**：① 读模型卡先看**训练长度 vs 宣称长度**——宣称 128k 但训练只用 8k，通常靠插值外推，长文效果会打折；② 做长文档 RAG 时，位置编码的外推能力比「窗口大小」这个数字更本质；③ 用已学 lost in the middle 的结论指导排版：关键信息放首尾，不要指望中段；④ 长上下文能力必须**实测**，不要只看窗口数字。**易混点**：positional encoding（**注入位置**，解决无序问题）与 token embedding（**注入语义**，解决词义问题）是两个叠加在一起的不同向量，常被合并理解；也区别于 attention mask（**规定哪些位置可见**，是可见性约束，不是位置标识）",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "residual connection",
+      "issueNoLocal": 31,
+      "phonetic": "/rɪˈzɪdʒuəl kəˈnekʃn/",
+      "pos": "n.",
+      "posRaw": "n.（相关：layer normalization、transformer、gradient vanishing、deep network、residual stream、pruning）",
+      "related": [
+        "layer normalization",
+        "transformer",
+        "gradient vanishing",
+        "deep network",
+        "residual stream",
+        "pruning"
+      ],
+      "meaning": "【AI】残差连接、跳跃连接——把某一层的输入**原样加到**它的输出上（y = x + f(x)），让网络只需学习「在原有基础上改什么」，而不是「从零重新表示什么」。它是深度网络能堆到几十上百层而仍可训练的根本原因",
+      "gloss": "残差连接、跳跃连接",
+      "example": "The residual connection gives gradients a direct path back to earlier layers, which is why transformers can be stacked dozens of layers deep without failing to train.",
+      "exampleCn": "残差连接为梯度提供了回到浅层的直通路径，这正是 Transformer 能堆叠几十层而不训练失败的原因。",
+      "memory": "**记忆锚点**：残差连接是**在原文上做批注**——不是重写整页，而是只写改动；这条恒等通路让信息与梯度都能「穿层直达」。**为什么重要**：① 它解决了**深层网络的退化问题**：层数越多反而越差（不是过拟合，是优化失败），残差保证「多加一层至少不比原来差」（最坏情况 f(x)=0，退化为恒等映射）；② 它是**梯度高速公路**：反向传播时梯度可沿恒等通路无衰减回传，直接缓解梯度消失；③ 它造就了**残差流**这一概念——现代可解释性研究把模型视为一条贯穿所有层的「信息总线」，各层往上面读写，这个视角完全建立在残差连接之上（与已学 interpretability 呼应）；④ 它让**注意力与前馈网络成为可插拔模块**：正因为有残差兜底，替换或删减某个子层不会让整体崩塌。**关键权衡**：① 残差要求**输入输出维度一致**，跨维度时需额外投影矩阵，增加参数；② 它让**深层网络中单层的贡献变小**——很多层做的事很轻微，这既是稳定性来源，也是「层数多但有效深度低」的原因；③ 残差**并非万能**：极深（数百层）仍须配合归一化与合理的初始化策略；④ 在已学 pruning 中，残差通路的存在会让「哪些层真的重要」更难判断。**实践要点**：① 读架构图时，**贯穿主干的那条线就是残差流**，注意力与前馈网络都挂在它两侧；② 做机制可解释性研究时，残差流是定位「某条信息在第几层被写入」的坐标系；③ 微调或蒸馏（已学 distillation）时注意：残差让浅层保留通用能力，被改动的往往集中在深层；④ 若自研小模型，**先确定残差与归一化的先后顺序（pre-norm）**，这是训练稳定性的第一道保险。**易混点**：residual connection（**跨层直连**，y = x + f(x)，解决可训练性）在 Transformer 语境下与 skip connection 基本同义，但在 U-Net 等结构里 skip 是把编码器特征**拼接**过来（concat，而非相加）；也区别于已学 layer normalization——归一化管**数值尺度**，残差管**信息通路**，二者常配对使用",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "layer normalization",
+      "issueNoLocal": 31,
+      "phonetic": "/ˈleɪər ˌnɔːməlaɪˈzeɪʃn/",
+      "pos": "n.",
+      "posRaw": "n.（相关：residual connection、batch normalization、RMSNorm、gradient、training stability、quantization）",
+      "related": [
+        "residual connection",
+        "batch normalization",
+        "RMSNorm",
+        "gradient",
+        "training stability",
+        "quantization"
+      ],
+      "meaning": "【AI】层归一化——对**单个样本内部**的激活值做标准化（减去均值、除以标准差，再做可学习的缩放与平移），把每一层的数值拉回稳定区间。它按样本独立计算，因此不受批量大小影响，是 Transformer 的标准配置",
+      "gloss": "层归一化",
+      "example": "Layer normalization keeps activations in a stable range across depth, which is why training remains stable even with large learning rates.",
+      "exampleCn": "层归一化让激活值在深层网络中保持稳定区间，因此即便使用较大的学习率，训练也能保持稳定。",
+      "memory": "**记忆锚点**：层归一化是**每层出口的稳压器**——不管上一层输出多大多小，进来先统一量纲，再交给下一层。**为什么重要**：① 它是**训练稳定性的基础设施**：深度网络中层间数值会逐层漂移放大，归一化把尺度锁住，使大学习率与深堆叠成为可能（与已学 residual connection 是配套的一对）；② 它**按样本计算**，天然适配变长序列与小批量——这正是它取代 batch normalization 成为 NLP 主流的原因；③ 它是**模型卡里的高频词**：当前主流用 RMSNorm（省掉减均值、只做缩放，更快且效果相当）与 pre-norm 结构，理解它才能读懂架构描述；④ 它影响**推理效率**：归一化是逐 token 的逐元素运算，在已学 prefill 与解码阶段都构成实际开销。**关键权衡**：① **pre-norm vs post-norm**：pre-norm（先归一化再进子层）训练更稳、可堆更深，但表达力略弱；post-norm 上限更高但难训——现代大模型几乎全选 pre-norm；② **LN vs RMSNorm**：后者去掉均值中心化，少一次归约运算，在已学 continuous batching 这类吞吐敏感场景下更划算；③ 归一化**会抹掉部分信息**（尺度被统一），因此需要可学习的缩放参数把它「补回来」；④ 它与 dropout、已学 regularization 的作用**部分重叠**，同时大量使用可能过度正则。**实践要点**：① 看到「pre-norm + RMSNorm」即知这是现代标准配方，训练更稳、长上下文更友好；② 训练不稳时，**先查归一化的位置与类型**，比调学习率更有效；③ 做已学 quantization（低比特推理）时，归一化层的统计量对精度影响显著，常需保留高精度；④ 理解残差流时记住：归一化作用在**写入残差流之前**（pre-norm），因此总线本身保持未归一化的累积状态。**易混点**：layer normalization（**按样本、跨特征**归一化，与批量无关）与 batch normalization（**按特征、跨样本**归一化，依赖批量大小、变长序列不适用）是最经典的对照；也区别于已学 regularization——前者是**数值稳定**手段，后者是**防过拟合**手段，目标不同",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "EBITDA",
+      "issueNoLocal": 31,
+      "phonetic": "/ˈiːbɪtdɑː/（或逐字母读作 E-B-I-T-D-A）",
+      "pos": "n.、free cash flow、non-GAAP）",
+      "posRaw": "n.（相关：operating income、depreciation、amortization、capital expenditure (capex)、free cash flow、non-GAAP）",
+      "related": [
+        "operating income",
+        "depreciation",
+        "amortization",
+        "capital expenditure (capex"
+      ],
+      "meaning": "【金融】息税折旧摊销前利润——Earnings Before Interest, Taxes, Depreciation and Amortization。在营业利润基础上**加回**利息、所得税、折旧与摊销，得到一个剔除融资结构、税制差异与会计折旧政策影响的「经营性现金创造能力」近似值，是杠杆收购与重资产行业最常用的估值锚",
+      "gloss": "息税折旧摊销前利润",
+      "example": "The company trades at 14x EBITDA, but that figure flatters the business because it ignores the heavy capital expenditure required to maintain those earnings.",
+      "exampleCn": "公司估值为 14 倍 EBITDA，但这个口径美化了业务——它忽略了维持这些利润所需的重资本开支。",
+      "memory": "**记忆锚点**：EBITDA 是**把「非现金、非经营、非可控」的项目全部剔掉**后剩下的东西——字母本身就是清单：利息（融资选择）、税（注册地）、折旧摊销（历史投资与会计政策）。**为什么重要**：① 它是**估值与杠杆的通用语言**：EV/EBITDA 是跨公司、跨国、跨资本结构比较最常用的倍数（与已学 EV / multiple 直接接续），也是债务契约与并购定价的核心指标；② 它**近似经营现金流**，因此在重资产、高杠杆行业（电信、公用事业、数据中心、半导体制造）被广泛使用；③ 它**剔除资本结构差异**，让不同负债水平的公司可比——这是它相对于净利润的最大优势；④ 它揭示了**利润表的层级结构**：营收 → 毛利 → 营业利润 → EBITDA → 净利润，每下一层都扣掉更多东西，理解这条链才能读懂任何一份财报。**关键权衡**：① **最大的缺陷是忽略资本开支**：折旧代表「过去的 capex」，加回折旧却不扣未来 capex，等于把维持性投入当成不存在——资本密集型企业（如 AI 数据中心）的 EBITDA 与真实现金创造差距极大（这正是本期第 5 词的核心）；② 它**不是会计准则口径**，公司可自行定义（「调整后 EBITDA」常加回股权激励、重组费用、诉讼赔偿），可比性随时被稀释；③ 它**忽略营运资本变化**，比已学 free cash flow 更粗；④ 高 EBITDA 伴随高负债时，利息虽被加回，偿债压力却是真实的——EV/EBITDA 低不等于便宜。**实践要点**：① **必须与 capex 一起看**：EBITDA 减去资本开支（及营运资本变化）才接近真实现金创造，这也正是已学 free cash flow 的来源；② 警惕**「调整后 EBITDA」的加回清单**，逐项追问「这项真的不会重复发生吗」；③ 用 **EBITDA 利润率（EBITDA margin）** 做同行比较比绝对值更有意义；④ 对资本密集型公司，**EV/EBITDA 应配合 EV/EBIT 或 FCF 收益率**交叉验证，单用会系统性高估。**易混点**：EBITDA（**加回**折旧摊销，口径最宽）与 EBIT（**含**折旧摊销，约等于营业利润）只差一个 D&A；与已学 operating leverage 的关系是——折旧属固定成本，因此高 EBITDA 利润率公司的经营杠杆会被 EBITDA 口径**放大**；也区别于已学 quality of earnings——后者考察的正是「EBITDA 里有多少是真实可持续的」",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "capital expenditure (capex)",
+      "issueNoLocal": 31,
+      "phonetic": "/ˈkæpɪtl ɪkˈspendɪtʃə/（缩写 capex /ˈkæpeks/）",
+      "pos": "n.、payback period）",
+      "posRaw": "n.（相关：EBITDA、free cash flow、depreciation、operating expense、return on invested capital (ROIC)、payback period）",
+      "related": [
+        "EBITDA",
+        "free cash flow",
+        "depreciation",
+        "operating expense",
+        "return on invested capital (ROIC"
+      ],
+      "meaning": "【金融】资本开支、资本性支出——企业为**购买、建设或升级长期资产**（厂房、设备、服务器、数据中心）而支出的资金。它与日常经营费用（opex）的关键区别在于：capex 先形成资产、在资产负债表上分期折旧，而不是当期一次性计入利润",
+      "gloss": "资本开支、资本性支出",
+      "example": "Hyperscalers have guided to record capital expenditure this year, and the market's central debate is whether that capex will earn a return above its cost of capital.",
+      "exampleCn": "超大规模云厂商今年指引了创纪录的资本开支，而市场的核心争论是这些投入能否赚回高于资本成本的回报。",
+      "memory": "**记忆锚点**：capex 是**买资产的钱，不是花掉的钱**——它先变成资产负债表上的一项，再通过折旧一年年地「摊」回利润表。**为什么重要**：① 它是**AI 投资叙事的核心变量**：当前市场对科技巨头最大的分歧就是 capex 规模与回报周期，读得懂 capex 才读得懂这场争论；② 它决定了**利润与现金流的背离**：capex 当期不进利润表（只进现金流量表），所以「利润很好但现金很紧」往往源于 capex，这是理解已学 free cash flow 的钥匙；③ 它是**未来折旧的来源**：今天投入的 capex 会在未来若干年以折旧形式压制利润——今天的高 capex 就是明天的低利润率；④ 它是**管理层对未来的投票**：资本开支的时点与规模比口头展望更能反映真实预期（与已学 guidance 互为印证）。**关键权衡**：① **增长性 vs 维持性**：维持性 capex 是「活下去的成本」，增长性 capex 才是投资，但财报通常不区分，需要自行判断；② 削减 capex 能**短期美化现金流**，代价是牺牲长期竞争力——这是最典型的价值毁损信号；③ capex **高度顺周期**：景气时集中投入，投产时可能已经过剩，半导体与数据中心尤其明显；④ 会计上**资本化 vs 费用化**存在判断空间，公司可通过资本化把当期成本推给未来，这是已学 quality of earnings 的重点之一。**实践要点**：① 用 **capex / 营收** 与 **capex / 折旧** 两个比率看投入强度——后者长期显著大于 1 才是真扩张；② 把 **EBITDA − capex** 当作快速近似自由现金流，比单看 EBITDA 可靠得多；③ 关注 **capex 指引的修正方向**，它往往领先于营收变化；④ 评估 AI 基础设施投资时，用已学 ROIC 对照 WACC：若资本开支带来的回报长期低于资本成本，规模越大毁损越多。**易混点**：capex（**资本性支出**，形成资产、分期折旧、进现金流量表的投资活动）与 opex（**经营性支出**，当期费用化、进利润表）是会计上最重要的一条分界；也区别于已学 free cash flow——FCF = 经营现金流 − capex，capex 是它的**减项**，所以 capex 飙升会直接压低 FCF，即便经营现金流创下纪录",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [
+    {
+      "no": "1",
+      "word": "positional encoding",
+      "phonetic": "/pəˈzɪʃənl ɪnˈkoʊdɪŋ/",
+      "domain": "AI",
+      "point": "给每个 token 发座位号；注意力天生无序，长上下文能力的真正瓶颈"
+    },
+    {
+      "no": "2",
+      "word": "residual connection",
+      "phonetic": "/rɪˈzɪdʒuəl kəˈnekʃn/",
+      "domain": "AI",
+      "point": "在原文上做批注（y = x + f(x)）；让深网络可训练，也是「残差流」的由来"
+    },
+    {
+      "no": "3",
+      "word": "layer normalization",
+      "phonetic": "/ˈleɪər ˌnɔːməlaɪˈzeɪʃn/",
+      "domain": "AI",
+      "point": "每层出口的稳压器；按样本计算故适配变长序列，pre-norm + RMSNorm 是当代配方"
+    },
+    {
+      "no": "4",
+      "word": "EBITDA",
+      "phonetic": "/ˈiːbɪtdɑː/",
+      "domain": "金融",
+      "point": "加回利息税折旧摊销后的利润；估值通用语言，但把 capex 挡在门外"
+    },
+    {
+      "no": "5",
+      "word": "capital expenditure (capex)",
+      "phonetic": "/ˈkæpɪtl ɪkˈspendɪtʃə/",
+      "domain": "金融",
+      "point": "买资产而非花掉的钱；当期只进现金流量表，是 FCF 的减项、未来折旧的来源"
+    }
+  ],
+  "comparisons": [],
+  "progress": [
+    "本期：第 31 期，5 词",
+    "累计：**155 词**（93 AI + 62 金融）",
+    "归档格式：MD 词卡 + KAMI One-Pager PNG + Telegram 推送"
+  ]
+}
