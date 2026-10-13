@@ -1,0 +1,177 @@
+{
+  "date": "2026-10-13",
+  "issueNo": 32,
+  "issueSpan": 1,
+  "issueLabel": "第 32 期",
+  "issueNoLabel": "32",
+  "theme": "误差如何变成修正——机器的学习回路 · 组合的偏离校准",
+  "themeRaw": "误差如何变成修正——机器的学习回路 + 组合的偏离校准",
+  "note": "本期 5 词（3 AI + 2 金融），已与前 31 期 155 词去重",
+  "title": "每日英语 5 词 · 2026-10-13",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "backpropagation",
+      "issueNoLocal": 32,
+      "phonetic": "/ˌbækprɒpəˈɡeɪʃn/（口语常缩为 backprop /ˈbækprɒp/）",
+      "pos": "n.",
+      "posRaw": "n.（相关：gradient descent、chain rule、loss function、autograd、vanishing gradient、learning rate）",
+      "related": [
+        "gradient descent",
+        "chain rule",
+        "loss function",
+        "autograd",
+        "vanishing gradient",
+        "learning rate"
+      ],
+      "meaning": "【AI】反向传播——训练神经网络的核心算法。前向传播算出预测与损失之后，从输出层往回逐层应用链式法则，求出损失对**每一个参数**的偏导数（梯度），从而知道「哪个参数该往哪个方向、以多大幅度调整」。它只负责算梯度，不负责更新参数",
+      "gloss": "反向传播",
+      "example": "Backpropagation is what turns a scalar loss into a gradient for every parameter in the network, so training is essentially one long alternation of forward and backward passes.",
+      "exampleCn": "反向传播把一个标量损失转换成网络中每个参数的梯度，因此训练本质上就是一长串前向与反向的交替。",
+      "memory": "**记忆锚点**：反向传播是**把「错在哪」逐层翻译成「该改谁」**——损失是一个数，梯度是一整张清单。**为什么重要**：① 它是**所有训练方法的公共底座**：已学 instruction tuning / PEFT / DPO / RLVR 无论上层目标多花哨，最终都要靠反向传播把信号落到参数上；② 它解释了**训练为什么比推理吃显存**：反向需要前向的中间激活，激活检查点（activation checkpointing）换掉的就是这块；③ 它决定**什么能训、什么训不动**：梯度是逐层链式相乘，层数一多就容易消失或爆炸，这正是已学 residual connection 与 layer normalization 要解决的问题；④ 它是自动微分（autograd）的实现方式——理解它才能理解为什么不可导的算子必须绕道。**关键权衡**：① **显存换计算**：不保存激活就得重算，二者必选其一；② 计算图必须可导，离散采样（如已学 top-p sampling）通常要经重参数化或强化学习估计绕开；③ 它给出**精确梯度**，代价是全图回传；零阶/近似方法更省显存但更慢更抖；④ 数据质量会通过它**被固化成参数**——脏数据进去，梯度就朝错误方向走，且这种污染极难事后清除。**实践要点**：① 显存不足先想 activation checkpointing，而不是先砍批量；② 梯度爆炸用裁剪（gradient clipping），梯度消失先查归一化与残差；③ 排查训练异常时打印**梯度范数**，通常比看 loss 更早暴露问题；④ 混合精度训练务必开梯度缩放，低精度累加会吞掉小梯度。**易混点**：backpropagation（**算梯度**，与网络结构无关的通用算法）与已学 gradient descent（**用梯度**，优化方法）是两个步骤，常被合称「反向传播 + 梯度下降」；也区别于 inference——推理只走前向，不保存激活、不回传梯度",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "gradient descent",
+      "issueNoLocal": 32,
+      "phonetic": "/ˈɡreɪdiənt dɪˈsent/",
+      "pos": "n.",
+      "posRaw": "n.（相关：backpropagation、learning rate、loss function、SGD、Adam、local minimum）",
+      "related": [
+        "backpropagation",
+        "learning rate",
+        "loss function",
+        "SGD",
+        "Adam",
+        "local minimum"
+      ],
+      "meaning": "【AI】梯度下降——最基础的优化算法：沿着损失函数梯度的**反方向**小步移动参数，使损失逐步下降。梯度指向最陡的上坡方向，那就朝相反方向走一步，再重新判断。随机梯度下降（SGD）用一个小批量估计梯度，噪声更大但成本低得多",
+      "gloss": "梯度下降",
+      "example": "Stochastic gradient descent updates after every small batch rather than the full dataset, which is noisier but dramatically cheaper and often generalizes better.",
+      "exampleCn": "随机梯度下降每处理一个小批量就更新一次，而不是等整个数据集——噪声更大，但成本低得多，且常常泛化更好。",
+      "memory": "**记忆锚点**：梯度下降是**在山谷里摸黑下山**——只凭脚下最陡的下坡方向走一步，然后重新判断。**为什么重要**：① 它是「优化」这一概念的原型：learning rate schedule / momentum / Adam 都在回答同一个问题的不同侧面（怎么走得更稳更快）；② 它解释了**批量大小为什么是变量**：全量梯度最准但最慢，单样本最便宜但最抖，mini-batch 是折中；③ 它解释了**为什么噪声反而有益**：SGD 的随机性有助于逃离尖锐极小值，与「平坦极小值泛化更好」这一经验结论一致；④ 它是理解已学 RLVR / DPO 的前提——策略梯度与偏好优化都是它的变体。**关键权衡**：① **批量越大梯度越准但每步越贵**，且可能收敛到更尖锐的极小值；② **学习率是最关键超参**（见本期第 3 词）：太大震荡发散，太小慢到不可用；③ 高维空间中**鞍点比局部极小更常见**，动量类方法正是为此设计；④ **SGD vs Adam**：Adam 收敛快、对学习率不敏感、适配 Transformer，但有时泛化略逊；SGD + momentum 在部分视觉任务上仍常胜出。**实践要点**：① 默认先用 **AdamW**，调不动再换 SGD；② 用**学习率预热（warmup）+ 衰减调度**，这是现代训练的标准配方；③ 读 loss 曲线形态即可诊断：震荡=学习率过大，长期平坦=过小或陷入鞍点；④ 训练不稳时先查数据与归一化，不要反复换优化器。**易混点**：gradient descent（**优化方法**，决定怎么走）与已学 backpropagation（**梯度计算**，决定方向从哪来）是一条流水线的两段；也区别于「训练」整体——训练 = 前向 + 反向 + 更新，梯度下降只负责最后一步",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "learning rate",
+      "issueNoLocal": 32,
+      "phonetic": "/ˈlɜːnɪŋ reɪt/",
+      "pos": "n.",
+      "posRaw": "n.（相关：gradient descent、warmup、learning rate schedule、Adam、training stability、fine-tuning）",
+      "related": [
+        "gradient descent",
+        "warmup",
+        "learning rate schedule",
+        "Adam",
+        "training stability",
+        "fine-tuning"
+      ],
+      "meaning": "【AI】学习率——每次参数更新时沿梯度方向移动的**步长系数**。它是训练中影响最大、最需要精心安排的单个超参数：步长决定收敛速度、训练稳定性，乃至最终解的质量。常见做法是预热后按余弦或线性衰减",
+      "gloss": "学习率",
+      "example": "The team used a cosine learning rate schedule with a short warmup, which is why the loss curve drops smoothly instead of spiking in the first few hundred steps.",
+      "exampleCn": "团队采用了带短预热的余弦学习率调度，因此损失曲线平滑下降，而不是在最初几百步里剧烈跳动。",
+      "memory": "**记忆锚点**：学习率是**下山时每步迈多大**——步子太大会直接跨过谷底甚至摔下悬崖，步子太小则走到天黑还在半山腰。**为什么重要**：① 它是**训练失败的第一嫌疑人**：loss 变 NaN、剧烈震荡或完全不动，九成先查学习率；② 它决定**微调的成败**：已学 instruction tuning / PEFT / DPO 的微调学习率通常比预训练小 1~2 个数量级，太大就会把预训练知识「冲掉」（已学 catastrophic forgetting）；③ 它塑造了**训练曲线的形状**：warmup 稳住早期、余弦/线性衰减精细收尾，这条曲线几乎出现在每一篇大模型论文里；④ 它体现「**步长应随阶段变化**」这一通用直觉：早期探索大步、后期收敛小步——与已学 position sizing（仓位随胜率与波动调整）是同一种思路。**关键权衡**：① **太大**：震荡、发散、loss 爆炸；**太小**：慢、易困在次优解、算力浪费；② **固定 vs 调度**：固定简单但次优，调度几乎总是更好，代价是多几个超参；③ **与批量大小耦合**：批量翻倍通常可同步放大学习率（线性缩放法则），但并非线性到底；④ **与优化器耦合**：Adam 对学习率较宽容，但仍需调度，且嵌入层与注意力层常用不同学习率。**实践要点**：① 微调先试 **1e-5~3e-5**（LoRA 类可高至 1e-4），预训练量级约 **1e-4~6e-4** 且随模型规模下调；② 一定要 **warmup**（通常占总步数 1~5%）；③ 快速判断：loss 不降先 ×3，出现 NaN 先 ÷3；④ 复用**同类任务的已验证学习率**，远比从零搜索便宜。**易混点**：learning rate（**步长**）与已学 gradient descent（**方向**）共同决定一次更新（Δθ = −lr × gradient）；也区别于 epoch（走多少步）——学习率决定每步多大，两者常需一起调",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "mean reversion",
+      "issueNoLocal": 32,
+      "phonetic": "/miːn rɪˈvɜːʃn/",
+      "pos": "n.",
+      "posRaw": "n.（相关：momentum、volatility、arbitrage、drawdown、range-bound、valuation）",
+      "related": [
+        "momentum",
+        "volatility",
+        "arbitrage",
+        "drawdown",
+        "range-bound",
+        "valuation"
+      ],
+      "meaning": "【金融】均值回归——资产价格、利润率或估值在偏离长期中枢后倾向于回落的统计现象。它是「贵了会变便宜、便宜了会变贵」的量化表述，与动量（趋势延续）构成市场最根本的一对对立假设",
+      "gloss": "均值回归",
+      "example": "After three years of above-trend margins, the market is pricing in mean reversion, which is why the stock trades at a discount to its historical multiple despite record earnings.",
+      "exampleCn": "在连续三年高于趋势的利润率之后，市场正在为均值回归定价——这就是为什么尽管盈利创纪录，股价仍低于其历史估值倍数。",
+      "memory": "**记忆锚点**：均值回归是**橡皮筋效应**——拉得越远，回拉的力越大；但关键在于「**均值本身会移动**」，橡皮筋的另一端并非钉死。**为什么重要**：① 它是**估值纪律的数学基础**：已学 margin of safety / multiple / P/E 之所以有效，前提是极端估值终会回归；对周期股尤其关键——高盈利时给低倍数、低盈利时给高倍数；② 它区分**周期 vs 结构**：判断「这次偏离会不会回归」是投资中最贵的那个判断——半导体周期是最典型的均值回归品种，而平台型公司的利润率上移可能真属结构性；③ 它是**众多策略的隐含假设**：统计套利、配对交易、网格交易、逆向投资全部建立在它之上；④ 它与已学 momentum 互为镜像——「短期动量、长期反转」这一经验规律，本质是两种效应在不同时间尺度上争夺主导权。**关键权衡**：① **最大的风险是均值漂移**：把结构性变化误判为偏离，会一路加仓到破产（价值陷阱）；② **回归时点不可知**：偏离可以持续数年——「市场保持非理性的时间，可以长过你保持偿付能力的时间」；③ **与动量直接冲突**：趋势市中做回归会被反复打脸，必须配明确的止损与仓位纪律（已学 position sizing）；④ **样本期决定结论**：用不同历史窗口估算「均值」，信号可能完全相反。**实践要点**：① 用**多窗口（5/10/20 年）与同业相对值**交叉判断中枢，不要只靠一条长期均线；② 区分**估值回归**（倍数回落，可等）与**基本面回归**（利润率回落，常伴永久性损失）；③ 对周期行业（半导体、存储、航运、能源）优先用**周期调整后盈利**而非当期盈利；④ 配合已学 drawdown 与 position sizing 预设「回归失败」的退出条件，绝不用「越跌越买」代替风控。**易混点**：mean reversion（**价格向中枢回归**，时间序列概念，赚时间）与已学 arbitrage（**消除价差**，横截面概念，赚收敛）不同；也区别于「低估」——低估是相对价值判断，均值回归是对未来路径的统计预期，两者常被混为一谈",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "rebalancing",
+      "issueNoLocal": 32,
+      "phonetic": "/ˌriːˈbælənsɪŋ/",
+      "pos": "n.",
+      "posRaw": "n.（相关：asset allocation、position sizing、drawdown、volatility、dollar-cost averaging、risk parity）",
+      "related": [
+        "asset allocation",
+        "position sizing",
+        "drawdown",
+        "volatility",
+        "dollar-cost averaging",
+        "risk parity"
+      ],
+      "meaning": "【金融】再平衡——定期、或在偏离达到阈值后，把组合各资产权重调回目标比例：卖出涨多的、买入跌多的，使风险敞口回到设计值。本质上是一种**被强制执行的「高卖低买」纪律**",
+      "gloss": "再平衡",
+      "example": "Annual rebalancing forces you to trim the winners and add to the laggards, which is why it captures a rebalancing premium even though it feels wrong during a strong trend.",
+      "exampleCn": "年度再平衡迫使你削减赢家、加仓落后者——这就是为什么它能在强势趋势中赚到「再平衡溢价」，尽管执行时感觉反直觉。",
+      "memory": "**记忆锚点**：再平衡是**给组合做定期校准**——权重漂移就是误差信号，卖出超配、买入低配，等于把已学 mean reversion 从观察变成可执行的动作。**为什么重要**：① 它是**少数无需预测就能控制风险的手段**：不判断涨跌，只维持风险预算，直接对应仓位与风险收益比这一核心问题；② 它**自动实现逆向交易**：趋势市中涨得多的资产权重被动上升，再平衡自动减仓，避免组合风险在牛市里悄然放大；③ 它对抗**风险漂移**：长期不复盘的组合最终会退化成「重仓过去十年赢家」的单一押注；④ 它把已学 asset allocation 从「一次性决定」变成「持续过程」——配置决定长期收益，再平衡决定实际风险是否守住。**关键权衡**：① **频率两难**：高频控风险更紧但交易成本与税负更高（应税账户尤甚），低频则允许漂移；② **阈值法 vs 日历法**：阈值法（如偏离超 5% 才动）通常更省成本且更贴近风险目标，日历法（每季/每年）执行简单；③ **会牺牲部分动量收益**：单边强趋势中它持续减仓、短期跑输买入持有——这是纪律的代价，也正是它在崩溃市中保护你的原因；④ **相关性会突变**：危机中「分散」的资产常同时下跌，此时再平衡可能只是不断接刀，需结合已学 tail risk 判断。**实践要点**：① 事先写下**目标权重 + 再平衡规则（阈值或日历）+ 成本约束**，否则容易滑向情绪化调仓；② 优先用**现金流再平衡**（把新增资金投向低配资产）替代卖出，可显著降低成本与税负；③ 再平衡优先在**税优账户**内执行；④ 对高波动资产（加密、个股）设更宽阈值，避免被噪声触发；⑤ 定期反问「**目标权重本身**是否仍合理」——再平衡只能维持目标，不能修正错误的目标。**易混点**：rebalancing（**把权重调回目标**，维持既有风险预算）与已学 position sizing（**决定目标权重是多少**）是前后两步：先定目标，再维持目标；也区别于 dollar-cost averaging（定投，按时间投入固定金额）——定投管「何时买」，再平衡管「买完怎么维持比例」",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [
+    {
+      "no": "1",
+      "word": "backpropagation",
+      "phonetic": "/ˌbækprɒpəˈɡeɪʃn/",
+      "domain": "AI",
+      "point": "把「错在哪」逐层翻译成「该改谁」；只算梯度，训练显存的主要去向"
+    },
+    {
+      "no": "2",
+      "word": "gradient descent",
+      "phonetic": "/ˈɡreɪdiənt dɪˈsent/",
+      "domain": "AI",
+      "point": "摸黑下山：沿梯度反方向走一步；SGD 的噪声反而有助泛化"
+    },
+    {
+      "no": "3",
+      "word": "learning rate",
+      "phonetic": "/ˈlɜːnɪŋ reɪt/",
+      "domain": "AI",
+      "point": "每步迈多大；训练失败的第一嫌疑人，warmup + 衰减是标准配方"
+    },
+    {
+      "no": "4",
+      "word": "mean reversion",
+      "phonetic": "/miːn rɪˈvɜːʃn/",
+      "domain": "金融",
+      "point": "橡皮筋效应，但均值本身会移动；周期 vs 结构是最贵的判断"
+    },
+    {
+      "no": "5",
+      "word": "rebalancing",
+      "phonetic": "/ˌriːˈbælənsɪŋ/",
+      "domain": "金融",
+      "point": "给组合做定期校准；无需预测的风险控制，被迫高卖低买"
+    }
+  ],
+  "comparisons": [],
+  "progress": [
+    "本期：第 32 期，5 词",
+    "累计：**160 词**（96 AI + 64 金融）",
+    "归档格式：MD 词卡 + KAMI One-Pager PNG + Telegram 推送"
+  ]
+}

@@ -1,16 +1,39 @@
 {
-  "generatedAt": "2026-10-12T02:30:47.154Z",
+  "generatedAt": "2026-10-13T01:21:09.147Z",
   "source": "pinghe/english words",
   "totals": {
-    "issues": 31,
-    "days": 30,
-    "words": 155,
-    "ai": 93,
-    "finance": 62,
+    "issues": 32,
+    "days": 31,
+    "words": 160,
+    "ai": 96,
+    "finance": 64,
     "both": 0,
     "other": 0
   },
   "issues": [
+    {
+      "date": "2026-10-13",
+      "issueNo": 32,
+      "issueSpan": 1,
+      "issueLabel": "第 32 期",
+      "issueNoLabel": "32",
+      "theme": "误差如何变成修正——机器的学习回路 · 组合的偏离校准",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 31 期 155 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "backpropagation",
+        "gradient descent",
+        "learning rate",
+        "mean reversion",
+        "rebalancing"
+      ]
+    },
     {
       "date": "2026-10-12",
       "issueNo": 31,
