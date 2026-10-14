@@ -1,0 +1,178 @@
+{
+  "date": "2026-10-14",
+  "issueNo": 33,
+  "issueSpan": 1,
+  "issueLabel": "第 33 期",
+  "issueNoLabel": "33",
+  "theme": "别把噪声当信号——防过拟合的纪律 · 回测里的隐形偏差",
+  "themeRaw": "别把噪声当信号——防过拟合的纪律 + 回测里的隐形偏差",
+  "note": "本期 5 词（3 AI + 2 金融），已与前 32 期 160 词去重",
+  "title": "每日英语 5 词 · 2026-10-14",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "dropout",
+      "issueNoLocal": 33,
+      "phonetic": "/ˈdraʊpaʊt/",
+      "pos": "n.",
+      "posRaw": "n.（相关：overfitting、regularization、weight decay、ensemble、batch normalization、train/eval mode）",
+      "related": [
+        "overfitting",
+        "regularization",
+        "weight decay",
+        "ensemble",
+        "batch normalization",
+        "train",
+        "eval mode"
+      ],
+      "meaning": "【AI】随机失活——训练时按固定概率随机「关掉」一部分神经元或注意力头，让每次前向传播都走一个不同的稀疏子网络；推理时全部恢复并按概率缩放。它是防止过拟合最经典、最便宜的手段之一",
+      "gloss": "随机失活",
+      "example": "Dropout is active only during training; at inference every unit is switched back on, which is why the same model behaves differently in train and eval mode.",
+      "exampleCn": "Dropout 只在训练时生效；推理时所有单元重新开启——这就是为什么同一个模型在训练模式与评估模式下行为不同。",
+      "memory": "**记忆锚点**：dropout 是**训练时故意让一部分学生「随机旷课」**——每次都不让全班到齐，逼每个人自己学会承担，而不是依赖少数几个「学霸同学」。**为什么重要**：① 它是已学 overfitting / regularization 的**第一个具体答案**——概念早已学过，但「到底怎么防」的落地手段从 dropout 开始；② 它解释了**训练与推理行为不一致**这一工程陷阱：模型必须显式区分 train / eval 模式，忘记切换是新手最常见的 bug；③ 它近似于**训练一个巨型集成模型**：每个随机子网络都是一次采样，推理时的全网络相当于这些子网络的「平均投票」；④ 它是读懂模型配置的前提：注意力 dropout、残差 dropout 是 Transformer 训练配方里的常客，而现代大模型常把它设得很低甚至为 0（数据足够大时正则化反而多余）。**关键权衡**：① **概率 p**：太小无效果，太大欠拟合且训练变慢，经典取值 0.1~0.5；② **与数据量互斥**：数据越多、模型越小，dropout 越不必要——这正是大模型普遍关掉它的原因；③ **与已学 layer normalization 交互**：两者都改变激活尺度，叠加时要注意缩放口径；④ **它牺牲训练容量**：训练损失会变差（更难拟合），但验证损失常更好——这恰好是正则化的定义。**实践要点**：① 小数据微调保留 dropout，大规模预训练按经验调低；② 推理前务必切到 eval 模式，否则输出随机且不可复现；③ 别把它与 batch normalization 的模式差异混淆——两者都依赖模式切换，但原因完全不同；④ 训练集准确率远高于验证集时，先加 dropout 或加数据，不要急着改架构。**易混点**：dropout（**随机丢弃单元**，作用于激活，只在训练期）与已学 pruning（**永久删掉权重**，作用于参数，在推理时生效）是两种完全不同的「减法」——前者是训练技巧，后者是压缩手段",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "early stopping",
+      "issueNoLocal": 33,
+      "phonetic": "/ˈɜːli ˈstɒpɪŋ/",
+      "pos": "n.",
+      "posRaw": "n.（相关：validation set、overfitting、patience、checkpoint、learning rate、generalization）",
+      "related": [
+        "validation set",
+        "overfitting",
+        "patience",
+        "checkpoint",
+        "learning rate",
+        "generalization"
+      ],
+      "meaning": "【AI】早停——训练中持续监控验证集指标，一旦它不再改善（连续若干轮无提升）就停止训练，并回滚到验证指标最好的那个检查点。它把「训多久」这个超参数交给数据自己决定",
+      "gloss": "早停",
+      "example": "Without a held-out validation set you cannot know when to stop, and early stopping on the training loss alone would simply never trigger.",
+      "exampleCn": "没有留出的验证集就无法判断何时该停——而只看训练损失做早停，永远不会触发。",
+      "memory": "**记忆锚点**：早停是**封卷时间由模拟考成绩决定**——不是看你复习了多久（训练轮数），而是看你模拟考（验证集）不再进步了就收手。**为什么重要**：① 它把「训练多久」从**拍脑袋的超参变成数据驱动的判据**，是性价比最高的正则化手段——几乎零额外计算，只需留出一份验证集；② 它揭示了**训练损失与泛化能力会分道扬镳**：训练损失几乎总在下降，验证损失却先降后升，拐点之后每一步都在过拟合；③ 它是已学 checkpoint 与「选模型」流程的连接点：训练通常保存多个检查点，最终交付的应是**验证集最优**的那个，而非最后一个；④ 它在大模型微调里尤其关键——已学 instruction tuning / PEFT / DPO 的训练轮数通常很少，跑多了反而退化（已学 catastrophic forgetting）。**关键权衡**：① **patience（耐心轮数）**：设太小会因验证指标的正常波动而提前停，设太大则白烧算力；② **验证集要够大且同分布**：小验证集噪声大，早停判据会抖动；③ **与学习率调度耦合**：余弦衰减预设了总步数，而早停是「随时可能停」，两者需要协调；④ **它不提高模型上限**，只避免变差——数据或架构问题不能靠早停解决。**实践要点**：① 永远从训练集里**划出验证集**，不要用测试集做早停（那是数据泄漏）；② 用**验证损失**而非准确率这类离散指标，曲线更平滑、更早给出信号；③ 保存「best checkpoint」而不是「last checkpoint」，这是最容易被忽略的一步；④ 训练异常时先看验证损失何时开始回升，比盯训练损失有效得多。**易混点**：early stopping（**提前结束训练**，防过拟合）与已学 gradient descent 里的「收敛」不是一回事——收敛指损失不再下降，早停指泛化不再改善，二者常不在同一时刻发生；也区别于「训练中断」——早停是有判据的主动决策",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "cross-validation",
+      "issueNoLocal": 33,
+      "phonetic": "/ˌkrɒs vælɪˈdeɪʃn/",
+      "pos": "n.",
+      "posRaw": "n.（相关：validation set、overfitting、holdout、data leakage、hyperparameter tuning、generalization）",
+      "related": [
+        "validation set",
+        "overfitting",
+        "holdout",
+        "data leakage",
+        "hyperparameter tuning",
+        "generalization"
+      ],
+      "meaning": "【AI】交叉验证——把数据切成 K 份，轮流用其中 1 份当验证集、其余 K−1 份训练，重复 K 次后取平均指标。它用有限数据同时完成模型评估与超参选择，代价是 K 倍训练成本",
+      "gloss": "交叉验证",
+      "example": "With only a few thousand labeled examples, K-fold cross-validation gives a far more stable estimate than a single train-test split.",
+      "exampleCn": "在只有几千条标注样本时，K 折交叉验证比单次训练-测试划分给出稳定得多的估计。",
+      "memory": "**记忆锚点**：交叉验证是**轮流出题、轮流当考官**——每份数据都有机会做一次考题，避免「恰好把难题都分进测试卷」这种运气造成的误判。**为什么重要**：① 它解决**小数据下的评估不稳**：单次划分的指标方差很大，换个随机种子结论就可能翻转，K 折把这种运气平均掉；② 它是**超参数选择的纪律**：已学 learning rate / dropout 概率这类超参，正确做法是在交叉验证上选，而不是在最终测试集上挑——后者就是自欺；③ 它是「**不碰测试集**」这一原则的工程实现：数据分成训练 / 验证 / 测试三层，测试集只在最后一次使用；④ 它揭示了机器学习与投资的**同构性**：模型选择像选策略，样本外验证像回测——两者都在回答「这个结论是不是被数据本身挑出来的」。**关键权衡**：① **K 的取舍**：K 越大估计越稳（K = 样本数即留一法）但成本越高，常用 5 或 10；② **时序数据不能随机切分**：金融与序列数据必须按时间滚动（walk-forward），随机 K 折会把未来信息泄漏进训练（数据泄漏）；③ **分层要求**：类别极不平衡时要分层抽样，否则某些折可能完全没有少数类；④ **它只解决评估，不解决根本**：数据本身有偏或泄漏时，交叉验证只会把错误结论估得更「可信」。**实践要点**：① 先固定划分留出**最终测试集**，再在剩余数据上做交叉验证；② 时序任务用 **walk-forward / 滚动窗口**，保证每次训练只用过去的数据；③ 报告结果时给出**均值与标准差**，只报均值会掩盖不稳定性；④ 一旦在测试集上反复调整，测试集就变成了验证集，评估结果随即失效。**易混点**：cross-validation（**反复换验证集**，估计自身泛化能力）与已学 benchmark（**固定考题**，横向比较模型）目的不同——前者估自己，后者比他人；也区别于本期第 4 词 backtesting：交叉验证检验的是「模型」，回测模拟的是「策略」，形式相似而对象不同",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "backtesting",
+      "issueNoLocal": 33,
+      "phonetic": "/ˈbæktestɪŋ/",
+      "pos": "n.",
+      "posRaw": "n.（相关：overfitting、survivorship bias、look-ahead bias、drawdown、transaction cost、out-of-sample）",
+      "related": [
+        "overfitting",
+        "survivorship bias",
+        "look-ahead bias",
+        "drawdown",
+        "transaction cost",
+        "out-of-sample"
+      ],
+      "meaning": "【金融】回测——把一套投资规则放到历史数据上模拟执行，看它「如果当时真的用了」会得到什么收益与回撤。它是策略研究的标准工具，也是最容易自欺的地方",
+      "gloss": "回测",
+      "example": "A backtest that ignores transaction costs and dividends will look far better than anything you could have achieved in real life.",
+      "exampleCn": "一个忽略交易成本与股息的回测，看起来会远好于你在现实中能拿到的结果。",
+      "memory": "**记忆锚点**：回测是**用后视镜开车**——你能看清走过的路，但路上的雾（成本、滑点、流动性）在后视镜里全都不见了。**为什么重要**：① 它是**量化研究的第一道门**，也是最大的自欺来源：回测表现与实盘表现的差距，几乎总是源于回测里被忽略的东西；② 它与已学 overfitting 是**同一个病**：反复调参数直到历史曲线好看，就是在拟合历史噪声——参数越多、试的次数越多，过拟合越严重；③ 它是理解**交易成本**重要性的入口：已学 slippage / turnover 之所以关键，正因为高频策略的毛收益常被成本吃光；④ 它是投资纪律的量化表达：不写下来的规则无法被检验，回测的价值不在预测未来，而在**暴露规则里的隐藏假设**。**关键权衡**：① **样本内外之分**：必须留出样本外区间验证，只在样本内好看毫无意义；② **成本与容量**：加不加交易成本、滑点、冲击成本，结论可能完全反转，小市值策略还要考虑**资金容量**上限；③ **生存者偏差与前瞻偏差**：用今天仍在指数的成分股回测，天然高估收益（见本期第 5 词）；④ **过拟合的诱惑**：参数越多、试得越久，回测越漂亮、实盘越差——「回测是给策略打的粉底」。**实践要点**：① 回测前**先写下规则**再跑数据，不要边看曲线边改规则；② 必做**样本外测试 + 滚动前推（walk-forward）**；③ 成本按悲观估计（双边手续费 + 滑点 + 冲击），宁可高估；④ 关注**回撤与恢复期**而不只是年化收益，并检查策略在多少比例的年份里有效；⑤ 用**少数几个参数**，参数一多就该怀疑是在拟合噪声。**易混点**：backtesting（**历史模拟**，检验策略）与已学 performance attribution（**归因分解**，解释已实现收益从哪来）阶段不同——前者在事前，后者在事后；也区别于 paper trading（用未来数据实时模拟，能部分规避后视偏差但耗时更长）",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "survivorship bias",
+      "issueNoLocal": 33,
+      "phonetic": "/səˈvaɪvəʃɪp ˈbaɪəs/",
+      "pos": "n.",
+      "posRaw": "n.（相关：backtesting、look-ahead bias、selection bias、index reconstitution、delisting、data snooping）",
+      "related": [
+        "backtesting",
+        "look-ahead bias",
+        "selection bias",
+        "index reconstitution",
+        "delisting",
+        "data snooping"
+      ],
+      "meaning": "【金融】生存者偏差——只统计「活到今天」的样本而忽略已退市、破产、被剔除的对象，导致结果系统性高估。在投资中表现为：用今天的指数成分股回测过去，等于提前知道了谁会赢",
+      "gloss": "生存者偏差",
+      "example": "Survivorship bias inflates historical fund returns because the worst performers are quietly closed and dropped from the database.",
+      "exampleCn": "生存者偏差会抬高基金的历史收益，因为表现最差的基金被悄悄清盘、从数据库里剔除了。",
+      "memory": "**记忆锚点**：生存者偏差是**只数返航的飞机、不数被击落的**——二战时统计轰炸机弹孔分布得出「该加固机翼」的结论，恰恰因为中弹坠毁的飞机根本没飞回来。**为什么重要**：① 它是**回测高估的系统性来源**，也是最隐蔽的一种：数据本身没有错，错的是「样本集合被今天的生存状态筛选过」；② 它无处不在——指数成分股回测、基金业绩数据库、创业成功率统计、甚至「成功学案例」都受它污染；③ 它与已学 overfitting 不同：过拟合是**方法**的问题（拟合了噪声），生存者偏差是**数据**的问题（样本有偏），后者更难察觉，因为一切计算看起来都正确；④ 它解释了为什么**纸面策略与实盘差距常达数个百分点**，且这种差距无法靠调参消除。**关键权衡**：① **完整历史数据的成本**：含退市股票的数据库昂贵，很多人省下这笔钱，也就省掉了正确性；② **指数重构**：用**当时的**成分股（point-in-time）而非今天的成分股，是纠正它的标准做法，但历史成分数据同样难得；③ **与前瞻偏差叠加**：两者常同时出现，一起把回测结果抬高；④ **反面同样存在**：过度纠正（把已消失的坏样本全塞回去）也可能低估真实可投资回报。**实践要点**：① 回测务必使用 **point-in-time** 数据，包含当时已退市 / 被剔除的标的；② 检查数据源是否只含「当前存续」样本，基金数据库尤其要问清这一点；③ 看到惊人的历史收益时，先问「**样本是怎么选出来的**」，而不是先问「用了什么模型」；④ 同样的警惕适用于任何统计：招聘、医疗、创业研究里，只统计「活下来的样本」都会得到漂亮的错误结论。**易混点**：survivorship bias（**样本筛选偏差**，源于「谁活下来了」）与 look-ahead bias（**时间穿越偏差**，源于「用了当时还不知道的信息」）是两种独立的数据污染，常同时出现但成因不同；也区别于 selection bias（更一般的选择偏差，涵盖抽样方法本身的问题）",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [
+    {
+      "no": "1",
+      "word": "dropout",
+      "phonetic": "/ˈdraʊpaʊt/",
+      "domain": "AI",
+      "point": "训练时随机旷课；推理全开，train/eval 模式必须分清"
+    },
+    {
+      "no": "2",
+      "word": "early stopping",
+      "phonetic": "/ˈɜːli ˈstɒpɪŋ/",
+      "domain": "AI",
+      "point": "由验证集决定何时封卷；保存 best 而非 last checkpoint"
+    },
+    {
+      "no": "3",
+      "word": "cross-validation",
+      "phonetic": "/ˌkrɒs vælɪˈdeɪʃn/",
+      "domain": "AI",
+      "point": "轮流出题轮流当考官；时序数据必须滚动切分"
+    },
+    {
+      "no": "4",
+      "word": "backtesting",
+      "phonetic": "/ˈbæktestɪŋ/",
+      "domain": "金融",
+      "point": "用后视镜开车；样本外 + 悲观成本是底线"
+    },
+    {
+      "no": "5",
+      "word": "survivorship bias",
+      "phonetic": "/səˈvaɪvəʃɪp ˈbaɪəs/",
+      "domain": "金融",
+      "point": "只数返航的飞机；point-in-time 数据是解药"
+    }
+  ],
+  "comparisons": [],
+  "progress": [
+    "本期：第 33 期，5 词",
+    "累计：**165 词**（99 AI + 66 金融）",
+    "归档格式：MD 词卡 + KAMI One-Pager PNG + Telegram 推送"
+  ]
+}

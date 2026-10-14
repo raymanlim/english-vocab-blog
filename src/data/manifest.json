@@ -1,16 +1,39 @@
 {
-  "generatedAt": "2026-10-13T01:21:09.147Z",
+  "generatedAt": "2026-10-14T03:37:58.328Z",
   "source": "pinghe/english words",
   "totals": {
-    "issues": 32,
-    "days": 31,
-    "words": 160,
-    "ai": 96,
-    "finance": 64,
+    "issues": 33,
+    "days": 32,
+    "words": 165,
+    "ai": 99,
+    "finance": 66,
     "both": 0,
     "other": 0
   },
   "issues": [
+    {
+      "date": "2026-10-14",
+      "issueNo": 33,
+      "issueSpan": 1,
+      "issueLabel": "第 33 期",
+      "issueNoLabel": "33",
+      "theme": "别把噪声当信号——防过拟合的纪律 · 回测里的隐形偏差",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 32 期 160 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "dropout",
+        "early stopping",
+        "cross-validation",
+        "backtesting",
+        "survivorship bias"
+      ]
+    },
     {
       "date": "2026-10-13",
       "issueNo": 32,
