@@ -1,0 +1,177 @@
+{
+  "date": "2026-10-15",
+  "issueNo": 34,
+  "issueSpan": 1,
+  "issueLabel": "第 34 期",
+  "issueNoLabel": "34",
+  "theme": "底座与基准——能力从哪来、折现率从哪来",
+  "themeRaw": "底座与基准——能力从哪来、折现率从哪来",
+  "note": "本期 5 词（3 AI + 2 金融），已与前 33 期 165 词去重",
+  "title": "每日英语 5 词 · 2026-10-15",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "pre-training",
+      "issueNoLocal": 34,
+      "phonetic": "/ˌpriː ˈtreɪnɪŋ/",
+      "pos": "n.",
+      "posRaw": "n.（相关：self-supervised learning、fine-tuning、foundation model、checkpoint、corpus、compute budget）",
+      "related": [
+        "self-supervised learning",
+        "fine-tuning",
+        "foundation model",
+        "checkpoint",
+        "corpus",
+        "compute budget"
+      ],
+      "meaning": "【AI】预训练——在大规模无标注语料上，用自监督目标（如预测下一个 token）从零训练一个模型，让它学到通用的语言规律与世界知识。它是「通用底座」的制造阶段，消耗整个模型生命周期中绝大部分算力，之后才轮到微调与对齐",
+      "gloss": "预训练",
+      "example": "Pre-training consumes the vast majority of the compute budget, yet it produces a model that can only continue text — turning it into an assistant takes a separate alignment stage.",
+      "exampleCn": "预训练消耗了绝大部分算力预算，但它产出的模型只会「续写文本」——要把它变成助手，还需要一个独立的对齐阶段。",
+      "memory": "**记忆锚点**：预训练是**从小学到高中的通识教育**——不知道将来要干什么，先把语言、常识、推理的底子打厚；微调才是上岗培训。**为什么重要**：① 它界定了**能力的来源与边界**：模型的通用能力几乎全部来自预训练，后训练（已学 instruction tuning / RLHF / DPO）主要改变「行为方式」而非「知识储备」；② 它解释了**为什么大模型贵在训练而非推理**：预训练成本一次性但极高，已学 prompt caching / continuous batching 这类优化都只作用于推理侧；③ 它是已学 scaling law 的落地场景——参数、数据、算力三者如何配比，正是预训练阶段的核心决策；④ 它是「**知识截止**」的根源：语料的时间边界直接决定了已学 knowledge cutoff，之后的信息只能靠检索（RAG）补。**关键权衡**：① **数据质量 vs 规模**：去重、过滤、配比的重要性常超过单纯堆量，已学 data contamination 就是配比失误的典型后果；② **算力预算分配**：是训更大模型还是喂更多数据，正是 scaling law 要回答的问题；③ **从零训练 vs 续训**：从头预训练成本极高，多数团队选择在开源底座上继续训练或直接微调；④ **它不保证有用**：预训练目标只是「预测下一个 token」，与「有帮助、无害」无关，这正是对齐阶段存在的理由。**实践要点**：① 绝大多数团队**不应从零预训练**，先评估在开源底座上微调（已学 PEFT 路线）是否够用；② 判断一个模型能力时，先分清是**预训练规模**带来的还是**后训练**带来的；③ 微调时警惕已学 catastrophic forgetting——底座的通用能力会被窄数据覆盖；④ 关注数据而非只关注参数量：同参数下数据质量差异足以决定模型档次。**易混点**：pre-training（**无标注、自监督、学通用规律**）与已学 fine-tuning（**有标注、监督、学特定任务**）是阶段与目标的双重区别；也区别于 continual pre-training（在已有底座上继续预训练，属中间形态）",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "self-supervised learning",
+      "issueNoLocal": 34,
+      "phonetic": "/ˌself ˈsuːpərvaɪzd ˈlɜːnɪŋ/",
+      "pos": "n.",
+      "posRaw": "n.（相关：pre-training、masked language modeling、next-token prediction、contrastive learning、data efficiency、label）",
+      "related": [
+        "pre-training",
+        "masked language modeling",
+        "next-token prediction",
+        "contrastive learning",
+        "data efficiency",
+        "label"
+      ],
+      "meaning": "【AI】自监督学习——不给人工标注，而是从数据本身构造监督信号（如遮住一个词让模型猜、或预测下一个 token），从而在近乎无限的原始数据上训练。它是大模型能吃下互联网规模语料的前提",
+      "gloss": "自监督学习",
+      "example": "Self-supervised learning is what makes web-scale pre-training possible: the labels are generated from the text itself, so no human annotation is needed.",
+      "exampleCn": "自监督学习让网络规模的预训练成为可能——标签由文本自身生成，无需人工标注。",
+      "memory": "**记忆锚点**：自监督是**做完形填空自学**——没有人给你答案，但把句子挖掉一个词，原文就是标准答案，于是海量无标注文本瞬间变成练习册。**为什么重要**：① 它是**规模化的真正前提**：人工标注在互联网规模上不可行，自监督把「标注」这一瓶颈彻底绕开（已学 synthetic data 是另一条绕开路线，但自监督更根本）；② 它揭示了预训练**目标与下游任务不一致**这一核心张力：模型学的是「预测下一个 token」，我们要的是「回答问题」，这个落差正是后训练要填的沟；③ 它与已学 RLHF / DPO 构成**三个层次的监督**：自监督（无标注）→ 监督微调（人工标注）→ 偏好对齐（人类排序）；④ 它是理解**数据效率**争论的关键：自监督能从无标注数据里榨取信号，但高质量数据总有耗尽的一天。**关键权衡**：① **任务设计决定表征质量**：选「猜下一个词」还是「对比正负样本」（contrastive），会得到截然不同的表征；② **无标注数据自带偏置**：互联网文本含人口、语言、立场偏差，自监督会照单全收；③ **算力换标注**：成本从人工标注转移到算力，是「贵机器、省人力」的路线；④ **它不产生对齐**：目标只是重建数据，不区分有用与有害。**实践要点**：① 有大量无标注数据 + 少量标注数据时，先用自监督预训练再用少量标注微调，是标准配方；② 评估自监督学到的表征，用**线性探测（linear probe）**或少量样本微调，看它到底学到了什么；③ 警惕「预训练目标刷分高但下游任务差」——目标与任务不匹配是常态；④ 读懂模型报告里的 masked / causal 等目标差异，背后就是自监督任务的选型。**易混点**：self-supervised（**标签由数据自身生成**，无人工介入）与已学 RLHF（**标签来自人类偏好排序**）是监督来源的根本不同；也区别于传统 unsupervised learning（如聚类，不构造「预测目标」）——自监督本质上是有监督的形式，只是标签免费",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "transfer learning",
+      "issueNoLocal": 34,
+      "phonetic": "/trænsˈfɜː ˈlɜːnɪŋ/",
+      "pos": "n.",
+      "posRaw": "n.（相关：pre-training、fine-tuning、domain shift、feature reuse、few-shot、frozen layers）",
+      "related": [
+        "pre-training",
+        "fine-tuning",
+        "domain shift",
+        "feature reuse",
+        "few-shot",
+        "frozen layers"
+      ],
+      "meaning": "【AI】迁移学习——把在一个任务或领域上学到的知识，搬到另一个任务或领域上使用。在大模型时代，最典型的形式就是「预训练底座 + 少量数据微调」，把通用能力迁移到垂直场景",
+      "gloss": "迁移学习",
+      "example": "Transfer learning is why a small team can build a competitive vertical model: the general capability is already in the base weights, and only the domain gap has to be closed.",
+      "exampleCn": "迁移学习让小团队也能做出有竞争力的垂直模型——通用能力已在底座权重里，需要补的只是领域差距。",
+      "memory": "**记忆锚点**：迁移学习是**会开车的人学开卡车**——不必从「什么是方向盘」重新学起，只需补上差异那部分。**为什么重要**：① 它是**绝大多数实际 AI 落地的路线**：从零预训练是少数巨头的事，迁移学习是其余所有人的工作方式（已学 PEFT / instruction tuning 都是它的实现手段）；② 它解释了**为什么垂直模型可以便宜**：通用能力已在底座里，团队只为「领域差距」付费，而不是为「通用智能」付费；③ 它与已学 domain shift / distribution shift 是一体两面：迁移收益大小，正取决于源领域与目标领域之间偏移有多大；④ 它是**样本效率**的来源：相比从零训练，迁移所需标注量可低一到两个数量级，这正是已学 few-shot 能力的基础。**关键权衡**：① **迁移多少层**：全部冻结只训最后一层最省但上限低，全量微调上限高但易过拟合且易遗忘（已学 catastrophic forgetting）；② **负迁移**：源任务与目标任务差得太远时，迁移反而有害——不是所有知识都值得搬；③ **领域差距 vs 数据量**：差距小则少量数据足够，差距大则要么补数据、要么放弃迁移；④ **多产品共用底座**：如何隔离与复用权重是工程难题。**实践要点**：① 先冻结底座、只训少量参数作为基线，不足再逐步放开，从便宜到贵逐级试探；② 用少量**样本外**数据判断迁移是否真的有效，不要只看训练损失；③ 领域数据极少先走已学 PEFT / prompt 路线，全量微调容易崩；④ 明确区分「补知识」（需要新数据）与「改行为」（可能只需少量示例）。**易混点**：transfer learning（**跨任务 / 跨领域复用知识**，范围最广）与已学 fine-tuning（**一种具体实现**）是范畴与手段的关系；也区别于 in-context learning（**不改权重**，靠提示临时迁移）——前者改参数，后者只改上下文",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "risk-free rate",
+      "issueNoLocal": 34,
+      "phonetic": "/ˌrɪsk ˈfriː reɪt/",
+      "pos": "n.",
+      "posRaw": "n.（相关：discount rate、WACC、equity risk premium、Treasury yield、present value、terminal value）",
+      "related": [
+        "discount rate",
+        "WACC",
+        "equity risk premium",
+        "Treasury yield",
+        "present value",
+        "terminal value"
+      ],
+      "meaning": "【金融】无风险利率——理论上无违约风险的资产收益率，实践中通常以美国国债收益率代表（短端用 3 个月国库券、长端用 10 年期国债）。它是所有估值的折现基准：任何风险资产的期望回报都必须在此之上再加一层补偿",
+      "gloss": "无风险利率",
+      "example": "When the 10-year Treasury yield rises, the risk-free rate rises with it, and every future cash flow in a DCF is suddenly worth less.",
+      "exampleCn": "10 年期美债收益率上升时，无风险利率随之上升，DCF 里的每一笔未来现金流立刻变得不值钱。",
+      "memory": "**记忆锚点**：无风险利率是**估值的引力**——它不决定哪家公司好，但它决定「未来的钱在今天值多少」；引力一强，所有远期故事都被压回地面。**为什么重要**：① 它是已学 DCF / WACC 的**分母起点**：折现率 = 无风险利率 + 风险补偿，无风险利率一动，所有估值同步重估——这解释了为什么**利率上行常压制高估值成长股**；② 它提供**跨资产的统一标尺**：股票、债券、房地产的吸引力都相对它而言，「TINA（别无选择）」这类说法由此而来；③ 它是**货币政策传导到股市的主干道**：已学 monetary 相关政策变化，最直接的落点就是它；④ 它是**期限结构**的基准：已学 yield curve 就是不同期限无风险利率连成的曲线，其形态本身是宏观信号。**关键权衡**：① **用哪个期限**：短端贴近当下政策利率，长端含增长与通胀预期；估值常用 10 年期，因与长期现金流久期更匹配；② **名义 vs 实际**：名义利率含通胀，实际利率（TIPS）才是购买力的真实补偿，高通胀期两者差异巨大；③ **「无风险」只是近似**：严格说国债也有久期与通胀风险，但作为可观测、可交易的基准已足够实用；④ **它不预测股价**：利率与股市同时受盈利增长驱动，短期常出现「利率升、股市也升」的组合。**实践要点**：① 估值模型里把无风险利率写成**显式参数**，便于做敏感性分析，而不是埋在折现率里；② 做美股分析时固定跟踪 10 年期美债收益率，它是最高频的宏观变量之一；③ 利率快速变化期，优先检查**长久期资产**（高估值成长、长期债券）的暴露；④ 对比历史估值倍数时，必须同时对比当时的无风险利率水平，否则倍数高低无从判断。**易混点**：risk-free rate（**基准**，不含任何风险补偿）与已学 WACC（**加权折现率**，已包含无风险利率）是组成部分与整体的关系；也区别于政策利率（如联邦基金利率）——后者影响前者，但市场定价的长端收益率常与政策方向背离",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "equity risk premium",
+      "issueNoLocal": 34,
+      "phonetic": "/ˈekwəti rɪsk ˈpriːmiəm/",
+      "pos": "n.",
+      "posRaw": "n.（相关：risk-free rate、WACC、beta、market risk premium、discount rate、expected return）",
+      "related": [
+        "risk-free rate",
+        "WACC",
+        "beta",
+        "market risk premium",
+        "discount rate",
+        "expected return"
+      ],
+      "meaning": "【金融】股权风险溢价——投资者为承担股票风险（而非持有无风险资产）所要求的额外回报，即市场预期收益率高出无风险利率的那部分。它与无风险利率相加构成股权成本，是折现率里最难精确估计、影响又最大的一项",
+      "gloss": "股权风险溢价",
+      "example": "Most of the disagreement in a DCF comes down to the equity risk premium: a one-point change moves the valuation by more than any other single input.",
+      "exampleCn": "DCF 中的大部分分歧最终都落在股权风险溢价上——它变动一个百分点，对估值的影响超过任何其他单一输入。",
+      "memory": "**记忆锚点**：股权风险溢价是**坐过山车的票价**——无风险利率是你坐稳当缆车的钱，多出来的这部分，是你为「可能中途被甩出去」付的价格。**为什么重要**：① 它是**折现率的第二块砖**：股权成本 = 无风险利率 + β × 股权风险溢价（已学 beta 在这里第一次有了具体用途），与已学 WACC / DCF 直接接续；② 它把「风险」翻译成了**价格**：风险本身不可直接交易，但溢价可以——这是所有风险资产定价的共同逻辑；③ 它随**市场情绪周期波动**：恐慌时溢价抬升（要求更高补偿），乐观时被压缩，因此它既是估值参数也是情绪指标；④ 它是**长期回报预期的锚**：历史溢价（美股长期约 4~6 个百分点）常被用作未来股权回报的粗略基准，也是「股债性价比」讨论的核心。**关键权衡**：① **用历史还是前瞻**：历史溢价稳定但可能高估（美股数据自带生存者偏差，见第 33 期），前瞻溢价（隐含在价格里）更贴近当下但依赖假设；② **本地 vs 全球**：成熟市场与新兴市场溢价差异巨大，直接套用美股数值是常见错误；③ **它与无风险利率不是独立变量**：低利率环境下溢价常被压缩，两者此消彼长，不能各自随意假设；④ **估算误差大**：不同方法给出的溢价可相差 2 个百分点以上，对长久期资产意味着估值差异以数十个百分点计。**实践要点**：① 估值时做**溢价敏感性表**（例如 ±1 个百分点），比给出单一数字更有用；② 长期现金流占比高的公司（高估值成长股）对溢价最敏感，是风险暴露的主要来源；③ 跨市场比较估值倍数时，必须先统一溢价口径，否则是拿两把不同的尺子量东西；④ 记住它的**方向性含义**：溢价上升＝投资者要求更高回报＝同样的现金流值更少的钱。**易混点**：equity risk premium（**股票相对无风险资产的超额要求回报**，是「价格」）与已学 beta（**个股相对市场的波动敏感度**，是「倍数」）相乘才得到个股风险补偿；也区别于 risk premium 的一般概念——债市的信用利差（已学 credit spread）是同一逻辑在债券上的表现",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [
+    {
+      "no": "1",
+      "word": "pre-training",
+      "phonetic": "/ˌpriː ˈtreɪnɪŋ/",
+      "domain": "AI",
+      "point": "通识教育阶段；能力几乎全来自此，成本也几乎全在此"
+    },
+    {
+      "no": "2",
+      "word": "self-supervised learning",
+      "phonetic": "/ˌself ˈsuːpərvaɪzd ˈlɜːnɪŋ/",
+      "domain": "AI",
+      "point": "完形填空自学；把无标注数据变成练习册，是规模化的前提"
+    },
+    {
+      "no": "3",
+      "word": "transfer learning",
+      "phonetic": "/trænsˈfɜː ˈlɜːnɪŋ/",
+      "domain": "AI",
+      "point": "会开车的人学开卡车；只为领域差距付费，垂直模型通用路线"
+    },
+    {
+      "no": "4",
+      "word": "risk-free rate",
+      "phonetic": "/ˌrɪsk ˈfriː reɪt/",
+      "domain": "金融",
+      "point": "估值的引力；折现率起点，利率一动全部重估"
+    },
+    {
+      "no": "5",
+      "word": "equity risk premium",
+      "phonetic": "/ˈekwəti rɪsk ˈpriːmiəm/",
+      "domain": "金融",
+      "point": "坐过山车的票价；折现率第二块砖，最难估也最影响估值"
+    }
+  ],
+  "comparisons": [],
+  "progress": [
+    "本期：第 34 期，5 词",
+    "累计：**170 词**（102 AI + 68 金融）",
+    "归档格式：MD 词卡 + KAMI One-Pager PNG + Telegram 推送"
+  ]
+}

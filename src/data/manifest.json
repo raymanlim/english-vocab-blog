@@ -1,16 +1,39 @@
 {
-  "generatedAt": "2026-10-14T03:37:58.328Z",
+  "generatedAt": "2026-10-15T03:35:09.322Z",
   "source": "pinghe/english words",
   "totals": {
-    "issues": 33,
-    "days": 32,
-    "words": 165,
-    "ai": 99,
-    "finance": 66,
+    "issues": 34,
+    "days": 33,
+    "words": 170,
+    "ai": 102,
+    "finance": 68,
     "both": 0,
     "other": 0
   },
   "issues": [
+    {
+      "date": "2026-10-15",
+      "issueNo": 34,
+      "issueSpan": 1,
+      "issueLabel": "第 34 期",
+      "issueNoLabel": "34",
+      "theme": "底座与基准——能力从哪来、折现率从哪来",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 33 期 165 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "pre-training",
+        "self-supervised learning",
+        "transfer learning",
+        "risk-free rate",
+        "equity risk premium"
+      ]
+    },
     {
       "date": "2026-10-14",
       "issueNo": 33,
