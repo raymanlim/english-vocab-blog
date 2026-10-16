@@ -1,16 +1,39 @@
 {
-  "generatedAt": "2026-10-15T03:35:09.322Z",
+  "generatedAt": "2026-10-16T03:36:48.826Z",
   "source": "pinghe/english words",
   "totals": {
-    "issues": 34,
-    "days": 33,
-    "words": 170,
-    "ai": 102,
-    "finance": 68,
+    "issues": 35,
+    "days": 34,
+    "words": 175,
+    "ai": 105,
+    "finance": 70,
     "both": 0,
     "other": 0
   },
   "issues": [
+    {
+      "date": "2026-10-16",
+      "issueNo": 35,
+      "issueSpan": 1,
+      "issueLabel": "第 35 期",
+      "issueNoLabel": "35",
+      "theme": "被占住的资源——显存被谁吃掉了、现金被谁垫住了",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 34 期 170 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "mixed precision",
+        "gradient checkpointing",
+        "grouped-query attention (GQA)",
+        "working capital",
+        "cash conversion cycle (CCC)"
+      ]
+    },
     {
       "date": "2026-10-15",
       "issueNo": 34,

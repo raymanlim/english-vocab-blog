@@ -1,0 +1,178 @@
+{
+  "date": "2026-10-16",
+  "issueNo": 35,
+  "issueSpan": 1,
+  "issueLabel": "第 35 期",
+  "issueNoLabel": "35",
+  "theme": "被占住的资源——显存被谁吃掉了、现金被谁垫住了",
+  "themeRaw": "被占住的资源——显存被谁吃掉了、现金被谁垫住了",
+  "note": "本期 5 词（3 AI + 2 金融），已与前 34 期 170 词去重",
+  "title": "每日英语 5 词 · 2026-10-16",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "mixed precision",
+      "issueNoLocal": 35,
+      "phonetic": "/mɪkst prɪˈsɪʒn/",
+      "pos": "n.",
+      "posRaw": "n.（相关：FP32、BF16、FP16、FP8、loss scaling、tensor core、numerical stability）",
+      "related": [
+        "FP32",
+        "BF16",
+        "FP16",
+        "FP8",
+        "loss scaling",
+        "tensor core",
+        "numerical stability"
+      ],
+      "meaning": "【AI】混合精度——在同一轮训练或推理中同时使用多种数值精度：权重保留一份 FP32 主副本以保证更新精度，前向与反向传播则用 BF16 / FP16 甚至 FP8 计算。低精度让每个数占的位数更少，于是同一块显存能装下更大的模型与更大的批次，张量核的吞吐也随之翻倍",
+      "gloss": "混合精度",
+      "example": "Training in BF16 mixed precision roughly halves activation memory and doubles tensor-core throughput, at the cost of a backward pass that is numerically delicate and often needs loss scaling.",
+      "exampleCn": "用 BF16 混合精度训练大致把激活显存减半、张量核吞吐翻倍，代价是反向传播在数值上变得娇气，常需配合损失缩放。",
+      "memory": "**记忆锚点**：混合精度是**结账时用零钱、记账时用账本**——日常计算用粗糙但快的低精度（零钱），只有真正要留档的权重更新才回到高精度（账本）。**为什么重要**：① 它是**显存墙的第一道常规解法**：已学 quantization 是「训完之后再压缩」，混合精度是「训练时就少占」，两者作用阶段不同、常叠加使用；② 它直接决定**能训多大的模型、能开多大的 batch**，进而影响已学 gradient checkpointing 是否还需要、以及 throughput 能到多少；③ 它解释了**为什么现代模型卡都标 BF16 而非 FP16**：BF16 指数位与 FP32 相同（动态范围大、不易溢出），尾数位更少（精度略低但训练更稳），这是「范围 vs 精度」权衡的教科书案例；④ 它是**硬件红利的前提**：张量核、FP8 加速单元只在低精度下才跑得出峰值算力，不用混合精度等于白买硬件。**关键权衡**：① **速度 vs 数值稳定**：精度越低越快，但梯度下溢/溢出风险越高，需 loss scaling、梯度裁剪等手段兜底；② **FP16 vs BF16**：FP16 精度更高但范围窄（易溢出），BF16 范围大但精度低——大模型训练普遍选 BF16；③ **训练 vs 推理口径不同**：推理可以更激进（INT8/FP8 甚至 INT4），因为不需要反向传播，误差不会累积；④ **不是免费**：低精度会轻微改变训练动态，极端情况下小模型或长尾任务上反而更差。**实践要点**：① 默认用 BF16 自动混合精度（AMP），几乎无痛；若硬件支持 FP8，先在推理侧试，训练侧谨慎；② 出现 loss 突然变 NaN，第一顺位排查精度而非学习率；③ 显存吃紧时，**先试混合精度、再上梯度检查点**——前者几乎不花算力，后者要花；④ 报显存占用时区分**权重显存 / 激活显存 / 优化器状态显存**，混合精度主要省后两者中的激活部分。**易混点**：mixed precision（**训练/推理过程中混用多种精度**，是运行时策略）与已学 quantization（**把已训好的权重压到低位宽**，是后处理手段）方向相反、可叠加；也区别于模型本身的原生精度——「BF16 模型」常指权重以 BF16 存储，而训练时仍可能有 FP32 主副本",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "gradient checkpointing",
+      "issueNoLocal": 35,
+      "phonetic": "/ˈɡreɪdiənt ˈtʃekpɔɪntɪŋ/",
+      "pos": "n.",
+      "posRaw": "n.（相关：activation memory、recomputation、backpropagation、memory-compute trade-off、batch size、long context）",
+      "related": [
+        "activation memory",
+        "recomputation",
+        "backpropagation",
+        "memory-compute trade-off",
+        "batch size",
+        "long context"
+      ],
+      "meaning": "【AI】梯度检查点（又称激活重计算）——反向传播需要用到前向每一层的中间激活值，若全部保存，激活显存随层数与序列长度线性膨胀。该技术只在少数「检查点」处保存激活，反向传播到未保存的区段时临时重算一遍前向，用额外算力换回大量显存",
+      "gloss": "梯度检查点",
+      "example": "Gradient checkpointing lets you train a much longer sequence on the same GPU by trading roughly 30% extra compute for a large cut in activation memory.",
+      "exampleCn": "梯度检查点让你在同一块 GPU 上训练长得多的序列——用约 30% 的额外算力，换取激活显存的大幅下降。",
+      "memory": "**记忆锚点**：梯度检查点是**爬山时不拍照、需要时回头再看一眼**——沿途只留几个路标（检查点），要看某段细节就重新走一遍（重算），省下的是胶卷（显存），花掉的是时间。**为什么重要**：① 它是**「算力换显存」的纯粹形态**：已学 pruning / quantization 是「少算」，它是「多算一次但少存」，方向完全不同；② 它决定**长上下文训练是否可行**：激活显存对序列长度是超线性增长，没有它，长上下文训练在很多卡上根本开不起来（已学 long context 的工程前提之一）；③ 它与已学 mixed precision 构成**显存优化的标准组合**：先降精度（几乎免费），再上重计算（花算力），这是实际训练脚本里最常见的两件套；④ 它是**判断训练方案成熟度的一个信号**：一个声称支持超长序列的方案若不提重计算策略，多半在显存账上没算清楚。**关键权衡**：① **时间 vs 显存**：典型代价是 20%~35% 的额外计算时间，换来激活显存降到约 √L 量级（L 为层数）；② **检查点粒度**：存得越密越省时间、越费显存，需要按可用显存反推；③ **只省激活、不省权重与优化器状态**：模型本身参数和 Adam 状态占的显存它一点不动，因此**对超大模型的收益有上限**；④ **与流水线并行/分片策略叠加时行为复杂**：多层优化同时上时，收益不是简单相加。**实践要点**：① 显存 OOM 时的**第二顺位**手段（第一是降 batch 或混合精度），优先用于「必须开长序列」的场景；② 开启后要重新标定吞吐，别沿用旧的时间估算；③ 与已学 continuous batching / KV cache 是不同层面的东西——那两个是**推理侧**，本词是**训练侧**，不要混谈；④ 小模型上通常不必开，收益不明显却平白多花三成算力。**易混点**：gradient checkpointing（**训练时重算激活以省显存**）与已学 checkpoint（模型权重存档，指「训练中途保存的参数快照」）是**完全不同的两个概念**，同名不同义，是本期最容易误读的一处；也区别于已学 KV cache（推理时缓存注意力键值以避免重算）——两者都在「缓存 vs 重算」这条轴上，但一个在训练、一个在推理，且取舍方向恰好相反",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "grouped-query attention (GQA)",
+      "issueNoLocal": 35,
+      "phonetic": "/ɡruːpt ˈkwɪəri əˈtenʃn/",
+      "pos": "n.",
+      "posRaw": "n.（相关：multi-head attention、KV cache、memory bandwidth、inference cost、MQA、RoPE）",
+      "related": [
+        "multi-head attention",
+        "KV cache",
+        "memory bandwidth",
+        "inference cost",
+        "MQA",
+        "RoPE"
+      ],
+      "meaning": "【AI】分组查询注意力——标准多头注意力（MHA）中每个查询头都配一份独立的 K/V，推理时 KV cache 显存随头数线性膨胀，且每生成一个 token 都要把整份 cache 读一遍，瓶颈落在显存带宽而非算力。GQA 让若干查询头共享一组 K/V（分组数介于 MHA 的「每头一份」与 MQA 的「全局一份」之间），在几乎不损质量的前提下把 KV cache 压缩数倍",
+      "gloss": "分组查询注意力",
+      "example": "GQA is now the default in most open models because it shrinks the KV cache — and the memory bandwidth it consumes — without the quality loss of making every query head share a single K/V.",
+      "exampleCn": "GQA 现已是多数开源模型的默认选择——它压缩了 KV cache 及其占用的显存带宽，又没有「所有查询头共用一组 K/V」那种质量损失。",
+      "memory": "**记忆锚点**：GQA 是**几个人合订一份报纸**——MHA 是每人订一份（占地方、贵），MQA 是全班只看一份（省到极致但信息不够），GQA 是分小组各订一份（省了大部分，信息还够用）。**为什么重要**：① 它是**「显存带宽才是推理瓶颈」这一判断的产物**：自回归生成（已学 autoregressive）每步只算一个 token，算力远未跑满，真正的墙是「把 KV cache 搬进搬出」的带宽——GQA 正是为这道墙设计；② 它直接决定**单卡能扛多长的上下文、多大的并发**：KV cache 缩小数倍，同等显存下可服务的序列长度与并发数同步放大，是已学 continuous batching 能发挥威力的前提之一；③ 它是**开源模型事实上的标配**：Llama 2 70B 之后几乎所有主流开源模型都用 GQA，读懂模型卡里的「n_kv_heads」参数就等于读懂了它的推理成本；④ 它演示了**架构层优化优于系统层优化**：同一收益若靠工程手段（更省的调度、更快的带宽）去拿，代价远高于在架构上直接少存。**关键权衡**：① **质量 vs 显存**：分组数越少（越接近 MQA）越省显存，但质量损失越大，实践中常见 8 个查询头共享 1 组 K/V；② **训练与推理的收益不对称**：训练时收益有限（算力是瓶颈），推理时收益巨大（带宽是瓶颈），因此 GQA 是**为推理而生的架构选择**；③ **与已学 KV cache 优化的关系**：量化 KV cache、稀疏注意力等是「在既有结构上省」，GQA 是「把结构本身改小」，两者可叠加但优先级应给架构；④ **它不是越长越好**：分组过激会削弱模型对同一位置的多视角建模能力，表现为长上下文任务退化。**实践要点**：① 选模型做推理部署时，**优先看 KV 头数而非总参数量**——同样 7B，GQA 版能扛的并发可能是 MHA 版的数倍；② 估算显存时按 `2 × n_kv_heads × head_dim × 层数 × 序列长度 × 精度字节数` 逐项算，别用总参数量拍脑袋；③ 做长上下文应用时，把 GQA 与已学 prompt caching / continuous batching 一起纳入方案，三者作用点不同、收益可叠加；④ 自研小模型时可从 MHA 起步再改 GQA，但**预训练后用 GQA 结构续训需谨慎**——K/V 头数改变会影响已学 RoPE 相关的位置外推行为。**易混点**：GQA（**若干查询头共享一组 K/V**，分组数介于两者之间）与 MQA（**所有查询头共享唯一一组 K/V**，最省但质量损失最大）是同一思路的两端；与已学 multi-head attention 的关系是「省显存版的 MHA」，**不是替代品而是折中版**；也区别于已学 KV cache——GQA 改变的是 cache 的**大小**，KV cache 本身是那个**被缓存的张量**",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "working capital",
+      "issueNoLocal": 35,
+      "phonetic": "/ˈwɜːkɪŋ ˈkæpɪtl/",
+      "pos": "n.",
+      "posRaw": "n.（相关：current assets、current liabilities、inventory、accounts receivable、accounts payable、cash conversion cycle）",
+      "related": [
+        "current assets",
+        "current liabilities",
+        "inventory",
+        "accounts receivable",
+        "accounts payable",
+        "cash conversion cycle"
+      ],
+      "meaning": "【金融】营运资本——流动资产减去流动负债，即企业日常经营中被净占用的资金。存货与应收账款把现金「锁」在经营循环里，应付账款则相当于供应商提供的无息融资，可部分抵销占用。它不产生利润，却是「做生意必须先垫的钱」",
+      "gloss": "营运资本",
+      "example": "A fast-growing company can post record profits and still run out of cash if working capital absorbs every dollar it earns.",
+      "exampleCn": "一家高速成长的公司可能创下利润纪录却仍然缺现金——因为营运资本把赚到的每一块钱都吸走了。",
+      "memory": "**记忆锚点**：营运资本是**生意里的押金**——你赚的钱里总有一部分不能拿走，它压在货架上（存货）、压在客户手里（应收），只有供应商愿意先垫一部分（应付）帮你分担。**为什么重要**：① 它解释了**「利润好但现金流差」这一最常见的财报困惑**：利润表按权责发生制确认收入，营运资本按现金实际占用说话，两者背离正是许多「高增长公司猝死」的机制（与已学 quality of earnings 直接呼应）；② 它是**成长的真实成本**：收入每增长一块钱，往往要先垫出若干毛钱的营运资本，因此**增长越快越缺钱**——这解释了为什么成长型企业总在融资，也解释了已学 dilution 为何常与高增长相伴；③ 它是**商业模式差异的核心变量**：先收钱后发货的生意（订阅、预付费）营运资本为负，等于用客户的钱做生意；先垫款后收钱的生意（工程、分销）则长期被占用，同样营收下现金流天差地别；④ 它是**周期底部的生死线**：行业下行时存货贬值、账期拉长，营运资本占用反而上升，与已学 inventory correction 是同一件事的两面。**关键权衡**：① **现金 vs 服务**：收紧账期能释放现金，但可能丢失客户；放松账期能促销售，但把风险从客户手里接了过来；② **备货 vs 占用**：多备存货保交付、少备存货保现金，交期敏感行业（如半导体材料、设备）常被迫向备货倾斜；③ **应付账款的边界**：拉长付款期等于向供应商无息借款，但过度挤压会反噬议价关系与供应安全；④ **它不衡量好坏**：营运资本占用的高低必须放在**行业惯例与增长阶段**里看，孤立看绝对值没有意义。**实践要点**：① 看财报时把**经营性现金流与净利润的差额**归因到营运资本变动上，这是识别「纸面利润」的第一动作；② 跟踪三个分项天数（存货天数、应收天数、应付天数），比只看营运资本总额更能定位问题；③ 分析供应商或客户时，**对方的营运资本压力就是你的回款风险**——这是半导体材料贸易里最实用的一个判断；④ 高速增长期主动做营运资本规划（授信、保理、账期谈判），不要等现金流告急才补。**易混点**：working capital（**存量**，资产负债表上某一时点的净占用，是「多少钱被压着」）与已学 free cash flow（**流量**，一段时期内经营产生的净现金）是存量与流量的关系；也区别于已学 capital expenditure（**长期资产投入**，买设备建厂）——capex 是「一次投、多年摊」，营运资本是「随收入滚动、反复占用」",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "cash conversion cycle (CCC)",
+      "issueNoLocal": 35,
+      "phonetic": "/kæʃ kənˈvɜːʃn ˈsaɪkl/",
+      "pos": "n.",
+      "posRaw": "n.（相关：working capital、days inventory outstanding、days sales outstanding、days payable outstanding、inventory correction、free cash flow）",
+      "related": [
+        "working capital",
+        "days inventory outstanding",
+        "days sales outstanding",
+        "days payable outstanding",
+        "inventory correction",
+        "free cash flow"
+      ],
+      "meaning": "【金融】现金转换周期——从付钱买原料到收回客户货款所需的天数，等于存货周转天数（DIO）+ 应收账款周转天数（DSO）− 应付账款周转天数（DPO）。它把「营运资本」从**存量金额**翻译成**时间长度**：周期越长，每做一块钱生意需要垫的现金越多、越久",
+      "gloss": "现金转换周期",
+      "example": "Cutting the cash conversion cycle by twenty days releases cash without a single extra dollar of revenue — which is why it is one of the cheapest forms of financing available.",
+      "exampleCn": "把现金转换周期缩短二十天，不增加一分钱收入就能释放现金——这正是它被视为最便宜的融资方式之一的原因。",
+      "memory": "**记忆锚点**：现金转换周期是**从掏钱到收钱的这段「空窗期」有多长**——你先把钱付出去，货在仓库躺着（DIO），卖给客户后钱还在别人账上（DSO），只有供应商让你晚点付（DPO）帮你把空窗期缩一缩。**为什么重要**：① 它是**营运资本的时间版本**，也是**可直接比较的指标**：不同规模的公司营运资本金额不可比，但 CCC 的天数可比——这是跨公司、跨行业分析现金流效率的标准尺子；② 它是**半导体周期最灵敏的仪表之一**：库存天数（DIO）见顶往往先于行业营收见顶，而 DPO 被拉长则常意味着公司已开始用供应商的钱撑现金流（已学 inventory correction 的先行信号）；③ 它揭示了**「融资」不只有股权和债权两条路**：缩短 CCC 是第三条路——不稀释股东、不付利息，纯粹靠运营纪律释放现金，与已学 dilution / capital allocation 直接接续；④ 它解释了**为什么负 CCC 的公司是怪物**：亚马逊、Costco 这类公司先收钱后付钱，CCC 为负，等于用客户和供应商的钱经营，规模越大现金越充裕——这是商业模式的护城河（已学 economic moat 的一种）。**关键权衡**：① **天数 vs 关系**：压 DIO 靠精准预测，压 DSO 靠收紧信用政策，拉 DPO 靠挤压供应商——前两者靠管理能力，第三者靠议价权，且会伤害供应链信任；② **负 CCC 的代价**：把存货风险转移给上游（如寄售、VMI）能让自己报表好看，但供应商会把这部分成本算进报价，最终仍由自己承担；③ **快 vs 稳**：CCC 缩短过快常意味着砍库存过狠，一旦需求反弹会缺货丢单，交期敏感的半导体材料尤其如此；④ **口径差异大**：DIO/DSO/DPO 用期末还是平均余额、是否含税，各家算法不一，跨公司比较前必须先统一口径。**实践要点**：① 分析标的时**同时看 CCC 的趋势与分项构成**——是需求变好还是账期变差，两者的结论完全相反；② 半导体与材料类公司，重点盯 **DIO 的拐点**，它常领先营收拐点一到两个季度；③ 判断一家公司的现金流质量，把 CCC 与已学 free cash flow、quality of earnings 三者合起来看，交叉验证；④ 自己做生意或评估供应商时，记住**对方的 CCC 就是你的账期谈判空间**——他越缺现金，越会想办法把周期转嫁给你。**易混点**：CCC（**时间指标，天数**）与 working capital（**金额指标，存量**）是同一件事的两个投影，前者更便于横向比较；DIO / DSO / DPO 三者中**只有 DPO 是减项**（越晚付钱对自己越有利），前两者是加项，这是最容易记反的一处；也区别于已学 operating leverage——后者讲的是**固定成本结构对利润的放大**（利润表），CCC 讲的是**现金在经营循环里停留多久**（资产负债表到现金流量表），一个是利润的杠杆、一个是现金的节奏",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [
+    {
+      "no": "1",
+      "word": "mixed precision",
+      "phonetic": "/mɪkst prɪˈsɪʒn/",
+      "domain": "AI",
+      "point": "结账用零钱、记账用账本；显存优化第一顺位，几乎不花算力"
+    },
+    {
+      "no": "2",
+      "word": "gradient checkpointing",
+      "phonetic": "/ˈɡreɪdiənt ˈtʃekpɔɪntɪŋ/",
+      "domain": "AI",
+      "point": "不拍照、需要时回头重走；用约三成算力换激活显存"
+    },
+    {
+      "no": "3",
+      "word": "grouped-query attention (GQA)",
+      "phonetic": "/ɡruːpt ˈkwɪəri əˈtenʃn/",
+      "domain": "AI",
+      "point": "分小组合订一份报纸；压 KV cache，专治推理显存带宽"
+    },
+    {
+      "no": "4",
+      "word": "working capital",
+      "phonetic": "/ˈwɜːkɪŋ ˈkæpɪtl/",
+      "domain": "金融",
+      "point": "生意里的押金；利润好但现金差的元凶，成长的真实成本"
+    },
+    {
+      "no": "5",
+      "word": "cash conversion cycle (CCC)",
+      "phonetic": "/kæʃ kənˈvɜːʃn ˈsaɪkl/",
+      "domain": "金融",
+      "point": "从掏钱到收钱的空窗期；营运资本的时间版本，半导体周期仪表"
+    }
+  ],
+  "comparisons": [],
+  "progress": [
+    "本期：第 35 期，5 词",
+    "累计：**175 词**（105 AI + 70 金融）",
+    "归档格式：MD 词卡 + KAMI One-Pager PNG + Telegram 推送"
+  ]
+}
