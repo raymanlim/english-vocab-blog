@@ -1,0 +1,179 @@
+{
+  "date": "2026-10-17",
+  "issueNo": 36,
+  "issueSpan": 1,
+  "issueLabel": "第 36 期",
+  "issueNoLabel": "36",
+  "theme": "被限住的那一步——生成的三重约束与偿债的两把尺",
+  "themeRaw": "被限住的那一步——生成的三重约束与偿债的两把尺",
+  "note": "本期 5 词（3 AI + 2 金融），已与前 35 期 175 词去重",
+  "title": "每日英语 5 词 · 2026-10-17",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "beam search",
+      "issueNoLocal": 36,
+      "phonetic": "/biːm sɜːtʃ/",
+      "pos": "n.",
+      "posRaw": "n.（相关：greedy decoding、beam width、top-p sampling、sequence-to-sequence、length penalty、BLEU）",
+      "related": [
+        "greedy decoding",
+        "beam width",
+        "top-p sampling",
+        "sequence-to-sequence",
+        "length penalty",
+        "BLEU"
+      ],
+      "meaning": "【AI】束搜索——解码时不在每一步只取概率最高的一个 token（贪心解码），而是同时保留 beam width 条最优候选序列，每步扩展后按累计对数概率裁剪回 beam width 条，最终从若干条完整候选中选一条。它把「逐步贪心」变成「有限宽度的全局搜索」，用成倍的算力换取整句概率更优的输出",
+      "gloss": "束搜索",
+      "example": "Beam search with a width of four is standard for machine translation but is rarely used for open-ended chat, where it tends to produce bland, repetitive text.",
+      "exampleCn": "束宽为 4 的束搜索是机器翻译的标准做法，但在开放式对话中很少使用——它容易产出平庸、重复的文本。",
+      "memory": "**记忆锚点**：束搜索是**下棋时同时摆几盘棋**——贪心解码只走一步看一步（每步都选眼前最好的），束搜索同时保留几条最优路线往下走，最后挑一条总成绩最好的；宽度就是同时摆几盘。**为什么重要**：① 它是已学 top-p sampling 的**反面**：采样随机、多样、每次不同；束搜索确定、保守、每次一样——两者是解码轴的两端，理解这一对立就理解了「同一个模型为什么会有两种性格」；② 它解释了**为什么翻译/摘要类任务与聊天类任务的推荐参数不同**：有唯一正确答案的任务（翻译、语音识别）用束搜索，无唯一答案的任务（写作、对话）用采样，否则输出呆板；③ 它是**「算力换质量」在解码侧的体现**：束宽 k 意味着每步算 k 次前向，成本线性上升而收益递减，是判断推理服务定价是否合理的隐藏变量；④ 它揭示了**已学 logits / softmax 之后还有一层选择**：softmax 给出概率分布，束搜索与采样决定怎么从分布里取词，这一层常被忽略却直接决定输出风格。**关键权衡**：① **质量 vs 多样性**：束宽增大通常提升 BLEU 等自动指标，但人类评价常下降——高概率序列往往最平庸；② **成本 vs 收益**：束宽 1→4 收益明显，4→16 常边际递减甚至变差；③ **长度惩罚（length penalty）**：对数概率为负，序列越长累计越低，束搜索天然偏好短句，必须显式加惩罚，否则摘要越写越短；④ **它不解决幻觉**：束搜索只保证「整句概率高」，高概率的错误依然高概率，与已学 hallucination 无关。**实践要点**：① 翻译、ASR、结构化抽取用束搜索（宽度 4~5 起步）；对话、创意写作、Agent 工具调用用低温采样；② 看到 API 里的 `num_beams` 参数，就知道它是为确定性任务准备的；③ 束搜索的 tie-breaking 依赖实现细节，做严格 A/B 时必须固定版本与随机种子；④ 与已学 speculative decoding 可叠加但交互复杂——投机解码的验证逻辑在束搜索下收益会打折。**易混点**：beam search（**保留 k 条候选序列、按整句累计概率裁剪**，确定性）与已学 top-p sampling（**在单个位置上按累积概率截断后随机抽样**，随机性）作用维度不同：前者跨步搜索，后者单步采样；也区别于 greedy decoding——那是**束宽 = 1 的特例**；「beam width」是宽度参数，不是模型结构参数",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "structured output",
+      "issueNoLocal": 36,
+      "phonetic": "/ˈstrʌktʃəd ˈaʊtpʊt/",
+      "pos": "n.",
+      "posRaw": "n.（相关：JSON mode、constrained decoding、function calling、schema、grammar、validation）",
+      "related": [
+        "JSON mode",
+        "constrained decoding",
+        "function calling",
+        "schema",
+        "grammar",
+        "validation"
+      ],
+      "meaning": "【AI】结构化输出——要求模型直接产出符合给定 schema（通常是 JSON）的结果，而不是自由文本。实现上有两条路：一是提示词层面的「请输出 JSON」（软约束，可能失败）；二是解码层面的受约束解码（constrained decoding），把 schema 编译成语法，在每一步把不合法的 token 概率置零，硬性保证合法",
+      "gloss": "结构化输出",
+      "example": "Structured output moves JSON validity from a prompt-engineering hope to a decoding-time guarantee, which is why production pipelines no longer need a repair-and-retry loop.",
+      "exampleCn": "结构化输出把 JSON 合法性从「提示词层面的期望」变成「解码层面的保证」——这正是生产管线不再需要「修复并重试」循环的原因。",
+      "memory": "**记忆锚点**：结构化输出是**填空题而不是作文题**——自由文本是「随便写」，结构化输出是「按格填」，格子的形状（schema）先定死，格式不对根本交不上去。**为什么重要**：① 它是**Agent 能落地的前提**：已学 tool calling / orchestration 全部依赖「模型吐出的东西能被程序解析」，没有结构化输出，Agent 只是在聊天；② 它是**约束解码最成功的商业化案例**：把语法塞进采样过程（每步屏蔽非法 token），代价是轻微的速度损失与「模型被迫说它本不想说的话」的风险；③ 它区分了**两种可靠性**：软约束（提示词要求）成功率可能 95%，硬约束（语法解码）格式成功率 100%，但**内容正确性仍是 0 保证**——格式合法 ≠ 内容正确，这是最容易被误读的一点；④ 它是**评估口径的一部分**：已学 eval 里若把「格式错误」与「事实错误」混在一起统计，会严重误判模型能力。**关键权衡**：① **严格 vs 表达力**：schema 越严格越可靠，但会挤压推理空间（例如强制先给结论再给理由，可能降低准确率），实践上常把「思考」放在 schema 之外的自由字段；② **硬约束 vs 软约束**：硬约束保证格式但可能诱使模型为合规而编造字段，软约束灵活但需重试逻辑；③ **速度代价**：受约束解码需维护语法状态机，首 token 延迟与吞吐会有可测下降；④ **版本漂移**：schema 变更会让历史 prompt 与评测集失效，需纳入版本管理。**实践要点**：① 生产管线**一律用硬约束**（各家的 response_format / JSON schema 参数），不要靠提示词祈祷；② schema 里保留一个自由文本的 `reasoning` 字段，避免推理被格式压死；③ 校验分两层：**格式校验（schema）**与**语义校验（业务规则）**，后者必须自己写，模型不负责；④ 与已学 function calling 要分清——function calling 是「让模型决定调哪个函数并给参数」，structured output 是「让模型的回答符合某个形状」，前者是行为，后者是格式。**易混点**：structured output（**约束输出的形状**）与已学 tool calling（**约束输出的用途**，触发外部动作）常同时出现但语义不同；与已学 prompt engineering 的关系是「把格式要求从提示词搬到解码器」，可靠性差一个量级；也区别于 JSON mode——JSON mode 只保证是合法 JSON，structured output 保证符合**特定 schema**",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "rate limit",
+      "issueNoLocal": 36,
+      "phonetic": "/reɪt ˈlɪmɪt/",
+      "pos": "n.",
+      "posRaw": "n.（相关：quota、throttling、token bucket、RPM、TPM、backoff、HTTP 429）",
+      "related": [
+        "quota",
+        "throttling",
+        "token bucket",
+        "RPM",
+        "TPM",
+        "backoff",
+        "HTTP 429"
+      ],
+      "meaning": "【AI】速率限制——服务方对单位时间内允许的请求数（RPM）或 token 数（TPM）设的上限，超出即拒绝（HTTP 429）或排队。它是 API 经济学的核心机制：算力是共享的、边际成本真实存在，限流把「峰值需求」切成「可承诺的服务水平」",
+      "gloss": "速率限制",
+      "example": "The pipeline kept failing not because the model was wrong but because a batch job blew through the tokens-per-minute rate limit and every retry made the burst worse.",
+      "exampleCn": "这条管线反复失败不是因为模型出错，而是因为批处理任务冲破了每分钟 token 的速率限制，而每次重试都让突发更严重。",
+      "memory": "**记忆锚点**：速率限制是**高速公路的匝道信号灯**——路（算力）是共用的，灯不是不让你上，而是按节奏放你上；硬闯只会让整条路堵死。**为什么重要**：① 它是**AI 工程里最常见的生产事故来源**，且几乎总被误诊为「模型不稳定」——识别它只需看 429 与响应头里的 retry-after；② 它把**成本与延迟变成可计算的东西**：TPM 上限直接决定并发设计与批处理窗口，是容量规划的第一约束；③ 它解释了**为什么「重试」经常让事情更糟**：失败后立刻重试会在同一时间窗内叠加请求，正确做法是指数退避（exponential backoff）+ 抖动（jitter），这是分布式系统的通用纪律；④ 它与已学 continuous batching 是一对：服务方用批处理提高吞吐，用限流保护自己不被单租户吃满——两侧合起来才是完整的推理服务经济学。**关键权衡**：① **并发 vs 稳定**：提高并发能压低单请求延迟，但更易触发限流，反而整体更慢；② **批大小 vs 突发**：攒成大批能省调用次数，但单次 token 量大，容易撞 TPM 而非 RPM；③ **多密钥轮换 vs 合规**：技术上可用多账号绕开限制，但违反多数服务条款，且让成本与配额失控；④ **限流不是性能问题而是契约问题**：它约束的是架构，不是靠优化能解决的。**实践要点**：① 客户端必须实现**指数退避 + 随机抖动 + 最大重试次数**，并把 429 与 5xx 分开处理（429 重试有效，5xx 未必）；② 容量规划时**同时算 RPM 与 TPM**，多数团队只盯前者，实际先撞的是后者；③ 批处理任务主动做**令牌桶限速**，把负载摊平到窗口内，而不是打满再等；④ 与已学 prompt caching / semantic caching 一起用——省下的 token 直接换成可用配额，是最便宜的扩容方式。**易混点**：rate limit（**单位时间的速率上限**，持续约束）与 quota（**总量上限**，如每月额度）不同，前者是水龙头开多大，后者是水缸有多少水；与已学 throughput（**实际达成的处理量**）是「上限 vs 实测」的关系；也区别于 timeout——超时是等太久，限流是根本不让进",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "interest coverage ratio",
+      "issueNoLocal": 36,
+      "phonetic": "/ˈɪntrəst ˈkʌvərɪdʒ ˈreɪʃiəʊ/",
+      "pos": "n.",
+      "posRaw": "n.（相关：EBIT、interest expense、net debt/EBITDA、credit rating、covenant、fixed-charge coverage）",
+      "related": [
+        "EBIT",
+        "interest expense",
+        "net debt",
+        "EBITDA",
+        "credit rating",
+        "covenant",
+        "fixed-charge coverage"
+      ],
+      "meaning": "【金融】利息保障倍数——息税前利润（EBIT）除以利息费用，衡量经营利润能覆盖几倍的利息支出。倍数越低，利润对利率或需求波动的缓冲越薄；低于 1 意味着经营利润已不足以付息，必须动用现金储备或再融资",
+      "gloss": "利息保障倍数",
+      "example": "The company still looks profitable on an EBITDA basis, but its interest coverage has fallen below two times — one bad quarter away from needing to renegotiate with lenders.",
+      "exampleCn": "按 EBITDA 口径公司仍然盈利，但利息保障倍数已跌破两倍——再有一个糟糕的季度就得和债权人重新谈判。",
+      "memory": "**记忆锚点**：利息保障倍数是**月供占工资的几倍**——工资（EBIT）两万、月供（利息）五千，倍数 4，失业一两个月还扛得住；倍数 1.2 的人，收入稍降就要断供。**为什么重要**：① 它是**利率环境的传导器**：同样的经营利润，利率翻倍会让覆盖率直接腰斩——这解释了为什么高杠杆公司在加息周期里估值杀得比盈利快（与已学 risk-free rate / WACC 接成一条线）；② 它与已学 net debt/EBITDA 是**流量与存量的配对**：前者问「今年赚的够不够付今年的息」，后者问「欠的本金要几年才还得完」，信用分析必须两个一起看；③ 它是**评级与契约的输入变量**：评级机构用它定级，贷款合同用它设 covenant（本期第 5 词），一旦跌破阈值即触发技术性违约；④ 它是**识别「利润好看但脆弱」的快速筛子**：EBITDA 为正、覆盖率却只有 1.5 倍的公司，是利率上行时最先出事的一批。**关键权衡**：① **EBIT vs EBITDA 口径**：用 EBITDA 算会显著美化（把折旧摊销加回），但对重资产企业而言折旧是真实的再投资需求，用 EBIT 更保守也更诚实；② **高覆盖率 vs 资本效率**：过度保守的资产负债表牺牲 ROE，适度杠杆能放大股东回报（与已学 ROE / operating leverage 呼应）；③ **固定利率 vs 浮动利率**：同样的覆盖率，浮动利率债务在加息时立刻恶化，固定利率则有滞后——必须看债务结构而非只看总额；④ **它不是绝对判据**：公用事业、地产等现金流稳定的行业可承受较低覆盖率，周期行业则需要更高缓冲。**实践要点**：① 读财报时用 `EBIT / interest expense` 手算一遍，别只信数据商的现成字段（口径差异极大）；② 同时看**趋势而非水平**：覆盖率连续三四个季度下滑，比一个低值更危险；③ 与已学 free cash flow 交叉验证——覆盖率好看但 FCF 为负，说明利润没变成现金，付息能力是纸面的；④ 分析半导体/材料类周期股时，用**周期底部年份的 EBIT** 去算覆盖率做压力测试，而不是用景气高点。**易混点**：interest coverage（**利润 / 利息**，流量覆盖流量的倍数）与已学 net debt/EBITDA（**净债务 / 现金流**，存量对流量，单位同为「倍」但含义是「几年还完」）方向不同、不可互相替代；与已学 operating leverage（**成本结构对利润的放大**）也常被混淆——前者衡量偿债安全，后者衡量盈利弹性；「coverage」一词在信用分析里还常指 EBITDA/利息，看口径时必须先确认分子",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "covenant",
+      "issueNoLocal": 36,
+      "phonetic": "/ˈkʌvənənt/",
+      "pos": "n.",
+      "posRaw": "n.（相关：loan agreement、maintenance covenant、incurrence covenant、technical default、waiver、headroom）",
+      "related": [
+        "loan agreement",
+        "maintenance covenant",
+        "incurrence covenant",
+        "technical default",
+        "waiver",
+        "headroom"
+      ],
+      "meaning": "【金融】契约条款（贷款合同中的限制性条款）——债权人在借款协议里设定的财务或行为约束，如「净债务/EBITDA 不得超过 3.5 倍」「派息不得超过净利润的 50%」「未经同意不得出售核心资产」。分维持型（须持续满足、按期测试）与发生型（仅在举债、分红等特定动作时测试）两类；违反即构成技术性违约，即使当期利息一分未欠",
+      "gloss": "契约条款",
+      "example": "The dividend was not blocked by a lack of cash but by a covenant that caps payouts once leverage crosses three times EBITDA.",
+      "exampleCn": "这笔股息不是被现金不足挡住的，而是被一条契约条款挡住——一旦杠杆超过 3 倍 EBITDA，分红就被设了上限。",
+      "memory": "**记忆锚点**：covenant 是**租房合同里的「不得转租、不得养宠物」**——租金你一分没欠（利息照付），但违反了附加条款，房东照样有权收房。**为什么重要**：① 它把**「违约」从一个时点事件变成一条可以提前看到的线**：公司不是因为还不上钱才出事，而是因为某个财务比率越线——这解释了为什么很多「看起来还健康」的公司突然宣布与债权人谈判；② 它是**股东与债权人利益冲突的书面化**：债权人怕股东把现金抽走或再加杠杆，于是用条款把自由度锁死——理解这一点就理解了为什么高杠杆公司会突然削减分红、暂停回购（与已学 share buyback / capital allocation 直接冲突）；③ 它是**信用分析里最容易被忽略的硬约束**：财报数据是结果，covenant 是规则，规则决定公司在压力下**能做什么、不能做什么**；④ 它解释了**credit spread 的非线性**：临近阈值的债，利差往往跳升而非渐变，因为一旦触发，再融资成本会阶跃式上升。**关键权衡**：① **保护 vs 灵活性**：条款越严，债权人越安全、利率越低，但公司经营自由度越小，周期底部容易被逼贱卖资产；② **维持型 vs 发生型**：维持型（按期测试）最易触发技术性违约，发生型（仅在举债/分红时测试）更宽松——看合同要先分清是哪一类；③ **严格度 vs 融资成本**：这是可以定价的，公司常在「低利率 + 严条款」与「高利率 + 松条款」之间选择；④ **豁免（waiver）不是免费的**：向债权人要豁免通常要付费用、提高利率或让出抵押，是隐性成本。**实践要点**：① 分析高收益债或高杠杆公司时，**先找 covenant 包（covenant package）再看财报**——条款决定了财务数据的意义；② 关注**距阈值的余量（headroom）**而非绝对值：净债务/EBITDA 为 3.2 而阈值 3.5，比 2.0 而阈值 2.5 危险得多；③ 看到「technical default」「covenant waiver」「amend-and-extend」这些词，就知道公司在压力下了；④ 与已学 credit spread / interest coverage 联动：覆盖率下滑 + 余量收窄 + 利差走阔，三者同时出现是最强预警。**易混点**：covenant（**合同约定的限制条款**，法律约束、可执行）与已学 credit rating（**第三方对偿债能力的评价**，市场信号）不同——前者是规则，后者是意见；也区别于已学 goodwill impairment（**会计上的价值减记**，事后认账），covenant 是事前约束；注意 covenant 与 contract 不同义，它特指合同中的**承诺性条款**",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [
+    {
+      "no": "1",
+      "word": "beam search",
+      "phonetic": "/biːm sɜːtʃ/",
+      "domain": "AI",
+      "point": "同时摆几盘棋；宽度换整句概率，确定性、爱说套话"
+    },
+    {
+      "no": "2",
+      "word": "structured output",
+      "phonetic": "/ˈstrʌktʃəd ˈaʊtpʊt/",
+      "domain": "AI",
+      "point": "填空题不是作文题；格式可硬保证，内容仍是零保证"
+    },
+    {
+      "no": "3",
+      "word": "rate limit",
+      "phonetic": "/reɪt ˈlɪmɪt/",
+      "domain": "AI",
+      "point": "匝道信号灯；429 不是模型不稳，先撞的常是 TPM"
+    },
+    {
+      "no": "4",
+      "word": "interest coverage ratio",
+      "phonetic": "/ˈɪntrəst ˈkʌvərɪdʒ ˈreɪʃiəʊ/",
+      "domain": "金融",
+      "point": "月供占工资几倍；利率翻倍即腰斩，流量看偿债"
+    },
+    {
+      "no": "5",
+      "word": "covenant",
+      "phonetic": "/ˈkʌvənənt/",
+      "domain": "金融",
+      "point": "合同里的「不得转租」；没欠息也能违约，看余量不看绝对值"
+    }
+  ],
+  "comparisons": [],
+  "progress": [
+    "本期：第 36 期，5 词",
+    "累计：**180 词**（108 AI + 72 金融）",
+    "归档格式：MD 词卡 + KAMI One-Pager PNG + Telegram 推送"
+  ]
+}

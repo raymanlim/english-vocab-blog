@@ -1,16 +1,39 @@
 {
-  "generatedAt": "2026-10-16T03:36:48.826Z",
+  "generatedAt": "2026-10-17T04:04:25.756Z",
   "source": "pinghe/english words",
   "totals": {
-    "issues": 35,
-    "days": 34,
-    "words": 175,
-    "ai": 105,
-    "finance": 70,
+    "issues": 36,
+    "days": 35,
+    "words": 180,
+    "ai": 108,
+    "finance": 72,
     "both": 0,
     "other": 0
   },
   "issues": [
+    {
+      "date": "2026-10-17",
+      "issueNo": 36,
+      "issueSpan": 1,
+      "issueLabel": "第 36 期",
+      "issueNoLabel": "36",
+      "theme": "被限住的那一步——生成的三重约束与偿债的两把尺",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 35 期 175 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "beam search",
+        "structured output",
+        "rate limit",
+        "interest coverage ratio",
+        "covenant"
+      ]
+    },
     {
       "date": "2026-10-16",
       "issueNo": 35,
