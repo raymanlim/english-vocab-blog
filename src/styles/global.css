@@ -670,7 +670,7 @@ strong {
 
 .issue-extra-title {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--prussian-mid);
@@ -712,7 +712,7 @@ strong {
 
 .summary-table .c-no {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 12px;
   color: var(--ink-4);
   width: 30px;
 }
@@ -914,7 +914,7 @@ strong {
 
 .archive-split {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 12px;
   color: var(--ink-4);
   letter-spacing: 0.05em;
   text-align: right;
@@ -1017,7 +1017,7 @@ strong {
 
 .chip {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.07em;
   color: var(--ink-2);
   padding: 5px 11px;
@@ -1090,7 +1090,7 @@ strong {
   align-self: start;
   text-align: right;
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 12px;
   color: var(--ink-4);
   letter-spacing: 0.05em;
   white-space: nowrap;
@@ -1260,7 +1260,7 @@ strong {
 
 .meta-grid dt {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--ink-4);
@@ -1568,7 +1568,7 @@ strong {
   }
 
   .wc-related-item {
-    font-size: 11px;
+    font-size: 12px;
     padding: 3px 8px;
   }
 
