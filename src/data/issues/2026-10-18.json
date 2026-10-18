@@ -1,0 +1,178 @@
+{
+  "date": "2026-10-18",
+  "issueNo": 37,
+  "issueSpan": 1,
+  "issueLabel": "第 37 期",
+  "issueNoLabel": "37",
+  "theme": "收敛——RL 后训练让随机策略收敛到合意，到期让浮动价格收敛到确定",
+  "themeRaw": "收敛——RL 后训练让随机策略收敛到合意，到期让浮动价格收敛到确定",
+  "note": "本期 5 词（3 AI + 2 金融），已与前 36 期 180 词去重",
+  "title": "每日英语 5 词 · 2026-10-18",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "proximal policy optimization (PPO)",
+      "issueNoLocal": 37,
+      "phonetic": "/ˌpiː piː ˈoʊ/",
+      "pos": "n.",
+      "posRaw": "n.（相关：RLHF、policy gradient、trust region、clip ratio、KL penalty、advantage估计、critic）",
+      "related": [
+        "RLHF",
+        "policy gradient",
+        "trust region",
+        "clip ratio",
+        "KL penalty",
+        "advantage估计",
+        "critic"
+      ],
+      "meaning": "【AI】近端策略优化——RLHF 中最主流的策略梯度算法。核心思想是「近端」：每次参数更新只允许策略偏离旧策略一小步，实现上有两种等价机制——裁剪目标（新旧策略比率偏离 1 太远时截断该样本的优势贡献）或 KL 惩罚（用参考模型拴住新策略别跑远）。它在「步长大才学得动」与「步长大就学崩」之间取了工程上极其好用的平衡点，是主流对齐阶段的标准优化器",
+      "gloss": "近端策略优化",
+      "example": "PPO survived as the default RLHF optimizer because, unlike vanilla policy gradient, it keeps making progress even when the step size is slightly wrong.",
+      "exampleCn": "PPO 之所以长期是 RLHF 的默认优化器，是因为与普通策略梯度不同——即使步长配得略有偏差，它依然能持续取得进展。",
+      "memory": "**记忆锚点**：PPO 是**带护栏的健身加片**——自由重量训练（普通策略梯度）加片太猛会受伤（训练崩塌），PPO 给杠铃加了卡扣与限位：一次只加这么多，超了这部分不给你记功（clip），或加一片惩罚把你拴住。**为什么重要**：① 它是 RLHF 的默认引擎——SFT 之后基于奖励模型的 RL 阶段几乎都以 PPO 或其变体跑通，理解它才算理解「模型怎么变乖的」；② 它解决了 RL 里最痛的稳定性问题：vanilla policy gradient 一步迈大就崩、步长要反复调，PPO 让「步长配错」的代价变得很小，这是它工程上击败 TRPO（信任域，要算二阶、太重）的原因；③ 它是理解 GRPO（本期第 2 词）的前提——GRPO 的所有简化都是从 PPO 身上减负；④ 它与已学 reward model 是一对：reward model 提供分数，PPO 决定怎么用这个分数更新权重，缺一不可。**关键权衡**：① **信任域的松紧**：clip / KL 都在限制策略漂移，漂移太小学不动、太大跑偏，这个窗口是超参艺术；② **价值网络的成本**：经典 PPO 需要一个与策略模型同量级的价值网络（critic），显存直接翻倍且训练更不稳——这正是 GRPO 被发明的动机；③ **在线开销**：PPO 必须对当前策略实时采样 rollout，不能纯复用旧数据，生成成本是最大开销；④ **奖励 hack 的温床**：优化压力越大，模型越会找刷分捷径（已学 reward hacking 在 RL 阶段的原罪）。**实践要点**：① 读 RLHF 论文看到 `clip_ratio`、`KL coef`、`GAE`、`reward model`，就知道是 PPO 家族；② 中小团队跑对齐的省钱组合是 LoRA + PPO（只训适配器），比全量微调省一个量级；③ 调参大头是「clip 区间 + KL 系数 + 学习率」，真正卡脖子的是采样吞吐而非算法细节；④ 与已学 DPO 对照阅读：DPO 绕开在线采样、用偏好对直接算策略损失，便宜但难以在线持续改进——两者是对齐工具箱里最常被比较的两条路线。**易混点**：PPO 是**优化算法**（怎么根据奖励更新权重），与已学 RLHF（**训练范式**）、RLVR（可验证奖励）、reward model（**打分的模型**）是四个不同层级；与本期 GRPO 的分水岭是**保留还是去掉 critic**；也区别于 SFT——那只是模仿答案分布，不含奖励驱动的探索",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "group relative policy optimization (GRPO)",
+      "issueNoLocal": 37,
+      "phonetic": "/ˌdʒiː ɑːr piː ˈoʊ/",
+      "pos": "n.",
+      "posRaw": "n.（相关：PPO、critic、advantage、DeepSeek-R1、RLVR、group sampling、baseline）",
+      "related": [
+        "PPO",
+        "critic",
+        "advantage",
+        "DeepSeek-R1",
+        "RLVR",
+        "group sampling",
+        "baseline"
+      ],
+      "meaning": "【AI】组相对策略优化——DeepSeek 在数学与推理任务训练中提出的策略优化算法，随 DeepSeek-R1 发布而广为人知。做法是对同一 prompt 采样一组（group）输出，用**组内平均奖励**作为基线计算每个输出的相对优势，据此更新策略；去掉了 PPO 中与策略模型等大的价值网络（critic），训练更稳、显存占用与实现复杂度都显著下降，且在奖励可自动验证（数学、代码的最终对错）的场景下效果不降反升",
+      "gloss": "组相对策略优化",
+      "example": "By scoring each sampled answer against the group average instead of a learned value network, GRPO cuts RL training complexity while often matching or beating PPO on reasoning tasks.",
+      "exampleCn": "通过把每个采样答案与组内平均分比较，而不是用学习出来的价值网络估价，GRPO 在降低 RL 训练复杂度的同时，往往能在推理任务上比肩甚至超过 PPO。",
+      "memory": "**记忆锚点**：GRPO 是**同一道题让十个人答，用平均分当及格线**——不请专门的评委（critic）估每个答案值几分，只跟同组人的平均表现比：高于平均就是好，低于平均就是差。**为什么重要**：① 它大幅压低了 RL 训练的门槛：去掉 critic 后，显存、实现、调参要求都降一档，这是 R1 之后「复现推理模型」成为开源社区热潮的直接原因；② 它证明了一个洞见：**组内相对比较可以替代价值估计**——在有明确对错的领域里，「比同组好」本身就是足够好的信号；③ 它与已学 RLVR 是黄金搭档：可验证奖励给 0/1 的硬信号，GRPO 把硬信号转成组内相对优势，两者共同构成当前推理模型训练的主流配方；④ 它让 RL 的成本结构变清晰：去掉 critic 后，开销集中在采样与奖励验证，而不是模型维护上。**关键权衡**：① **适用范围收窄**：开放域、多轮、难以自动判对错的任务里，缺了 value model 的长程估计是短板，通用对话对齐仍常用 PPO 或 DPO 路线；② **组大小与成本**：组内样本越多优势估计越稳，但每步采样量线性上升，GRPO 的算力大半花在「多生成几份」上；③ **奖励设计敏感**：只有最终奖励时，组内方差过大（全对/全错）的 prompt 贡献的信号弱，需要过滤或重加权；④ **相对安全≠免疫**：组内比较抑制 reward hacking 的效果好，但奖励一旦有偏（如偏爱长答案），偏差也会被组内平均放大。**实践要点**：① 看复现项目的训练框架先确认是 GRPO 还是 PPO——超参表完全不同，别套错；② 主流配方是「一组 8~16 个采样 + 最终答案正确性奖励 + KL 惩罚防漂移」；③ 把「过滤掉全对/全错的 prompt」设为默认动作，那是白烧算力的组；④ 与已学 PPO 对照记忆：critic 的去留是分水岭，其余（KL、clip 思想）一脉相承。**易混点**：GRPO 是**策略优化算法**，不是奖励模型——它消费奖励信号但自己不负责判断；与已学 RLVR（**奖励范式**）常一起出现但分工不同；与 DPO 隔着整个在线采样的差别——DPO 完全不跑 rollout，GRPO 反而把采样放到了核心",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "process reward model (PRM)",
+      "issueNoLocal": 37,
+      "phonetic": "/ˈprəʊses rɪˈwɔːd ˈmɒdl/",
+      "pos": "n.、step-level supervision、math reasoning、verifier、best-of-N、Monte Carlo rollout）",
+      "posRaw": "n.（相关：outcome reward model (ORM)、step-level supervision、math reasoning、verifier、best-of-N、Monte Carlo rollout）",
+      "related": [
+        "outcome reward model (ORM"
+      ],
+      "meaning": "【AI】过程奖励模型——对推理过程的**每一步**（而非仅最终答案）打分的奖励模型。它针对数学、代码等需要长链推理的任务：最终答案对错只能给一个整体信号（即 outcome reward），而 PRM 能指出推理链中从哪一步开始偏离正确路径，为 RL 训练与推理时搜索提供更密集、更细粒度的监督；训练它需要步骤级标注，或用「从某步起多次 rollout、用后续成功率反推该步质量」的自动构造法",
+      "gloss": "过程奖励模型",
+      "example": "With only outcome rewards, a model that reached the right answer by accident gets the same score as one that reasoned correctly — a process reward model can tell them apart.",
+      "exampleCn": "只有结果奖励时，侥幸答对的模型与推理正确的模型拿到同样的分数——过程奖励模型能将两者区分开。",
+      "memory": "**记忆锚点**：PRM 是**批改过程的数学老师**——只看最终答案的老师只画勾叉（ORM），过程老师会指出「第三步符号错了」；对长链条任务，后者的信息量大几个量级。**为什么重要**：① 它是推理模型（o1 / R1 一系）长思维链能力的监督基础：已学 chain-of-thought 是提示技巧，PRM 是训练侧把「想的过程」管起来的机制，一训一用；② 它直接决定 RL 的信号质量：一个 rollout 的步数远多于条数，步级别奖励把稀疏信号变密集，样本效率天壤之别；③ 它与已学 ground truth / verifier 构成推理可信的三层：ground truth 定标准、verifier 判结果、PRM 判路径；④ 它是推理时搜索的打分器——best-of-N 采样时用 PRM 挑过程最可靠的候选，而不是只看最终答案。**关键权衡**：① **标注成本 vs 信号密度**：步骤级人工标注极贵（数学过程标注曾是整个方向的瓶颈），自动构造的步骤标签质量参差；② **单步「看起来对」≠ 最终对**：每步都 plausible 的弯路可能整条链都错，PRM 会系统性放过这类错误——这正是已学 reward hacking 在过程层的形态；③ **域迁移差**：数学/代码有清晰步骤定义，开放问答几乎没有客观步骤，PRM 难离可验证域；④ **延迟开销**：推理时逐步打分成本高，通常只在少数候选上用。**实践要点**：① 评估推理模型时看是不是「答案准确率」与「过程准确率」分开报，只报前者必然高估；② 训练 PRM 的主流捷径是蒙特卡洛估计：从某一步起多次 rollout，用后续成功率估计该步真实质量，免人工标注；③ best-of-N 时把 ORM（答案分）与 PRM（过程分）加权相乘，比单用 ORM 稳；④ 与已学 LLM-as-a-judge 对照：LLM judge 通用但松散、PRM 专用但精细。**易混点**：PRM（**逐步打分的过程模型**）与已学 reward model（**通常指对最终回答打分的结果模型** ORM）同族不同粒度；与 verifier（**判断对错的程序/规则**，硬判定）不同——PRM 是学习出来的软打分；也区别于 chain-of-thought（**让模型写出推理过程的提示技术**，本身不打分）——PRM 奖励的正是这些被写出来的过程",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "yield to maturity (YTM)",
+      "issueNoLocal": 37,
+      "phonetic": "/jiːld tuː məˈtʃʊərəti/",
+      "pos": "n.",
+      "posRaw": "n.（相关：coupon、par value、current yield、pull to par、bond price、discount rate、credit spread）",
+      "related": [
+        "coupon",
+        "par value",
+        "current yield",
+        "pull to par",
+        "bond price",
+        "discount rate",
+        "credit spread"
+      ],
+      "meaning": "【金融】到期收益率——把债券按当前市价买入并**持有至到期**（票息照收、面值照还）所能获得的年化收益率。它就是使债券未来全部现金流（每期票息 + 到期面值）按该利率折现后恰好等于当前市价的那个折现率。关键对照：coupon 是合同锁定的名义利率、永不改变；YTM 随市价天天变——折价交易的债券 YTM 高于 coupon，溢价交易的低于 coupon",
+      "gloss": "到期收益率",
+      "example": "A bond's coupon never changes after issuance, but its yield to maturity moves every day with the price — that is why traders quote YTM rather than coupon.",
+      "exampleCn": "债券的票息自发行之日起永不改变，但它的到期收益率每天随价格波动——所以交易员报价用 YTM 而不是票息。",
+      "memory": "**记忆锚点**：YTM 是**大衣的真实到手价，coupon 只是吊牌价**——吊牌写着「八折」，跳楼甩卖（折价）买入时真实成本比吊牌暗示的还低，追高（溢价）买入时反而更高；买到手穿到底（持有到期），真实年化就是 YTM。**为什么重要**：① 它是债券市场的报价语言：所有国债、投资级债说的「收益率」都是某个期限的 YTM，已学 yield curve 上每一个点就是一条 YTM——它是读懂利率环境的入口；② 它是**比较债券的唯一公允口径**：coupon、期限、价格都不同的两只债，只有换算成 YTM 才能比谁便宜；③ 它把三件事打包成一个数：票息 + 到期兑付的资本损益（pull-to-par）+ 再投资收益假设，读 YTM 就是读这三部分的合成；④ 它与已学 duration / convexity 是一条线：duration 问「利率动一点价格动多少」，convexity 问「动多少的修正」，YTM 问「这价格本身隐含什么利率水平」——三词合起来才是利率工具的完整分析。**关键权衡**：① **YTM 的假设很硬**：持有至到期、不违约、票息按原利率再投资，三者任一不成立，承诺就是空话；② **YTM vs current yield**：current yield = 年票息 / 市价，忽略到期损益与再投资，长债上会显著误导；③ **名义 vs 实际**：高通胀下名义 YTM 仍可能是负实际收益（与已学 risk-free rate 对照——后者通常指名义无风险利率）；④ **违约风险不在公式里**：垃圾债的高 YTM 是风险补偿不是免费午餐，必须对照已学 credit spread 才能看出其中多少是信用定价。**实践要点**：① 看到「10 年期美债收益率 4%」，第一反应应该是那是 YTM；② 比较债券先算 YTM 再谈贵贱，直接比 coupon 高低是经典新手错误（coupon 高的债价格也贵）；③ 两个常用拆解量：信用利差 = 企业债 YTM − 同期限无风险 YTM；盈亏平衡通胀 = 名义债 − TIPS 收益率，是通胀预期的直接读数；④ 与已学 interest coverage ratio 联动：债券市场天天在用 YTM 给同一家公司定价，股票估值（DCF / Multiple）用的是另一套口径，两套口径打架时往往有信息量。**易混点**：yield to maturity（**持有到期、全部现金流复权后的单一折现率**）与已学 coupon（**合同写死的票面利率**）、yield（**泛称收益率，必须先问是 current、maturity 还是 dividend yield**）是三个层级；与已学 yield curve（**不同期限 YTM 的连线**）是单点与曲线的关系；也区别于 IRR——内部收益率是同一数学思想在非债券场景的名字，YTM 本质就是「债券版 IRR」",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "expiration",
+      "issueNoLocal": 37,
+      "phonetic": "/ˌekspəˈreɪʃn/（形容词 expired；动词 expire /ɪkˈspaɪər/）",
+      "pos": "n.",
+      "posRaw": "n.（相关：expiry、exercise、intrinsic value、time value、European style、American style、last trading day、assignment、gamma risk）",
+      "related": [
+        "expiry",
+        "exercise",
+        "intrinsic value",
+        "time value",
+        "European style",
+        "American style",
+        "last trading day",
+        "assignment",
+        "gamma risk"
+      ],
+      "meaning": "【金融】（期权）到期日——合约失效的最后时刻，到期后期权作废。失效时只有正的内在价值会被行权，剩余时间价值归零。美式期权到期前任一交易日都可行权，欧式只能在到期日行权；美股标准期权到期日为当月第三个周五，最后交易日通常比正式到期时刻早一天（周五收盘 vs 周六交割）。到期临近是 gamma 与 theta 绝对值迅速放大的时段，也是所有希腊字母有定义的终点时刻",
+      "gloss": "美股标准期权到期日为当月第三个周五，",
+      "example": "Two days before expiration, the option had only intrinsic value and cents of time value left — whoever bought it was trading gamma, not direction.",
+      "exampleCn": "到期前两天，期权只剩内在价值与几美分的时间价值——此时买入的人交易的是 gamma，不是方向。",
+      "memory": "**记忆锚点**：expiration 是**牛奶的保质期**——到期那一刻，剩下的只有「还能折多少钱」的内在价值，时间溢价一文不值；欧式是必须当天喝掉，美式是保质期内任意一天喝。**为什么重要**：① 它是 theta 的终点：已学 theta 讲每过一天蒸发多少，expiration 就是蒸发归零的那一刻——两词合起来才解释「为什么临近到期期权一天跌五成也不稀奇」；② 它决定策略的形状：所有价差、日历、跨式都靠到期结构吃饭，**选错到期日等于选错策略**；③ 它是 gamma 的引爆点：到期附近平值期权 gamma 急升，持仓盈亏像甩过山车，「gamma risk」是专业交易者的固定术语；④ 它是行权与交收的入口：到期行权 → 股票交收，个人交易者最常见的意外亏损（忘记平仓导致 unintended 持仓）几乎都发生在到期周。**关键权衡**：① **近月 vs 远月**：近月便宜、theta 快；远月贵、gamma 缓——没有哪个绝对好，取决于你对「多久之内发生」的判断（theta 已学）；② **欧式 vs 美式**：美式灵活，但提前行权≈扔掉剩余时间价值，很少值得；主流股指期权其实都是欧式；③ **平仓 vs 拖到期**：平仓回收剩余时间价值，拖到到期作废则时间价值归零，是期权买方最常见的亏损来源；④ **短期高胜率幻觉**：临近到期买深度价外，胜率好看但一次 gamma 就可能亏光。**实践要点**：① 养成看「DTE」（days to expiration）的习惯，下单前先问自己时间判断是什么；② 到期周减仓是纪律：gamma 会让盈亏速度远超预期，尤其叠加财报等事件窗口；③ 记住 0DTE（零日到期期权，当日到期当日作废）——它已成为散户交易里的独立现象，讨论「到期」时出现频率极高；④ 与已学 theta / gamma / implied volatility 整理成一张表：IV 定贵贱、theta 定时间成本、gamma 定波动风险、expiration 定三者何时结算。**易混点**：expiration（**合约失效的时点**）与 last trading day（**最后交易日**，通常早一天）、settlement date（**交割日**）是三回事；与已学 duration（**债券对利率的敏感度**）无关——都谈「时间」，一个管失效、一个管敏感度；也区别于 maturity（**债券本息清偿的固定期限**，没有作废一说）——本期第 4、5 词一个来自债券侧、一个来自期权侧，正好互为对照",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [
+    {
+      "no": "1",
+      "word": "proximal policy optimization (PPO)",
+      "phonetic": "/ˌpiː piː ˈoʊ/",
+      "domain": "AI",
+      "point": "带护栏的健身加片；步长大才学得动，PPO 让配错步长不致命"
+    },
+    {
+      "no": "2",
+      "word": "group relative policy optimization (GRPO)",
+      "phonetic": "/ˌdʒiː ɑːr piː ˈoʊ/",
+      "domain": "AI",
+      "point": "十人答题用平均分当及格线；组内比较替代价值网络"
+    },
+    {
+      "no": "3",
+      "word": "process reward model (PRM)",
+      "phonetic": "/ˈprəʊses rɪˈwɔːd ˈmɒdl/",
+      "domain": "AI",
+      "point": "批改过程的数学老师；对每一步打分，不只是最终答案"
+    },
+    {
+      "no": "4",
+      "word": "yield to maturity (YTM)",
+      "phonetic": "/jiːld tuː məˈtʃʊərəti/",
+      "domain": "金融",
+      "point": "大衣的真实到手价；coupon 是吊牌，YTM 才是到手年化"
+    },
+    {
+      "no": "5",
+      "word": "expiration",
+      "phonetic": "/ˌekspəˈreɪʃn/",
+      "domain": "金融",
+      "point": "牛奶的保质期；到期那一刻 time value 归零，只看内在价值"
+    }
+  ],
+  "comparisons": [],
+  "progress": [
+    "本期：第 37 期，5 词",
+    "累计：**185 词**（111 AI + 74 金融）",
+    "归档格式：MD 词卡 + KAMI One-Pager PNG + Telegram 推送"
+  ]
+}

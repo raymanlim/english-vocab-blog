@@ -1,16 +1,39 @@
 {
-  "generatedAt": "2026-10-17T04:04:25.756Z",
+  "generatedAt": "2026-10-18T04:00:49.130Z",
   "source": "pinghe/english words",
   "totals": {
-    "issues": 36,
-    "days": 35,
-    "words": 180,
-    "ai": 108,
-    "finance": 72,
+    "issues": 37,
+    "days": 36,
+    "words": 185,
+    "ai": 111,
+    "finance": 74,
     "both": 0,
     "other": 0
   },
   "issues": [
+    {
+      "date": "2026-10-18",
+      "issueNo": 37,
+      "issueSpan": 1,
+      "issueLabel": "第 37 期",
+      "issueNoLabel": "37",
+      "theme": "收敛——RL 后训练让随机策略收敛到合意，到期让浮动价格收敛到确定",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 36 期 180 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "proximal policy optimization (PPO)",
+        "group relative policy optimization (GRPO)",
+        "process reward model (PRM)",
+        "yield to maturity (YTM)",
+        "expiration"
+      ]
+    },
     {
       "date": "2026-10-17",
       "issueNo": 36,
