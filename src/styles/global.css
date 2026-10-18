@@ -414,6 +414,13 @@ strong {
   align-items: baseline;
 }
 
+/* 🔴 grid 的 auto 列不会自动收缩到容器宽度 —— 这是 pos 标签在手机上
+   溢出的根因。给第三列 max-width 限制，配合 .tag 的省略号兜底。 */
+.wc-tags {
+  max-width: 100%;
+  min-width: 0;
+}
+
 .wc-no {
   font-family: var(--font-mono);
   font-size: 13px;
@@ -442,6 +449,56 @@ strong {
   overflow-wrap: anywhere;
 }
 
+/* ---- 发音按钮（Web Speech） ----
+   不支持语音的浏览器（canSpeak=false）整段不渲染，不用担心降级样式。 */
+.wc-title {
+  min-width: 0;
+}
+
+.wc-speak {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  margin-left: 10px;
+  border-radius: 50%;
+  color: var(--prussian-mid);
+  vertical-align: middle;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.wc-speak:hover {
+  background: var(--prussian-wash);
+  color: var(--prussian);
+}
+
+.wc-speak:active {
+  background: var(--prussian-mid);
+  color: #fff;
+}
+
+/* 例句标签行里的按钮：比标题行略小，贴在 Example 字样右侧 */
+.wc-block-label .wc-speak {
+  width: 20px;
+  height: 20px;
+  margin-left: 8px;
+}
+
+/* 移动端：点击目标再大一点，防误触 */
+@media (max-width: 640px) {
+  .wc-speak {
+    width: 30px;
+    height: 30px;
+  }
+
+  .wc-block-label .wc-speak {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+
 .wc-tags {
   display: flex;
   align-items: center;
@@ -461,6 +518,12 @@ strong {
   border: 1px solid transparent;
   white-space: nowrap;
   font-weight: 500;
+  /* 🔴 pos 标签内容可能极长（「n.（相关：RLHF、policy gradient、…）」几十字），
+     nowrap + grid auto 列会让卡片在手机上横向溢出 200+px。
+     限宽 + 省略号，超长内容截断显示（完整内容仍在正文字段里）。 */
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .tag--ai {
