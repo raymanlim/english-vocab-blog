@@ -157,7 +157,7 @@ strong {
 /* 通用小标签 */
 .eyebrow {
   font-family: var(--font-mono);
-  font-size: 10.5px;
+  font-size: 12px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--ink-3);
@@ -206,7 +206,7 @@ strong {
 .brand-sub {
   display: none;
   font-family: var(--font-mono);
-  font-size: 9.5px;
+  font-size: 12px;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--ink-3);
@@ -386,7 +386,7 @@ strong {
 
 .word-index-no {
   font-family: var(--font-mono);
-  font-size: 10.5px;
+  font-size: 12px;
   color: var(--ink-4);
   letter-spacing: 0.06em;
 }
@@ -510,7 +510,7 @@ strong {
 
 .tag {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   padding: 3px 8px;
@@ -575,7 +575,7 @@ strong {
   align-items: center;
   gap: 12px;
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--ink-3);
@@ -643,7 +643,7 @@ strong {
 
 .wc-related-label {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--ink-4);
@@ -688,7 +688,7 @@ strong {
 .summary-table th {
   text-align: left;
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--ink-3);
@@ -733,7 +733,7 @@ strong {
 
 .summary-table .c-domain {
   font-family: var(--font-mono);
-  font-size: 10.5px;
+  font-size: 12px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--ink-3);
@@ -811,7 +811,7 @@ strong {
 
 .issue-nav-dir {
   font-family: var(--font-mono);
-  font-size: 9.5px;
+  font-size: 12px;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--ink-4);
@@ -1099,7 +1099,7 @@ strong {
 .result-tag {
   display: inline-block;
   font-family: var(--font-mono);
-  font-size: 9.5px;
+  font-size: 12px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   padding: 2px 6px;
@@ -1715,7 +1715,7 @@ strong {
   .archive-split {
     grid-area: split;
     margin-top: 10px;
-    font-size: 10.5px;
+    font-size: 12px;
   }
 
   /* 页面头 */
