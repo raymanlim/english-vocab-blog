@@ -93,13 +93,25 @@ jobs:
             echo "::notice title=Cloudflare Pages 部署已跳过::仓库未配置 CLOUDFLARE_API_TOKEN / CLOUDFLARE_ACCOUNT_ID。构建与校验均已通过；对外站点暂由 WorkBuddy App Publishing 提供，不受影响。"
           fi
 
+      # 🔴 首次部署前必须先建项目。`pages deploy` 不会自动创建项目，
+      #    项目不存在时直接 8000007 报错退出。
+      #    `pages project create` **非幂等**：项目已存在时会失败，
+      #    所以加 continue-on-error：首次创建成功，后续运行失败也跳过。
+      - name: Create Cloudflare Pages project (first run only)
+        if: steps.cf.outputs.ready == 'true'
+        continue-on-error: true
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages project create daily-vocab --production-branch=main
+
       - name: Deploy to Cloudflare Pages
         if: steps.cf.outputs.ready == 'true'
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          # 🔴 项目名：先做 DNS 占用检查（daily-vocab.pages.dev 未被占用）。
-          #    wrangler pages deploy 在项目不存在时会自动创建（首次部署）。
-          #    生产分支 = main，部署到 production environment。
+          # 项目名 daily-vocab（pages.dev 子域名未占用，DNS 已查）。
+          # 生产分支 = main，部署到 production environment。
           command: pages deploy dist --project-name=daily-vocab --branch=main
