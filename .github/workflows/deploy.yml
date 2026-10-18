@@ -1,0 +1,105 @@
+name: Build & Deploy (Cloudflare Pages)
+
+# 每日英语单词站 —— 云端构建与部署。
+#
+# 链路：
+#   vault(pinghe/english words) → sync.mjs(本地) → src/data/*.json(已入库)
+#     → 本工作流 npm ci + vite build → dist → Cloudflare Pages
+#
+# 🔴 与旧链路（WorkBuddy App Publishing，appId wbapp_aFoHwTIOaDZtjU1SJis98M）
+#    **并行存在**，互不影响：本工作流只写 Cloudflare Pages，不触碰 WorkBuddy 侧
+#    的任何 appId / 域名。迁移期两条链路同时在线，验证稳定后再决定是否下线旧链路。
+#
+# 触发说明：
+#   · push 到 main  —— 主链路。每日自动化 git-sync 推完 src/data 即触发部署
+#   · 定时          —— 兜底：自动化 11:30 跑，12:30 兜住漏发
+#   · 手动          —— Actions → Run workflow
+on:
+  push:
+    branches: [main]
+  schedule:
+    # 北京 12:30 = UTC 04:30。偏移半小时避开整点调度高峰。
+    - cron: "30 4 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# 同一分支连续推送只保留最后一次，避免并发部署互相覆盖
+concurrency:
+  group: vocab-deploy-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      # 🔴 必须用 build:ci（= 纯 vite build，不跑 sync）。
+      # sync.mjs 需要本机 Obsidian vault，CI 上没有会 exit 1。
+      # src/data/ 已入库（站点内容本体），构建时无需重新生成。
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Build
+        run: npm run build:ci
+
+      # ---- 门禁：dist 不能是空站 ----
+      - name: Verify dist
+        run: |
+          if [ ! -f dist/index.html ]; then
+            echo "::error::dist/index.html 不存在，构建失败"
+            exit 1
+          fi
+          n=$(find dist -type f | wc -l)
+          echo "dist 文件数: $n"
+          if [ "$n" -lt 20 ]; then
+            echo "::error::dist 文件数 $n < 20，疑似空站点，中止部署"
+            exit 1
+          fi
+
+      # ── Cloudflare Pages 部署 ──────────────────────────────────────
+      #
+      # 🔴 步骤级 `if` 里不允许使用 `secrets` 上下文（只有 env / steps /
+      #    github 等可用），否则整个工作流被判非法（startup_failure）。
+      #    正确做法：先把 secret 映射成 env，用 shell 探测，再用 outputs 判断。
+      #
+      # 行为：未配置 secret → 部署步骤**跳过**（作业保持绿色，不发失败邮件）；
+      #       补上 CLOUDFLARE_API_TOKEN + CLOUDFLARE_ACCOUNT_ID → 自动开始部署。
+      - name: Check Cloudflare secrets
+        id: cf
+        env:
+          CF_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [ -n "$CF_API_TOKEN" ] && [ -n "$CF_ACCOUNT_ID" ]; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+            echo "Cloudflare 凭据已配置，将执行部署。"
+          else
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "::notice title=Cloudflare Pages 部署已跳过::仓库未配置 CLOUDFLARE_API_TOKEN / CLOUDFLARE_ACCOUNT_ID。构建与校验均已通过；对外站点暂由 WorkBuddy App Publishing 提供，不受影响。"
+          fi
+
+      - name: Deploy to Cloudflare Pages
+        if: steps.cf.outputs.ready == 'true'
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          # 🔴 项目名：先做 DNS 占用检查（daily-vocab.pages.dev 未被占用）。
+          #    wrangler pages deploy 在项目不存在时会自动创建（首次部署）。
+          #    生产分支 = main，部署到 production environment。
+          command: pages deploy dist --project-name=daily-vocab --branch=main
