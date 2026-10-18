@@ -231,7 +231,7 @@ VOCAB_VAULT_ROOT="E:\other\vault"          npm run sync   # 只影响边界断�
 | 项 | 值 |
 | --- | --- |
 | 仓库 | `raymanlim/english-vocab-blog`（Private） |
-| 对外站点 | `https://2b8e1fe3d97e4d389b683715b938d2cd.sg2.agentos-app.run` |
+| 对外站点 | `https://daily-vocab.pages.dev`（Cloudflare Pages，2026-10-18 起） |
 
 ### `src/data/` 为什么提交
 
@@ -247,7 +247,9 @@ VOCAB_VAULT_ROOT="E:\other\vault"          npm run sync   # 只影响边界断�
 | `npm run build:ci` | 纯 `vite build` | **CI / 无 vault 的环境** |
 
 CI（`.github/workflows/verify.yml`）跑 `npm ci` + `npm run typecheck` + `npm run build:ci`，
-**只构建 + 门禁，不部署** —— 部署走 WorkBuddy App Publishing。
+**只构建 + 门禁，不部署**。
+部署由 `.github/workflows/deploy.yml`（push 触发）构建并发布到 Cloudflare Pages
+（`daily-vocab.pages.dev`）；每日自动化推 `src/data` 即自动触发。
 
 本地提交前跑：
 

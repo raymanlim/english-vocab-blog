@@ -103,7 +103,7 @@ npm run preview      # 预览 dist/ → http://localhost:4173
 npm run audit        # 多宽度布局审计（8 宽度 × 9 路由）
 
 # 线上校验（传 URL，可多个）
-node scripts/verify-live.mjs https://<域名>.sg2.agentos-app.run
+node scripts/verify-live.mjs https://daily-vocab.pages.dev
 ```
 
 **环境变量**
@@ -119,20 +119,21 @@ node scripts/verify-live.mjs https://<域名>.sg2.agentos-app.run
 
 ### 3.1 每日一期（自动化主路径）
 
-由 WorkBuddy 任务「每日 5 个英语单词」（`81b9af3d`，每日 **8:30**，实际约 **8:40** 上线）驱动：
+由 WorkBuddy 任务「每日 5 个英语单词」（`d633c307`，每日 **11:30**）驱动：
 
 ```
 生成 MD 词卡 → 写入 D:\Obsidian\obsidian_valut\pinghe\english words\YYYY-MM-DD.md
              → 更新 _index.md（期号 = 最大期号 + 1）
              → KAMI PNG + Telegram 推送
-             → npm run sync && npm run build
-             → 发布 dist/（WorkBuddy App Publishing）
-             → node scripts/verify-live.mjs <url> 校验
+             → npm run sync（生成 src/data）
+             → git-sync.sh 推 src/data 到 GitHub
+             → push 触发 GitHub Actions（deploy.yml）自动部署到 Cloudflare Pages
+             → （可选）node scripts/verify-live.mjs https://daily-vocab.pages.dev
 ```
 
-**站点发布是「同一任务串行执行」的最后一步**，不另开定时任务 ——
-词卡实际落盘时间实测为 **08:30–08:39**，若发布也定 8:30 会并发竞争，
-**大概率把昨天内容重发一遍且不报错**。
+🔴 **发布由 CI 完成**（2026-10-18 起，从 WorkBuddy App Publishing 迁移到
+Cloudflare Pages）：自动化只负责 `npm run sync` + 推送 `src/data`，
+**不再调用 workbuddy_sites_deploy**。push 到 main → CI 构建 → 部署，全程约 2 分钟。
 
 > ⚠️ 两个目录别混淆：
 > `pinghe\english words\` = **MD 词卡（站点源）**；
@@ -173,43 +174,32 @@ CI 见 `.github/workflows/verify.yml`（`npm ci` + `npm run typecheck` + `npm ru
 
 ## 5. 部署
 
-**目标平台：WorkBuddy App Publishing（静态站点）。**
+**目标平台：Cloudflare Pages（2026-10-18 起从 WorkBuddy App Publishing 迁移）。**
 
 | 项 | 值 |
 |---|---|
-| 🔴 **对外唯一固定链接** | `https://2b8e1fe3d97e4d389b683715b938d2cd.sg2.agentos-app.run` |
-| sandboxId | `2b8e1fe3d97e4d389b683715b938d2cd` |
-| appId | `wbapp_aFoHwTIOaDZtjU1SJis98M` |
-| appName | `每日英语单词` |
-| domainPrefix | `daily-vocabulary` |
-| 发布目录 | **`<项目>/dist`**（不是项目根目录） |
-| language | `static` |
+| 🔴 **对外唯一固定链接** | `https://daily-vocab.pages.dev` |
+| 项目名 | `daily-vocab`（`pages.dev` 子域名，DNS 占用检查后选定） |
+| 生产分支 | `main` |
+| 发布方式 | GitHub Actions `.github/workflows/deploy.yml`（push 触发） |
+| 部署目录 | **`<项目>/dist`**（由 CI 构建，`npm run build:ci`） |
 
-**发布命令**
+**部署链路**
 
 ```
-workbuddy_sites_deploy {
-  directory: "<项目>/dist",
-  language: "static",
-  appName: "每日英语单词",
-  domainPrefix: "daily-vocabulary",
-  entryHtml: "index.html",
-  userAskedToPublish: true
-}
+push 到 main（或每日自动化推 src/data）
+  → CI: npm ci + typecheck + build:ci + dist 门禁
+  → CI: wrangler pages deploy dist --project-name=daily-vocab --branch=main
 ```
 
-**发布前必须先构建**：`npm run build`（会先 sync 再 build）。
+**Secrets（仓库 Settings → Secrets → Actions）**
 
-> ⚠️ `npm run build` 清理 `dist/assets`（>50 文件）会命中沙箱的批量删除守卫
-> （`SAFE_DELETE_BULK_CONFIRM_REQUIRED`）。**不是代码问题** ——
-> 前面加 `CODEBUDDY_SAFE_DELETE_ENABLED=0` 重跑即可。
+`CLOUDFLARE_API_TOKEN`（Pages Edit 权限）+ `CLOUDFLARE_ACCOUNT_ID`。
+未配时 CI 构建照跑、部署步骤跳过（作业保持绿色），补上后自动恢复部署。
 
-**链接规则（与 fyx 站点同款，实测结论）**
-
-- 只有 **sandboxId 域名**跨多次发布始终有效、始终指向最新内容 —— 这才是对外链接。
-- 工具返回的 `shareLink` 是**随机 uuid 域名，每次发布会变，且上一次立即失效**
-  （实测旧域名 `110ed34a…` / `c93c60d2e104…` 现均返回 **400**）。**绝不可对外分享。**
-- 后缀（`sg` / `sg2`）**按 sandbox 分配，不按项目固定** —— 不要沿用旧记录推断。
+> 迁移期旧链路（App Publishing，sandboxId `2b8e1fe3…`）**并行存在**，
+> 验证新站稳定 N 天后再 `workbuddy_sites_unpublish` 下线。
+> Page Publishing 旧教训（shareLink 每次变、上传是合并等）迁移后不再适用。
 
 ---
 
@@ -255,10 +245,10 @@ chore:     构建 / 配置 / 杂项
 |---|---|---|
 | `raymanlim/classic-reading` | 经典书库（零依赖 Node SSG） | Cloudflare Pages |
 | `raymanlim/classic-cinema-daily` | 世界经典电影日报（Next.js） | Vercel |
-| `raymanlim/fyx-material-intel` | 方宇鑫半导体材料情报站（Python SSG） | WorkBuddy App Publishing |
+| `raymanlim/fyx-material-intel` | 方宇鑫半导体材料情报站（Python SSG） | Cloudflare Pages |
 | `raymanlim/michaels-blog` | Michael 每日知识双语博客（Next.js） | Vercel |
-| `raymanlim/x-articl` | 阅读中枢 + 内容综述 | WorkBuddy App Publishing |
-| **`raymanlim/english-vocab-blog`（本仓库）** | 英语单词知识博客（Vite + React） | WorkBuddy App Publishing |
+| `raymanlim/x-articl` | 阅读中枢 | Cloudflare Pages（`rayman-reading-hub.pages.dev`） |
+| **`raymanlim/english-vocab-blog`（本仓库）** | 英语单词知识博客（Vite + React） | Cloudflare Pages（`daily-vocab.pages.dev`） |
 
 **内容源仓库（只读）**
 
