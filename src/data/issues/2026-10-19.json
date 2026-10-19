@@ -1,0 +1,183 @@
+{
+  "date": "2026-10-19",
+  "issueNo": 38,
+  "issueSpan": 1,
+  "issueLabel": "第 38 期",
+  "issueNoLabel": "38",
+  "theme": "刻度——训练的三个旋钮（跑几轮 / 每步看多少 / 错多少），与收益的真实单位（通胀 / 实际回报）",
+  "themeRaw": "刻度——训练的三个旋钮（跑几轮 / 每步看多少 / 错多少），与收益的真实单位（通胀 / 实际回报）",
+  "note": "本期 5 词（3 AI + 2 金融），已与前 37 期 185 词去重",
+  "title": "每日英语 5 词 · 2026-10-19",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "epoch",
+      "issueNoLocal": 38,
+      "phonetic": "/ˈiːpɒk/（美 /ˈepək/）",
+      "pos": "n.",
+      "posRaw": "n.（相关：iteration、step、batch size、early stopping、learning rate schedule、checkpoint、convergence）",
+      "related": [
+        "iteration",
+        "step",
+        "batch size",
+        "early stopping",
+        "learning rate schedule",
+        "checkpoint",
+        "convergence"
+      ],
+      "meaning": "【AI】轮次——把整个训练集完整过一遍叫一个 epoch。数据集大时一个 epoch 内含很多 step（参数更新次数），step 数 ≈ 样本总数 ÷ batch size。epoch 是「训练进度」的粗刻度，step 是细刻度；训练通常跑多个 epoch，靠验证集损失决定在哪一轮停，而不是跑满预设轮数",
+      "gloss": "轮次",
+      "example": "Three epochs was enough: validation loss bottomed out on the second pass, and every additional epoch only widened the train-validation gap.",
+      "exampleCn": "三个 epoch 就够了：验证损失在第二遍触底，之后每多跑一轮，训练集与验证集的差距就再拉大一点。",
+      "memory": "**记忆锚点**：epoch 是**把同一本教材从头到尾读一遍**——读三遍就是三个 epoch；每读几页停下来做一道题（一次参数更新）就是一个 step。**为什么重要**：① 它是训练日志里最常被误读的数字：「loss 还在降」不等于「该继续跑」，该看的是验证集；② 它决定训练成本：epoch 数 × 数据量 = 总算力，是预算估算的第一项；③ 它与已学 early stopping 是一对——epoch 是「可以跑几轮」，early stopping 是「什么时候停」；④ 它解释了过拟合的时间结构：训练损失单调降、验证损失先降后升，拐点就是「读过头了」。**关键权衡**：① 多跑 vs 过拟合——小数据集 3~5 轮就够，大模型预训练常连一遍都跑不完（数据量远超算力预算）；② 轮数多 vs 学习率——跑很多轮必须配衰减，否则后期在原地抖；③ 数据重复 vs 数据质量——靠加 epoch 补数据不足，等于让模型背答案；④ 分布式下 epoch 的边界会漂——数据并行时「一轮」依赖采样器实现，日志里的 epoch 常是近似值。**实践要点**：① 读训练日志先分清 epoch（轮）与 step（更新次数），两者差一个 batch size 的倍数；② 微调小数据集把 epoch 设在 3 左右、同时开 early stopping，比反复调学习率省事；③ 预训练看的是 token 数而非 epoch（如「训了 15T tokens」），因为一遍都跑不完；④ 与已学 batch size 联动：epoch 不变、batch size 翻倍，则 step 数减半、学习率通常也要相应上调。**易混点**：epoch（整个数据集过一遍）、step / iteration（一次参数更新）、batch（一次前向的样本组）三者是包含关系，不能混用；与已学 continuous batching（推理服务的动态拼批）无关，那是服务端吞吐手段，不涉及训练轮次",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "batch size",
+      "issueNoLocal": 38,
+      "phonetic": "/bætʃ saɪz/",
+      "pos": "n.",
+      "posRaw": "n.（相关：mini-batch、gradient noise、gradient accumulation、learning rate scaling、memory footprint、warmup、throughput）",
+      "related": [
+        "mini-batch",
+        "gradient noise",
+        "gradient accumulation",
+        "learning rate scaling",
+        "memory footprint",
+        "warmup",
+        "throughput"
+      ],
+      "meaning": "【AI】批大小——一次前向与反向传播同时处理的样本数。它同时决定三件事：显存占用（近似线性）、梯度估计的噪声（越大越平滑）、硬件利用率（太小喂不饱 GPU）。显存不够时用梯度累积（gradient accumulation）把多个小批的梯度累加后只更新一次，近似等效于大批；经验法则是批大小翻倍、学习率同步上调，但大到一定程度后收益消失",
+      "gloss": "批大小",
+      "example": "Doubling the batch size halved the number of optimizer steps but did not halve the wall-clock time, because each step now waited on more data and more memory traffic.",
+      "exampleCn": "批大小翻倍让优化步数减半，但并没有让实际耗时减半——因为每一步要等更多数据、搬运更多显存。",
+      "memory": "**记忆锚点**：batch size 是**一次往锅里下多少饺子**——下太少（小批）锅一直空转、水花四溅（梯度噪声大）；下太多（大批）一锅挤在一起，熟得慢还容易破（显存爆、泛化变差）。**为什么重要**：① 它是显存预算的第一决定项，OOM 时第一个该动的旋钮不是模型结构；② 它直接改变优化动力学：小批噪声大却常带来更好的泛化（噪声像免费的正则），大批平滑但容易落进尖锐极小值；③ 它是吞吐与延迟的调节杆，训练要大吞吐、在线推理要低延迟，两者最优方向相反；④ 它与已学 learning rate 强耦合——改了批大小不改学习率，等于悄悄改了有效步长，这是复现失败最常见的原因。**关键权衡**：① 大批 vs 泛化——「大批损害泛化」的结论仍有争议，但「大批必须配更细的 warmup」是共识；② 显存 vs 速度——批大硬件利用率高，超过某点后每样本耗时不再下降；③ 梯度累积 vs 真大批——数学上近似等效，但 BatchNorm 类层与随机算子的行为不同，不能无条件替换；④ 训练批 vs 推理批——训练看吞吐、推理看并发与显存余量，两个数不要互相套用。**实践要点**：① OOM 的处置顺序：先降批大小或开梯度累积 → 再上已学 mixed precision → 最后才动模型；② 调参把「批大小 × 学习率」当一组参数看，别单独动一个；③ 微调大模型时批大小常只能设到 1~4，梯度累积是标配；④ 评估推理成本要按「每 token 成本」而非「每次请求成本」，批大小会把这个数改掉一个量级。**易混点**：batch size（一次参数更新用多少样本）与已学 continuous batching（推理时把不同请求动态拼进同一批，批的构成每步都在变）不是一回事；与 epoch 是「一步」与「一轮」的关系；与已学 throughput（单位时间处理量）相关但不等同——批大通常提升吞吐，未必降低单请求延迟",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "cross-entropy",
+      "issueNoLocal": 38,
+      "phonetic": "/krɒs ˈentrəpi/（美 /krɔːs ˈentrəpi/）",
+      "pos": "n.",
+      "posRaw": "n.（相关：logits、softmax、negative log-likelihood、perplexity、KL divergence、label smoothing、loss function）",
+      "related": [
+        "logits",
+        "softmax",
+        "negative log-likelihood",
+        "perplexity",
+        "KL divergence",
+        "label smoothing",
+        "loss function"
+      ],
+      "meaning": "【AI】交叉熵——语言模型最标准的训练损失。链路是：模型输出 logits → softmax 归一成词表上的概率分布 → 取正确下一个 token 的概率、取对数、加负号（即负对数似然），再对整批 token 平均。它衡量「模型给正确答案分配的概率有多低」：答对且自信 → 损失接近 0；答对但犹豫 → 损失中等；答错 → 损失大。困惑度（perplexity）就是它的指数形式",
+      "gloss": "交叉熵",
+      "example": "Cross-entropy rewards confidence in the right token, which is exactly why a model can drive training loss to near zero while still being unhelpful in conversation.",
+      "exampleCn": "交叉熵奖励的是「对正确 token 的自信」，这正是一个模型能把训练损失压到接近零、对话里却依然没用的原因。",
+      "memory": "**记忆锚点**：cross-entropy 是**只考填空题的扣分规则**——只关心你有没有填对那一个词，而且你越犹豫（给正确答案的概率越低）扣得越狠；填错则按你给错答案的自信程度重罚。**为什么重要**：① 它是「预训练到底在优化什么」的答案——所有 GPT 类模型的预训练目标就是最小化下一个 token 的交叉熵；② 它是 perplexity 的来源：PPL = e^loss，看到「PPL 8.2」要知道那是交叉熵 2.1 换了个单位；③ 它是理解对齐阶段的前提：SFT 用的还是交叉熵（只是只在答案 token 上算），RLHF / DPO 才换成偏好目标，这条界线是读懂训练配方图的关键；④ 它暴露了「训练目标 ≠ 使用目标」的根本错位：填对下一个词不等于给出有用的回答。**关键权衡**：① 逐 token 平均 vs 只算答案——预训练算全部 token，SFT 常屏蔽 prompt 部分，否则模型在学「复述问题」；② label smoothing 能防过度自信，但会牺牲一部分校准精度（与已学 calibration 直接相关）；③ 与 KL 惩罚的关系：KL 是「两个分布的差」，交叉熵是「用预测分布去编码真实标签的代价」，两者只差真实分布的一个熵项，这是最容易混的一处；④ 损失低 ≠ 能力强——数据重复、答案模板化都能把 loss 压低，必须配合已学 eval / benchmark 才说明问题。**实践要点**：① 训练日志里 train_loss 与 val_loss 要一起看，只降前者是过拟合的标准信号；② 跨模型比较 loss 前先确认 tokenizer 与平均口径一致，词表不同则 loss 不可直接比；③ 微调时 loss 很快掉到 0.1 以下，基本是数据泄漏或答案太模板化；④ 与已学 logits / softmax 串成一条链：logits → softmax → 概率 → 交叉熵，四步就是一次训练前向的全部数学。**易混点**：cross-entropy（损失函数，衡量预测分布与真实标签的差距）与已学 perplexity（同一件事的指数形式，单位是「等效候选词数」）是同一个量的两种说法；与 KL divergence（两个分布间的相对熵，无标签、用于约束）不同——KL 不含真实分布的熵项；也区别于已学 softmax（把 logits 变成概率的归一化，本身不是损失）",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "inflation",
+      "issueNoLocal": 38,
+      "phonetic": "/ɪnˈfleɪʃn/",
+      "pos": "n.",
+      "posRaw": "n.（相关：CPI、PCE、core inflation、deflation、disinflation、stagflation、breakeven inflation、purchasing power）",
+      "related": [
+        "CPI",
+        "PCE",
+        "core inflation",
+        "deflation",
+        "disinflation",
+        "stagflation",
+        "breakeven inflation",
+        "purchasing power"
+      ],
+      "meaning": "【金融】通货膨胀——一般价格水平的持续上涨，等价于货币购买力的持续下降。实务上用 CPI（消费者物价指数）与 PCE（个人消费支出物价指数，美联储首选）衡量，剔除食品与能源后的「核心通胀」被认为更能反映趋势。对投资者的意义：它是所有名义回报的隐形扣减项，也是央行利率决策的第一输入",
+      "gloss": "通货膨胀",
+      "example": "Headline inflation fell sharply as energy prices normalized, but core inflation stayed sticky — which is why the central bank refused to declare victory.",
+      "exampleCn": "随着能源价格回归常态，整体通胀大幅回落，但核心通胀依然黏着——这就是央行拒绝宣布胜利的原因。",
+      "memory": "**记忆锚点**：inflation 是**跑步机在加速**——你站着不动（持有现金）就已经在后退；名义工资涨 5%、通胀 4%，你实际只前进了 1%。**为什么重要**：① 它是所有估值的分母：已学 risk-free rate / WACC / DCF 里的折现率，长期锚就是「通胀预期 + 实际利率」，通胀一变，全市场估值重算；② 它决定资产轮动：温和通胀利好股票，高通胀既杀估值（分母抬升）又杀利润率（成本传导滞后），滞胀是最难受的组合；③ 它解释了「现金为何不是安全资产」——名义保本、实际亏损，这是长期持币最大的隐性成本；④ 它是央行反应的输入：已学 yield curve 的整体平移，背后通常是一次通胀数据超预期。**关键权衡**：① headline vs core——前者贴近体感、后者贴近趋势，市场交易的是「预期差」而非绝对水平；② CPI vs PCE——PCE 权重可替代性更强、通常低于 CPI，美联储盯 PCE 但市场先看 CPI；③ 通胀 vs 增长——同样是通胀上行，「需求拉动」利好周期股、「成本推动」压缩全部毛利，方向判断不能只看数字；④ 抗通胀资产并非无脑有效：TIPS、大宗、地产各有滞后期，短期通胀冲击里它们也会跌。**实践要点**：① 读宏观数据先看「实际值 vs 已学 consensus estimate」的差，那个差才是价格；② 区分同比与环比——同比有基数效应、环比看趋势，两者打架时以趋势为主；③ 记住盈亏平衡通胀 = 同期限名义国债收益率 − TIPS 收益率，这是市场直接定价的通胀预期，比任何预测都及时；④ 做美股估值时，把「实际利率」而非「名义利率」当作真正的贴现基准。**易混点**：inflation（价格持续上涨）、disinflation（通胀在放缓但仍是正的）、deflation（价格下跌）三者方向完全不同，中文常被混成一句「通缩」；与已学 monetary（货币政策，是应对工具）是「病症与药」的关系；与 purchasing power 方向相反——通胀涨、购买力跌",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "real return",
+      "issueNoLocal": 38,
+      "phonetic": "/ˈrɪəl rɪˈtɜːn/（美 /ˈriːəl rɪˈtɜːrn/）",
+      "pos": "n.",
+      "posRaw": "n.（相关：nominal return、inflation-adjusted、real yield、TIPS、total return、after-tax return、purchasing power）",
+      "related": [
+        "nominal return",
+        "inflation-adjusted",
+        "real yield",
+        "TIPS",
+        "total return",
+        "after-tax return",
+        "purchasing power"
+      ],
+      "meaning": "【金融】实际回报——扣除通胀后的收益率，近似等于名义回报减通胀率，精确算法是 (1+名义) ÷ (1+通胀) − 1。它衡量购买力的真实增长：名义 +8%、通胀 5%，实际只有约 +2.9%。债券语境下对应「实际收益率」（名义收益率 − 通胀预期），TIPS 直接以实际利率定价。判断一项投资是否真的赚钱，唯一标准是实际回报为正",
+      "gloss": "实际回报",
+      "example": "The portfolio was up 12% for the year, but with inflation at 6% the real return was closer to 5.7% — and after taxes, barely positive.",
+      "exampleCn": "组合全年涨了 12%，但在 6% 的通胀下实际回报只有约 5.7%——再扣掉税，几乎所剩无几。",
+      "memory": "**记忆锚点**：real return 是**扣掉物价涨幅后剩下的购买力**——名义收益是「钱包里多了几张」，实际回报是「这几张还能多买多少东西」。**为什么重要**：① 它是唯一诚实的业绩口径：所有「年化 10%」的宣传在 4% 通胀下其实只有 6%，跨年代比较收益必须用实际值；② 它把已学 compounding 修正到真实世界——复利公式里的 r 若用名义值，长期会系统性高估终值（30 年 8% 名义 vs 3% 实际，终值差三倍以上）；③ 它是债券与股票的共同语言：实际利率是估值的真正锚，实际利率上行对长久期资产（成长股、长债）打击最大；④ 它是判断「现金是否安全」的唯一标准：名义不亏、实际持续缩水，就是隐性亏损。**关键权衡**：① 减法 vs 除法——低通胀时两者差别可忽略，高通胀时必须用 (1+名义)/(1+通胀)−1，否则高估实际回报；② 用哪个通胀——CPI 贴近消费体感、PCE 贴近政策口径，个人还应考虑自己的消费篮子（教育、医疗权重更高）；③ 税前 vs 税后——名义收益全额纳税、通胀不抵税，高通胀高税率下实际回报可能为负，这就是「通胀税」的真实含义；④ 短期 vs 长期——单年实际回报波动极大，判断策略优劣至少看 5~10 年的实际年化。**实践要点**：① 复盘组合时同时报名义与实际两个数，只报名义等于自欺；② 用 TIPS 收益率作为「无风险实际利率」的实时读数，它是所有实际回报的机会成本；③ 长期财务规划用实际回报建模（如 5% 实际），比用名义值再扣通胀更不容易出错；④ 与已学 risk-free rate 对照：教科书里的无风险利率通常是名义值，做长期测算时应换成实际值。**易混点**：real return（扣通胀后的购买力增长）与 nominal return（账面数字）是本期第 4、5 词构成的对照组；与 total return（含股息与资本利得的总收益，仍是名义口径）是两个维度——一个管「含不含分红」，一个管「扣不扣通胀」；也区别于 real yield（债券语境下的实际收益率，是 real return 在固收里的名字）",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [
+    {
+      "no": "1",
+      "word": "epoch",
+      "phonetic": "/ˈiːpɒk/",
+      "domain": "AI",
+      "point": "教材从头读一遍；轮是粗刻度，step 是细刻度，停不停看验证集"
+    },
+    {
+      "no": "2",
+      "word": "batch size",
+      "phonetic": "/bætʃ saɪz/",
+      "domain": "AI",
+      "point": "一次下多少饺子；显存、梯度噪声、吞吐三者的同一个旋钮"
+    },
+    {
+      "no": "3",
+      "word": "cross-entropy",
+      "phonetic": "/krɒs ˈentrəpi/",
+      "domain": "AI",
+      "point": "只考填空题的扣分规则；越犹豫扣越狠，PPL 是它的指数形式"
+    },
+    {
+      "no": "4",
+      "word": "inflation",
+      "phonetic": "/ɪnˈfleɪʃn/",
+      "domain": "金融",
+      "point": "跑步机在加速；站着不动也在后退，所有名义回报的隐形扣减项"
+    },
+    {
+      "no": "5",
+      "word": "real return",
+      "phonetic": "/ˈrɪəl rɪˈtɜːn/",
+      "domain": "金融",
+      "point": "扣掉物价涨幅剩下的购买力；名义是钱包厚了，实际是能买多少"
+    }
+  ],
+  "comparisons": [],
+  "progress": [
+    "本期：第 38 期，5 词",
+    "累计：**190 词**（114 AI + 76 金融）",
+    "归档格式：MD 词卡 + KAMI One-Pager PNG + Telegram 推送"
+  ]
+}

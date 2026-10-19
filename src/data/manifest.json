@@ -1,16 +1,39 @@
 {
-  "generatedAt": "2026-10-18T04:00:49.130Z",
+  "generatedAt": "2026-10-19T03:34:49.270Z",
   "source": "pinghe/english words",
   "totals": {
-    "issues": 37,
-    "days": 36,
-    "words": 185,
-    "ai": 111,
-    "finance": 74,
+    "issues": 38,
+    "days": 37,
+    "words": 190,
+    "ai": 114,
+    "finance": 76,
     "both": 0,
     "other": 0
   },
   "issues": [
+    {
+      "date": "2026-10-19",
+      "issueNo": 38,
+      "issueSpan": 1,
+      "issueLabel": "第 38 期",
+      "issueNoLabel": "38",
+      "theme": "刻度——训练的三个旋钮（跑几轮 / 每步看多少 / 错多少），与收益的真实单位（通胀 / 实际回报）",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 37 期 185 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "epoch",
+        "batch size",
+        "cross-entropy",
+        "inflation",
+        "real return"
+      ]
+    },
     {
       "date": "2026-10-18",
       "issueNo": 37,
