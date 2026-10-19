@@ -1,4 +1,5 @@
 import { IssueView } from '../components/IssueView';
+import { ReviewBanner } from '../components/ReviewBanner';
 import { latestIssue } from '../lib/data';
 import { linkProps } from '../lib/router';
 
@@ -22,5 +23,10 @@ export function HomePage() {
     );
   }
 
-  return <IssueView date={latestIssue.date} isLatest />;
+  return (
+    <>
+      <ReviewBanner />
+      <IssueView date={latestIssue.date} isLatest />
+    </>
+  );
 }

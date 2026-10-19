@@ -68,6 +68,35 @@ export function adjacent(date: string): { prev?: IssueMeta; next?: IssueMeta } {
   };
 }
 
+/* 词 → 期次日期索引
+   ----------------------------------------------------------------
+   间隔重复只需要「词条在哪一期」，不需要把 38 期全文都加载进来。
+   manifest 里已经带了每期的词表，因此这里同步建索引（零请求），
+   复习页再按需只加载用到的那几期。
+   注意按「最早一期」取地址：同一个词若在多期出现（复用/回顾），
+   复习时回它第一次登场的页面，语义最自然。 */
+const wordIndex: { all: string[]; dates: Record<string, string> } = (() => {
+  const dates: Record<string, string> = {};
+  const all: string[] = [];
+  const seen = new Set<string>();
+  for (const issue of issuesOldestFirst) {
+    for (const w of issue.words || []) {
+      const k = String(w).trim().toLowerCase().replace(/\s+/g, ' ');
+      if (!k || seen.has(k)) continue;
+      seen.add(k);
+      all.push(w);
+      dates[k] = issue.date;
+    }
+  }
+  return { all, dates };
+})();
+
+/** 全部单词（去重，保留展示用的大小写与空格） */
+export const allWords: string[] = wordIndex.all;
+
+/** 词（小写归一化）→ 期次日期 */
+export const wordDates: Record<string, string> = wordIndex.dates;
+
 export function formatDate(date: string): string {
   return date.replace(/-/g, '.');
 }

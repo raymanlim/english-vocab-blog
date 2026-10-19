@@ -1,6 +1,8 @@
+import { useEffect, useState } from 'react';
 import { Inline } from '../lib/inline';
 import type { Word } from '../lib/types';
 import { isSpeechSupported, pickEnVoice, speak, useVoices } from '../lib/speak';
+import { loadStore, onStoreChange, saveStore, scheduleNew, todayStr, wordKey } from '../lib/srs';
 
 function tagClass(domain: string): string {
   if (domain === 'ai') return 'tag tag--ai';
@@ -35,6 +37,34 @@ function SpeakButton({
           strokeLinejoin="round"
         />
       </svg>
+    </button>
+  );
+}
+
+// 「加入生词本」：把词塞进间隔重复队列（今天到期），再点一次移出。
+// 状态只落 localStorage，与复习页共用同一个复习本。
+function SrsToggle({ word }: { word: Word }) {
+  const [store, setStore] = useState(() => loadStore());
+  const has = !!store[wordKey(word.word)];
+
+  useEffect(() => onStoreChange(() => setStore(loadStore())), []);
+
+  function toggle() {
+    const next = { ...store };
+    if (has) delete next[wordKey(word.word)];
+    else next[wordKey(word.word)] = scheduleNew(next, word.word, todayStr());
+    setStore(next);
+    saveStore(next);
+  }
+
+  return (
+    <button
+      type="button"
+      className={`wc-srs${has ? ' on' : ''}`}
+      onClick={toggle}
+      title={has ? '已在复习本，点击移出' : '加入复习本，稍后就考你'}
+    >
+      {has ? '✓ 复习本中' : '加入复习本'}
     </button>
   );
 }
@@ -99,6 +129,10 @@ export function WordCard({ word }: { word: Word }) {
             ))}
           </div>
         )}
+
+        <div className="wc-srs-row">
+          <SrsToggle word={word} />
+        </div>
       </div>
     </article>
   );

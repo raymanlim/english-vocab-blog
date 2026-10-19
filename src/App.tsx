@@ -6,6 +6,7 @@ import { HomePage } from './pages/HomePage';
 import { IssuePage } from './pages/IssuePage';
 import { ArchivePage } from './pages/ArchivePage';
 import { CategoryPage } from './pages/CategoryPage';
+import { ReviewPage } from './pages/ReviewPage';
 import { SearchPage } from './pages/SearchPage';
 import { AboutPage } from './pages/AboutPage';
 import { NotFoundPage } from './pages/NotFoundPage';
@@ -20,6 +21,8 @@ function renderRoute(route: Route) {
       return <ArchivePage />;
     case 'category':
       return <CategoryPage domain={route.domain} />;
+    case 'review':
+      return <ReviewPage />;
     case 'search':
       return <SearchPage key={route.q} initialQuery={route.q} />;
     case 'about':

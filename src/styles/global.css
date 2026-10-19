@@ -1837,3 +1837,394 @@ strong {
     scroll-behavior: auto !important;
   }
 }
+
+/* ==========================================================================
+   间隔复习 · Spaced Repetition（2026-10-19 新增）
+   与既有词卡同一套普鲁士蓝语言：细分割线、极小圆角、字距化小标签。
+   ========================================================================== */
+
+/* 首页复习入口条 */
+.rv-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 26px 0 30px;
+  padding: 13px 16px;
+  border: 1px solid var(--prussian-soft);
+  border-left-width: 3px;
+  border-radius: var(--radius);
+  background: var(--prussian-wash);
+}
+.rv-banner--clear {
+  border-color: var(--rule);
+  border-left-width: 3px;
+  background: var(--paper-raised);
+}
+.rv-banner-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--prussian);
+  flex: 0 0 auto;
+}
+.rv-banner--clear .rv-banner-dot {
+  background: var(--ink-4);
+}
+.rv-banner-text {
+  font-size: 14px;
+  color: var(--prussian);
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.rv-banner-text strong {
+  font-family: var(--font-mono);
+  font-size: 17px;
+  color: var(--prussian-deep);
+}
+.rv-banner-sub {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.07em;
+  color: var(--prussian-soft);
+}
+.rv-banner-link {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.07em;
+  color: var(--ink-3);
+  border-bottom: 1px solid var(--rule-strong);
+}
+.rv-banner-link:hover {
+  color: var(--prussian);
+  border-color: var(--prussian-soft);
+}
+.rv-banner-cta {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.09em;
+  color: var(--paper-raised);
+  background: var(--prussian);
+  padding: 7px 14px;
+  border-radius: var(--radius);
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+.rv-banner-cta:hover {
+  background: var(--prussian-deep);
+}
+
+/* 词卡上的「加入复习本」 */
+.wc-srs-row {
+  margin-top: 15px;
+  padding-top: 13px;
+  border-top: 1px dashed var(--rule);
+}
+.wc-srs {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.07em;
+  color: var(--ink-3);
+  padding: 4px 10px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: transparent;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+.wc-srs:hover {
+  border-color: var(--prussian-soft);
+  color: var(--prussian);
+}
+.wc-srs.on {
+  border-color: var(--prussian);
+  color: var(--prussian);
+  background: var(--prussian-wash);
+}
+
+/* 复习页 */
+.rv-progress {
+  margin: 6px 0 20px;
+}
+.rv-progress-bar {
+  height: 3px;
+  background: var(--rule-soft);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.rv-progress-bar i {
+  display: block;
+  height: 100%;
+  background: var(--prussian);
+  transition: width 0.25s ease;
+}
+.rv-progress-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 8px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: var(--ink-3);
+}
+.rv-progress-meta strong {
+  color: var(--prussian);
+}
+
+.rv-card {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--paper-raised);
+  padding: 30px 32px 26px;
+}
+.rv-card-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 22px;
+}
+.rv-card-from {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-3);
+  border-bottom: 1px solid var(--rule);
+}
+.rv-card-from:hover {
+  color: var(--prussian);
+  border-color: var(--prussian-soft);
+}
+.rv-front {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.rv-word {
+  font-family: var(--font-serif);
+  font-size: 34px;
+  font-weight: 600;
+  line-height: 1.15;
+  color: var(--prussian-deep);
+}
+.rv-phon {
+  margin-top: 8px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--ink-3);
+}
+.rv-reveal {
+  display: block;
+  width: 100%;
+  margin-top: 26px;
+  padding: 11px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.09em;
+  color: var(--prussian);
+  border: 1px dashed var(--prussian-soft);
+  border-radius: var(--radius);
+  background: transparent;
+  transition: background 0.15s;
+}
+.rv-reveal:hover {
+  background: var(--prussian-wash);
+}
+.rv-back {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--rule);
+}
+.rv-gloss {
+  font-size: 17px;
+  color: var(--ink);
+}
+.rv-meaning {
+  margin-top: 6px;
+  font-size: 15px;
+  color: var(--ink-2);
+}
+.rv-block {
+  margin-top: 16px;
+}
+.rv-example {
+  margin-top: 6px;
+  font-family: var(--font-serif);
+  font-size: 16px;
+  color: var(--ink);
+}
+.rv-ex-cn {
+  margin-top: 3px;
+  font-size: 13px;
+  color: var(--ink-3);
+}
+.rv-memory {
+  margin-top: 6px;
+  font-size: 14px;
+  color: var(--ink-2);
+}
+.rv-grades {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 26px;
+}
+.rv-btn {
+  border-radius: var(--radius);
+  border: 1px solid var(--rule-strong);
+  background: var(--paper-raised);
+  padding: 11px 8px 9px;
+  cursor: pointer;
+  text-align: center;
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
+}
+.rv-btn-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.rv-btn-key {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-style: normal;
+  color: var(--ink-4);
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  padding: 0 4px;
+}
+.rv-btn-hint {
+  display: block;
+  margin-top: 4px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  color: var(--ink-3);
+}
+.rv-btn--again:hover,
+.rv-btn--again:focus-visible {
+  border-color: var(--prussian);
+  background: var(--prussian-wash);
+}
+.rv-btn--hard:hover,
+.rv-btn--hard:focus-visible {
+  border-color: var(--prussian-soft);
+  background: var(--prussian-wash);
+}
+.rv-btn--good:hover,
+.rv-btn--good:focus-visible {
+  border-color: var(--prussian);
+  background: var(--prussian);
+}
+.rv-btn--good:hover .rv-btn-label,
+.rv-btn--good:hover .rv-btn-hint,
+.rv-btn--good:hover .rv-btn-key,
+.rv-btn--good:focus-visible .rv-btn-label,
+.rv-btn--good:focus-visible .rv-btn-hint,
+.rv-btn--good:focus-visible .rv-btn-key {
+  color: var(--paper-raised);
+}
+.rv-btn--good:hover .rv-btn-key,
+.rv-btn--good:focus-visible .rv-btn-key {
+  border-color: var(--prussian-soft);
+}
+.rv-btn--go {
+  padding: 10px 18px;
+  border-color: var(--prussian);
+  background: var(--prussian);
+}
+.rv-btn--go .rv-btn-label,
+.rv-btn--go .rv-btn-hint {
+  color: var(--paper-raised);
+}
+.rv-btn--go:hover,
+.rv-btn--go:focus-visible {
+  background: var(--prussian-deep);
+}
+
+/* 空态与结算 */
+.rv-empty,
+.rv-done {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--paper-raised);
+  padding: 34px 30px;
+  text-align: center;
+}
+.rv-empty-title,
+.rv-done-title {
+  font-family: var(--font-serif);
+  font-size: 21px;
+  color: var(--prussian-deep);
+}
+.rv-empty-sub,
+.rv-done-sub {
+  margin-top: 10px;
+  font-size: 14px;
+  color: var(--ink-3);
+  line-height: 1.8;
+}
+.rv-empty-actions {
+  margin-top: 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.rv-done-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 24px;
+  max-width: 460px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.rv-done-stats > div {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: 14px 6px 12px;
+}
+.rv-done-stats strong {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 26px;
+  color: var(--prussian);
+  line-height: 1;
+}
+.rv-done-stats span {
+  display: block;
+  margin-top: 6px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  color: var(--ink-3);
+}
+
+@media (max-width: 640px) {
+  .rv-card {
+    padding: 22px 18px 20px;
+  }
+  .rv-word {
+    font-size: 27px;
+  }
+  .rv-grades {
+    grid-template-columns: 1fr;
+  }
+  .rv-banner-cta {
+    margin-left: 0;
+    width: 100%;
+    text-align: center;
+  }
+  .rv-done-stats {
+    grid-template-columns: 1fr;
+  }
+}

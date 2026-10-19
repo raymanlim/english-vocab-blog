@@ -7,6 +7,7 @@ const NAV = [
   { label: 'Archive', to: '/archive', match: 'archive' },
   { label: 'AI', to: '/ai', match: 'cat-ai' },
   { label: 'Finance', to: '/finance', match: 'cat-finance' },
+  { label: 'Review', to: '/review', match: 'review' },
   { label: 'About', to: '/about', match: 'about' },
 ] as const;
 
@@ -20,6 +21,8 @@ function activeKey(route: Route): string {
       return 'about';
     case 'category':
       return route.domain === 'ai' ? 'cat-ai' : 'cat-finance';
+    case 'review':
+      return 'review';
     case 'issue':
     case 'search':
       return '';

@@ -6,6 +6,7 @@ export type Route =
   | { name: 'issue'; date: string }
   | { name: 'archive' }
   | { name: 'category'; domain: 'ai' | 'finance' }
+  | { name: 'review' }
   | { name: 'search'; q: string }
   | { name: 'about' }
   | { name: 'notfound'; path: string };
@@ -30,6 +31,8 @@ export function parseHash(raw: string): Route {
       return { name: 'category', domain: 'ai' };
     case 'finance':
       return { name: 'category', domain: 'finance' };
+    case 'review':
+      return { name: 'review' };
     case 'search':
       return { name: 'search', q: params.get('q') || '' };
     case 'about':
