@@ -1,16 +1,39 @@
 {
-  "generatedAt": "2026-10-19T03:34:49.270Z",
+  "generatedAt": "2026-10-20T03:35:55.539Z",
   "source": "pinghe/english words",
   "totals": {
-    "issues": 38,
-    "days": 37,
-    "words": 190,
-    "ai": 114,
-    "finance": 76,
+    "issues": 39,
+    "days": 38,
+    "words": 195,
+    "ai": 117,
+    "finance": 78,
     "both": 0,
     "other": 0
   },
   "issues": [
+    {
+      "date": "2026-10-20",
+      "issueNo": 39,
+      "issueSpan": 1,
+      "issueLabel": "第 39 期",
+      "issueNoLabel": "39",
+      "theme": "算力生意的账本——瓶颈落在带宽还是算力（算术强度 / 带宽受限 / 算力受限），投入几年能回本（单位经济 / 回收期）",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 38 期 190 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "arithmetic intensity",
+        "memory-bound",
+        "compute-bound",
+        "unit economics",
+        "payback period"
+      ]
+    },
     {
       "date": "2026-10-19",
       "issueNo": 38,

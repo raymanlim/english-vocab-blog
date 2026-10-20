@@ -1,0 +1,188 @@
+{
+  "date": "2026-10-20",
+  "issueNo": 39,
+  "issueSpan": 1,
+  "issueLabel": "第 39 期",
+  "issueNoLabel": "39",
+  "theme": "算力生意的账本——瓶颈落在带宽还是算力（算术强度 / 带宽受限 / 算力受限），投入几年能回本（单位经济 / 回收期）",
+  "themeRaw": "算力生意的账本——瓶颈落在带宽还是算力（算术强度 / 带宽受限 / 算力受限），投入几年能回本（单位经济 / 回收期）",
+  "note": "本期 5 词（3 AI + 2 金融），已与前 38 期 190 词去重",
+  "title": "每日英语 5 词 · 2026-10-20",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "arithmetic intensity",
+      "issueNoLocal": 39,
+      "phonetic": "/ˌærɪθˈmetɪk ɪnˈtensəti/",
+      "pos": "n.",
+      "posRaw": "n.（相关：roofline model、FLOPs、memory bandwidth、machine balance point、ops per byte、peak FLOPS、reuse、kernel fusion）",
+      "related": [
+        "roofline model",
+        "FLOPs",
+        "memory bandwidth",
+        "machine balance point",
+        "ops per byte",
+        "peak FLOPS",
+        "reuse",
+        "kernel fusion"
+      ],
+      "meaning": "【AI】算术强度——每搬运 1 字节数据所执行的浮点运算次数（FLOPs/byte）。它把「模型要多少算力」与「要搬多少数据」压成一个无量纲比值：算术强度高，算力是瓶颈；低，带宽是瓶颈。硬件自身有一条「机器平衡点」（峰值算力 ÷ 峰值带宽），模型的算术强度高于它才算力受限，低于它就是带宽受限。这正是 HBM 成为 AI 芯片第一成本项的数学原因——不是算力不够，而是每字节能做的运算太少",
+      "gloss": "算术强度",
+      "example": "A decoder-only LLM in the decode phase has an arithmetic intensity of roughly one or two FLOPs per byte, far below any GPU's machine balance point, so adding more tensor cores buys almost nothing.",
+      "exampleCn": "仅解码器架构的 LLM 在解码阶段算术强度只有每字节一两次浮点运算，远低于任何 GPU 的机器平衡点，所以再加张量核心几乎买不到性能。",
+      "memory": "**记忆锚点**：算术强度 = **每搬一公斤砖能砌几块墙**——搬运是带宽，砌墙是算力。搬一趟只砌一块，瓶颈就永远在搬运工（带宽）身上，而不是砌墙师傅（算力）。**为什么重要**：① 它解释 AI 芯片为何被 HBM 卡住：模型算术强度低 → 需要的是带宽而非算力 → HBM 与先进封装成为产能与成本卡点（直接对应半导体材料侧的产业逻辑）；② 它是判断「这块卡适合训练还是推理」的第一性依据，比看 TFLOPS 单指标可靠；③ 它把 batch size 的作用说清楚了：批变大 → 权重复用次数变多 → 算术强度上升 → 从带宽受限滑向算力受限（与第 38 期 batch size 直接接续）；④ 它是所有「算力利用率只有 30%」类报道的底层原因。**关键权衡**：① 提算术强度靠复用（大 batch、KV cache 共享、GQA），但复用会拉高单请求延迟；② 降精度（FP8/FP4）同时抬高算力、压低字节数，是唯一双向改善的杠杆；③ 理论 vs 实测——访存不连续、kernel 启动开销会让实测值远低于纸面；④ 训练与推理差一到两个数量级：训练一次前向加一次反向、权重复用充分，解码阶段几乎无复用。**实践要点**：① 看芯片规格先算「峰值 FLOPS ÷ 峰值带宽」，再对比你的模型算术强度，这比看峰值 TFLOPS 有意义；② 读「memory-bound」结论时先确认 batch size，同一模型大批可能算力受限；③ 做容量规划要把权重读取、KV cache 读写、激活读写分开计字节数；④ 与已学 mixed precision / GQA / KV cache 串起来：三者的本质都是在改这个比值。**易混点**：arithmetic intensity（每字节算多少次，无量纲比值）与 FLOPS（每秒运算次数，绝对速度）不同；与 utilization（利用率，实际 ÷ 峰值）不同——前者是「需求与供给的匹配」，后者是「执行效率」；与已学 throughput 是因果两端，后者是结果",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "memory-bound",
+      "issueNoLocal": 39,
+      "phonetic": "/ˈmeməri baʊnd/",
+      "pos": "adj.",
+      "posRaw": "adj.（相关：bandwidth-bound、memory wall、HBM、KV cache、memory bandwidth utilization、compute-bound、latency hiding、roofline model）",
+      "related": [
+        "bandwidth-bound",
+        "memory wall",
+        "HBM",
+        "KV cache",
+        "memory bandwidth utilization",
+        "compute-bound",
+        "latency hiding",
+        "roofline model"
+      ],
+      "meaning": "【AI】带宽受限 / 访存受限——程序耗时主要花在等数据从显存搬到计算单元，而不是花在算。判据是算术强度低于硬件机器平衡点。LLM 解码阶段是典型样本：每生成一个 token 都要把全部权重过一遍，却只做极少运算。表现为「SM 占用不高但吞吐上不去」，加卡、加算力都无效，只有提高带宽（HBM）或减少搬运（量化、GQA、KV cache 压缩）才有效",
+      "gloss": "带宽受限 / 访存受限",
+      "example": "Decoding is memory-bound, so the upgrade that actually moved the needle was HBM bandwidth, not more tensor cores.",
+      "exampleCn": "解码是带宽受限的，所以真正带来提升的升级是 HBM 带宽，而不是更多张量核心。",
+      "memory": "**记忆锚点**：memory-bound = **厨师比传菜员快太多，菜全卡在传菜口**——灶台（算力）再快也没用，瓶颈在把食材送进来的那条通道。**为什么重要**：① 它解释「推理成本为何降不下来」：解码带宽受限，成本几乎正比于模型大小 × 生成 token 数，与算力单价关系不大；② 它解释 HBM 的战略地位：AI 芯片的竞争从「算得多快」转向「喂得多快」，这是 HBM 堆叠与 CoWoS 成为产业链卡点的根源；③ 它是选择优化方向的依据：带宽受限时做算子融合、量化、KV cache 压缩有效，加 SM 数量无效；④ 它区分了训练集群与推理集群的设计哲学——前者堆算力与互联，后者堆带宽与容量。**关键权衡**：① 提带宽 vs 提容量——HBM 堆叠同时提升两者但成本陡增，容量不够会 OOM、带宽不够会慢，两者要分开预算；② 量化 vs 精度——权重从 FP16 压到 FP4 直接减半字节数，是最直接的带宽优化，代价是精度与校准成本（接续已学 calibration）；③ 批大小 vs 延迟——增大批能摊薄权重读取、抬高算术强度，但抬高单请求延迟；④ 片上 SRAM vs 外部带宽——SRAM 快但容量小，能挡掉一部分访存，这正是各家芯片架构差异的关键。**实践要点**：① 看到「推理慢」先分清 prefill（偏算力）与 decode（偏带宽），两者优化手段完全不同；② SM 利用率低 + 显存带宽打满 = 典型 memory-bound，这是最快的现场判据；③ 优化顺序：量化权重 → KV cache 压缩 → 增大批 → 换更高带宽硬件；④ 与已学 prefill / continuous batching 联动：prefill 算术强度高、decode 极低，混合批处理能抬高整体利用率。**易混点**：memory-bound（带宽不足，搬得慢）与 OOM / memory leak（容量不足，装不下）是两个不同问题，中文都爱说「显存问题」但处置完全相反；与已学 latency（用户感知的延迟）不同——memory-bound 是成因，latency 是结果；与 compute-bound 是同一坐标轴的两端，不是优劣之分",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "compute-bound",
+      "issueNoLocal": 39,
+      "phonetic": "/kəmˈpjuːt baʊnd/",
+      "pos": "adj.",
+      "posRaw": "adj.（相关：memory-bound、machine balance point、tensor core、utilization、prefill、training step、sparsity、roofline model）",
+      "related": [
+        "memory-bound",
+        "machine balance point",
+        "tensor core",
+        "utilization",
+        "prefill",
+        "training step",
+        "sparsity",
+        "roofline model"
+      ],
+      "meaning": "【AI】算力受限——耗时主要花在真正的浮点运算上，算术强度高于硬件机器平衡点。典型场景：大 batch 的训练前向与反向、长 prompt 的 prefill 阶段、卷积密集的视觉模型。表现为算力利用率高、加带宽无明显收益，只有提高峰值算力（更多或更快的计算单元）或降低运算量（稀疏化、低精度、蒸馏）才有效",
+      "gloss": "算力受限",
+      "example": "Long-context prefill is compute-bound, which is why vendors advertise dense FP8 throughput for that workload while quoting bandwidth figures for decoding.",
+      "exampleCn": "长上下文 prefill 是算力受限的，这就是厂商对这类负载宣传密集 FP8 吞吐、而对解码只报带宽数字的原因。",
+      "memory": "**记忆锚点**：compute-bound = **传菜员够快，灶台炒不过来**——食材堆在台面上等锅，瓶颈在锅的数量与火候。**为什么重要**：① 它与 memory-bound 组成判断优化方向的第一道分岔，选错方向等于把预算全打水漂；② 它解释 prefill 与 decode 为何要用不同硬件、不同报价口径——这是读懂 AI 芯片发布会话术的关键；③ 它是训练成本估算的起点：一步训练的算力约等于 6 × 参数量 × token 数，那个 6 就是「算力受限」假设下的系数；④ 它解释稀疏化、低精度、蒸馏为何能省钱——三者都在直接减少运算量。**关键权衡**：① 提算力 vs 提带宽——芯片面积与功耗有限，两者互相挤占，架构差异本质是配比选择；② 稀疏 vs 稠密——稀疏理论省算力，实际受限于硬件对不规则计算的支持，纸面收益常打折；③ 低精度 vs 数值稳定——FP8/FP4 抬高峰值算力，但需要缩放与校准，训练比推理更敏感；④ 它不是硬件固有属性，而是「硬件 + 负载」的组合属性——同一张卡换个 batch size 就换了一侧。**实践要点**：① 优化前先算算术强度与机器平衡点，别凭直觉；② 训练侧优先做算子融合、混合精度、梯度累积；③ 推理侧长 prompt（prefill）走算力优化、长输出（decode）走带宽优化，不要混着调；④ 采购谈判时要求厂商按 workload 分别报 prefill 与 decode 的实测吞吐，而不是只给峰值 TFLOPS。**易混点**：compute-bound（受限于运算速度）与「GPU 利用率高」（可能只是忙在等数据）不是同义；与已学 test-time compute（推理时多花算力换质量，是一种资源投放策略）完全不同——前者是性能瓶颈的性质，后者是策略选择；与 throughput 同样是因果两端",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "unit economics",
+      "issueNoLocal": 39,
+      "phonetic": "/ˈjuːnɪt ˌiːkəˈnɒmɪks/（美 /ˈjuːnɪt ˌekəˈnɑːmɪks/）",
+      "pos": "n.",
+      "posRaw": "n.（相关：CAC、LTV、contribution margin、gross margin per unit、payback period、scalability、operating leverage、churn）",
+      "related": [
+        "CAC",
+        "LTV",
+        "contribution margin",
+        "gross margin per unit",
+        "payback period",
+        "scalability",
+        "operating leverage",
+        "churn"
+      ],
+      "meaning": "【金融】单位经济模型——把生意拆到「一个单位」上算赚不赚钱：一个客户、一台设备、一个 token、一次配送。核心公式是单位收入减单位变动成本等于单位贡献毛利，再对比获客成本（CAC）与客户终身价值（LTV）。它回答的是「规模放大后是更赚还是更亏」——单位经济为负时，增长只会加速失血。对 AI 公司尤其关键：按 token 计价时单位成本随模型大小与上下文长度变化，规模效应未必自动成立",
+      "gloss": "单位经济模型",
+      "example": "The company grew revenue 300%, but unit economics were still negative — every additional customer widened the loss, and no amount of scale was going to fix that.",
+      "exampleCn": "公司营收增长 300%，但单位经济仍为负——每多一个客户就多亏一点，靠规模根本救不回来。",
+      "memory": "**记忆锚点**：unit economics = **先算一份炒饭赚不赚钱，再谈开一百家店**——单份亏钱，开得越多亏得越快；单份赚钱，规模才成为杠杆。**为什么重要**：① 它是识别「增长陷阱」的核心工具：营收曲线漂亮但单位经济为负的公司，融资一停就崩；② 它是 AI 基建争论的落点：一座数据中心每 GPU 每小时的成本 vs 每 GPU 每小时的租金收入，就是这行业的单位经济；③ 它把已学 operating leverage 拆开了——固定成本被摊薄的前提是单位贡献毛利为正，否则杠杆反向作用、越放量越亏；④ 它是判断「降价换量」是否理性的唯一依据。**关键权衡**：① 单位毛利 vs 规模——早期为规模牺牲单位经济（补贴）可以是策略，但必须有明确的转正路径与时间表；② 静态 vs 动态——学习曲线会让成本随时间下降，但要看降幅是否快过价格降幅；③ 平均 vs 边际——平均单位成本好看不代表边际单位赚钱，增量客户的获客成本往往更高；④ 会计口径 vs 现金口径——单位经济常含分摊固定成本，看现金流时应改用贡献毛利。**实践要点**：① 看 SaaS / AI 公司先问「按单位算毛利率多少」，再看增长率，顺序反了会被增长叙事带走；② 把 CAC 回收期（见本期第 5 词）与 LTV/CAC 一起看，单看任一个都会误判；③ AI 业务应按「每百万 token 成本」建模而非「每用户成本」，因为用量分布极偏；④ 与已学 quality of earnings 联动：单位经济好看但靠一次性收入撑起来的，属质量问题。**易混点**：unit economics（单个单位的收支结构）与已学 margin（整体毛利率，汇总结果）不同——前者能揭示结构性问题，后者会被高毛利业务掩盖；与已学 ROIC（投入资本回报率）不同，前者看单位、后者看总资本效率；与 economies of scale（规模经济，一种现象）不同，unit economics 是检验它是否成立的度量",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "payback period",
+      "issueNoLocal": 39,
+      "phonetic": "/ˈpeɪbæk ˈpɪəriəd/",
+      "pos": "n.",
+      "posRaw": "n.（相关：discounted payback、breakeven、IRR、NPV、capex cycle、useful life、utilization ramp、hurdle rate、cash-on-cash return）",
+      "related": [
+        "discounted payback",
+        "breakeven",
+        "IRR",
+        "NPV",
+        "capex cycle",
+        "useful life",
+        "utilization ramp",
+        "hurdle rate",
+        "cash-on-cash return"
+      ],
+      "meaning": "【金融】回收期——累计净现金流把初始投入全部收回所需的年数。最朴素的算法是初始投资 ÷ 年净现金流（现金流不均时逐年累加）。它不折现、也不考虑回收期之后的收益，因此只适合做风险与流动性的粗筛，不能替代 NPV / IRR 做价值判断。在 AI 数据中心语境下它是核心争议指标：单 GW 级园区的 capex 常需 5~8 年才能靠租金与算力服务收回，而 GPU 的经济寿命可能只有 3~5 年",
+      "gloss": "回收期",
+      "example": "At current rental rates the payback period on that cluster is seven years, while the GPUs will be economically obsolete in four — the math does not close without either higher utilization or higher prices.",
+      "exampleCn": "按当前租金水平，那个集群的回收期是七年，而 GPU 四年后在经济上就已过时——除非提高利用率或涨价，这笔账算不平。",
+      "memory": "**记忆锚点**：payback period = **开一家店几年能把装修钱赚回来**——回本越快，越不怕后面世道变；回本慢的生意，本质是在赌「未来几年不出意外」。**为什么重要**：① 它是 AI 资本开支争论的核心算术：设备经济寿命（3~5 年）短于回收期（5~8 年）时，整个投资逻辑依赖「租金不跌 + 利用率不降」两个强假设；② 它是已学 capex 与折旧的时间桥：capex 是当下现金流出，折旧是未来逐年摊入损益，回收期把两者与真实现金回收连起来；③ 它是最朴素的风险度量——回收期越长，暴露在技术迭代、价格战、利率上行之下的时间越久；④ 它解释了高利率环境下长回收期项目为何先被砍（接续已学 WACC 与 risk-free rate）。**关键权衡**：① 回收期 vs NPV——回收期忽略折现与后期现金流，可能否掉一个 NPV 为正的长周期好项目，也可能放过一个回收快但总量差的项目；② 设备寿命 vs 会计折旧年限——会计按 5 年折旧、经济上可能 3 年就被下一代淘汰，用会计年限算回收期会系统性乐观；③ 满负荷假设 vs 真实爬坡——模型通常假设高利用率，实际爬坡常吃掉 1~2 年；④ 自建 vs 租用——自建回收期长但单位成本低，租用回收期近乎为零但毛利薄。**实践要点**：① 算回收期必须用现金口径的净流入（收入 − 现金运营成本 − 维护），不能用会计利润；② 至少给「基准 / 悲观（利用率 60% + 租金跌 30%）」两套回收期，单点数字没有意义；③ 拿回收期与设备经济寿命直接对比，回收期长于寿命即结构性不可行，再多叙事也救不回来；④ 与已学 IRR 一起看：回收期回答「多久回本」，IRR 回答「年化多少」，两者互补而非替代。**易混点**：payback period（几年回本，不考虑货币时间价值）与 discounted payback（折现后回本，更严格）不同；与 breakeven（盈亏平衡，某一期利润为零）不同——回本看累计现金流归零，盈亏平衡看单期损益归零；与已学 duration（债券的加权平均回款时间）形似而实质不同，后者是利率敏感度指标",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [
+    {
+      "no": "1",
+      "word": "arithmetic intensity",
+      "phonetic": "/ˌærɪθˈmetɪk ɪnˈtensəti/",
+      "domain": "AI",
+      "point": "每搬一公斤砖砌几块墙；比值低于机器平衡点就卡在带宽上"
+    },
+    {
+      "no": "2",
+      "word": "memory-bound",
+      "phonetic": "/ˈmeməri baʊnd/",
+      "domain": "AI",
+      "point": "厨师比传菜员快，菜全卡在传菜口；加算力无用，只有加带宽或减搬运"
+    },
+    {
+      "no": "3",
+      "word": "compute-bound",
+      "phonetic": "/kəmˈpjuːt baʊnd/",
+      "domain": "AI",
+      "point": "传菜员够快但灶台炒不过来；加带宽无用，只能加算力或减运算量"
+    },
+    {
+      "no": "4",
+      "word": "unit economics",
+      "phonetic": "/ˈjuːnɪt ˌiːkəˈnɒmɪks/",
+      "domain": "金融",
+      "point": "先算一份炒饭赚不赚，再谈开百家店；单份亏钱，规模只是加速失血"
+    },
+    {
+      "no": "5",
+      "word": "payback period",
+      "phonetic": "/ˈpeɪbæk ˈpɪəriəd/",
+      "domain": "金融",
+      "point": "几年赚回装修钱；回本慢于设备寿命，这笔账结构性算不平"
+    }
+  ],
+  "comparisons": [],
+  "progress": [
+    "本期：第 39 期，5 词",
+    "累计：**195 词**（117 AI + 78 金融）",
+    "归档格式：MD 词卡 + KAMI One-Pager PNG + Telegram 推送"
+  ]
+}
