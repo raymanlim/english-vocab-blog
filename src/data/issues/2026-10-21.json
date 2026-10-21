@@ -1,0 +1,190 @@
+{
+  "date": "2026-10-21",
+  "issueNo": 40,
+  "issueSpan": 1,
+  "issueLabel": "第 40 期",
+  "issueNoLabel": "40",
+  "theme": "一个数字的代价——三个指标各自压掉了什么（熵 / KL 散度 / 困惑度），两个折现率各自假设了什么（净现值 / 内部收益率）",
+  "themeRaw": "一个数字的代价——三个指标各自压掉了什么（熵 / KL 散度 / 困惑度），两个折现率各自假设了什么（净现值 / 内部收益率）",
+  "note": "本期 5 词（3 AI + 2 金融），已与前 39 期 195 词去重",
+  "title": "每日英语 5 词 · 2026-10-21",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "entropy",
+      "issueNoLocal": 40,
+      "phonetic": "/ˈentrəpi/",
+      "pos": "n.",
+      "posRaw": "n.（相关：cross-entropy、KL divergence、perplexity、information theory、shannon entropy、temperature、sampling、bits per token、differential entropy）",
+      "related": [
+        "cross-entropy",
+        "KL divergence",
+        "perplexity",
+        "information theory",
+        "shannon entropy",
+        "temperature",
+        "sampling",
+        "bits per token",
+        "differential entropy"
+      ],
+      "meaning": "【AI】熵——衡量一个概率分布「平均有多不确定」的量，单位是比特（或奈特）。分布越平坦、越接近均匀，熵越高；越尖锐、越确定，熵越低。语言模型的输出层给出下一个 token 的概率分布，其熵就是「模型此刻有多犹豫」：熵接近 0 表示几乎确定，熵高表示多个候选势均力敌。训练用的交叉熵损失本质上是「真实分布自身的熵 + 模型分布与真实分布之间的 KL 散度」，因此它不可能低于数据本身的熵——这条下界正是理解「损失降到某个值就下不去了」的关键。采样时 temperature 直接改变熵：温度升高分布变平、熵升高；温度趋零熵趋零，退化为贪心解码",
+      "gloss": "熵",
+      "example": "When the model is genuinely uncertain, the entropy of the next-token distribution stays high across the whole candidate set, and temperature 0 collapses that spread into a single arbitrary pick.",
+      "exampleCn": "当模型确实不确定时，下一个 token 分布的熵在全部候选上居高不下，而温度为 0 会把这份分散塌缩成一次任意选择。",
+      "memory": "**记忆锚点**：熵 = **一枚硬币的「猜不中程度」**——两面各 50% 的公平硬币熵最高（1 比特），两面都是正面则熵为 0。**为什么重要**：① 它把「模型有多确定」变成一个可读的数，是观察模型行为最直接的内窥镜——看熵曲线比读输出文本更早发现问题；② 它是交叉熵损失的下界，所以「训练损失卡在 1.8 不动」可能不是优化失败，而是数据本身如此（接续已学 cross-entropy 与 data contamination）；③ 它是 temperature / top-p 的物理含义：两者都在改熵，一个是连续缩放、一个是截断尾部（接续已学 temperature / top-p / softmax）；④ 它是「模型不知道自己不知道」的度量入口：熵低但答案错，就是高置信度幻觉，比高熵更危险。**关键权衡**：① 高熵 vs 低熵——高熵更有创造性也更易跑偏，低熵更稳也更易重复，生产环境应按任务分档设温度而不是全局一个值；② token 级熵 vs 序列级不确定性——单个 token 熵低不代表整句可靠，错误会逐 token 累积；③ 熵作为探索信号 vs 作为告警信号——RL 训练里熵塌缩（entropy collapse）意味着策略失去探索能力，是训练失效的早期征兆；④ 计算成本——逐 token 记录熵需要保留完整 logits，显著增加显存与日志量。**实践要点**：① 做 Agent 时把「连续 N 个 token 高熵」当作转人工或调工具的触发条件，比事后看结果便宜得多；② 排查「输出重复」先看熵是否塌到接近 0，再查 repetition penalty；③ 比较两个模型不要只看平均损失，要看熵分布——均值相同、分布不同意味着适用场景不同；④ 与已学 calibration 联动：熵是模型自报的置信度，校准检验它是否可信。**易混点**：entropy（一个分布自身的平均不确定性）与 cross-entropy（用错分布编码真实分布的平均长度）不同，后者必然 ≥ 前者，差值恰好是 KL 散度；与 perplexity 是同一量的两种刻度（困惑度 = 2 的熵次方）；与口语里的「不确定」不同，熵是可计算的严格定义，不含「人类觉得模糊」这层主观含义",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "KL divergence",
+      "issueNoLocal": 40,
+      "phonetic": "/ˌkeɪ ˈel daɪˈvɜːdʒəns/（全称 Kullback–Leibler divergence）",
+      "pos": "n.",
+      "posRaw": "n.（相关：cross-entropy、entropy、forward KL、reverse KL、Jensen–Shannon divergence、reference model、policy constraint、distribution shift）",
+      "related": [
+        "cross-entropy",
+        "entropy",
+        "forward KL",
+        "reverse KL",
+        "Jensen–Shannon divergence",
+        "reference model",
+        "policy constraint",
+        "distribution shift"
+      ],
+      "meaning": "【AI】KL 散度 / 相对熵——衡量两个概率分布差异的非对称量：用分布 Q 去编码真实分布 P 时，平均每个符号多付出的比特数。它恒为非负，等于 0 当且仅当两个分布完全相同，但**不满足对称性**（P 对 Q 的 KL ≠ Q 对 P 的 KL），因此不是严格意义的「距离」。在 LLM 里它几乎无处不在：RLHF / DPO 用 KL 惩罚把策略约束在参考模型附近，防止奖励破解；蒸馏用 KL 让学生分布逼近教师分布；变分推断用 KL 做近似后验。方向选择决定行为：正向 KL（P‖Q）倾向覆盖全部分布模式，反向 KL（Q‖P）倾向锁定单一模式",
+      "gloss": "KL 散度 / 相对熵",
+      "example": "The policy is optimized against the reward model but penalized by its KL divergence from the frozen reference model, which is exactly what stops it from drifting into fluent nonsense.",
+      "exampleCn": "策略针对奖励模型做优化，但同时被它与冻结参考模型之间的 KL 散度惩罚——正是这一项阻止它漂向流畅的胡言乱语。",
+      "memory": "**记忆锚点**：KL 散度 = **用错地图多走的路**——拿 A 地图走 B 地形，多绕的里程就是 KL；反过来换一张地图，多绕的路不一样，所以它不对称。**为什么重要**：① 它是「对齐」这套工程的核心约束项：没有 KL 惩罚，策略会找到奖励模型的漏洞（接续已学 reward hacking / reward model）；② 它解释了 DPO 为何能绕开显式奖励模型——DPO 的损失在数学上等价于「隐式奖励 + KL 约束」（接续已学 DPO / PPO / RLVR）；③ 它是蒸馏的损失函数，也是「小模型学不像大模型」的量化来源（接续已学 distillation）；④ 它是判断两个分布能否互换的依据：数据分布漂移时，训练分布与线上分布之间的 KL 就是性能衰减的来源（接续已学 distribution shift）。**关键权衡**：① 正向 vs 反向 KL——正向 KL 惩罚「真实存在但模型没覆盖」的区域（覆盖广、易产出模糊样本），反向 KL 惩罚「模型虚构但真实不存在」的区域（mode-seeking、输出集中），对话与代码任务通常偏好后者；② KL 系数大小——太小约束不住、会 reward hack，太大模型学不动、退化成参考模型；③ 有偏估计——从有限样本估 KL 方差大且可能有偏，实践中常用 k3 估计量或直接监控训练曲线；④ 逐 token KL vs 序列级 KL——前者可解释，后者才是用户感知的差异，两者可能背离。**实践要点**：① 训练 RLHF 时把「KL 曲线突然抬升」当作奖励破解的早期信号，比等人工评测快；② 做模型替换评估时，先算新旧模型在同一 prompt 集上的平均逐 token KL，但注意 KL 小不代表行为等价，尾部差异才是风险；③ 别把 KL 当距离做聚类或阈值判断，需要对称性时改用 Jensen–Shannon 或 Wasserstein；④ 与已学 calibration 联动：KL 小但校准差，说明两个模型错得一样。**易混点**：KL divergence（非对称、非度量）与 total variation / Wasserstein（真距离）不同；与 cross-entropy 只差一个常数 H(P)，优化时最小化 KL 与最小化交叉熵等价，但报告时要分清报的是哪个；与已学 cosine similarity 完全不同——后者比的是向量方向，KL 比的是整个分布的形态",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "perplexity",
+      "issueNoLocal": 40,
+      "phonetic": "/pəˈpleksəti/（缩写 PPL）",
+      "pos": "n.",
+      "posRaw": "n.（相关：cross-entropy、entropy、bits per token、bits per byte、BPB、held-out set、validation loss、tokenizer）",
+      "related": [
+        "cross-entropy",
+        "entropy",
+        "bits per token",
+        "bits per byte",
+        "BPB",
+        "held-out set",
+        "validation loss",
+        "tokenizer"
+      ],
+      "meaning": "【AI】困惑度——语言模型对一段文本「有多意外」的指数化度量，数值上等于平均每 token 交叉熵的指数（PPL = exp(H)），也可读作「模型在每一步平均在多少个等概率候选之间犹豫」。PPL = 10 意味着模型的不确定性相当于每次从 10 个词里挑一个。它是最经典的语言模型指标，但**强依赖分词器**：同一段文本用不同 tokenizer，PPL 不可直接比较，因此跨模型比较更常用 bits per byte（BPB）",
+      "gloss": "困惑度",
+      "example": "The new tokenizer cut perplexity by 30% without any change to the model itself, which is exactly why nobody compares perplexity across different tokenizers.",
+      "exampleCn": "新分词器让困惑度下降 30%，而模型本身完全没动——这正是没人跨分词器比较困惑度的原因。",
+      "memory": "**记忆锚点**：困惑度 = **考试时平均在几个选项之间犹豫**——每次都在 3 个选项里犹豫，PPL ≈ 3；毫不犹豫，PPL ≈ 1。**为什么重要**：① 它是模型报告里出现频率最高的内部指标，读懂它才能判断「这个模型是不是真的更好」；② 它暴露了「指标与体验脱节」这一核心问题：PPL 更低不等于回答更好，因为它只衡量「预测下一个 token」，不衡量有用、正确、无害（接续已学 eval / LLM-as-a-judge / benchmark）；③ 它是分词器与模型的耦合点，这也是榜单开始改用 BPB 的原因；④ 它是训练早期最灵敏的健康信号：验证集 PPL 先降后升就是过拟合的教科书曲线（接续已学 early stopping / overfitting）。**关键权衡**：① PPL vs 下游任务表现——PPL 在领域内可比性强、跨领域迁移性差，代码与自然语言的 PPL 完全不可比；② 词级 vs 字节级——PPL 受词表大小影响，BPB 抹平这一差异，代价是失去「平均几个候选」的直观性；③ 教师强制 vs 自由生成——PPL 用教师强制逐 token 打分，与自回归生成时的误差累积不是一回事；④ 干净测试集 vs 污染风险——PPL 极低可能只是训练数据里见过（接续已学 data contamination / model collapse）。**实践要点**：① 跨模型比较一律换算成 BPB，或至少在相同 tokenizer 下比较；② 报告 PPL 必须同时给出测试集来源与 tokenizer，缺一项即不可比；③ 自建评测时把 PPL 与任务指标并列，不要用 PPL 单独选型；④ 与已学 scaling law 联动：PPL 随参数量与数据量呈幂律下降，是拟合 scaling law 时最常用的因变量。**易混点**：perplexity（指数化后的「候选数」，越大越差）与 cross-entropy / loss（对数值，越小越差）是同一量的两种刻度，报告时务必标清；与已学 accuracy（任务正确率）是不同维度，PPL 好而 accuracy 差是常态；与 entropy 的区别在于「谁的熵」——entropy 是分布自身的不确定性，perplexity 是模型分布相对真实数据的表现",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "net present value (NPV)",
+      "issueNoLocal": 40,
+      "phonetic": "/ˌnet ˈpreznt ˈvæljuː/（缩写 NPV）",
+      "pos": "n.",
+      "posRaw": "n.（相关：discount rate、DCF、IRR、hurdle rate、terminal value、cash flow、WACC、capital budgeting、sensitivity analysis）",
+      "related": [
+        "discount rate",
+        "DCF",
+        "IRR",
+        "hurdle rate",
+        "terminal value",
+        "cash flow",
+        "WACC",
+        "capital budgeting",
+        "sensitivity analysis"
+      ],
+      "meaning": "【金融】净现值——把项目未来全部现金流入与流出按给定折现率折回今天，求和后减去初始投入得到的差额。NPV > 0 表示项目创造的现值超过资本成本，应当执行；NPV < 0 应当拒绝；互斥项目之间选 NPV 最大者。它是资本预算的**第一决策准则**，因为只有它直接对应「股东价值增加了多少」这个绝对金额。它的全部争议都集中在两个输入上：折现率（通常取 WACC 或更高的 hurdle rate）与终值（terminal value，长期项目里常占总价值的 60%~80%）",
+      "gloss": "净现值",
+      "example": "The board approved the fab on an NPV of $1.2 billion, but that number flips negative if you raise the discount rate by 200 basis points or cut the terminal growth assumption to zero.",
+      "exampleCn": "董事会基于 12 亿美元净现值批准了这座晶圆厂，但只要折现率上调 200 个基点或把永续增长率假设归零，这个数字就会翻负。",
+      "memory": "**记忆锚点**：NPV = **把未来每年的钱按「利息 + 风险」打折换算成今天的购买力，再减去今天掏的钱**——正数才是真赚，负数说得再好听也是亏。**为什么重要**：① 它是唯一以绝对金额回答「这笔投入给股东增加多少价值」的准则，因此优先于 IRR 与回收期（接续已学 DCF / payback period / capital allocation）；② 它是 AI 数据中心争论的正确框架：把 capex、租金收入、折旧、残值放进同一条现金流再折现，才知道「7 年回本」到底值不值（接续已学 capex / unit economics / WACC）；③ 它的敏感性分析直接暴露叙事依赖——多数长期项目的正 NPV 只在乐观假设下成立；④ 它是并购、回购、扩产三类决策的统一尺子（接续已学 share buyback / dilution / EV）。**关键权衡**：① 折现率选择——用 WACC 是「公司平均风险」，用更高 hurdle rate 是「项目特定风险溢价」，选哪个直接决定结论，也常被事后调整以凑出想要的数字；② 终值占比——永续增长法对 g 极敏感，g 差 1 个百分点可让终值差 20%，退出倍数法则把估值锚在当期市场上；③ 名义 vs 实际——现金流与折现率必须同为名义或同为实际，混用是最常见的技术性错误；④ 单点 vs 情景——单点 NPV 掩盖分布，专业做法是给基准 / 乐观 / 悲观三档并做概率加权。**实践要点**：① 拿到任何 NPV 先问三件事：折现率多少、终值怎么算、现金流含不含维护性 capex；② 自己算时永远做双变量敏感性表（折现率 × 终值增长率），看正负边界落在哪；③ 沉没成本不计入，融资现金流（利息）也不计入——后者已由折现率处理；④ 与 IRR 冲突时以 NPV 为准（见本期第 5 词）。**易混点**：NPV（绝对金额，可相加、可比较规模）与 IRR（百分比，不可相加）不同；与已学 DCF（一种估值方法）不同——DCF 是过程，NPV 是那个过程算出的净结果；与 accounting profit（会计利润）完全不同，NPV 只认现金流与时点",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "internal rate of return (IRR)",
+      "issueNoLocal": 40,
+      "phonetic": "/ɪnˈtɜːnl reɪt əv rɪˈtɜːn/（缩写 IRR）",
+      "pos": "n.",
+      "posRaw": "n.（相关：NPV、hurdle rate、WACC、multiple IRRs、MIRR、cash flow timing、mutually exclusive projects、capital rationing、incremental IRR）",
+      "related": [
+        "NPV",
+        "hurdle rate",
+        "WACC",
+        "multiple IRRs",
+        "MIRR",
+        "cash flow timing",
+        "mutually exclusive projects",
+        "capital rationing",
+        "incremental IRR"
+      ],
+      "meaning": "【金融】内部收益率——使项目净现值恰好等于零的那个折现率，即项目自身的复合年化收益率。判据是「IRR 高于资本成本（hurdle rate）则执行」。它最大的优点是给出一个无需事先设定折现率的百分比，便于横向比较与对外沟通；最大的问题是三个结构性缺陷：现金流符号多次翻转时可能有多个解或无解；它隐含「中间现金流按 IRR 再投资」这一不现实假设；它偏爱小规模高比率项目，与「价值最大化」目标冲突",
+      "gloss": "内部收益率",
+      "example": "The project shows a headline IRR of 28%, but almost all of it comes from a terminal value twelve years out, and the IRR falls to 9% once you assume interim cash flows are reinvested at the cost of capital.",
+      "exampleCn": "项目对外宣称 IRR 28%，但几乎全部来自十二年后的终值；一旦假设中间现金流按资本成本再投资，IRR 会掉到 9%。",
+      "memory": "**记忆锚点**：IRR = **这笔投资自己的「年化利息」**——不问银行利率多少，反推「要多少利率才能让这笔投入刚好不赚不亏」，那个利率就是 IRR。**为什么重要**：① 它是私募、项目融资、地产、基建对外沟通的通用语言，「这个项目 IRR 25%」比「NPV 8 亿」更容易被记住与传播；② 它天然可跨规模比较，因此常被用来做资本配置排序（接续已学 capital allocation）；③ 它的缺陷正是最有价值的知识点：懂得 IRR 在哪些情形会骗人，比会算 IRR 更重要；④ 它与 hurdle rate 配对，构成「投不投」的门槛判断（接续已学 WACC / risk-free rate / equity risk premium）。**关键权衡**：① IRR vs NPV——互斥项目且规模不同时，IRR 高的小项目可能 NPV 更低，此时必须服从 NPV；② 再投资假设——IRR 隐含按 IRR 再投资，过于乐观，MIRR 改为按资本成本再投资更保守；③ 多解问题——非常规现金流（先投后收再投，如矿业、长期运维合同）会出现两个正 IRR，数学上无唯一答案；④ 时间结构——IRR 只给一个平均数，掩盖「前重后轻」与「前轻后重」的风险差异，两个 IRR 相同的项目风险可能天差地别。**实践要点**：① 看到别人报 IRR 先要现金流表，自己在相同折现率下用 NPV 复算一遍；② 现金流符号翻转超过一次时，直接改用 NPV 或 MIRR，不要强行解释 IRR；③ 做排序决策时用「增量 IRR」（大项目减小项目）而不是各自 IRR；④ 与已学 payback period 互补：IRR 回答「年化多少」，回收期回答「多久回本」，两个都要看。**易混点**：IRR（使 NPV 为零的折现率，百分比）与 NPV（给定折现率下的净现值，金额）不同，前者是方程的解、后者是函数值；与已学 ROIC / ROE（会计口径的资本回报率）不同——IRR 基于现金流与时点，ROIC 基于账面利润与投入资本；与已学 YTM 数学形式相同（都是求使现值为零的利率）但对象不同，YTM 是债券的、IRR 是项目的",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [
+    {
+      "no": "1",
+      "word": "entropy",
+      "phonetic": "/ˈentrəpi/",
+      "domain": "AI",
+      "point": "硬币的猜不中程度；损失永远降不到数据自身的熵以下"
+    },
+    {
+      "no": "2",
+      "word": "KL divergence",
+      "phonetic": "/ˌkeɪ ˈel daɪˈvɜːdʒəns/",
+      "domain": "AI",
+      "point": "用错地图多走的路；不对称，方向决定行为，是对齐的约束项"
+    },
+    {
+      "no": "3",
+      "word": "perplexity",
+      "phonetic": "/pəˈpleksəti/",
+      "domain": "AI",
+      "point": "平均在几个选项间犹豫；强依赖分词器，跨模型要比 BPB"
+    },
+    {
+      "no": "4",
+      "word": "net present value (NPV)",
+      "phonetic": "/ˌnet ˈpreznt ˈvæljuː/",
+      "domain": "金融",
+      "point": "未来的钱打折成今天的购买力再减投入；正数才真赚，冲突时以它为准"
+    },
+    {
+      "no": "5",
+      "word": "internal rate of return (IRR)",
+      "phonetic": "/ɪnˈtɜːnl reɪt əv rɪˈtɜːn/",
+      "domain": "金融",
+      "point": "这笔投资自己的年化利息；多解、再投资假设、偏爱小项目三个坑"
+    }
+  ],
+  "comparisons": [],
+  "progress": [
+    "本期：第 40 期，5 词",
+    "累计：**200 词**（120 AI + 80 金融）",
+    "归档格式：MD 词卡 + KAMI One-Pager PNG + Telegram 推送"
+  ]
+}

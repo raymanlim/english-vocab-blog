@@ -1,16 +1,39 @@
 {
-  "generatedAt": "2026-10-20T03:35:55.539Z",
+  "generatedAt": "2026-10-21T03:34:58.918Z",
   "source": "pinghe/english words",
   "totals": {
-    "issues": 39,
-    "days": 38,
-    "words": 195,
-    "ai": 117,
-    "finance": 78,
+    "issues": 40,
+    "days": 39,
+    "words": 200,
+    "ai": 120,
+    "finance": 80,
     "both": 0,
     "other": 0
   },
   "issues": [
+    {
+      "date": "2026-10-21",
+      "issueNo": 40,
+      "issueSpan": 1,
+      "issueLabel": "第 40 期",
+      "issueNoLabel": "40",
+      "theme": "一个数字的代价——三个指标各自压掉了什么（熵 / KL 散度 / 困惑度），两个折现率各自假设了什么（净现值 / 内部收益率）",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 39 期 195 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "entropy",
+        "KL divergence",
+        "perplexity",
+        "net present value (NPV)",
+        "internal rate of return (IRR)"
+      ]
+    },
     {
       "date": "2026-10-20",
       "issueNo": 39,
