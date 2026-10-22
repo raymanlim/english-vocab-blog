@@ -1,0 +1,193 @@
+{
+  "date": "2026-10-22",
+  "issueNo": 41,
+  "issueSpan": 1,
+  "issueLabel": "第 41 期",
+  "issueNoLabel": "41",
+  "theme": "摊开之后如何仍然可控——计算怎么切（数据并行 / 张量并行）、切开后怎么看得见（可观测性），资金怎么摊（相关性 / 资产配置）",
+  "themeRaw": "摊开之后如何仍然可控——计算怎么切（数据并行 / 张量并行）、切开后怎么看得见（可观测性），资金怎么摊（相关性 / 资产配置）",
+  "note": "本期 5 词（3 AI + 2 金融），已与前 40 期 200 词去重",
+  "title": "每日英语 5 词 · 2026-10-22",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "data parallelism (DP)",
+      "issueNoLocal": 41,
+      "phonetic": "/ˈdeɪtə ˈpærəlelɪzəm/（缩写 DP）",
+      "pos": "n.",
+      "posRaw": "n.（相关：distributed training、model parallelism、tensor parallelism、pipeline parallelism、all-reduce、gradient synchronization、ZeRO、FSDP、scaling efficiency、straggler）",
+      "related": [
+        "distributed training",
+        "model parallelism",
+        "tensor parallelism",
+        "pipeline parallelism",
+        "all-reduce",
+        "gradient synchronization",
+        "ZeRO",
+        "FSDP",
+        "scaling efficiency",
+        "straggler"
+      ],
+      "meaning": "【AI】数据并行——分布式训练最基础的一种切分方式：把同一份模型完整复制到每张卡上，把一个大 batch 切成若干份分给各卡，每卡独立完成前向与反向，最后把所有卡的梯度做一次全局平均（all-reduce）再各自更新。它不改模型结构，只改「谁算哪批数据」，因此实现最简单、扩展性最好；代价是每张卡都必须装下完整模型与优化器状态，显存成为硬上限。全部通信开销都集中在梯度同步这一步：卡数增加而单卡 batch 不变时，通信占比上升、扩展效率下降，这正是「加卡不一定加速」的根源。ZeRO / FSDP 通过把优化器状态、梯度、参数分片存储，把纯数据并行推向「数据并行 + 参数分片」，本质是在数据并行的框架里偷用模型并行的显存节省",
+      "gloss": "数据并行",
+      "example": "Data parallelism scales almost linearly until the all-reduce of gradients starts to dominate step time, at which point adding more GPUs buys throughput only at a steep discount.",
+      "exampleCn": "数据并行几乎可以线性扩展，直到梯度 all-reduce 开始主导单步耗时——从那一刻起，再加 GPU 换来的吞吐就要大打折扣。",
+      "memory": "**记忆锚点**：数据并行 = **同一个老师、不同的作业本**——每张卡都拿着完整的模型（同一个老师），各自批改不同的一摞作业（不同数据），最后把批改意见平均一下再统一改教案。**为什么重要**：① 它是所有大规模训练的第一层，理解它才能理解为什么显存容量与卡间互联带宽（NVLink / InfiniBand）是产业链真正的卡点——显存决定能否装下模型副本，带宽决定梯度同步要等多久（接续已学 arithmetic intensity / memory-bound）；② 它解释了「为什么大模型训练必须买那么多卡还要把它们连起来」：算力可以堆，但同步是全局的，一张慢卡会拖住整个集群；③ 它是理解 ZeRO / FSDP 的起点：这些技术没有发明新范式，只是打破了「每卡存全量」这条假设；④ 它是判断「加卡能不能提速」的第一把尺子：先算通信与计算的比值，再看扩展效率曲线。**关键权衡**：① 全局 batch 大小与学习率——卡数翻倍通常要同步上调学习率并加长 warmup，否则等效于用超大 batch 做小步更新，收敛变差（接续已学 batch size / learning rate）；② 同步与异步——同步 all-reduce 语义干净但被最慢的卡拖住，异步更新吞吐高却存在梯度滞后，大模型预训练几乎一律选同步；③ 扩展效率与成本——8 卡到 64 卡可能还有九成效率，到 1024 卡常掉到五成以下，边际收益递减是硬约束；④ 数据并行与模型并行——模型装得下就优先数据并行（简单），装不下才被迫上张量并行（复杂但省显存）。**实践要点**：① 排查「加卡不提速」先看 all-reduce 时间占比，再查是否有慢节点（straggler）；② 调参时把「全局 batch」当唯一变量，而不是单卡 batch，否则换机器就得重调；③ 小团队微调优先用 FSDP / ZeRO-2 起步，不要一上来就上张量并行；④ 与已学 throughput / continuous batching 区分：那两个是推理侧概念，数据并行是训练侧概念。**易混点**：data parallelism（切数据、复制模型）与 tensor parallelism（切矩阵、复制数据）方向正好相反，这是最核心的一对；与 pipeline parallelism（切层、按层流水）也不同，后者切的是深度方向；与存储语境的 sharding 相近，但训练语境里 sharding 通常指参数分片而非数据分片",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "tensor parallelism (TP)",
+      "issueNoLocal": 41,
+      "phonetic": "/ˈtensə ˈpærəlelɪzəm/（缩写 TP）",
+      "pos": "n.",
+      "posRaw": "n.（相关：model parallelism、pipeline parallelism、data parallelism、all-reduce、column parallel、row parallel、NVLink、Megatron-LM、communication overhead）",
+      "related": [
+        "model parallelism",
+        "pipeline parallelism",
+        "data parallelism",
+        "all-reduce",
+        "column parallel",
+        "row parallel",
+        "NVLink",
+        "Megatron-LM",
+        "communication overhead"
+      ],
+      "meaning": "【AI】张量并行——把单层的权重矩阵本身切开，分到多张卡上共同算同一批数据。以一层线性变换为例：按列切权重，每张卡只算输出的一部分通道（column parallel），下一层改按行切（row parallel），两种切法交替进行，使得每两层只需一次 all-reduce 就能把结果拼回。它与数据并行的方向完全相反：数据并行切的是输入、复制的是权重；张量并行切的是权重、复制的是输入。因为每一层内部都要通信，张量并行对卡间带宽极其敏感，实践中通常限制在单机 8 卡以内（走 NVLink），跨机只做流水并行。它存在的唯一理由是：模型大到单卡显存装不下，而数据并行救不了显存",
+      "gloss": "张量并行",
+      "example": "Tensor parallelism only pays off inside a single NVLink domain; push it across nodes and the per-layer all-reduce turns a compute-bound kernel into a communication-bound one.",
+      "exampleCn": "张量并行只在单个 NVLink 域内划算；一旦跨机，逐层的 all-reduce 会把一个计算受限的算子变成通信受限的算子。",
+      "memory": "**记忆锚点**：张量并行 = **一道大题拆给几个人各算一半，但每算完一步都要互相报数**——省的是纸面（显存），费的是嘴（带宽）。**为什么重要**：① 它是「模型装不下」时的唯一出路，也是理解为什么 70B 以上模型必须多卡、为什么单机 8 卡成为常见配置的关键；② 它把「带宽决定架构」这件事讲透了：同一个算法，在 NVLink 内是计算题，跨 InfiniBand 就变成通信题——这也是 HBM 与高速互联成为产业链价值集中点的原因（接续已学 memory-bound / compute-bound / arithmetic intensity）；③ 它是判断厂商宣传的试金石：「我们支持千卡训练」要问清是数据并行千卡还是张量并行千卡，两者难度差一个量级；④ 它与数据并行、流水并行共同构成 3D 并行，是当前大模型训练的标准配方。**关键权衡**：① 切分粒度——切得越细显存越省，但通信次数与延迟上升，存在最优并行度而非越大越好；② 列切与行切——列并行后接行并行可把 all-reduce 压到每两层一次，这是 Megatron 式设计的核心技巧；③ 张量并行与流水并行——前者通信频繁但负载均衡，后者通信少却有流水气泡（bubble），模型极深时后者更划算；④ 单机内与跨机——跨机张量并行的通信开销通常吃掉全部收益，除非有超大带宽互联。**实践要点**：① 显存够就绝不启用张量并行，它带来的调试复杂度与通信开销都很高；② 部署推理时若必须切分，优先考虑按层切（pipeline）而非按矩阵切，因为推理没有反向传播、通信更少；③ 判断一个集群是否适合大模型训练，先看单机 NVLink 域大小与跨机带宽之比，而不是只看 GPU 数量；④ 与已学 GQA / KV cache 联动：推理阶段的显存瓶颈在 KV cache，靠 GQA 与分页注意力解决，不该靠张量并行硬扛。**易混点**：tensor parallelism（切权重矩阵，每层都通信）与 data parallelism（切数据，每步只通信一次梯度）是最容易混的一对；与 model parallelism 是包含关系——后者是统称，tensor 与 pipeline 是它的两种切法；与已学 MoE（稀疏激活，按 token 路由到不同专家）不同，MoE 是「不同数据走不同参数」，张量并行是「同一数据走全部参数的不同片段」",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "observability",
+      "issueNoLocal": 41,
+      "phonetic": "/əbˌzɜːvəˈbɪləti/",
+      "pos": "n.",
+      "posRaw": "n.（相关：monitoring、tracing、logging、metrics、span、telemetry、OpenTelemetry、LLM observability、online eval、drift detection、alerting）",
+      "related": [
+        "monitoring",
+        "tracing",
+        "logging",
+        "metrics",
+        "span",
+        "telemetry",
+        "OpenTelemetry",
+        "LLM observability",
+        "online eval",
+        "drift detection",
+        "alerting"
+      ],
+      "meaning": "【AI】可观测性——从系统的外部输出（日志、指标、链路追踪）反推内部状态的能力。它与 monitoring（监控）不是同义词：监控回答「已知的指标有没有越界」，可观测性回答「没预料到的问题为什么发生」。在 LLM 与 Agent 系统里，它特指对一次调用的完整记录：prompt 与模板版本、检索到的文档、每次工具调用的入参与返回、输入输出 token 数、延迟分解（首字时间与解码时间）、以及最终输出与评分。因为 LLM 的行为是概率性的、失败往往无声（不报错但答错），传统「看错误率」的监控几乎失效，可观测性成为唯一能定位「这次为什么答错」的手段，也是线上评测与回归测试的数据基础",
+      "gloss": "可观测性",
+      "example": "Without tracing every tool call and retrieval hit, a failed agent run looks identical to a successful one — same 200 status, same latency, just a wrong answer nobody can explain.",
+      "exampleCn": "如果不追踪每一次工具调用与检索命中，一次失败的 Agent 运行和成功的运行看起来完全一样——同样的 200 状态码、同样的延迟，只是一个没人解释得清的错答案。",
+      "memory": "**记忆锚点**：可观测性 = **飞机上的黑匣子，不是仪表盘**——仪表盘告诉你现在飞得稳不稳（监控），黑匣子才能告诉你刚才那一下抖动是什么引起的（可观测）。**为什么重要**：① 它解决 LLM 系统最痛的问题：失败是静默的。接口返回 200、延迟正常、输出流畅，但答案是错的——没有 trace 就无从归因（接续已学 hallucination / eval / LLM-as-a-judge）；② 它是成本控制的唯一抓手：不记录每次调用的 token 数与模型版本，就无法回答「这个月账单为什么翻倍」；③ 它是 Agent 从演示走向生产的分水岭：多步、多工具、多轮的系统里，缺陷几乎都出现在步骤之间的衔接处，而衔接处只有 trace 看得见（接续已学 orchestration / subagent / tool calling）；④ 它是「评测前移」的基础：线上真实 trace 是最有价值的评测集来源，比人造用例更贴近真实失败模式（接续已学 ground truth / calibration）。**关键权衡**：① 记录完整度与成本隐私——完整记录 prompt 与检索内容意味着把用户数据落盘，需要脱敏、采样与保留期策略；② 采样率——全量记录贵，低采样率会漏掉长尾失败，通常按「错误 / 高延迟 / 高成本」三类做定向全采样；③ 自建与托管——自建（OpenTelemetry 加自有后端）可控但工作量大，托管平台上手快但数据出域；④ 可观测性与评测——前者看「发生了什么」，后者看「好不好」，数据同源但问题不同，不能互相替代。**实践要点**：① 每个请求必须能用一个 trace id 串起全部子调用，这是最低要求；② 必记字段：模型名与版本、prompt 模板版本、输入输出 token 数、每步延迟、工具调用参数与返回、最终评分；③ 把「同一 prompt 在新旧模型上的输出」做成定期对比任务，比等用户投诉早得多；④ 与已学 rate limit 联动：429 与超时也必须在 trace 里可见，否则会被误判为模型质量问题。**易混点**：observability（能回答未预料的问题）与 monitoring（盯着已知指标）不同，前者是能力、后者是动作；与 logging 不同——日志是原料，可观测性是「能从中得出结论」的整体能力；与已学 eval（离线打分）不同，可观测性面向线上真实流量，eval 面向受控测试集",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "correlation",
+      "issueNoLocal": 41,
+      "phonetic": "/ˌkɒrəˈleɪʃn/",
+      "pos": "n.",
+      "posRaw": "n.（相关：covariance、diversification、correlation coefficient、beta、R-squared、spurious correlation、tail dependence、regime shift）",
+      "related": [
+        "covariance",
+        "diversification",
+        "correlation coefficient",
+        "beta",
+        "R-squared",
+        "spurious correlation",
+        "tail dependence",
+        "regime shift"
+      ],
+      "meaning": "【金融】相关性——两个变量同向或反向变动的程度，标准化后落在负一到正一之间（等于协方差除以两者标准差之积）。它是分散化能否生效的唯一数学依据：组合波动不只取决于各资产自身波动，还取决于它们之间的相关性；相关性为一时分散完全无效，为零或负时才有风险削减。三个必须记住的性质：相关不等于因果；相关性不稳定，危机时几乎所有风险资产的相关性同时趋近于一（相关性崩塌），分散化在最需要它的时刻失效；线性相关系数只描述线性关系，尾部共同下跌的程度可能远高于该系数所暗示的水平",
+      "gloss": "相关性",
+      "example": "The portfolio looked well diversified at a 0.3 average pairwise correlation, but in the March selloff every position converged toward 1 and the diversification simply disappeared.",
+      "exampleCn": "这个组合在平均两两相关性 0.3 时看起来分散得很好，但三月抛售中所有持仓一起向 1 收敛，分散化凭空消失了。",
+      "memory": "**记忆锚点**：相关性 = **两个人是不是同一条船上的**——系数接近一就是同一条船，风浪一起扛（分散无效）；零是各划各的船；负数是一人翻船另一人靠岸。**为什么重要**：① 它是「分散化是唯一的免费午餐」这句话的数学内容：不降低预期收益却能降低波动，前提是相关性足够低（接续已学 volatility / asset allocation / rebalancing）；② 它是组合风险的真正来源：持 20 只半导体股不是分散，而是同一风险的 20 倍表达——这条对产业投资者尤其致命；③ 它的不稳定性是历次危机的共同教训：崩盘时相关性趋一，正是「以为分散、实际集中」的爆雷点（接续已学 tail risk / drawdown / VaR）；④ 它是判断「这笔对冲有没有用」的唯一依据：负相关才是对冲，低正相关只是减震。**关键权衡**：① 样本区间选择——用三年还是三个月算出的相关性可能完全不同，区间选择常被用来讲出想要的故事；② 线性与尾部——相关系数捕捉不到「平时不相关、崩盘时一起崩」的资产，需另看尾部相依性；③ 分散与集中——过度追求低相关会把组合摊成一堆平庸资产，收益被稀释；④ 相关性系数与 beta——后者衡量对市场的敏感度（有方向、有基准），前者衡量两者同步程度（无方向），两者不可互换。**实践要点**：① 构建组合时看相关性矩阵而非持仓数量，同行业持仓要合并计算真实敞口；② 定期用「危机区间」单独算一次相关性，看极端情形下还剩多少分散；③ 看到相关系数在 0.9 以上的两个标的，直接当作同一资产处理；④ 与已学 mean reversion / rebalancing 联动：相关性上升会改变最优权重，再平衡频率需随之调整。**易混点**：correlation（标准化，无单位）与 covariance（有单位、受量纲影响）不同，前者是后者的标准化版本；与已学 beta（相对市场的斜率）不同——相关性无方向、beta 有方向；与因果的混淆是最常见的思维错误，两个变量同涨可能只是共同受第三个因素（如利率）驱动",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "asset allocation",
+      "issueNoLocal": 41,
+      "phonetic": "/ˈæset ˌæləˈkeɪʃn/",
+      "pos": "n.",
+      "posRaw": "n.（相关：diversification、correlation、rebalancing、strategic allocation、tactical allocation、risk budget、policy portfolio、glide path）",
+      "related": [
+        "diversification",
+        "correlation",
+        "rebalancing",
+        "strategic allocation",
+        "tactical allocation",
+        "risk budget",
+        "policy portfolio",
+        "glide path"
+      ],
+      "meaning": "【金融】资产配置——决定资金在股票、债券、现金、另类资产等大类之间如何分配，而不是决定具体买哪只标的。它通常分两层：战略配置（长期目标权重，由风险承受力与投资期限决定）与战术配置（围绕目标权重的短期偏离，押注估值或周期）。学术与实务的共识是：组合波动与横截面收益差异的绝大部分由资产配置解释（经典的 Brinson 研究常被误读成「收益的九成来自配置」，原文指的是波动与差异）。它的核心不是选品，而是用相关性低的资产把风险预算分配到不同的驱动因子上",
+      "gloss": "资产配置",
+      "example": "Their stock picking was fine, but an 85% equity allocation going into a rate-hiking cycle undid two years of alpha in a single quarter.",
+      "exampleCn": "他们的选股并不差，但在加息周期前维持 85% 的股票仓位，一个季度就把两年的 alpha 全部抹掉。",
+      "memory": "**记忆锚点**：资产配置 = **先决定饼怎么切，再决定每一块里放什么料**——切法（股、债、现金的比例）决定你承受什么风险，选料（具体标的）只决定你比同类好一点还是差一点。**为什么重要**：① 它是投资里杠杆最大的一层决策：仓位结构错了，选股再准也救不回来；结构对了，平庸的选品也能拿到市场平均（接续已学 position sizing / correlation / volatility）；② 它把「风险」从感觉变成可分配的资源：给定总风险预算，按相关性与波动率反推各资产权重，这是风险平价的起点；③ 它解释了为什么「全天候」类策略在股债双杀时会失效——配置假设了股债负相关，而 2022 年这个假设破了（接续已学 inflation / real return / correlation）；④ 它是个人投资者最容易执行、也最容易忽略的一步：多数人把全部精力放在选股，却从未写下自己的目标权重。**关键权衡**：① 战略与战术——战略配置决定长期结果但短期难看，战术偏离能抓机会却容易变成追涨杀跌，偏离幅度需事先写死；② 分散与收益——低相关资产（如债券、黄金）通常预期收益更低，分散的代价是牺牲部分收益换取路径平滑；③ 静态与动态——固定权重需定期再平衡（接续已学 rebalancing），动态权重（如目标日期滑道）更贴合生命周期但规则更复杂；④ 理论最优与可执行——均值方差优化对输入假设极度敏感（本质是误差最大化），实务上多用约束优化或简单固定权重。**实践要点**：① 先写下「股、债、现金、另类」四档的目标权重与可容忍偏离区间，再谈选股；② 每季度检查一次实际权重偏离，超过阈值即再平衡，不预测方向；③ 把「最大可承受回撤」作为配置的第一输入，而不是把「预期收益」作为第一输入；④ 与已学 unit economics / payback period 联动做产业投资时，注意单一产业链的持仓在相关性上等于一只票。**易混点**：asset allocation（大类权重）与 security selection（具体标的）是投资决策的两个层级，前者解释绝大部分波动；与已学 diversification（分散化）不同——分散化是手段与效果，资产配置是承载它的结构；与 position sizing（单笔仓位大小）不同，后者是执行层，前者是顶层设计",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [
+    {
+      "no": "1",
+      "word": "data parallelism (DP)",
+      "phonetic": "/ˈdeɪtə ˈpærəlelɪzəm/",
+      "domain": "AI",
+      "point": "同一老师不同作业本；切数据复制模型，显存是硬上限，梯度同步是唯一开销"
+    },
+    {
+      "no": "2",
+      "word": "tensor parallelism (TP)",
+      "phonetic": "/ˈtensə ˈpærəlelɪzəm/",
+      "domain": "AI",
+      "point": "一道大题拆给几人算但每步要报数；切权重复制数据，只在单机 NVLink 域内划算"
+    },
+    {
+      "no": "3",
+      "word": "observability",
+      "phonetic": "/əbˌzɜːvəˈbɪləti/",
+      "domain": "AI",
+      "point": "黑匣子不是仪表盘；LLM 失败是静默的，没有 trace 就无从归因"
+    },
+    {
+      "no": "4",
+      "word": "correlation",
+      "phonetic": "/ˌkɒrəˈleɪʃn/",
+      "domain": "金融",
+      "point": "是不是同一条船；分散化唯一的数学依据，且危机时趋一而失效"
+    },
+    {
+      "no": "5",
+      "word": "asset allocation",
+      "phonetic": "/ˈæset ˌæləˈkeɪʃn/",
+      "domain": "金融",
+      "point": "先切饼再放料；解释绝大部分波动，是杠杆最大的一层决策"
+    }
+  ],
+  "comparisons": [],
+  "progress": [
+    "本期：第 41 期，5 词",
+    "累计：**205 词**（123 AI + 82 金融）",
+    "归档格式：MD 词卡 + KAMI One-Pager PNG + Telegram 推送"
+  ]
+}

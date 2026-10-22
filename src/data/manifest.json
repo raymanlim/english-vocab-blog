@@ -1,16 +1,39 @@
 {
-  "generatedAt": "2026-10-21T03:34:58.918Z",
+  "generatedAt": "2026-10-22T03:34:44.140Z",
   "source": "pinghe/english words",
   "totals": {
-    "issues": 40,
-    "days": 39,
-    "words": 200,
-    "ai": 120,
-    "finance": 80,
+    "issues": 41,
+    "days": 40,
+    "words": 205,
+    "ai": 123,
+    "finance": 82,
     "both": 0,
     "other": 0
   },
   "issues": [
+    {
+      "date": "2026-10-22",
+      "issueNo": 41,
+      "issueSpan": 1,
+      "issueLabel": "第 41 期",
+      "issueNoLabel": "41",
+      "theme": "摊开之后如何仍然可控——计算怎么切（数据并行 / 张量并行）、切开后怎么看得见（可观测性），资金怎么摊（相关性 / 资产配置）",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 40 期 200 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "data parallelism (DP)",
+        "tensor parallelism (TP)",
+        "observability",
+        "correlation",
+        "asset allocation"
+      ]
+    },
     {
       "date": "2026-10-21",
       "issueNo": 40,
