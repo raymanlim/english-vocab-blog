@@ -1,16 +1,39 @@
 {
-  "generatedAt": "2026-10-22T03:34:44.140Z",
+  "generatedAt": "2026-10-23T03:35:42.280Z",
   "source": "pinghe/english words",
   "totals": {
-    "issues": 41,
-    "days": 40,
-    "words": 205,
-    "ai": 123,
-    "finance": 82,
+    "issues": 42,
+    "days": 41,
+    "words": 210,
+    "ai": 126,
+    "finance": 84,
     "both": 0,
     "other": 0
   },
   "issues": [
+    {
+      "date": "2026-10-23",
+      "issueNo": 42,
+      "issueSpan": 1,
+      "issueLabel": "第 42 期",
+      "issueNoLabel": "42",
+      "theme": "找一个最近的邻居——相似怎么度量、怎么快速找到（余弦相似度 / 近似最近邻 / 向量数据库），以及用相似资产怎么定价（可比公司 / 可比交易）",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 41 期 205 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "cosine similarity",
+        "approximate nearest neighbor (ANN)",
+        "vector database",
+        "comparable company analysis (comps)",
+        "precedent transactions"
+      ]
+    },
     {
       "date": "2026-10-22",
       "issueNo": 41,

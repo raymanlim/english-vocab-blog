@@ -1,0 +1,193 @@
+{
+  "date": "2026-10-23",
+  "issueNo": 42,
+  "issueSpan": 1,
+  "issueLabel": "第 42 期",
+  "issueNoLabel": "42",
+  "theme": "找一个最近的邻居——相似怎么度量、怎么快速找到（余弦相似度 / 近似最近邻 / 向量数据库），以及用相似资产怎么定价（可比公司 / 可比交易）",
+  "themeRaw": "找一个最近的邻居——相似怎么度量、怎么快速找到（余弦相似度 / 近似最近邻 / 向量数据库），以及用相似资产怎么定价（可比公司 / 可比交易）",
+  "note": "本期 5 词（3 AI + 2 金融），已与前 41 期 205 词去重",
+  "title": "每日英语 5 词 · 2026-10-23",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "cosine similarity",
+      "issueNoLocal": 42,
+      "phonetic": "/ˈkəʊsaɪn ˌsɪməˈlærəti/",
+      "pos": "n.",
+      "posRaw": "n.（相关：dot product、Euclidean distance、normalization、embedding space、semantic search、inner product、Jaccard、similarity threshold）",
+      "related": [
+        "dot product",
+        "Euclidean distance",
+        "normalization",
+        "embedding space",
+        "semantic search",
+        "inner product",
+        "Jaccard",
+        "similarity threshold"
+      ],
+      "meaning": "【AI】余弦相似度——两个向量夹角的余弦值，等于点积除以两者模长之积，取值 −1 到 1，越接近 1 方向越一致。在向量检索里它是默认的相似度量，因为它只关心方向、不关心长度：一段话写长写短，语义方向不变，余弦值也就不变，这正好符合「语义相似」的直觉。三个必须知道的细节：① 向量已做 L2 归一化时，余弦相似度与点积排序完全等价，所以工程上通常先归一化再用内积，省掉除法；② 未归一化时用点积代替余弦会系统性偏袒长向量（模长大的 embedding 得分高），这是检索结果「总是那几条」的常见原因；③ 余弦只衡量方向，两个语义相反但共享大量词汇的句子（「这款材料耐高温」与「这款材料不耐高温」）余弦值可能高达 0.95，这正是纯向量检索必须配合 reranking 的原因",
+      "gloss": "余弦相似度",
+      "example": "After normalizing the embeddings, the cosine similarity ranking is identical to the inner-product ranking, which is why production systems normalize once at write time and use a plain dot product at query time.",
+      "exampleCn": "对 embedding 做归一化后，余弦相似度排序与内积排序完全一致——这就是生产系统在写入时归一化一次、查询时直接用点积的原因。",
+      "memory": "**记忆锚点**：余弦相似度 = **只比方向，不比长度**——两个人朝同一个方向走，走一米还是走十米，都算同路。**为什么重要**：① 它是语义检索的度量基础，不理解它就无法判断「为什么这条被召回、那条没有」（接续已学 embedding / RAG / chunking / reranking）；② 它解释了向量检索最典型的两个工程坑：没归一化导致长文本霸榜、方向相同但语义相反导致误召回；③ 它是选型的第一个问题：不同 embedding 模型训练目标不同，有的按余弦、有的按点积、有的按欧氏距离，混用会静默降低召回质量；④ 它把「语义」变成可计算的距离，是整个向量检索产业（从 embedding 模型到向量库）成立的前提。**关键权衡**：① 余弦与欧氏距离——向量归一化后两者排序等价，未归一化时余弦更稳健；② 余弦与点积——点积同时编码方向与长度，某些模型刻意用长度表达置信度，此时不该归一化；③ 阈值设定——固定相似度阈值在不同 query 上表现差异极大，通常按 Top-K 截断再交给 reranker，而不是卡一个绝对分数；④ 高维退化——维度很高时任意两个随机向量的余弦都趋近于 0，「0.8 算高」这种直觉会失效，阈值必须按实际分布标定。**实践要点**：① 写入前统一做 L2 归一化，查询时用内积，性能与一致性都最好；② 换 embedding 模型必须重建全部索引，新旧向量不可混存（维度与空间都不同）；③ 召回质量差先查是否归一化、是否用了与模型匹配的度量，再怀疑索引；④ 与已学 reranking 分工：向量召回负责「别漏」，reranker 负责「排对」，两者不能互相替代。**易混点**：cosine similarity（只看夹角）与 Euclidean distance（看绝对位置，受模长影响）最易混；与 Jaccard / BM25 这类基于词面重叠的度量不同，余弦作用在稠密向量上，捕捉的是语义而非字面；与相关系数数学形式相近但语境不同，别混用",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "approximate nearest neighbor (ANN)",
+      "issueNoLocal": 42,
+      "phonetic": "/əˈprɒksɪmət ˈnɪərɪst ˈneɪbə/（缩写 ANN）",
+      "pos": "n.",
+      "posRaw": "n.（相关：exact search、HNSW、IVF、product quantization、recall、latency、index build、brute force、curse of dimensionality）",
+      "related": [
+        "exact search",
+        "HNSW",
+        "IVF",
+        "product quantization",
+        "recall",
+        "latency",
+        "index build",
+        "brute force",
+        "curse of dimensionality"
+      ],
+      "meaning": "【AI】近似最近邻——在海量向量里找最相似的若干个时，放弃「保证找到真正最近的那几个」，改用索引结构以极小的召回损失换取数量级的速度提升。精确检索要对每条查询与全库逐一算距离，复杂度随库大小线性增长，百万级以上就不可接受；ANN 用图（HNSW）、聚类（IVF）、量化（PQ）等结构把搜索范围剪枝，通常能在一毫秒级返回结果，代价是可能漏掉真正的最优项。它有一个必须内化的权衡参数：搜索时探查的候选越多，召回率越高、延迟越大——生产系统调的就是这条曲线。行业惯例是召回率 95% 以上即可，因为漏掉的那 5% 通常由 reranker 与多路召回补齐",
+      "gloss": "近似最近邻",
+      "example": "The team tuned the HNSW search parameter until recall@10 reached 0.96 at a p99 latency of 8 milliseconds, then stopped — pushing recall higher cost more latency than the reranker was worth.",
+      "exampleCn": "团队把 HNSW 的搜索参数调到 recall@10 达到 0.96、p99 延迟 8 毫秒就停手了——再往上抬召回，付出的延迟已经超过 reranker 能补回的价值。",
+      "memory": "**记忆锚点**：ANN = **不问遍全班，只问同桌和同桌的同桌**——从一个人出发沿关系网跳几步，就能找到圈子里最像的那几个，不必把全班点名一遍。**为什么重要**：① 它是向量检索能落地的唯一原因：没有 ANN，语义搜索在千万级库上根本跑不动，整个 RAG 与推荐系统的成本模型都不成立；② 它把「召回率」变成可调旋钮，而这是检索系统最重要的工程自由度——先保延迟达标，再用 reranker 补精度（接续已学 reranking / eval / calibration）；③ 它解释了为什么「换个向量库召回就变差」：不同实现的索引参数默认值不同，换库等于换了召回曲线；④ 它是理解向量库成本结构的关键：索引占内存、构建耗时、更新代价高，三者都源自「为了快而预先组织数据」。**关键权衡**：① 召回率与延迟——最核心的一条曲线，参数（如 HNSW 的 efSearch）单调调节两者；② 内存与精度——PQ 量化能把内存压到十分之一，但会损失精度，通常配合「粗量化召回 + 原向量重排」两段式；③ 构建成本与新鲜度——图索引插入代价高，高频更新的场景要么接受定期重建，要么用支持增量更新的结构；④ 过滤与召回——带元数据过滤（如「只要近三个月」）时，先过滤会破坏图的连通性、后过滤会漏结果，这是向量库最难的工程问题之一。**实践要点**：① 上线前必须测 recall@k 曲线，不能只看延迟；② 数据量小于十万级时暴力检索往往更快更准，不必上 ANN；③ 索引参数随数据分布漂移需要重标定，别一次调完就不管；④ 与已学 memory-bound / arithmetic intensity 呼应：向量检索是典型的内存带宽受限负载，HBM 与内存容量直接决定单机可承载的向量规模。**易混点**：ANN（近似，可能漏）与 exact KNN（精确，必然全扫）是本质区别；与 k-means 等聚类算法不同——ANN 里的 IVF 借用了聚类思想，但目标是检索不是分组；与推荐系统的协同过滤不同，后者用行为相似度，前者用向量距离",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "vector database",
+      "issueNoLocal": 42,
+      "phonetic": "/ˈvektə ˈdeɪtəbeɪs/",
+      "pos": "n.",
+      "posRaw": "n.（相关：ANN index、metadata filtering、hybrid search、upsert、collection、namespace、embedding pipeline、pgvector、similarity search、sharding）",
+      "related": [
+        "ANN index",
+        "metadata filtering",
+        "hybrid search",
+        "upsert",
+        "collection",
+        "namespace",
+        "embedding pipeline",
+        "pgvector",
+        "similarity search",
+        "sharding"
+      ],
+      "meaning": "【AI】向量数据库——专门存储高维向量并支持相似度检索的数据系统。它的价值不在「能存向量」（普通数据库加个数组字段也能存），而在于把三件事一起解决：ANN 索引的构建与调参、带元数据过滤的混合查询、以及向量的增量写入与版本管理。判断一个向量库是否够用，看四个维度：过滤能力（先过滤还是后过滤，能否走索引）、更新模式（能否原地 upsert，还是必须重建）、一致性（写入后多久可被检索到）、以及成本（索引常驻内存的比例）。需要清醒的一点：多数团队的数据量在百万级以下，Postgres 加 pgvector 或直接用搜索引擎的向量字段已经足够，独立向量库的运维复杂度往往超过它带来的收益",
+      "gloss": "向量数据库",
+      "example": "They migrated to a dedicated vector database for scale, then discovered that 80% of their queries carried metadata filters the new engine handled worse than Postgres did.",
+      "exampleCn": "他们为了扩展性迁到了专用向量数据库，结果发现 80% 的查询都带元数据过滤，而新引擎在这件事上做得还不如 Postgres。",
+      "memory": "**记忆锚点**：向量数据库 = **带索引卡的图书馆，不是仓库**——存书谁都会，难的是「按内容找书」这件事能被压到毫秒级，还要能同时按「出版年份」筛。**为什么重要**：① 它是 RAG 架构里最容易被过度工程化的一环：选型失误带来的不是性能问题，而是运维负担与数据一致性 bug（接续已学 RAG / chunking / reranking / observability）；② 它把「检索质量」拆成可归因的几层：embedding 模型、索引参数、过滤策略、混合检索权重——出问题时按这四层排查，比换库有效得多；③ 它是判断一个 AI 产品是否真在生产运行的信号：能回答「向量怎么更新、旧版本怎么下线」，说明团队踩过坑；④ 它揭示了混合检索的必要性：纯向量检索对专有名词、型号、编号几乎无感（HTCC-2000 这类词 embedding 抓不住），必须与 BM25 之类的关键词检索并联。**关键权衡**：① 专用库与通用库扩展——专用库功能全但多一套系统，pgvector 运维简单但大规模下索引构建与过滤性能受限；② 先过滤与后过滤——先过滤准确但可能破坏 ANN 索引效果，后过滤快但会漏（Top-K 被过滤光了）；③ 强一致与最终一致——写入即可查体验好但成本高，异步索引吞吐高但有延迟窗口；④ 自建与托管——托管省运维但数据出域、单价高，自建可控但要自己调索引。**实践要点**：① 选型前先算三个数：向量条数、单条维度、查询 QPS，百万级以下优先复用现有数据库；② 必须支持元数据过滤下推，否则过滤场景会退化成全表扫描；③ 用「混合检索 + rerank」作默认架构，别指望单一向量检索解决所有召回；④ 与已学 observability 联动：把每次检索的 Top-K 分数分布记下来，分数整体下移通常意味着 embedding 模型或数据分布变了（接续 distribution shift）。**易混点**：vector database（系统，含索引、过滤、更新）与 vector index（库内的数据结构，如 HNSW）是整体与部件；与传统数据库的全文索引不同，后者基于词面、前者基于语义；与 embedding 服务不同——后者负责把文本变成向量，前者负责把向量存好找快，两者常被混为一谈",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "comparable company analysis (comps)",
+      "issueNoLocal": 42,
+      "phonetic": "/ˈkɒmpərəbl ˈkʌmpəni əˈnæləsɪs/（常简称 comps）",
+      "pos": "n.",
+      "posRaw": "n.（相关：trading multiples、peer group、EV/EBITDA、P/E、precedent transactions、valuation range、illiquidity discount、control premium）",
+      "related": [
+        "trading multiples",
+        "peer group",
+        "EV",
+        "EBITDA",
+        "P",
+        "E",
+        "precedent transactions",
+        "valuation range",
+        "illiquidity discount",
+        "control premium"
+      ],
+      "meaning": "【金融】可比公司分析——找一组业务模式、增长阶段、利润率结构相近的上市公司，用它们的交易倍数（EV/EBITDA、P/E、EV/Sales 等）来给目标公司定价。它是相对估值法的主力，逻辑是「市场此刻愿意为这类资产付多少钱」，因此反映的是当下的市场情绪与流动性，而不是绝对内在价值（这与 DCF 的绝对估值形成互补）。做法上有四个关键步骤：选可比集（这一步决定结论的八成）、统一口径（财年、会计准则、EV 是否含少数股东权益与租赁负债）、选倍数（重资产用 EV/EBITDA，轻资产高增长用 EV/Sales，金融股用 P/B）、再对差异做调整（增长更快给溢价、流动性差给小折、控制权给控制权溢价）。它最常见的误用是「先有结论再挑可比公司」",
+      "gloss": "可比公司分析",
+      "example": "The comps set looked reasonable until you noticed every peer had been re-rated upward over the same six months, which meant the entire valuation range was really a bet on the sector multiple holding.",
+      "exampleCn": "这组可比公司看起来没问题，直到你注意到所有可比标的在过去半年里被一起重估——这意味着整个估值区间其实是在赌行业倍数不回落。",
+      "memory": "**记忆锚点**：comps = **按邻居的房价给自己的房子定价**——邻居卖多少钱一平米，你的房子大概也值这个数，前提是户型、地段、楼龄真的可比。**为什么重要**：① 它是卖方研报与 IPO 定价的默认语言，读懂「trading at 12x EV/EBITDA vs peers at 15x」这类句子是美股分析的基本功（接续已学 multiple / P/E / EV / EBITDA）；② 它把估值从「算出一个数」变成「给出一个区间」，而区间宽度本身就是信息：可比集越分散，结论越不可靠；③ 它是识别估值陷阱的工具：整个行业倍数同时抬升时，comps 会把泡沫当成基准，此时必须回到 DCF 与现金流验证（接续已学 quality of earnings / margin of safety）；④ 它最能暴露分析师的假设：换了可比集结论就变了，所以第一步永远是检查「这五家公司凭什么算可比」。**关键权衡**：① 可比性与样本量——越严格越可比，但可能只剩两三家，统计意义弱；越宽泛样本越大，却混进了不同商业模式；② 当期倍数与前瞻倍数——trailing 倍数有真实数据但滞后，forward 倍数反映预期但依赖一致预期（接续已学 guidance / consensus estimate），后者更容易被操纵；③ 倍数选择——EV/EBITDA 忽略资本开支与税负差异，重资产行业会高估；P/E 受资本结构影响；EV/Sales 对亏损高增长公司唯一可用但最粗；④ 上市可比与并购可比——上市公司倍数含流动性溢价，用于非上市标的时通常要打流动性折扣。**实践要点**：① 可比集控制在 5 到 10 家，逐一写下「为什么可比」，写不出来就删掉；② 统一财年口径，跨会计年度必须重算；③ 给出倍数区间而非点估计，并说明取中位数还是均值；④ 与已学 DCF / IRR / payback period 交叉验证：相对估值告诉你「市场怎么想」，绝对估值告诉你「现金流支持不支持」。**易混点**：comps（上市公司当前交易倍数）与 precedent transactions（历史并购成交倍数，含控制权溢价，通常更高）是最核心的一对；与 DCF 是相对与绝对两条路，不可互相替代；与 multiple 是方法与参数的关系，别把 P/E 本身说成 comps",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "precedent transactions",
+      "issueNoLocal": 42,
+      "phonetic": "/ˈpresɪdənt trænˈzækʃnz/",
+      "pos": "n.",
+      "posRaw": "n.（相关：control premium、synergy、transaction multiple、LTM、deal comps、strategic buyer、financial sponsor、accretion/dilution）",
+      "related": [
+        "control premium",
+        "synergy",
+        "transaction multiple",
+        "LTM",
+        "deal comps",
+        "strategic buyer",
+        "financial sponsor",
+        "accretion",
+        "dilution"
+      ],
+      "meaning": "【金融】可比交易分析——用历史上真实发生的并购成交价（通常是 EV/LTM EBITDA）来给目标公司定价。它与 comps 的关键区别有三点：① 成交价含控制权溢价，通常比二级市场交易倍数高 20% 到 40%；② 交易往往含协同效应，买方愿意为「合并后省下的成本」提前付钱，因此倍数里有一部分不属于标的本身；③ 样本更少、时间更分散，一笔交易可能发生在三年前的不同利率环境下，可比性天然更弱。它的适用场景是并购定价、私有化报价，以及判断「这个资产在战略买家眼里值多少」。使用时必须区分买家类型：产业买家（能算协同、敢出高价）与财务买家（PE，靠杠杆与退出倍数，出价受融资成本约束）",
+      "gloss": "可比交易分析",
+      "example": "The board rejected the 9x offer as too low, citing precedent transactions at 11x — but those deals were struck when credit was cheap and every buyer had a synergy story.",
+      "exampleCn": "董事会以 9 倍报价过低为由拒绝，援引可比交易 11 倍——但那些交易成交于信贷便宜、每个买家都有协同故事的年代。",
+      "memory": "**记忆锚点**：precedent transactions = **查这个小区过去几年的真实成交记录**——不是挂牌价（comps），是别人真金白银付过的价，而且往往含「我买它是为了改造它」的溢价。**为什么重要**：① 它是并购与私有化定价的基准，也是判断「这个收购价贵不贵」的第一手证据（接续已学 EV / EBITDA / capital allocation / goodwill impairment）；② 它解释了商誉减值的来源：买方按含协同的倍数付钱，协同没实现，溢价就变成减值——这条链把第 30 期前后的 goodwill impairment 与本期接上；③ 它揭示估值里的买方视角：同一资产对不同买家值不同的钱，价格取决于谁能榨出更多协同，而不是资产本身；④ 它是识别周期位置的工具：可比交易倍数整体上移往往伴随廉价信贷与并购潮，反过来则是出清期。**关键权衡**：① 时效性——三年前的交易倍数在利率剧变后基本失效，通常只用最近 3 到 5 年且需标注利率环境；② 含协同与不含协同——公开披露的协同金额往往被夸大，报价里那部分溢价是否该套用到自己的标的，需单独论证；③ 样本量与可比性——真正可比的交易可能只有两三笔，结论的置信度必须相应下调；④ 控制权溢价与流动性——非上市公司用上市公司倍数要打流动性折扣，用并购倍数则已含控制权溢价，两者不可混用。**实践要点**：① 每笔可比交易都要记录：公告日、买方类型、倍数口径（EV/LTM EBITDA 还是 forward）、是否含协同、融资环境；② 用「战略买家倍数」与「财务买家倍数」分别给区间，两者常差 2 到 3 倍；③ 报价谈判时先确定「谁是最可能的买家」，再选对应的可比集；④ 与已学 accretion/dilution 联动：倍数只是价格，交易是否增厚每股收益要看融资方式与协同兑现节奏。**易混点**：precedent transactions（并购成交价，含控制权溢价与协同）与 comps（二级市场交易价，不含）是最核心的一对；与账面价值无关，后者是会计数字；与 LBO 模型不同——后者从现金流与退出倍数反推可承受价格，前者从历史成交价正推",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [
+    {
+      "no": "1",
+      "word": "cosine similarity",
+      "phonetic": "/ˈkəʊsaɪn ˌsɪməˈlærəti/",
+      "domain": "AI",
+      "point": "只比方向不比长度；未归一化用点积会偏袒长向量，方向相同语义相反也会高分"
+    },
+    {
+      "no": "2",
+      "word": "approximate nearest neighbor (ANN)",
+      "phonetic": "/əˈprɒksɪmət ˈnɪərɪst ˈneɪbə/",
+      "domain": "AI",
+      "point": "不问遍全班只问同桌的同桌；用召回率换延迟，95% 通常够用"
+    },
+    {
+      "no": "3",
+      "word": "vector database",
+      "phonetic": "/ˈvektə ˈdeɪtəbeɪs/",
+      "domain": "AI",
+      "point": "带索引卡的图书馆不是仓库；过滤能力与更新模式比「能存向量」重要"
+    },
+    {
+      "no": "4",
+      "word": "comparable company analysis (comps)",
+      "phonetic": "/ˈkɒmpərəbl ˈkʌmpəni əˈnæləsɪs/",
+      "domain": "金融",
+      "point": "按邻居房价定价；选可比集决定八成结论，行业倍数同涨时会把泡沫当基准"
+    },
+    {
+      "no": "5",
+      "word": "precedent transactions",
+      "phonetic": "/ˈpresɪdənt trænˈzækʃnz/",
+      "domain": "金融",
+      "point": "查真实成交记录不是挂牌价；含控制权溢价与协同，买家类型决定出价"
+    }
+  ],
+  "comparisons": [],
+  "progress": [
+    "本期：第 42 期，5 词",
+    "累计：**210 词**（126 AI + 84 金融）",
+    "归档格式：MD 词卡 + KAMI One-Pager PNG + Telegram 推送"
+  ]
+}
