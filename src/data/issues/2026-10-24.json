@@ -1,0 +1,189 @@
+{
+  "date": "2026-10-24",
+  "issueNo": 43,
+  "issueSpan": 1,
+  "issueLabel": "第 43 期",
+  "issueNoLabel": "43",
+  "theme": "名义与实际之间的落差——纸面峰值算力如何被真正兑现（注意力内核 / 算力利用率 / 互连带宽），订单与标价如何变成真实收入（订单出货比 / 平均售价）",
+  "themeRaw": "名义与实际之间的落差——纸面峰值算力如何被真正兑现（注意力内核 / 算力利用率 / 互连带宽），订单与标价如何变成真实收入（订单出货比 / 平均售价）",
+  "note": "本期 5 词（3 AI + 2 金融），已与前 42 期 210 词去重",
+  "title": "每日英语 5 词 · 2026-10-24",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "FlashAttention",
+      "issueNoLocal": 43,
+      "phonetic": "/ˈflæʃ əˈtenʃn/",
+      "pos": "n.",
+      "posRaw": "n.（相关：IO-aware、SRAM、HBM、tiling、kernel fusion、exact attention、memory-bound、recomputation、online softmax）",
+      "related": [
+        "IO-aware",
+        "SRAM",
+        "HBM",
+        "tiling",
+        "kernel fusion",
+        "exact attention",
+        "memory-bound",
+        "recomputation",
+        "online softmax"
+      ],
+      "meaning": "【AI】闪存注意力——一种把注意力计算按块（tiling）搬进 GPU 片上 SRAM、避免把完整 n×n 注意力矩阵写回 HBM 的**精确**注意力实现。它不改变数学结果（仍是标准 softmax attention，不是近似），改变的是数据搬运路径：常规实现要物化一个 n² 的分数矩阵，序列一长，显存与带宽就被这个矩阵吃光；FlashAttention 把 Q/K/V 分块，边算边归一化（online softmax），中间结果只在片上流转，反向传播时按需重算而不存储。结果是显存从 O(n²) 降到 O(n)，长序列上速度提升数倍。它是「算法一行没改、系统层重写就快一个量级」的典型样本",
+      "gloss": "闪存注意力",
+      "example": "FlashAttention did not change a single line of the attention math — it changed where the intermediate matrix lives, and that alone cut both memory use and wall-clock time by several times on long sequences.",
+      "exampleCn": "FlashAttention 没有改动注意力数学的任何一行——它改的是中间矩阵存放在哪里，仅此一项就把长序列上的显存占用与耗时同时降了数倍。",
+      "memory": "**记忆锚点**：FlashAttention = **不在桌上摊开全部草稿，只在手边小纸片上算完就擦掉**——省下的不是计算，是来回搬纸的功夫。**为什么重要**：① 它证明现代 GPU 上「算得快不快」常由内存带宽而非 FLOPS 决定，与已学 memory-bound / arithmetic intensity 是同一件事的两个证据；② 它解释了长上下文为何在 2023 年之后才真正可用——不是模型变聪明了，而是注意力不再爆显存（接续 long context / KV cache）；③ 它是对「近似加速」的重要反例：稀疏注意力、低秩近似都在改数学，FlashAttention 不改，因此在需要精确注意力的场景（检索、代码）没有质量损失；④ 它是判断一篇工程文章是否靠谱的信号：把 FlashAttention 说成「近似注意力」的，基本没读过原文。**关键权衡**：① 精确与近似——不改数学意味着零质量风险，但收益上限受带宽而非算力约束；② 重算与存储——反向传播重算省显存、多花算力，是以算力换显存（与 gradient checkpointing 同构）；③ 实现复杂度——手写 kernel 与框架内置差距很大，升级框架版本常比调参有效；④ 序列长度门槛——短序列下收益有限，块划分与调度开销可能吃掉优势。**实践要点**：① 用现成实现（PyTorch 的 scaled_dot_product_attention 已内置），不要自己写；② 显存不足先查注意力是否物化了 n² 矩阵，再考虑更激进的方案；③ 与 GQA / KV cache 优化叠加使用，三者作用在不同环节，互不冲突；④ 与已学 prefill / decode 区分：它主要加速 prefill 的长序列部分，decode 阶段瓶颈在 KV cache 读取。**易混点**：FlashAttention（精确、IO 优化）与 sparse / linear attention（近似、改数学）是最核心的一对；与 kernel fusion 是实例与手段的关系；与 mixed precision 不同，后者降精度、前者改搬运路径",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "model FLOPs utilization (MFU)",
+      "issueNoLocal": 43,
+      "phonetic": "/ˈmɒdl flɒps ˌjuːtɪlaɪˈzeɪʃn/（缩写 MFU）",
+      "pos": "n.",
+      "posRaw": "n.（相关：peak FLOPS、hardware utilization、throughput、scaling efficiency、bubble、communication overhead、tokens per second、goodput）",
+      "related": [
+        "peak FLOPS",
+        "hardware utilization",
+        "throughput",
+        "scaling efficiency",
+        "bubble",
+        "communication overhead",
+        "tokens per second",
+        "goodput"
+      ],
+      "meaning": "【AI】模型算力利用率——训练（或推理）实际达成的浮点运算速度，除以硬件理论峰值 FLOPS，通常以百分比表示。它是衡量「纸面算力兑现了多少」的唯一通用指标：一个大模型训练任务 MFU 为 30%，意味着买了 100 份算力只用到 30 份。分母必须说清（稠密峰值还是含稀疏加速的峰值、FP16 还是 BF16），否则数字不可比。行业经验值：大规模稠密训练 35%–50% 属良好，推理场景通常低得多（受内存带宽与批大小限制）；而 MoE 只激活部分参数，按「激活 FLOPs」算 MFU 会显得极高，按总参数算则很低——这正是 MoE 报告里 MFU 数字常被误读的原因",
+      "gloss": "模型算力利用率",
+      "example": "Their claimed 55% MFU looked impressive until you noticed the denominator used the sparse-tensor peak, which no dense training workload can ever reach.",
+      "exampleCn": "他们宣称的 55% MFU 看起来很亮眼，直到你注意到分母用的是稀疏张量峰值——任何稠密训练负载都不可能达到那个数。",
+      "memory": "**记忆锚点**：MFU = **工厂的名义产能 vs 实际出货**——设备标称每小时 100 件，实际跑出 40 件，MFU 就是 40%。**为什么重要**：① 它把「算力」从营销数字变成可审计的经营指标，直接对应资本开支的回报率（接续 capex / unit economics / payback period）；② 它是解释「算力需求永远不够」的关键：MFU 每提高 10 个百分点，等于凭空多出一成 GPU，因此软件优化在商业上等价于买卡；③ 它是识别不实宣传的尺子：稠密训练宣称 MFU 超过 60% 基本不可信，先问分母怎么算的；④ 它与已学 arithmetic intensity / memory-bound 互补——MFU 告诉你差多少，roofline 告诉你差在哪。**关键权衡**：① 吞吐与延迟——大批量能抬高 MFU，但推理场景延迟会恶化，两者不能同时最优（接续 continuous batching）；② 并行度与通信开销——DP/TP/PP 切得越细，单卡利用率越高但通信占比越大，存在最优点（接续 data parallelism / tensor parallelism）；③ 精度与峰值——FP8 峰值是 BF16 的两倍，混用精度会让分母失去意义；④ 训练与推理——训练看 MFU，推理更该看 tokens/s per dollar 与显存带宽利用率。**实践要点**：① 报 MFU 必须同时报分母口径（dtype、是否含稀疏、是否含重算），否则不可比；② 排查低 MFU 的顺序：数据加载是否成瓶颈 → 通信是否阻塞 → kernel 是否碎片化 → batch 是否过小；③ 与已学 observability 联动，把 MFU 作为训练任务的常驻监控项，掉点通常早于 loss 异常；④ 做投资判断时，把宣称算力乘一个现实的 MFU 折扣再估产能。**易混点**：MFU（按模型 FLOPs 计）与 HFU（hardware FLOPs utilization，含重算等冗余计算）不同，后者数值更高；与 nvidia-smi 的 GPU utilization 完全不同，后者只说明卡在忙、不说明在算有用的事；与 scaling efficiency 不同，后者衡量加卡后的线性度",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "interconnect",
+      "issueNoLocal": 43,
+      "phonetic": "/ˌɪntəkəˈnekt/",
+      "pos": "n.",
+      "posRaw": "n.（相关：NVLink、InfiniBand、scale-up、scale-out、bisection bandwidth、topology、all-reduce、optical interconnect、co-packaged optics）",
+      "related": [
+        "NVLink",
+        "InfiniBand",
+        "scale-up",
+        "scale-out",
+        "bisection bandwidth",
+        "topology",
+        "all-reduce",
+        "optical interconnect",
+        "co-packaged optics"
+      ],
+      "meaning": "【AI】互连——GPU 之间、服务器之间传输数据的高速链路及其拓扑。AI 集群里它分两层：scale-up（单机或单柜内，如 NVLink，带宽可达每秒数百 GB 到 TB 级，让多卡像一颗大芯片）与 scale-out（跨机，如 InfiniBand / 以太网，带宽低一个量级、延迟高一个量级）。它之所以是瓶颈，是因为张量并行每层都要 all-reduce，通信量与计算量之比固定，互连带宽不足时 GPU 只能空等——这是「买得起卡、跑不满卡」最常见的原因。产业含义：单卡算力越高，互连带宽在系统性能中的权重越大，铜缆在短距、光互连在中长距各自扩张，先进封装（CoWoS、CPO）的价值随之上升",
+      "gloss": "互连",
+      "example": "Adding more GPUs stopped helping once the all-reduce traffic saturated the scale-out interconnect, leaving every card waiting on data rather than computing.",
+      "exampleCn": "当 all-reduce 流量打满跨机互连后，继续加卡就不再有用——每张卡都在等数据，而不是在计算。",
+      "memory": "**记忆锚点**：interconnect = **工位之间的传送带**——工人手速再快，零件送不到手上也只能干等。**为什么重要**：① 它解释了 AI 集群的非线性：卡数翻倍而吞吐不翻倍，多数时候卡在互连而非算力（接续 data parallelism / tensor parallelism / MFU）；② 它直接对应产业机会：HBM、先进封装、铜连接、光模块、CPO 的景气度都由「带宽需求」驱动，这正是半导体材料与封装生意的来源；③ 它区分了两种扩容路径：scale-up 靠更密的封装与更短的链路（铜），scale-out 靠光与交换，两者的材料与工艺完全不同；④ 它是判断集群方案是否现实的第一问：先算 all-reduce 需要多少带宽，再看拓扑能否提供。**关键权衡**：① 铜与光——铜在短距功耗低、成本低、延迟低，超过约一两米后信号衰减迫使转光，光模块功耗与成本高但距离不受限；② 带宽与成本——拓扑（fat-tree、rail-optimized、torus）决定对分带宽，全互联最快但布线成本随节点数平方增长；③ scale-up 与 scale-out——单柜内堆得越密，散热与供电越难，机柜功率密度成为新约束；④ 通用以太网与专用网络——以太网生态开放、成本低，InfiniBand 延迟与拥塞控制更好，RoCE 在两者之间。**实践要点**：① 估集群性能先算通信/计算比，不要只看卡数；② 张量并行必须留在 scale-up 域内，跨机做 TP 基本不可行；③ 关注光模块与铜缆的配比变化，这是产业链订单的先行信号；④ 与已学 memory-bound 并列理解：卡内瓶颈是 HBM 带宽，卡间瓶颈是互连带宽，两层都受限时单点优化无效。**易混点**：interconnect（链路与拓扑）与 bandwidth（链路的属性）是整体与属性；scale-up 与 scale-out 常被混用，前者是「变大一颗芯片」、后者是「多放几台机器」；与 network fabric 基本同义，但 fabric 更强调交换网络整体",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "book-to-bill ratio",
+      "issueNoLocal": 43,
+      "phonetic": "/bʊk tə bɪl ˈreɪʃiəʊ/",
+      "pos": "n.",
+      "posRaw": "n.（相关：order intake、backlog、billings、shipment、lead time、capacity utilization、inventory correction、semiconductor cycle）",
+      "related": [
+        "order intake",
+        "backlog",
+        "billings",
+        "shipment",
+        "lead time",
+        "capacity utilization",
+        "inventory correction",
+        "semiconductor cycle"
+      ],
+      "meaning": "【金融】订单出货比——一定时期内新接订单金额除以同期出货（开票）金额。大于 1 表示新订单多于出货、在手订单在积累，通常预示后续营收上行；小于 1 表示在消化积压订单、需求转弱。它是半导体设备与材料行业最经典的周期先行指标：设备从下单到交付有 6 到 18 个月的间隔，营收数据滞后，而订单数据领先。三个必须注意的口径问题：① 分子是「新签订单」还是「含框架协议」，后者会虚高；② 取消订单是否回冲——周期下行时客户倾向推迟而非取消，指标会因此钝化；③ 单一季度受大客户集中下单扰动，通常看 3 到 6 个月的移动平均。它领先营收，但不领先股价——市场往往在 book-to-bill 见顶之前就开始定价",
+      "gloss": "订单出货比",
+      "example": "Book-to-bill fell below 1.0 for the second consecutive quarter, which historically precedes a billings decline by two to three quarters.",
+      "exampleCn": "订单出货比连续第二个季度跌破 1.0，历史上这通常领先出货额下滑两到三个季度。",
+      "memory": "**记忆锚点**：book-to-bill = **餐厅的「新订座 ÷ 实际翻台」**——新订座多于翻台，说明后面还有客人；少于翻台，说明正在吃存量、很快要空桌。**为什么重要**：① 它是半导体设备与材料行业读周期的第一指标，直接对应方宇鑫所在产业链的景气判断；② 它解释了「营收还在涨、股价却先跌」：订单先转弱，营收滞后 2 到 3 个季度才反映（接续 guidance / consensus estimate / earnings per share）；③ 它把「需求」拆成新增与存量两层——只看营收会把消化积压误读成需求旺盛；④ 它是判断资本开支周期位置的锚：持续高于 1.1 常见于扩产期，持续低于 0.9 常见于去库存期（接续 capex / inventory correction）。**关键权衡**：① 领先性与噪声——领先 1 到 3 个季度，但单季波动大，必须平滑；② 订单口径——含框架协议的数字好看但兑现率低，严格的新签订单更真实却披露更少；③ 取消与推迟——下行期客户倾向推迟而非取消，指标会显得比实际坚挺；④ 结构性 vs 周期性——AI 相关订单的强需求可能掩盖其他下游的疲弱，总量比值会失真，必须拆分下游看。**实践要点**：① 看移动平均与同比，不看单季绝对值；② 结合 backlog 与 lead time 一起读——backlog 增厚且交期拉长才是真紧张；③ 与 ASP、capacity utilization 交叉验证：订单增而价格跌，多半是低端产能过剩；④ 用在自己的业务上：跟踪客户的下单节奏与提货节奏之比，比等客户通知更早发现需求变化。**易混点**：book-to-bill（订单/出货，流量比）与 backlog（在手订单，存量）不同；与 revenue growth 不同，后者是已兑现的结果；与 backlog coverage（在手订单覆盖几个季度营收）相关但不同",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "average selling price (ASP)",
+      "issueNoLocal": 43,
+      "phonetic": "/ˈævərɪdʒ ˈselɪŋ praɪs/（缩写 ASP）",
+      "pos": "n.",
+      "posRaw": "n.（相关：price mix、product mix、price erosion、contract price、spot price、bit growth、content per box、pass-through）",
+      "related": [
+        "price mix",
+        "product mix",
+        "price erosion",
+        "contract price",
+        "spot price",
+        "bit growth",
+        "content per box",
+        "pass-through"
+      ],
+      "meaning": "【金融】平均售价——一定时期内某类产品的总营收除以总销量，得到的单位价格。它在半导体与硬件行业是核心经营指标，但极易误读：ASP 上升未必是涨价，可能只是产品结构升级（高价产品占比提高，即 mix shift）；ASP 下降也未必是降价，可能是低端出货占比上升，或年度降价条款（price erosion）生效。因此专业做法是把 ASP 变动拆成「同规格价格变动」与「结构变动」两部分。存储行业尤其典型：DRAM/NAND 的 ASP 由合约价、现货价与 bit 出货量共同决定，季度 ASP 环比上升常常是「bit 增长慢于营收增长」的算术结果，而不是单价真的涨了",
+      "gloss": "平均售价",
+      "example": "Revenue grew 18% while unit shipments fell 4%, so the entire quarter's growth came from ASP and mix — not from demand.",
+      "exampleCn": "营收增长 18% 而出货量下降 4%，说明整季增长全部来自均价与结构，而非需求。",
+      "memory": "**记忆锚点**：ASP = **客单价**——营业额涨了，可能是客人变多，也可能是每人点得更贵，两者含义完全不同。**为什么重要**：① 它是拆解营收增长的第一把刀：量、价、结构三者必须分开，否则会把结构升级误判为需求旺盛（接续 unit economics / guidance / consensus estimate）；② 它是半导体周期的价格刻度：存储与材料的 ASP 拐点通常领先盈利拐点，是判断周期位置的高频信号；③ 它揭示了「降价换量」的陷阱：ASP 下滑若伴随出货量增长，营收可能持平而毛利被压缩（接续 operating leverage / gross margin）；④ 它是合同谈判的核心变量：长协价与现货价的价差，决定了客户违约与重谈的动机。**关键权衡**：① 份额与价格——降价能抢份额但损伤 ASP 与毛利，涨价保毛利但可能丢单，周期底部尤其尖锐；② 长协与现货——长协稳定但下行期会变成高价库存，现货灵活但波动剧烈；③ 结构优化与真实涨价——前者可持续性取决于产品迭代节奏，后者取决于供需缺口，两者对估值的影响不同；④ 汇率与区域——以美元计价的 ASP 与以本币计价的收入会背离，跨国比较必须先统一币种。**实践要点**：① 财报里看到 ASP 上升，先去查销量与产品结构，别直接归因为涨价；② 用「同规格同配置」的价格序列算真实价格变动，这是唯一干净的度量；③ 与 book-to-bill、capacity utilization 联读：订单增、产能紧、ASP 涨三者同向才是真景气；④ 做客户谈判时把 ASP 与账期、最小采购量打包谈，单看单价会输在总条款上。**易混点**：ASP（实际成交均价，含结构影响）与 list price（标价）不同，后者常与实际成交差很远；与 price index（同规格价格指数）不同，后者剔除结构变动；与 ARPU（每用户平均收入）形似，但 ARPU 用于订阅制、ASP 用于实物产品",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [
+    {
+      "no": "1",
+      "word": "FlashAttention",
+      "phonetic": "/ˈflæʃ əˈtenʃn/",
+      "domain": "AI",
+      "point": "不改数学只改搬运；中间矩阵留在片上，显存 O(n²)→O(n)"
+    },
+    {
+      "no": "2",
+      "word": "model FLOPs utilization (MFU)",
+      "phonetic": "/ˈmɒdl flɒps ˌjuːtɪlaɪˈzeɪʃn/",
+      "domain": "AI",
+      "point": "名义产能 vs 实际出货；稠密训练 35%–50% 属良好，先问分母口径"
+    },
+    {
+      "no": "3",
+      "word": "interconnect",
+      "phonetic": "/ˌɪntəkəˈnekt/",
+      "domain": "AI",
+      "point": "工位之间的传送带；卡内瓶颈是 HBM、卡间瓶颈是互连，两层都限则单点优化无效"
+    },
+    {
+      "no": "4",
+      "word": "book-to-bill ratio",
+      "phonetic": "/bʊk tə bɪl ˈreɪʃiəʊ/",
+      "domain": "金融",
+      "point": "新订座 ÷ 翻台；领先营收 1–3 季，低于 0.9 常见于去库存期"
+    },
+    {
+      "no": "5",
+      "word": "average selling price (ASP)",
+      "phonetic": "/ˈævərɪdʒ ˈselɪŋ praɪs/",
+      "domain": "金融",
+      "point": "客单价；涨未必是涨价，先拆「同规格价格」与「结构变动」"
+    }
+  ],
+  "comparisons": [],
+  "progress": [
+    "本期：第 43 期，5 词",
+    "累计：**215 词**（129 AI + 86 金融）",
+    "归档格式：MD 词卡 + KAMI One-Pager PNG + Telegram 推送"
+  ]
+}

@@ -1,16 +1,39 @@
 {
-  "generatedAt": "2026-10-23T03:35:42.280Z",
+  "generatedAt": "2026-10-24T03:36:18.560Z",
   "source": "pinghe/english words",
   "totals": {
-    "issues": 42,
-    "days": 41,
-    "words": 210,
-    "ai": 126,
-    "finance": 84,
+    "issues": 43,
+    "days": 42,
+    "words": 215,
+    "ai": 129,
+    "finance": 86,
     "both": 0,
     "other": 0
   },
   "issues": [
+    {
+      "date": "2026-10-24",
+      "issueNo": 43,
+      "issueSpan": 1,
+      "issueLabel": "第 43 期",
+      "issueNoLabel": "43",
+      "theme": "名义与实际之间的落差——纸面峰值算力如何被真正兑现（注意力内核 / 算力利用率 / 互连带宽），订单与标价如何变成真实收入（订单出货比 / 平均售价）",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 42 期 210 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "FlashAttention",
+        "model FLOPs utilization (MFU)",
+        "interconnect",
+        "book-to-bill ratio",
+        "average selling price (ASP)"
+      ]
+    },
     {
       "date": "2026-10-23",
       "issueNo": 42,
