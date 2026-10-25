@@ -1,0 +1,193 @@
+{
+  "date": "2026-10-25",
+  "issueNo": 44,
+  "issueSpan": 1,
+  "issueLabel": "第 44 期",
+  "issueNoLabel": "44",
+  "theme": "切开才装得下——模型与缓存如何被分段分页塞进显存（流水线并行 / 零冗余优化器 / 分页注意力），成本如何被摊到多个期间与全体股东身上（摊销 / 股权激励）",
+  "themeRaw": "切开才装得下——模型与缓存如何被分段分页塞进显存（流水线并行 / 零冗余优化器 / 分页注意力），成本如何被摊到多个期间与全体股东身上（摊销 / 股权激励）",
+  "note": "本期 5 词（3 AI + 2 金融），已与前 43 期 215 词去重",
+  "title": "每日英语 5 词 · 2026-10-25",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "pipeline parallelism (PP)",
+      "issueNoLocal": 44,
+      "phonetic": "/ˈpaɪplaɪn ˈpærəlelɪzəm/（缩写 PP）",
+      "pos": "n.",
+      "posRaw": "n.（相关：stage、micro-batch、bubble、1F1B、interleaved schedule、activation、all-gather、model partitioning、device mesh）",
+      "related": [
+        "stage",
+        "micro-batch",
+        "bubble",
+        "1F1B",
+        "interleaved schedule",
+        "activation",
+        "all-gather",
+        "model partitioning",
+        "device mesh"
+      ],
+      "meaning": "【AI】流水线并行——把模型按层切成若干段（stage），每段放在不同设备上，让一个 batch 像流水线一样逐段流过。它与张量并行（把单层内的矩阵切块，每层都要通信）不同：PP 只在段与段之间传递激活值，通信频率低、可跨机部署，因此是模型规模超出单机时的首选扩展方式。代价是「气泡」（bubble）——流水线填充与排空阶段有设备空闲，气泡占比约等于 (p−1)/(m+p−1)，其中 p 为段数、m 为 micro-batch 数。因此 PP 的关键不是切得多细，而是 micro-batch 排得够多、各段耗时够均衡；切分点若按参数数量均分而不按实测耗时，最慢那一段就会成为全局节奏",
+      "gloss": "流水线并行",
+      "example": "With 8 pipeline stages and only 4 micro-batches, nearly half of every step was bubble — the GPUs sat idle waiting for the stage ahead of them.",
+      "exampleCn": "8 个流水段却只排了 4 个 micro-batch，每一步近一半时间是气泡——GPU 都在空等上游那一段。",
+      "memory": "**记忆锚点**：PP = **工厂流水线**——分工后单件做得更快，但开工与收尾时总有工位空着。**为什么重要**：① 它补齐并行三件套：DP 切数据、TP 切单层、PP 切层，三者针对的是三个不同瓶颈，混为一谈就会开错药（接续 data parallelism / tensor parallelism）；② 它解释「卡多了反而不快」的第二种成因——不是互连带宽不够，而是气泡（对照 interconnect）；③ 它是审查训练方案的检查点：只报卡数、不报 micro-batch 数与段间均衡的，基本没跑过大模型；④ 产业含义明确：PP 让模型可以跨机扩展，是「单柜功率密度」与「跨机带宽」两个硬约束之间的折中，直接影响集群组网与光互连需求。**关键权衡**：① 段数与气泡——段越多单卡显存越省，气泡越大，存在最优点；② micro-batch 与显存——micro-batch 越多气泡越小，但每段常驻激活越多；③ 均衡与通信——切分点按 profiling 耗时定，不按层数或参数量均分；④ PP 与 TP 的分工——TP 必须留在机内高带宽域，PP 可跨机，所以跨机扩展优先用 PP。**实践要点**：① 先算气泡率再定段数，别凭感觉切；② 用 1F1B 或 interleaved 调度压缩气泡；③ 与 gradient checkpointing 叠加可再省一截显存；④ 训练日志里把「每段耗时」与「气泡占比」作为常驻监控，比只看 loss 更早发现问题。**易混点**：PP（切层、传激活）与 TP（切矩阵、传切片）的核心差别是通信频率与部署边界；与 data parallelism 的差别是每卡持有不同层而非完整模型；与软件工程里的「流水线」概念无关",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "ZeRO (zero redundancy optimizer)",
+      "issueNoLocal": 44,
+      "phonetic": "/ˈzɪərəʊ/（全称 zero redundancy optimizer）",
+      "pos": "n.",
+      "posRaw": "n.（相关：optimizer state、sharding、all-gather、reduce-scatter、FSDP、offloading、Adam moments、memory footprint、communication overhead）",
+      "related": [
+        "optimizer state",
+        "sharding",
+        "all-gather",
+        "reduce-scatter",
+        "FSDP",
+        "offloading",
+        "Adam moments",
+        "memory footprint",
+        "communication overhead"
+      ],
+      "meaning": "【AI】零冗余优化器——一种把数据并行中「每张卡都存一份完整副本」的冗余状态切开分片的显存优化方案。标准 DP 下，模型参数、梯度、优化器状态（Adam 的一阶与二阶矩，约为参数量的两倍）在每张卡上各存一份，同一份数据被重复占用。ZeRO 分三级递进：Stage 1 只切优化器状态、Stage 2 再切梯度、Stage 3 连参数一起切，需要时用 all-gather 临时取回。切得越深省得越多，通信也越多——Stage 3 每步都要重新收集参数，通信量约增加五成。它回答的是「显存到底被谁吃掉」这个具体问题：参数只占小头，优化器状态与梯度才是大头",
+      "gloss": "零冗余优化器",
+      "example": "ZeRO Stage 3 let them fit a 70B model on the same cluster that previously topped out at 13B, at the cost of roughly 50% more communication per step.",
+      "exampleCn": "ZeRO Stage 3 让他们在原先只能跑到 13B 的集群上装下了 70B 模型，代价是每步通信量增加约五成。",
+      "memory": "**记忆锚点**：ZeRO = **同一本手册不必人手一册**——需要时传阅即可，但传阅要花时间。**为什么重要**：① 它揭示了大模型显存账的真实结构，纠正「参数量除以显存容量」这种粗糙估算；② 它是「用通信换显存」的标准范式，与 FlashAttention 的「用算力换显存」、gradient checkpointing 的「用重算换显存」并列，三者构成显存优化的完整工具箱（接续 mixed precision / gradient checkpointing）；③ 它解释了为什么开源模型能在小集群上微调——不是模型变小了，是副本不再重复；④ 它直接换算成成本：显存省下来意味着同样的卡能跑更大的模型或更大的 batch，等价于凭空多出一批 GPU（接续 model FLOPs utilization）。**关键权衡**：① 分片深度与通信——Stage 1 几乎无额外通信，Stage 3 增约五成，按瓶颈选级而非一律用最深；② 分片与 batch——切得越深单卡可用 batch 越小，可能拖低 MFU；③ 与 TP 的分工——ZeRO 切「状态副本」，TP 切「单层计算」，叠加使用时通信开销会相乘；④ 故障域——分片越细，单卡掉线影响面越大。**实践要点**：① 先算显存账（参数 + 梯度 + 优化器状态，混合精度下 Adam 约每参数 16 字节），再决定用哪一级；② 优先 Stage 1/2，Stage 3 只在单机确实装不下时才上；③ 与 activation checkpointing 一起用，前者省状态、后者省激活；④ 监控通信占比，超过三成要重新评估方案。**易混点**：ZeRO（切状态副本，属数据并行的变体）与 TP/PP（切模型计算）不在同一层；与 offloading（把状态挪到 CPU 或 NVMe）不同，后者换的是存储层级而不是分片；与 PyTorch 的 FSDP 基本同构，是同一思想的原生实现",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "PagedAttention",
+      "issueNoLocal": 44,
+      "phonetic": "/peɪdʒd əˈtenʃn/",
+      "pos": "n.",
+      "posRaw": "n.（相关：KV cache、block table、paging、memory fragmentation、prefix caching、vLLM、throughput、concurrency、virtual memory）",
+      "related": [
+        "KV cache",
+        "block table",
+        "paging",
+        "memory fragmentation",
+        "prefix caching",
+        "vLLM",
+        "throughput",
+        "concurrency",
+        "virtual memory"
+      ],
+      "meaning": "【AI】分页注意力——把 KV cache 按固定大小的「页」（block）管理、像操作系统虚拟内存那样按需分配与映射的注意力实现，vLLM 的核心机制。常规做法为每个请求按最大可能序列长度预分配一段连续显存，而实际生成长度往往远小于上限，造成大量内部碎片；PagedAttention 把 KV cache 切成固定大小的块，用块表把逻辑位置映射到物理块，块可非连续、可按需增长、可在请求之间共享（相同前缀复用同一物理块，即 prefix caching）。效果是把显存浪费从六成以上压到个位数百分比，同一张卡因此能装下更多并发请求，服务吞吐提升数倍",
+      "gloss": "分页注意力",
+      "example": "Pre-allocating the full context length for every request wasted most of the KV cache; paging it in fixed-size blocks more than doubled serving throughput on identical hardware.",
+      "exampleCn": "为每个请求按最大上下文长度预分配，浪费了大部分 KV cache；改成按固定大小分页后，同一硬件上的服务吞吐提升了一倍以上。",
+      "memory": "**记忆锚点**：PagedAttention = **酒店不按「最多可能住几晚」锁房，而是按实际入住一天一天地开房**。**为什么重要**：① 它指出推理成本的一个隐形大头：显存浪费直接换算成并发数与每 token 成本，比换更小的模型更划算（接续 KV cache / continuous batching / throughput）；② 它是「借用成熟系统思想」的范例——虚拟内存分页是几十年前的操作系统方案，搬到推理引擎上就带来数量级改善，这类跨领域迁移往往比算法创新更便宜；③ 它让前缀共享成为可能：相同系统提示的请求共用物理块，长系统提示不再被重复占用；④ 它是推理框架选型的硬指标：支持与不支持分页 KV，在长上下文高并发场景下的成本差距是数倍。**关键权衡**：① 块大小——块太大碎片多，太小则块表开销与访存效率下降，常见取 16 个 token；② 吞吐与延迟——更高并发抬高吞吐但增加排队延迟，须按 SLA 调；③ 共享与命中率——收益取决于系统提示的复用程度，多轮对话与批处理最大；④ 间接寻址开销——分页引入额外指针跳转，短序列下未必划算。**实践要点**：① 长上下文高并发场景优先选支持分页 KV 的推理框架；② 把系统提示放在最前并保持稳定，以提高前缀命中率；③ 监控显存碎片率与并发数，而不是只看 GPU 利用率；④ 与 continuous batching 联动：分页解决「装不下」，连续批处理解决「等不齐」，两者叠加才能把吞吐拉满。**易混点**：PagedAttention（KV cache 的显存管理方式）与 FlashAttention（注意力计算的 IO 优化）作用在不同环节，常被混为一谈，实际可同时使用；与 KV cache 是管理与被管理的关系；与量化不同，后者降精度、前者改分配",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "amortization",
+      "issueNoLocal": 44,
+      "phonetic": "/əˌmɔːtɪˈzeɪʃn/",
+      "pos": "n.",
+      "posRaw": "n.（相关：depreciation、impairment、D&A、useful life、straight-line、accelerated、purchase price allocation、intangible assets、goodwill、EBITDA）",
+      "related": [
+        "depreciation",
+        "impairment",
+        "D&A",
+        "useful life",
+        "straight-line",
+        "accelerated",
+        "purchase price allocation",
+        "intangible assets",
+        "goodwill",
+        "EBITDA"
+      ],
+      "meaning": "【金融】摊销——把一项没有实物形态的长期资产的成本，按受益期间分期计入损益。它与折旧（depreciation，对象为有形固定资产）机制相同、对象不同；与减值（impairment，资产价值永久下跌时一次性计提）性质完全不同：摊销是计划内的分摊，减值是计划外的认亏。常见对象包括专利与专有技术、客户关系、商标、资本化的软件支出、债券溢价或折价。并购场景尤其关键——收购溢价必须先做购买价格分摊（PPA），把溢价分到可辨认无形资产上再逐年摊销，这会系统性压低收购方此后数年的账面利润，却不影响现金流；这正是 EBITDA 把它加回的原因，也是「EBITDA 亮眼而净利润难看」最常见的来源",
+      "gloss": "摊销",
+      "example": "The deal added $400 million of annual amortization from acquired intangibles, which is why EBITDA looked strong while reported net income barely moved.",
+      "exampleCn": "这笔交易带来每年 4 亿美元的无形资产摊销，这就是为什么 EBITDA 看起来很强、而报表净利润几乎没动。",
+      "memory": "**记忆锚点**：摊销是**分期认账**，减值是**一次性认栽**——一个按计划，一个出意外。**为什么重要**：① 它解释 EBITDA 与净利润之间最大的一块差额，直接决定估值该用哪个口径（接续 EBITDA / enterprise value / quality of earnings）；② 它揭示并购的会计后果：溢价买来的无形资产要在未来数年持续侵蚀利润，所以「并购增厚 EPS」必须区分现金口径与账面口径（接续 dilution / goodwill impairment）；③ 它影响可比性：重资产与轻资产、内生增长与并购增长的公司摊销负担差异极大，横向比 P/E 之前必须调整；④ 它是现金流分析的护栏：摊销不消耗现金，故自由现金流通常显著高于净利润，但若资本化支出持续，现金其实早已流出（接续 free cash flow / capex）。**关键权衡**：① 摊销年限——年限越长当期费用越低、利润越好看，后续减值风险越大；② 直线与加速——加速摊销更贴近技术淘汰节奏、更保守，直线更平滑；③ 资本化与费用化——把研发或软件支出资本化再摊销可抬高当期利润，是常见的利润修饰手法；④ 账面与现金——摊销不影响现金流，但对应现金支出发生在更早的期间。**实践要点**：① 净利润与 EBITDA 差距扩大时，先查是否来自并购摊销；② 横向比较时把摊销加回后看 EV/EBITDA，或干脆用自由现金流；③ 留意摊销年限变更——延长年限是典型的「会计式增长」，没有一分钱现金流入；④ 与减值联动看：大额摊销之后常跟着减值，说明当初的溢价买贵了。**易混点**：amortization（无形资产，分期）与 depreciation（有形资产，分期）是对象之别；与 impairment（一次性减值）是性质之别；与 accrual（权责发生制）是具体应用与会计原则的关系；口语中 amortization 也指贷款本金分期偿还，与会计含义同源但不同用",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "stock-based compensation (SBC)",
+      "issueNoLocal": 44,
+      "phonetic": "/stɒk beɪst ˌkɒmpenˈseɪʃn/（缩写 SBC）",
+      "pos": "n.",
+      "posRaw": "n.（相关：dilution、fully diluted shares、RSU、option grant、vesting、GAAP vs non-GAAP、share count growth、buyback offset、cliff）",
+      "related": [
+        "dilution",
+        "fully diluted shares",
+        "RSU",
+        "option grant",
+        "vesting",
+        "GAAP vs non-GAAP",
+        "share count growth",
+        "buyback offset",
+        "cliff"
+      ],
+      "meaning": "【金融】股权激励——以股票或期权而非现金支付员工报酬，典型形式为限制性股票单位（RSU）与股票期权。会计上按授予日公允价值确认为费用，GAAP 要求计入损益，但它是非现金费用，因此公司普遍在 non-GAAP 口径中把它加回，导致「调整后利润」系统性高于 GAAP 利润。真正的代价不在利润表而在股本：每年新发行的股份稀释原有股东，年化稀释率大致等于当年 SBC 金额除以市值。对高估值科技公司，SBC 占营收一成到两成很常见，等于每年把百分之一到二的所有权转移给员工；若回购数量仅够抵消新发股份，那么回购不是股东回报，而是替员工买单",
+      "gloss": "股权激励",
+      "example": "SBC ran at 18% of revenue and the buyback merely offset new issuance — so the so-called return of capital added nothing to per-share value.",
+      "exampleCn": "股权激励占营收 18%，而回购刚好只抵消了新发股份——所谓「回报股东」对每股价值毫无贡献。",
+      "memory": "**记忆锚点**：不发工资发股票，等于**用你的股份给员工发薪**——账上不出现现金，但你手里的公司小了一点。**为什么重要**：① 它是科技股估值最大的隐性成本，直接决定「调整后利润」能不能信（接续 dilution / earnings per share / quality of earnings）；② 它解释为什么有些公司 GAAP 与 non-GAAP 利润能差一倍：差额里常有一半以上是 SBC；③ 它把回购的真相量化：只有回购数量超过新发数量，股本才真正收缩，否则只是抵消稀释（接续 share buyback）；④ 它是判断管理层资本配置是否诚实的试金石——一边大额 SBC、一边宣传回购回报股东，通常是在用股东的钱付员工的薪（接续 capital allocation）。**关键权衡**：① 现金与股权——SBC 保住现金流但稀释所有权，初创期合理、成熟期昂贵；② 激励与稀释——过度慷慨能留人但侵蚀每股价值，过少则核心人才流失；③ GAAP 与 non-GAAP——加回便于看现金盈利能力，但会系统性高估经济利润；④ 回购与再投资——用回购抵消稀释是防守性支出，确定性高但回报率低于再投资。**实践要点**：① 从现金流量表的「发行股份」与股本变动算出年化稀释率（新发股份除以总股本）；② 把 SBC 当作真实费用，用加回前的净利润算 P/E，比 non-GAAP 更保守也更接近经济现实；③ 比较回购金额与新发股份价值，判断回购是回报还是补漏；④ 跟踪 SBC 占营收比例的年度趋势，上升通常意味着留人成本恶化。**易混点**：SBC（非现金报酬，稀释股本）与 buyback（回购，收缩股本）方向相反，常被拿来互相抵消；与 option（期权，SBC 的一种形式）是整体与形式；与 dilution（稀释）是原因与结果；与 bonus（现金奖金）不同，后者不改变股本",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [
+    {
+      "no": "1",
+      "word": "pipeline parallelism (PP)",
+      "phonetic": "/ˈpaɪplaɪn ˈpærəlelɪzəm/",
+      "domain": "AI",
+      "point": "按层切段跨机部署；气泡率约 (p−1)/(m+p−1)，切分点按耗时而非参数量定"
+    },
+    {
+      "no": "2",
+      "word": "ZeRO",
+      "phonetic": "/ˈzɪərəʊ/",
+      "domain": "AI",
+      "point": "手册不必人手一册；切优化器状态→梯度→参数，Stage 3 通信增约五成"
+    },
+    {
+      "no": "3",
+      "word": "PagedAttention",
+      "phonetic": "/peɪdʒd əˈtenʃn/",
+      "domain": "AI",
+      "point": "酒店按实际入住开房；KV cache 分页把浪费从六成压到个位数"
+    },
+    {
+      "no": "4",
+      "word": "amortization",
+      "phonetic": "/əˌmɔːtɪˈzeɪʃn/",
+      "domain": "金融",
+      "point": "分期认账 vs 减值一次性认栽；并购摊销是 EBITDA 与净利差额的大头"
+    },
+    {
+      "no": "5",
+      "word": "stock-based compensation (SBC)",
+      "phonetic": "/stɒk beɪst ˌkɒmpenˈseɪʃn/",
+      "domain": "金融",
+      "point": "用股东股份发薪；回购若只抵消新发，就不是回报而是补漏"
+    }
+  ],
+  "comparisons": [],
+  "progress": [
+    "本期：第 44 期，5 词",
+    "累计：**220 词**（132 AI + 88 金融）",
+    "归档格式：MD 词卡 + KAMI One-Pager PNG + Telegram 推送"
+  ]
+}

@@ -1,16 +1,39 @@
 {
-  "generatedAt": "2026-10-24T03:36:18.560Z",
+  "generatedAt": "2026-10-25T03:36:06.702Z",
   "source": "pinghe/english words",
   "totals": {
-    "issues": 43,
-    "days": 42,
-    "words": 215,
-    "ai": 129,
-    "finance": 86,
+    "issues": 44,
+    "days": 43,
+    "words": 220,
+    "ai": 132,
+    "finance": 88,
     "both": 0,
     "other": 0
   },
   "issues": [
+    {
+      "date": "2026-10-25",
+      "issueNo": 44,
+      "issueSpan": 1,
+      "issueLabel": "第 44 期",
+      "issueNoLabel": "44",
+      "theme": "切开才装得下——模型与缓存如何被分段分页塞进显存（流水线并行 / 零冗余优化器 / 分页注意力），成本如何被摊到多个期间与全体股东身上（摊销 / 股权激励）",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 43 期 215 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "pipeline parallelism (PP)",
+        "ZeRO (zero redundancy optimizer)",
+        "PagedAttention",
+        "amortization",
+        "stock-based compensation (SBC)"
+      ]
+    },
     {
       "date": "2026-10-24",
       "issueNo": 43,
