@@ -1,0 +1,184 @@
+{
+  "date": "2026-10-26",
+  "issueNo": 45,
+  "issueSpan": 1,
+  "issueLabel": "第 45 期",
+  "issueNoLabel": "45",
+  "theme": "效率而非规模——不靠「更大」，靠每单位投入换回多少（算力最优配比 / 状态空间模型 / 专家并行），以及现金的产出与分配（自由现金流收益率 / 分红率）",
+  "themeRaw": "效率而非规模——不靠「更大」，靠每单位投入换回多少（算力最优配比 / 状态空间模型 / 专家并行），以及现金的产出与分配（自由现金流收益率 / 分红率）",
+  "note": "本期 5 词（3 AI + 2 金融），已与前 44 期 220 词去重",
+  "title": "每日英语 5 词 · 2026-10-26",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "compute-optimal",
+      "issueNoLocal": 45,
+      "phonetic": "/kəmˈpjuːt ˈɒptɪməl/",
+      "pos": "adj./n.",
+      "posRaw": "adj./n.（相关：scaling law、Chinchilla、tokens per parameter、training budget、inference cost、over-training、data-constrained、emergent ability）",
+      "related": [
+        "scaling law",
+        "Chinchilla",
+        "tokens per parameter",
+        "training budget",
+        "inference cost",
+        "over-training",
+        "data-constrained",
+        "emergent ability"
+      ],
+      "meaning": "【AI】算力最优——在给定训练算力预算下，参数量与训练 token 数存在一个使损失最小的配比，而不是参数越多越好。2022 年 Chinchilla 的结论是：当时多数大模型训练严重不足，参数量与 token 数应大致同比例增长（约每参数 20 个 token），同等算力下把模型做小、把数据喂多，效果优于把模型做大、数据喂少。此后的实践又出现反转：当模型要服务海量请求时，训练算力只占生命周期总成本的一小部分，而推理成本主要由参数量决定，于是「过度训练」（over-training，远超 20 token/参数）反而更经济——用小模型多训，换取长期推理便宜。所以 compute-optimal 从来不是一个固定比例，而是「训练预算、推理需求、数据存量」三者的联合最优化",
+      "gloss": "算力最优",
+      "example": "Chinchilla showed that most models were badly under-trained; later labs deliberately over-trained smaller models because inference cost, not training cost, dominates the lifetime bill.",
+      "exampleCn": "Chinchilla 证明多数模型训练严重不足；后来的实验室则刻意「过度训练」小模型，因为在全生命周期账单里，推理成本而非训练成本才是大头。",
+      "memory": "**记忆锚点**：算力最优 = **同样的油，是买大车少跑还是买小车多跑**——没有标准答案，取决于你打算跑多远。**为什么重要**：① 它把 scaling law 从「越大越好」的直觉修正为「配比决定效率」，是评估训练方案是否合理的第一把尺（接续 scaling law）；② 它解释了两代相反的实践：Chinchilla 式「小而多训」与后来的「刻意过度训练」，二者不矛盾，差别在于是否把推理成本计入总账（接续 time to first token / throughput）；③ 它是产业判断的关键：当高质量数据存量见底，约束从算力转向数据，合成数据与数据清洗的价值随之上升（接续 synthetic data / data contamination）；④ 它直接影响硬件需求结构——过度训练抬高训练算力占比，推理优化压低单位 token 成本，两者对芯片与互联的需求方向不同。**关键权衡**：① 训练与推理——训练省钱还是推理省钱，取决于预计调用量；② 参数与数据——数据不足时堆参数纯属浪费算力，数据过剩时小模型欠拟合；③ 质量与数量——token 数达标但质量低，等效于没达标；④ 一次性与经常性——训练是资本开支、推理是运营成本，折现率不同结论就不同。**实践要点**：① 先估生命周期总 token 量，再反推参数量，而不是先定模型大小；② 训练日志里同时报「token/参数比」与验证损失，缺一不可；③ 数据受限场景优先提升数据质量与重复轮次，而非扩参数；④ 把三年推理成本折现进总账，避免只看训练账单。**易混点**：compute-optimal（配比最优）与 scaling law（损失随规模下降的规律）是决策与规律之别；与 over-training（超过最优比例的继续训练）是点与区间的关系；与「模型越大越强」是两回事，后者只在同配比下成立",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "state space model (SSM)",
+      "issueNoLocal": 45,
+      "phonetic": "/steɪt speɪs ˈmɒdl/（缩写 SSM）",
+      "pos": "n.",
+      "posRaw": "n.（相关：Mamba、selective scan、linear attention、recurrence、attention、quadratic complexity、long sequence、hidden state、parallel scan）",
+      "related": [
+        "Mamba",
+        "selective scan",
+        "linear attention",
+        "recurrence",
+        "attention",
+        "quadratic complexity",
+        "long sequence",
+        "hidden state",
+        "parallel scan"
+      ],
+      "meaning": "【AI】状态空间模型——一类用「隐状态随时间递推」来描述序列的模型，源自控制论，近年被引入序列建模以替代注意力。核心是维护一个固定大小的隐状态 h，按 h_t = A·h_(t−1) + B·x_t 递推，输出 y_t = C·h_t：每读一个 token 只更新一次状态，计算与显存都随序列长度线性增长；而标准注意力是二次增长，每个 token 都要与之前所有 token 计算相似度。代价是「压缩」——全部历史必须塞进固定大小的状态里，精确回溯早期细节的能力弱于注意力，长序列检索类任务仍是短板。Mamba 的关键改进是让 A、B、C 随输入变化（选择性扫描），使模型学会「记住什么、忘记什么」，并在 GPU 上用并行扫描高效实现",
+      "gloss": "状态空间模型",
+      "example": "The SSM variant matched transformer quality on language modeling while scaling linearly with sequence length, but it still trailed on tasks that require retrieving an exact fact from far back in the context.",
+      "exampleCn": "该状态空间模型变体在语言建模上追平了 Transformer，且随序列长度线性扩展；但在需要从上下文很远处精确取回某个事实的任务上仍然落后。",
+      "memory": "**记忆锚点**：SSM = **读书时只记笔记、不保留原文**——翻得快、成本恒定，但要引用原句就得靠笔记记得准。**为什么重要**：① 它是对「注意力二次复杂度」这一硬约束的正面对冲，直接决定百万级上下文在成本上是否可行（接续 attention / long context / FlashAttention）；② 它揭示序列建模的根本权衡：**精确检索 vs 恒定成本**——注意力保留全部历史所以能精确回溯，SSM 压缩历史所以便宜但会丢细节；③ 它解释了混合架构（注意力层与 SSM 层交替）为何成为主流折中：少量注意力层负责精确检索，其余层用 SSM 压成本；④ 它是面对「新架构宣称替代 Transformer」时该问的问题清单——线性复杂度通常以检索精度为代价，要问清在什么任务上、掉多少。**关键权衡**：① 成本与精度——线性扩展换来的是状态压缩损失，长上下文检索最先暴露；② 状态大小——状态越大保留信息越多，显存与算力同步上升；③ 训练并行与推理串行——训练可用并行扫描，推理必须逐 token 递推，两者实现差异大；④ 生态与工具链——注意力有十余年算子与内核积累，新架构在工程成熟度上处于劣势。**实践要点**：① 长文档摘要、流式音频、时序信号等「顺序处理为主」的场景收益最大；② 需要精确引用、多跳检索的场景不要单独依赖 SSM；③ 评估时必须单列「远距离检索」子集，否则平均分会掩盖短板；④ 关注混合比例而非架构标签，层间配比才是实际性能来源。**易混点**：SSM（递推隐状态，线性复杂度）与 linear attention（把注意力核近似成线性）目标相似但机制不同；与 RNN 同源（都是递推），差别在于训练可并行化与选择性机制；与「状态机」无关，中文译名易误导",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "expert parallelism (EP)",
+      "issueNoLocal": 45,
+      "phonetic": "/ˈekspɜːt ˈpærəlelɪzəm/（缩写 EP）",
+      "pos": "n.、all-to-all、top-k routing、load balancing loss、expert capacity、token drop、grouped GEMM、data parallelism、tensor parallelism、pipeline parallelism）",
+      "posRaw": "n.（相关：mixture-of-experts (MoE)、all-to-all、top-k routing、load balancing loss、expert capacity、token drop、grouped GEMM、data parallelism、tensor parallelism、pipeline parallelism）",
+      "related": [
+        "mixture-of-experts (MoE"
+      ],
+      "meaning": "【AI】专家并行——专门用于混合专家模型的并行方式：把不同的专家（expert，即独立的 FFN 子网络）分配到不同设备上，token 经路由后通过 all-to-all 通信被发送到持有对应专家的设备计算，再送回原设备。它与数据并行（每卡一份完整副本）、张量并行（切单层矩阵）、流水线并行（切层）都不同：EP 切的是「同一层内并列的专家」，因此是唯一能让模型容量随卡数增长、而单 token 计算量基本不变的并行方式。代价是 all-to-all 对网络极为敏感——它要求任意两张卡之间都能高效传输，是当前数据中心网络（NVLink 域、RDMA、光互连）需求的主要推手之一；此外路由不均会造成专家过载，需靠负载均衡损失与容量因子控制，超限的 token 会被直接丢弃",
+      "gloss": "专家并行",
+      "example": "Scaling the MoE from 8 to 64 experts required expert parallelism across nodes, and the all-to-all traffic — not the matrix math — became the bottleneck.",
+      "exampleCn": "把 MoE 从 8 个专家扩到 64 个专家需要跨节点的专家并行，瓶颈随即变成 all-to-all 通信，而不是矩阵计算。",
+      "memory": "**记忆锚点**：EP = **医院分专科**——病人（token）按需转诊到对应科室，医生（专家）不必人人全科；但转诊通道一堵，全院都慢。**为什么重要**：① 它补齐并行家族的第四维：DP 切数据、TP 切单层、PP 切层、EP 切专家，四者对应四个不同瓶颈，混淆就会开错药（接续 data parallelism / tensor parallelism / pipeline parallelism）；② 它解释 MoE 的真实成本结构：省的是计算（每 token 只激活少数专家），贵的是通信（all-to-all 要求近似全互联），所以 MoE 的经济性高度依赖网络质量（接续 interconnect）；③ 它是「参数规模与计算量解耦」的唯一工程手段——稠密模型扩参数必然扩计算，MoE 可以只扩容量不扩算力；④ 它直接映射到产业链：EP 规模扩大推高对高带宽交换、光模块与铜连接的需求，是判断 AI 网络设备景气的技术依据。**关键权衡**：① 专家数与通信——专家越多单卡负载越轻，all-to-all 跳数越多；② 并行域边界——EP 尽量留在 NVLink 高带宽域内，跨机需 RDMA 且延迟敏感；③ 均衡与容量——容量因子设小则丢 token（影响质量），设大则显存浪费；④ 与 TP 的组合——常见做法是机内 TP、机间 EP，按带宽梯度分层。**实践要点**：① 先估 all-to-all 通信量（约等于 token 数 × 隐藏维度 × 路由次数），再决定 EP 度；② 负载均衡损失必须监控，专家利用率偏差超过两成就要调路由；③ token drop 率是质量隐患，训练日志里要单列；④ 部署时把同一 EP 组放在同一交换机下，避免跨 spine 通信。**易混点**：EP（切专家）与 MoE（稀疏激活的模型结构）是工程实现与模型设计之别；与 TP（切单个矩阵）不同，EP 切的是并列子网络；与 DP 的差别是每卡持有不同专家而非完整副本",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "free cash flow yield (FCF yield)",
+      "issueNoLocal": 45,
+      "phonetic": "/friː kæʃ fləʊ jiːld/",
+      "pos": "n.",
+      "posRaw": "n.（相关：free cash flow、market cap、enterprise value、P/E、cash conversion、capex intensity、shareholder yield、quality of earnings、terminal value）",
+      "related": [
+        "free cash flow",
+        "market cap",
+        "enterprise value",
+        "P",
+        "E",
+        "cash conversion",
+        "capex intensity",
+        "shareholder yield",
+        "quality of earnings",
+        "terminal value"
+      ],
+      "meaning": "【金融】自由现金流收益率——每股自由现金流除以股价（或自由现金流总额除以市值），衡量每一元市值每年能产生多少可自由支配的现金。它把绝对额的自由现金流转换成可与债券收益率、存款利率直接比较的比率，因此常被称为「股票的现金票息」。相比 P/E，它更难被会计手法修饰：净利润受折旧年限、摊销政策、资本化选择、一次性项目影响，自由现金流则直接来自现金流量表（经营现金流减资本开支）。对重资产、高资本开支的企业（半导体制造、数据中心、公用事业）尤其重要，因为这类公司的会计利润与真实可分配现金差距最大。使用时须注意两点：单年 FCF 受营运资本波动与资本开支节奏扰动，应看三到五年均值；周期顶部的 FCF yield 会因盈利虚高而显得极具吸引力，恰是最危险的时候",
+      "gloss": "自由现金流收益率",
+      "example": "At a 6% FCF yield the stock was cheaper than its own bonds, but half of that cash flow came from a capex holiday that could not last.",
+      "exampleCn": "6% 的自由现金流收益率让这只股票比它自己的债券还便宜，但其中一半现金流来自一次不可持续的资本开支暂停。",
+      "memory": "**记忆锚点**：FCF yield = **把股票当债券看，它每年付你多少现金**——收益率高于自家债，要么是机会，要么是现金有假。**为什么重要**：① 它提供了一条绕开会计噪音的估值尺：P/E 会被折旧政策与一次性项目扭曲，自由现金流来自现金流量表，难以修饰（接续 free cash flow / quality of earnings）；② 它使跨资产比较成为可能——股票 FCF yield 与十年期国债收益率之差，是判断股权风险溢价是否足够的直接依据（接续 risk-free rate / equity risk premium）；③ 它对重资产行业尤其关键：资本开支吞掉的现金不出现在利润表，却实实在在减少可分配现金（接续 capex / EBITDA / amortization）；④ 它是识别「价值陷阱」的工具：收益率高但资本开支被长期压抑，说明现金是靠不投入换来的，未来要加倍还回去。**关键权衡**：① 分子口径——经营现金流减维持性资本开支，还是减全部资本开支，结论差别很大；② 分母口径——用市值得到股权口径，用企业价值得到全体资本口径，不可混用；③ 单年与均值——单年受营运资本与开支节奏扰动，周期股必须用中周期均值；④ 高收益率的两面——可能是市场错杀，也可能是市场正确预期了现金流的不可持续。**实践要点**：① 用三年以上平均 FCF，并单独看资本开支占营收比例的走势；② 与 P/E 交叉验证：FCF yield 高且 P/E 低才是真便宜，FCF yield 高而 P/E 高说明利润与现金背离，去查营运资本；③ 重资产行业用 EV 口径，避免杠杆差异干扰横向比较；④ 把 FCF yield 与股东实际拿到的现金（分红加净回购）对比，差额去向就是管理层资本配置的答案（接续 share buyback / capital allocation）。**易混点**：FCF yield（比率）与 free cash flow（绝对额）是尺子与量；与 earnings yield（净利润除以市值，即 P/E 的倒数）差别在于是否扣资本开支；与 dividend yield 不同，后者只算已分掉的现金，前者算能分掉的现金",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "payout ratio",
+      "issueNoLocal": 45,
+      "phonetic": "/ˈpeɪaʊt ˈreɪʃiəʊ/",
+      "pos": "n.",
+      "posRaw": "n.（相关：dividend、share buyback、retention ratio、sustainable growth rate、free cash flow、special dividend、dividend cut、capital allocation、total shareholder yield）",
+      "related": [
+        "dividend",
+        "share buyback",
+        "retention ratio",
+        "sustainable growth rate",
+        "free cash flow",
+        "special dividend",
+        "dividend cut",
+        "capital allocation",
+        "total shareholder yield"
+      ],
+      "meaning": "【金融】分红率（派息率）——公司当年分配给股东的现金占净利润（或自由现金流）的比例。分母用净利润时反映会计口径的分配意愿，分母用自由现金流时反映真实的现金分配能力，后者更保守也更可靠——当按净利润算的分红率超过 100%，往往意味着在用自由现金流甚至举债维持分红。与之互补的是留存率（retention ratio = 1 − payout ratio），乘以净资产收益率即得可持续增长率，这是「不融资能长多快」的经典估算。分红率本身不是越高越好：过高说明缺乏再投资机会或管理层不愿投入，过低则可能是现金被低效囤积或用于高价并购。成熟的公用事业与消费公司常在 50%~70%，高成长科技公司接近零并以回购替代分红",
+      "gloss": "分红率",
+      "example": "A payout ratio above 100% of earnings is not generosity — it means the dividend is being funded from the balance sheet.",
+      "exampleCn": "分红率超过净利润的 100% 不是慷慨——它意味着这笔股息是靠资产负债表在支付。",
+      "memory": "**记忆锚点**：分红率 = **赚一百块，分掉几块**——分得多不一定是好事，可能只是没地方投。**为什么重要**：① 它是资本配置的量化仪表：分红、回购、再投资三者的比例，直接暴露管理层认为「钱留在公司里更值钱，还是放在股东手里更值钱」（接续 capital allocation / share buyback）；② 它与留存率、ROE 构成可持续增长率公式，是判断增长是否必须靠外部融资的快捷方式（接续 return on equity / dilution）；③ 它区分了「会计利润」与「可分配现金」：按净利润算的分红率一旦超过 100%，就该去查自由现金流是否撑得住（接续 free cash flow / quality of earnings）；④ 它有强烈的信号含义：稳定分红代表现金流可预测，突然削减往往比亏损更早暴露问题。**关键权衡**：① 分红与再投资——留存收益若只能获得低于资本成本的回报，分掉反而创造价值；② 分红与回购——分红是稳定承诺、难以削减，回购是灵活工具、可逆，成熟公司常两者并用；③ 高分红与低成长——高分红常伴随低增长，估值倍数天然较低，不能简单比较收益率；④ 会计口径与现金口径——按净利润算的分红率会因一次性收益或减值而失真。**实践要点**：① 用自由现金流作分母重算一次，两者差距大就要解释原因；② 连续十年以上稳定或增长的分红记录，比单年高分红更有信息量；③ 把分红与净回购合并算「股东总回报率」，才看得清真实的现金返还力度；④ 分红率突然跳升要区分是盈利下滑还是政策变更，前者是危险信号。**易混点**：payout ratio（分掉的比例）与 dividend yield（股息除以股价）不同——前者看分配政策，后者看买入价格；与 total shareholder yield（含回购）不同，后者口径更全；与 retention ratio 互补，两者相加为一",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [
+    {
+      "no": "1",
+      "word": "compute-optimal",
+      "phonetic": "/kəmˈpjuːt ˈɒptɪməl/",
+      "domain": "AI",
+      "point": "油买大车还是小车；约 20 token/参数起，推理成本计入总账后结论反转"
+    },
+    {
+      "no": "2",
+      "word": "state space model (SSM)",
+      "phonetic": "/steɪt speɪs ˈmɒdl/",
+      "domain": "AI",
+      "point": "只记笔记不留原文；线性复杂度换状态压缩，远距检索是短板"
+    },
+    {
+      "no": "3",
+      "word": "expert parallelism (EP)",
+      "phonetic": "/ˈekspɜːt ˈpærəlelɪzəm/",
+      "domain": "AI",
+      "point": "医院分专科；切专家而非切矩阵，瓶颈从算力转为 all-to-all"
+    },
+    {
+      "no": "4",
+      "word": "free cash flow yield (FCF yield)",
+      "phonetic": "/friː kæʃ fləʊ jiːld/",
+      "domain": "金融",
+      "point": "把股票当债券看票息；比 P/E 难修饰，周期顶部最易误判"
+    },
+    {
+      "no": "5",
+      "word": "payout ratio",
+      "phonetic": "/ˈpeɪaʊt ˈreɪʃiəʊ/",
+      "domain": "金融",
+      "point": "赚一百块分掉几块；超 100% 说明靠资产负债表付息"
+    }
+  ],
+  "comparisons": [],
+  "progress": [
+    "本期：第 45 期，5 词",
+    "累计：**225 词**（135 AI + 90 金融）",
+    "归档格式：MD 词卡 + KAMI One-Pager PNG + Telegram 推送"
+  ]
+}

@@ -1,16 +1,39 @@
 {
-  "generatedAt": "2026-10-25T03:36:06.702Z",
+  "generatedAt": "2026-10-26T03:35:49.090Z",
   "source": "pinghe/english words",
   "totals": {
-    "issues": 44,
-    "days": 43,
-    "words": 220,
-    "ai": 132,
-    "finance": 88,
+    "issues": 45,
+    "days": 44,
+    "words": 225,
+    "ai": 135,
+    "finance": 90,
     "both": 0,
     "other": 0
   },
   "issues": [
+    {
+      "date": "2026-10-26",
+      "issueNo": 45,
+      "issueSpan": 1,
+      "issueLabel": "第 45 期",
+      "issueNoLabel": "45",
+      "theme": "效率而非规模——不靠「更大」，靠每单位投入换回多少（算力最优配比 / 状态空间模型 / 专家并行），以及现金的产出与分配（自由现金流收益率 / 分红率）",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 44 期 220 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "compute-optimal",
+        "state space model (SSM)",
+        "expert parallelism (EP)",
+        "free cash flow yield (FCF yield)",
+        "payout ratio"
+      ]
+    },
     {
       "date": "2026-10-25",
       "issueNo": 44,
