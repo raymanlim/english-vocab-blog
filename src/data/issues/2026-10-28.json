@@ -1,0 +1,178 @@
+{
+  "date": "2026-10-28",
+  "issueNo": 46,
+  "issueSpan": 1,
+  "issueLabel": "第 46 期",
+  "issueNoLabel": "46",
+  "theme": "让模型「边想边查」与初创公司的生死时速（多模态对齐 / 测试时扩展 / 推测执行 / 烧钱速度 / 护城河）",
+  "themeRaw": "让模型「边想边查」与初创公司的生死时速（多模态对齐 / 测试时扩展 / 推测执行 / 烧钱速度 / 护城河）",
+  "note": "本期 5 词（3 AI + 2 金融），已与前 45 期 225 词去重",
+  "title": "每日英语 5 词 · 2026-10-28",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "multimodal alignment",
+      "issueNoLocal": 46,
+      "phonetic": "/ˌmʌltiˈməʊdl əˈlaɪnmənt/",
+      "pos": "n.、contrastive learning、CLIP、alignment、embedding space、cross-modal、fusion、modality bridge）",
+      "posRaw": "n.（相关：multimodal、vision-language model (VLM)、contrastive learning、CLIP、alignment、embedding space、cross-modal、fusion、modality bridge）",
+      "related": [
+        "multimodal",
+        "vision-language model (VLM"
+      ],
+      "meaning": "【AI】多模态对齐——让不同模态（文本、图像、音频、视频）的内容在模型的表示空间中映射到相近的向量，使「一张猫的图片」与「cat」这个词在嵌入空间中的距离，小于该图片与「dog」的距离。这是视觉-语言模型（VLM）的核心机制：CLIP 通过对比学习把图像和文本拉进同一空间，GPT-4V 则在此基础上做指令微调和生成。对齐质量直接决定跨模态检索、图像问答、视频理解的准确度；对齐失败则会出现「指鹿为马」——模型看到马却输出 donkey，因为两者的文本嵌入在训练语料中过于接近",
+      "gloss": "多模态对齐",
+      "example": "Poor multimodal alignment caused the model to caption a medical scan as \"healthy tissue\" because the visual features overlapped with benign samples in the embedding space.",
+      "exampleCn": "多模态对齐不良导致模型把一张医学扫描图标注为「健康组织」，因为视觉特征在嵌入空间中与良性样本重叠。",
+      "memory": "**记忆锚点**：多模态对齐 = **给来自不同国家的人发同一张地图**——大家看的图一样，但用各自语言描述时指向的是同一个地方。**为什么重要**：① 它是所有跨模态能力的底层：图文检索、图像生成指令遵循、视频问答，都依赖「不同模态同一语义」这一假设（接续 multimodal / embedding）；② 它解释了 CLIP 的强大与局限——对比学习能把「苹果（图）」与「apple（文）」对齐，但对抽象概念、罕见物体、细微差别力不从心；③ 它是幻觉在视觉场景的根因：文本幻觉是编造事实，视觉幻觉是看错图但嘴硬，两者都源于表示空间未正确对齐（接续 hallucination / grounding）；④ 它正在从「双模态对齐」走向「任意模态对齐」——音频、点云、脑电信号都被纳入同一空间，算力与数据需求指数级上升。**关键权衡**：① 联合训练 vs 模态专用编码器——前者对齐更紧，但模态间互相干扰；后者保留各模态优势，但融合层是瓶颈；② 对齐粒度——句子级对齐（CLIP 式）粗但通用，token 级对齐（更细）准但数据贵；③ 数据质量 vs 数量——图文对（image-caption pair）的质量比数量更关键，噪声数据会把错误相关性固化进嵌入空间；④ 冻结 vs 全量微调——冻结视觉编码器省算力，但上限受限于预训练质量；全量微调对齐更优，但通用视觉能力可能退化。**实践要点**：① 评估多模态模型时，单列「指代消解」与「细粒度属性识别」子集，平均分会掩盖对齐短板；② 领域迁移（如医学影像）时，用领域数据做对齐层微调，不要动底层视觉编码器；③ 注意「语言主导」偏见——模型倾向于相信文本提示而忽视图像证据，微调时要用图像与文本矛盾样例做对抗训练；④ 跨模态检索的召回-精度曲线比单一数值更有信息量，不同应用场景对两者的容忍度不同。**易混点**：multimodal alignment（表示空间对齐）与 cross-attention（融合层的注意力机制）是不同层级；与 multimodal fusion（特征拼接/加权）不同，alignment 强调语义等价而非物理混合；与「多模态」本身（具备多种输入）不同，alignment 是使多模态有效的技术前提",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "test-time scaling",
+      "issueNoLocal": 46,
+      "phonetic": "/test taɪm ˈskeɪlɪŋ/",
+      "pos": "n.、reasoning model、o1、verifier、search、Monte Carlo tree search (MCTS)、compute-optimal、scaling law、emergent ability）",
+      "posRaw": "n.（相关：inference-time compute、chain-of-thought (CoT)、reasoning model、o1、verifier、search、Monte Carlo tree search (MCTS)、compute-optimal、scaling law、emergent ability）",
+      "related": [
+        "inference-time compute",
+        "chain-of-thought (CoT"
+      ],
+      "meaning": "【AI】测试时扩展——在模型推理阶段投入更多计算资源以提升输出质量，而非在训练阶段扩大模型规模。OpenAI 的 o1 系列是典型范例：模型不再一次性输出答案，而是生成一条包含多步推理的思维链，过程中可调用搜索、验证、回溯等机制，「想得更久」以「答得更准」。这与传统的 scaling law（训练时堆数据、堆参数）形成互补：当高质量训练数据枯竭、模型基座能力接近天花板时，测试时扩展开辟了第二条增长曲线——用算力换智能，而非用数据换智能。代价是延迟与成本：用户等待时间从秒级延长到分钟级，Token 消耗量可能增加数十倍",
+      "gloss": "测试时扩展",
+      "example": "Test-time scaling shifted the frontier from \"who has the biggest model\" to \"who can best allocate inference compute to verify and refine answers.\"",
+      "exampleCn": "测试时扩展把竞争前沿从「谁有最大的模型」转向了「谁能最好地把推理算力分配给验证与精修答案」。",
+      "memory": "**记忆锚点**：测试时扩展 = **考试时不写完不许交卷，多检查几遍**——不是变得更聪明，而是把已有的聪明用得更充分。**为什么重要**：① 它是后 scaling law 时代的核心命题：当万亿参数模型的边际收益递减，测试时计算成为性价比更高的提升路径（接续 scaling law / compute-optimal）；② 它重新定义了 AI 系统的架构——从「单次前向传播」变为「生成-验证-迭代」的循环，verifier 与 search 成为与基座模型并列的核心组件（接续 verifier / chain-of-thought）；③ 它解释了 o1 与 GPT-4o 的本质差异：后者是靠训练喂出来的能力，前者是靠推理时「反复琢磨」逼出来的能力，两者的成本结构完全不同；④ 它对硬件需求有深远影响：训练时扩展推高 HBM 容量与带宽，测试时扩展推高雅致互联与低延迟响应——两者对芯片设计的要求不同（接续 arithmetic intensity / latency）。**关键权衡**：① 固定预算 vs 固定质量——给定总 compute，是花在训练更大模型上，还是花在推理时多 rollouts 上？答案取决于 use case 的延迟容忍度；② 延迟与质量——测试时扩展越激进，用户等待越长，实时应用（如对话、搜索）的适用性越差；③ 通用 vs 专用 verifier——通用 verifier（如另一个 LLM）灵活但贵，专用 verifier（如数学公式检查器）便宜但覆盖面窄；④ 搜索深度与广度——MCTS 式深度搜索适合结构化问题（数学、代码），广度采样适合开放式问题（创意写作）。**实践要点**：① 先把基座模型的「单次推理」能力榨干，再考虑测试时扩展——底子太薄，多想几步也是瞎想；② 为 verifier 单独设计评估指标，不要混用与基座模型相同的 benchmark；③ 测试时扩展的收益通常是 diminishing returns，要找到拐点，避免过度投资；④ 对延迟敏感的场景，用「分层推理」——简单问题快速回答，复杂问题触发深度搜索。**易混点**：test-time scaling（推理阶段扩算力）与 training scaling（训练阶段扩规模）是两条互补曲线；与 test-time compute（更广义的推理时计算，含 prompt engineering、RAG 等）是子集关系；与「模型蒸馏」不同，后者是压缩而非扩展",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "speculative execution",
+      "issueNoLocal": 46,
+      "phonetic": "/ˈspekjʊlətɪv ɪɡˈzekjʊʃn/",
+      "pos": "n.",
+      "posRaw": "n.（相关：speculative decoding、draft model、target model、lookahead、branch prediction、out-of-order execution、memory latency、throughput、KV cache、autoregressive）",
+      "related": [
+        "speculative decoding",
+        "draft model",
+        "target model",
+        "lookahead",
+        "branch prediction",
+        "out-of-order execution",
+        "memory latency",
+        "throughput",
+        "KV cache",
+        "autoregressive"
+      ],
+      "meaning": "【AI】推测执行——在自回归模型生成过程中，用一个小而快的「草稿模型」提前预测接下来的多个 token，再由大模型一次性验证并修正，从而并行化原本串行的生成步骤。核心洞察：小模型虽然准确率不如大模型，但速度可能快 5-10 倍；若其草稿被大模型接受的比例足够高（如 80%），总体吞吐量就能提升 2-3 倍。这是对抗自回归模型「逐 token 生成」这一根本瓶颈的关键技术，与 KV cache 优化、continuous batching 并列当前推理加速的三大支柱。代价是内存占用增加（需同时加载两个模型）和接受率波动（不同任务、不同温度下差异巨大）",
+      "gloss": "推测执行",
+      "example": "Speculative execution let the 70B model generate tokens at nearly the speed of its 7B draft, because the smaller model guessed correctly eight times out of ten.",
+      "exampleCn": "推测执行让 700 亿参数的模型以 70 亿参数草稿模型的速度生成 token，因为小模型十次能猜对八次。",
+      "memory": "**记忆锚点**：推测执行 = **秘书先草拟、老板再签字**——秘书够准的话，老板的工作量就少了。**为什么重要**：① 它是自回归模型推理加速的第三条路：KV cache 减少重复计算，continuous batching 提高硬件利用率，speculative execution 直接打破串行依赖（接续 KV cache / continuous batching / autoregressive）；② 它解释了「为什么小模型仍有价值」——在推理栈里，小模型不是大模型的替代品，而是加速器；③ 它对系统架构提出新要求：草稿模型与大模型需共享词汇表与嵌入空间，否则验证步骤无法对齐；④ 它是「推测解码」（speculative decoding）的工程泛化，后者特指 LLM 场景，前者也涵盖 CPU 中的分支预测、数据库中的预读取等广泛概念。**关键权衡**：① 草稿模型大小——太小则接受率低，太大则失去速度优势；② 验证策略——逐 token 验证保守但通用，块验证激进但可能级联错误；③ 温度影响——高温度增加多样性、降低接受率，推测执行在低温度场景收益最大；④ 内存与速度——双模型加载增加显存压力，需权衡加载两个模型的成本与生成加速的收益。**实践要点**：① 选择与目标模型同一家族的草稿模型（如 LLaMA-70B 配 LLaMA-7B），确保 token 分布兼容；② 监控「接受率」与「有效加速比」两个指标，单独看接受率会高估收益；③ 对代码生成等结构化任务，接受率通常高于开放域对话，可动态调整草稿长度；④ 结合 tree-based speculative decoding（树状推测），一次生成多个候选分支并行验证，进一步提高接受率。**易混点**：speculative execution（通用概念，含 CPU/数据库/LLM）与 speculative decoding（LLM 场景的特指）是泛化与特化关系；与 lookahead（提前看更多上下文）不同，后者不依赖双模型；与「推理时扩展」不同，前者是加速单条生成，后者是增加推理步骤换质量",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "burn rate",
+      "issueNoLocal": 46,
+      "phonetic": "/bɜːrn reɪt/",
+      "pos": "n.、series A/B/C、bridge round、down round、recurring revenue、churn）",
+      "posRaw": "n.（相关：runway、cash runway、gross burn、net burn、unit economics、venture capital (VC)、series A/B/C、bridge round、down round、recurring revenue、churn）",
+      "related": [
+        "runway",
+        "cash runway",
+        "gross burn",
+        "net burn",
+        "unit economics",
+        "venture capital (VC"
+      ],
+      "meaning": "【金融】烧钱速度——公司每月消耗的现金净额（净烧钱速度 = 月收入 − 月支出；总烧钱速度 = 月总支出），通常用于初创公司语境，衡量「在资金耗尽前还能活多久」。与 runway（现金跑道 = 现金余额 ÷ 月烧钱速度）联合使用，是 VC 和创始人最关注的两组数字。烧钱速度本身不是坏事——高增长公司在扩张期故意烧大钱抢市场、建团队、投研发，关键问题是「烧出去的钱是否在有效转化为收入、用户或技术壁垒」。若烧钱速度上升但核心指标（收入、留存、单位经济）停滞，就是经典「烧钱换规模、规模不赚钱」的死亡螺旋",
+      "gloss": "烧钱速度",
+      "example": "At a $2 million monthly burn rate and $12 million in the bank, the startup had a six-month runway — barely enough to reach the next funding milestone.",
+      "exampleCn": "每月烧钱 200 万美元、账上只剩 1200 万，这家初创的现金跑道只有六个月——勉强够到下一轮融资节点。",
+      "memory": "**记忆锚点**：burn rate = **油表上那个掉得飞快的指针**——指针本身不是坏事，但如果你不知道目的地还有多远，心里就该慌了。**为什么重要**：① 它是初创公司生存的第一指标：产品可以不完美，但跑道不能断，跑道归零公司即死（接续 unit economics / payback period）；② 它是 VC 估值的隐性分母：同样的收入增速，烧钱速度低的公司估值倍数更高，因为风险更小；③ 它区分了「好烧钱」与「坏烧钱」——烧给研发与获取高留存用户是好，烧给低效获客与行政膨胀是坏，两者在利润表上可能看起来一样；④ 它是宏观周期的晴雨表：利率低时 VC 容忍高烧钱换增长，利率高时 runway 短的初创最先被挤垮。**关键权衡**：① 增长与生存——烧太激进可能死在半路，烧太保守可能被竞争对手甩开；② 毛烧钱与净烧钱——只看支出不看收入会误判，净烧钱才是真实消耗；③ 一次性与经常性——把资本开支摊进月烧钱会虚高，应区分运营消耗与投资支出；④ 融资窗口——烧钱速度必须与下一轮融资的预计时间匹配，留足 buffer。**实践要点**：① 每周追踪净烧钱速度，不要等月末财务报表；② 把烧钱分解到部门/项目，识别哪些支出在驱动核心指标、哪些在空转；③ 在 runway 低于 12 个月时启动融资，低于 6 个月时启动降本预案；④ 与 unit economics 交叉验证：若获客成本回收期 > runway，说明当前模式不可持续。**易混点**：burn rate（烧钱速度，月度）与 runway（存活时间，月度数的倒推）是互补概念；与 cash flow（现金流的广义概念）不同，burn rate 特指消耗侧的月度口径；与 EBITDA 不同，后者含非现金项目，burn rate 是纯现金视角",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "moat",
+      "issueNoLocal": 46,
+      "phonetic": "/moʊt/",
+      "pos": "n.",
+      "posRaw": "n.（相关：economic moat、competitive advantage、barrier to entry、switching cost、network effect、brand equity、patent、regulatory capture、pricing power、margin、ROIC）",
+      "related": [
+        "economic moat",
+        "competitive advantage",
+        "barrier to entry",
+        "switching cost",
+        "network effect",
+        "brand equity",
+        "patent",
+        "regulatory capture",
+        "pricing power",
+        "margin",
+        "ROIC"
+      ],
+      "meaning": "【金融】护城河——源自巴菲特的投资概念，指企业抵御竞争对手侵蚀利润的结构性优势，使公司能在长期内维持超额回报（ROIC > WACC）。常见护城河类型：① 无形资产（品牌、专利、牌照）；② 转换成本（客户迁移到其他供应商的代价高）；③ 网络效应（用户越多，产品对单个用户价值越大）；④ 成本优势（规模经济、独特资源、流程效率）；⑤ 有效规模（利基市场天然容不下第二名）。护城河的检验标准不是「现在有没有」，而是「能持续多久」——技术迭代、监管变化、消费者偏好转移都可能填平护城河。AI 公司的特殊挑战是：模型能力本身几乎没有护城河（开源追赶快、API 同质化），真正的护城河在于数据飞轮、客户工作流嵌入度、或独家的场景数据",
+      "gloss": "护城河",
+      "example": "The AI startup had no moat: its model was indistinguishable from open-source alternatives, and customers could switch vendors overnight without retraining their workflows.",
+      "exampleCn": "这家 AI 初创没有护城河：它的模型与开源替代品无法区分，客户可以一夜之间切换供应商，无需重新训练工作流。",
+      "memory": "**记忆锚点**：moat = **城堡外的护城河**——不是城墙（一次性的高投入），而是持续性让敌人过不来的东西。**为什么重要**：① 它是价值投资的核心筛选器：没有护城河的高增长是诱饵，有护城河的中速增长才是资产（接续 economic moat / ROIC / WACC）；② 它解释了科技股的估值分化：同样增速，护城河深的公司享受估值溢价，因为竞争优势可持续；③ 它对 AI 投资尤其关键——当前多数 AI 应用公司的护城河极薄，判断「谁能在开源浪潮中活下来」比判断「谁的模型现在更强」更重要；④ 它是资本配置的风向标：管理层若在高护城河业务上追加投资通常创造股东价值，若在护城河已被填平的领域追加投资通常是价值毁灭。**关键权衡**：① 护城河深度与宽度——窄而深的护城河（利基垄断）vs 宽而浅的护城河（品牌知名度）；② 静态与动态——现有护城河（如专利）vs 动态护城河（如持续创新能力）；③ 供给侧与需求侧——成本优势（供给侧）vs 客户锁定（需求侧），后者通常更持久；④ AI 的悖论——模型能力扩散快，护城河可能不在技术而在数据飞轮或客户嵌入度。**实践要点**：① 用「若竞争对手免费推出同等产品，客户会不会走」来检验护城河；② 追踪客户留存率（net revenue retention）与定价权（能否涨价而不丢客户），两者是护城河的量化指标；③ 对 AI 公司，重点评估数据飞轮（更多用户 → 更多数据 → 更好模型 → 更多用户）是否跑通；④ 警惕「伪护城河」——一时的技术领先、大额补贴获取的用户、单一大客户依赖，都不是结构性优势。**易混点**：moat（护城河，定性概念）与 competitive advantage（竞争优势，更广义的表述）基本同义；与 barrier to entry（进入壁垒，供给侧视角）不同，moat 包含需求侧锁定；与「好公司」不同，有护城河的公司未必是好投资——若价格已完全反映护城河价值，就没有安全边际",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [
+    {
+      "no": "1",
+      "word": "multimodal alignment",
+      "phonetic": "/ˌmʌltiˈməʊdl əˈlaɪnmənt/",
+      "domain": "AI",
+      "point": "给不同国家的人发同一张地图；图文检索、VQA 的底层假设，对齐失败则指鹿为马"
+    },
+    {
+      "no": "2",
+      "word": "test-time scaling",
+      "phonetic": "/test taɪm ˈskeɪlɪŋ/",
+      "domain": "AI",
+      "point": "考试多检查几遍；推理阶段扩算力换质量，o1 的核心方法论，后 scaling law 时代第二曲线"
+    },
+    {
+      "no": "3",
+      "word": "speculative execution",
+      "phonetic": "/ˈspekjʊlətɪv ɪɡˈzekjʊʃn/",
+      "domain": "AI",
+      "point": "秘书草拟老板签字；小模型预生成、大模型验证，打破自回归串行瓶颈，加速 2-3 倍"
+    },
+    {
+      "no": "4",
+      "word": "burn rate",
+      "phonetic": "/bɜːrn reɪt/",
+      "domain": "金融",
+      "point": "油表指针掉得多快；初创月度净消耗，与 runway 联合决定生死，关键是烧得值不值"
+    },
+    {
+      "no": "5",
+      "word": "moat",
+      "phonetic": "/moʊt/",
+      "domain": "金融",
+      "point": "城堡外的河；结构性竞争优势，巴菲特核心筛选器，AI 公司护城河多在数据飞轮而非模型本身"
+    }
+  ],
+  "comparisons": [],
+  "progress": [
+    "本期：第 46 期，5 词",
+    "累计：**230 词**（138 AI + 92 金融）",
+    "归档格式：MD 词卡 + KAMI One-Pager PNG + Telegram 推送"
+  ]
+}

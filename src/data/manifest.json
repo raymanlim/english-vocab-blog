@@ -1,16 +1,39 @@
 {
-  "generatedAt": "2026-10-26T03:35:49.090Z",
+  "generatedAt": "2026-10-28T17:05:18.164Z",
   "source": "pinghe/english words",
   "totals": {
-    "issues": 45,
-    "days": 44,
-    "words": 225,
-    "ai": 135,
-    "finance": 90,
+    "issues": 46,
+    "days": 45,
+    "words": 230,
+    "ai": 138,
+    "finance": 92,
     "both": 0,
     "other": 0
   },
   "issues": [
+    {
+      "date": "2026-10-28",
+      "issueNo": 46,
+      "issueSpan": 1,
+      "issueLabel": "第 46 期",
+      "issueNoLabel": "46",
+      "theme": "让模型「边想边查」与初创公司的生死时速（多模态对齐 / 测试时扩展 / 推测执行 / 烧钱速度 / 护城河）",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 45 期 225 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "multimodal alignment",
+        "test-time scaling",
+        "speculative execution",
+        "burn rate",
+        "moat"
+      ]
+    },
     {
       "date": "2026-10-26",
       "issueNo": 45,
