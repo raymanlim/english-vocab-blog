@@ -89,13 +89,15 @@
       "word": "EBITDA",
       "issueNoLocal": 31,
       "phonetic": "/ˈiːbɪtdɑː/（或逐字母读作 E-B-I-T-D-A）",
-      "pos": "n.、free cash flow、non-GAAP）",
+      "pos": "n.",
       "posRaw": "n.（相关：operating income、depreciation、amortization、capital expenditure (capex)、free cash flow、non-GAAP）",
       "related": [
         "operating income",
         "depreciation",
         "amortization",
-        "capital expenditure (capex"
+        "capital expenditure (capex)",
+        "free cash flow",
+        "non-GAAP"
       ],
       "meaning": "【金融】息税折旧摊销前利润——Earnings Before Interest, Taxes, Depreciation and Amortization。在营业利润基础上**加回**利息、所得税、折旧与摊销，得到一个剔除融资结构、税制差异与会计折旧政策影响的「经营性现金创造能力」近似值，是杠杆收购与重资产行业最常用的估值锚",
       "gloss": "息税折旧摊销前利润",
@@ -110,14 +112,15 @@
       "word": "capital expenditure (capex)",
       "issueNoLocal": 31,
       "phonetic": "/ˈkæpɪtl ɪkˈspendɪtʃə/（缩写 capex /ˈkæpeks/）",
-      "pos": "n.、payback period）",
+      "pos": "n.",
       "posRaw": "n.（相关：EBITDA、free cash flow、depreciation、operating expense、return on invested capital (ROIC)、payback period）",
       "related": [
         "EBITDA",
         "free cash flow",
         "depreciation",
         "operating expense",
-        "return on invested capital (ROIC"
+        "return on invested capital (ROIC)",
+        "payback period"
       ],
       "meaning": "【金融】资本开支、资本性支出——企业为**购买、建设或升级长期资产**（厂房、设备、服务器、数据中心）而支出的资金。它与日常经营费用（opex）的关键区别在于：capex 先形成资产、在资产负债表上分期折旧，而不是当期一次性计入利润",
       "gloss": "资本开支、资本性支出",

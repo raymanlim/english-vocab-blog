@@ -20,10 +20,14 @@
       "word": "chunking",
       "issueNoLocal": 21,
       "phonetic": "/ˈtʃʌŋkɪŋ/",
-      "pos": "n.、embedding、context window、reranking、overlap）",
+      "pos": "n.",
       "posRaw": "n.（相关：retrieval-augmented generation (RAG)、embedding、context window、reranking、overlap）",
       "related": [
-        "retrieval-augmented generation (RAG"
+        "retrieval-augmented generation (RAG)",
+        "embedding",
+        "context window",
+        "reranking",
+        "overlap"
       ],
       "meaning": "【AI】分块——把长文档切分成较小文本单元（chunk）再向量化入库的过程，是检索增强生成（RAG）流水线的第一步。分块粒度直接决定检索质量：块太大，噪声稀释语义、浪费上下文预算；块太小，语义不完整、答案被切断。核心工程权衡是「语义完整性」与「检索精度」的对立",
       "gloss": "分块",

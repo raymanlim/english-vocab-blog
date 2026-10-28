@@ -20,13 +20,14 @@
       "word": "calibration",
       "issueNoLocal": 24,
       "phonetic": "/ˌkælɪˈbreɪʃn/",
-      "pos": "n.、abstention）",
+      "pos": "n.",
       "posRaw": "n.（相关：confidence、overconfidence、reliability diagram、expected calibration error (ECE)、abstention）",
       "related": [
         "confidence",
         "overconfidence",
         "reliability diagram",
-        "expected calibration error (ECE"
+        "expected calibration error (ECE)",
+        "abstention"
       ],
       "meaning": "【AI】校准——模型给出的置信度与其实际正确率之间的一致程度。一个校准良好的模型，在它自称 80% 把握的那些问题上，长期确实答对约 80%。它与「准确率」是两件不同的事：模型可以很准却过度自信，也可以不太准却清楚自己不确定",
       "gloss": "校准",

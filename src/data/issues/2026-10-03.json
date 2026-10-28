@@ -109,10 +109,14 @@
       "word": "dilution",
       "issueNoLocal": 22,
       "phonetic": "/daɪˈluːʃn/",
-      "pos": "n.、buyback、fully diluted shares、equity issuance、per-share value）",
+      "pos": "n.",
       "posRaw": "n.（相关：share-based compensation (SBC)、buyback、fully diluted shares、equity issuance、per-share value）",
       "related": [
-        "share-based compensation (SBC"
+        "share-based compensation (SBC)",
+        "buyback",
+        "fully diluted shares",
+        "equity issuance",
+        "per-share value"
       ],
       "meaning": "【金融】稀释——因增发新股、股权激励或可转债转股，使现有股东持股比例与每股收益被摊薄的现象。它不改变企业总价值，却直接减少每位股东对这份价值的索取权；长期看，它是「每股」指标与「总量」指标背离的主要原因",
       "gloss": "稀释",

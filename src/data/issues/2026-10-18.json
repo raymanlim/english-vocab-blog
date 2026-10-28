@@ -68,10 +68,15 @@
       "word": "process reward model (PRM)",
       "issueNoLocal": 37,
       "phonetic": "/ˈprəʊses rɪˈwɔːd ˈmɒdl/",
-      "pos": "n.、step-level supervision、math reasoning、verifier、best-of-N、Monte Carlo rollout）",
+      "pos": "n.",
       "posRaw": "n.（相关：outcome reward model (ORM)、step-level supervision、math reasoning、verifier、best-of-N、Monte Carlo rollout）",
       "related": [
-        "outcome reward model (ORM"
+        "outcome reward model (ORM)",
+        "step-level supervision",
+        "math reasoning",
+        "verifier",
+        "best-of-N",
+        "Monte Carlo rollout"
       ],
       "meaning": "【AI】过程奖励模型——对推理过程的**每一步**（而非仅最终答案）打分的奖励模型。它针对数学、代码等需要长链推理的任务：最终答案对错只能给一个整体信号（即 outcome reward），而 PRM 能指出推理链中从哪一步开始偏离正确路径，为 RL 训练与推理时搜索提供更密集、更细粒度的监督；训练它需要步骤级标注，或用「从某步起多次 rollout、用后续成功率反推该步质量」的自动构造法",
       "gloss": "过程奖励模型",

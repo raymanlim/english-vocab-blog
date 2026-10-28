@@ -20,11 +20,18 @@
       "word": "multimodal alignment",
       "issueNoLocal": 46,
       "phonetic": "/ˌmʌltiˈməʊdl əˈlaɪnmənt/",
-      "pos": "n.、contrastive learning、CLIP、alignment、embedding space、cross-modal、fusion、modality bridge）",
+      "pos": "n.",
       "posRaw": "n.（相关：multimodal、vision-language model (VLM)、contrastive learning、CLIP、alignment、embedding space、cross-modal、fusion、modality bridge）",
       "related": [
         "multimodal",
-        "vision-language model (VLM"
+        "vision-language model (VLM)",
+        "contrastive learning",
+        "CLIP",
+        "alignment",
+        "embedding space",
+        "cross-modal",
+        "fusion",
+        "modality bridge"
       ],
       "meaning": "【AI】多模态对齐——让不同模态（文本、图像、音频、视频）的内容在模型的表示空间中映射到相近的向量，使「一张猫的图片」与「cat」这个词在嵌入空间中的距离，小于该图片与「dog」的距离。这是视觉-语言模型（VLM）的核心机制：CLIP 通过对比学习把图像和文本拉进同一空间，GPT-4V 则在此基础上做指令微调和生成。对齐质量直接决定跨模态检索、图像问答、视频理解的准确度；对齐失败则会出现「指鹿为马」——模型看到马却输出 donkey，因为两者的文本嵌入在训练语料中过于接近",
       "gloss": "多模态对齐",
@@ -39,11 +46,19 @@
       "word": "test-time scaling",
       "issueNoLocal": 46,
       "phonetic": "/test taɪm ˈskeɪlɪŋ/",
-      "pos": "n.、reasoning model、o1、verifier、search、Monte Carlo tree search (MCTS)、compute-optimal、scaling law、emergent ability）",
+      "pos": "n.",
       "posRaw": "n.（相关：inference-time compute、chain-of-thought (CoT)、reasoning model、o1、verifier、search、Monte Carlo tree search (MCTS)、compute-optimal、scaling law、emergent ability）",
       "related": [
         "inference-time compute",
-        "chain-of-thought (CoT"
+        "chain-of-thought (CoT)",
+        "reasoning model",
+        "o1",
+        "verifier",
+        "search",
+        "Monte Carlo tree search (MCTS)",
+        "compute-optimal",
+        "scaling law",
+        "emergent ability"
       ],
       "meaning": "【AI】测试时扩展——在模型推理阶段投入更多计算资源以提升输出质量，而非在训练阶段扩大模型规模。OpenAI 的 o1 系列是典型范例：模型不再一次性输出答案，而是生成一条包含多步推理的思维链，过程中可调用搜索、验证、回溯等机制，「想得更久」以「答得更准」。这与传统的 scaling law（训练时堆数据、堆参数）形成互补：当高质量训练数据枯竭、模型基座能力接近天花板时，测试时扩展开辟了第二条增长曲线——用算力换智能，而非用数据换智能。代价是延迟与成本：用户等待时间从秒级延长到分钟级，Token 消耗量可能增加数十倍",
       "gloss": "测试时扩展",
@@ -85,7 +100,7 @@
       "word": "burn rate",
       "issueNoLocal": 46,
       "phonetic": "/bɜːrn reɪt/",
-      "pos": "n.、series A/B/C、bridge round、down round、recurring revenue、churn）",
+      "pos": "n.",
       "posRaw": "n.（相关：runway、cash runway、gross burn、net burn、unit economics、venture capital (VC)、series A/B/C、bridge round、down round、recurring revenue、churn）",
       "related": [
         "runway",
@@ -93,7 +108,14 @@
         "gross burn",
         "net burn",
         "unit economics",
-        "venture capital (VC"
+        "venture capital (VC)",
+        "series A",
+        "B",
+        "C",
+        "bridge round",
+        "down round",
+        "recurring revenue",
+        "churn"
       ],
       "meaning": "【金融】烧钱速度——公司每月消耗的现金净额（净烧钱速度 = 月收入 − 月支出；总烧钱速度 = 月总支出），通常用于初创公司语境，衡量「在资金耗尽前还能活多久」。与 runway（现金跑道 = 现金余额 ÷ 月烧钱速度）联合使用，是 VC 和创始人最关注的两组数字。烧钱速度本身不是坏事——高增长公司在扩张期故意烧大钱抢市场、建团队、投研发，关键问题是「烧出去的钱是否在有效转化为收入、用户或技术壁垒」。若烧钱速度上升但核心指标（收入、留存、单位经济）停滞，就是经典「烧钱换规模、规模不赚钱」的死亡螺旋",
       "gloss": "烧钱速度",

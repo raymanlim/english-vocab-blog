@@ -20,12 +20,14 @@
       "word": "ReAct",
       "issueNoLocal": 20,
       "phonetic": "/riˈækt/",
-      "pos": "n.、planning、observation）",
+      "pos": "n.",
       "posRaw": "n.（相关：agent loop、tool calling、chain-of-thought (CoT)、planning、observation）",
       "related": [
         "agent loop",
         "tool calling",
-        "chain-of-thought (CoT"
+        "chain-of-thought (CoT)",
+        "planning",
+        "observation"
       ],
       "meaning": "【AI】ReAct（Reason + Act，推理—行动循环）——一种让语言模型交替进行「推理」与「行动」的智能体范式：模型先输出一段推理（Thought），据此决定下一步调用什么工具（Action），执行结果作为观察（Observation）回填上下文，再进入下一轮推理。它把「一次性答题」变成「边想边做、依据反馈修正」的闭环，是当前绝大多数工具型智能体的基本骨架",
       "gloss": "ReAct",

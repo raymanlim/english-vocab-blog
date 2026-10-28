@@ -279,17 +279,36 @@ function parseWordFields(lines) {
   }
 }
 
-/** 从词性字段抽出「（相关：a、b、c）」 */
+/**
+ * 从词性字段抽出「（相关：a、b、c）」。
+ *
+ * 🔴 括号安全：相关词组内可能含嵌套 ASCII 括号（如 `vision-language model (VLM)`、
+ *    `chain-of-thought (CoT)`、`venture capital (VC)`、`capital expenditure (capex)`）。
+ *    旧正则 `[^)）]+` 会被里面的 `)` 提前截断，导致 related 腰斩、pos 串味。
+ *    现改为贪心匹配到行尾最后一个 `）`，完整容纳嵌套括号。
+ */
 function extractRelated(posText) {
   if (!posText) return [];
   const m = posText.match(
-    /[（(]\s*(?:相关|相关词|近义|同义|同义词|近义词|参见|see also)[：:]\s*([^)）]+)[)）]/i
+    /[（(]\s*(?:相关|相关词|近义|同义|同义词|近义词|参见|see also)[：:]\s*([\s\S]*)[)）]\s*$/i
   );
   if (!m) return [];
   return m[1]
     .split(/[、,，/]/)
     .map((s) => s.trim())
     .filter((s) => s && s.length < 40);
+}
+
+/**
+ * 从词性字段抽「词性前缀」：相关词组（若有）永远在末尾，
+ * 取 `（相关` 之前的内容即为词性（n. / adj./n. 等）。
+ * 无相关词组时整体即为词性。
+ */
+function extractPos(posText) {
+  if (!posText) return '';
+  const i = posText.indexOf('（相关');
+  const core = i === -1 ? posText : posText.slice(0, i);
+  return stripInline(core).trim();
 }
 
 function parseFile(file, indexMap) {
@@ -347,7 +366,7 @@ function parseFile(file, indexMap) {
       word: currentWord.word,
       issueNoLocal: currentWord.issueNoLocal,
       phonetic: (f['音标']?.first || '').trim(),
-      pos: stripInline(posRaw).replace(/[（(]\s*相关[：:][^)）]*[)）]/, '').trim(),
+      pos: extractPos(posRaw),
       posRaw: posRaw.trim(),
       related,
       meaning,

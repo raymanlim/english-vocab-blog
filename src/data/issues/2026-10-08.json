@@ -42,10 +42,14 @@
       "word": "self-consistency",
       "issueNoLocal": 27,
       "phonetic": "/ˌself kənˈsɪstənsi/",
-      "pos": "n.、majority voting、sampling temperature、test-time compute、ensemble）",
+      "pos": "n.",
       "posRaw": "n.（相关：chain-of-thought (CoT)、majority voting、sampling temperature、test-time compute、ensemble）",
       "related": [
-        "chain-of-thought (CoT"
+        "chain-of-thought (CoT)",
+        "majority voting",
+        "sampling temperature",
+        "test-time compute",
+        "ensemble"
       ],
       "meaning": "【AI】自洽性——一种推理增强的解码策略：对同一问题以较高温度**多次采样**生成多条推理路径，再对最终答案做**多数投票**，以得票最高者为输出。它不改变任何权重，只在推理时用额外算力换取更可靠的答案",
       "gloss": "自洽性",

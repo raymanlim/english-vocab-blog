@@ -71,10 +71,19 @@
       "word": "expert parallelism (EP)",
       "issueNoLocal": 45,
       "phonetic": "/ˈekspɜːt ˈpærəlelɪzəm/（缩写 EP）",
-      "pos": "n.、all-to-all、top-k routing、load balancing loss、expert capacity、token drop、grouped GEMM、data parallelism、tensor parallelism、pipeline parallelism）",
+      "pos": "n.",
       "posRaw": "n.（相关：mixture-of-experts (MoE)、all-to-all、top-k routing、load balancing loss、expert capacity、token drop、grouped GEMM、data parallelism、tensor parallelism、pipeline parallelism）",
       "related": [
-        "mixture-of-experts (MoE"
+        "mixture-of-experts (MoE)",
+        "all-to-all",
+        "top-k routing",
+        "load balancing loss",
+        "expert capacity",
+        "token drop",
+        "grouped GEMM",
+        "data parallelism",
+        "tensor parallelism",
+        "pipeline parallelism"
       ],
       "meaning": "【AI】专家并行——专门用于混合专家模型的并行方式：把不同的专家（expert，即独立的 FFN 子网络）分配到不同设备上，token 经路由后通过 all-to-all 通信被发送到持有对应专家的设备计算，再送回原设备。它与数据并行（每卡一份完整副本）、张量并行（切单层矩阵）、流水线并行（切层）都不同：EP 切的是「同一层内并列的专家」，因此是唯一能让模型容量随卡数增长、而单 token 计算量基本不变的并行方式。代价是 all-to-all 对网络极为敏感——它要求任意两张卡之间都能高效传输，是当前数据中心网络（NVLink 域、RDMA、光互连）需求的主要推手之一；此外路由不均会造成专家过载，需靠负载均衡损失与容量因子控制，超限的 token 会被直接丢弃",
       "gloss": "专家并行",

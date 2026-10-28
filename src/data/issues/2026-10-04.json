@@ -20,10 +20,14 @@
       "word": "instruction tuning",
       "issueNoLocal": 23,
       "phonetic": "/ɪnˈstrʌkʃn ˈtuːnɪŋ/",
-      "pos": "n.、post-training、alignment、demonstration、generalization）",
+      "pos": "n.",
       "posRaw": "n.（相关：supervised fine-tuning (SFT)、post-training、alignment、demonstration、generalization）",
       "related": [
-        "supervised fine-tuning (SFT"
+        "supervised fine-tuning (SFT)",
+        "post-training",
+        "alignment",
+        "demonstration",
+        "generalization"
       ],
       "meaning": "【AI】指令微调——在预训练模型之上，用「指令 → 期望回答」成对的高质量数据继续训练，使模型从「会补全文本」转变为「会听从指令完成任务」。它是基座模型（base model）变成可用助手（assistant）的关键一步，也是 post-training 阶段的第一环",
       "gloss": "指令微调",

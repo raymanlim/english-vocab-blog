@@ -20,11 +20,14 @@
       "word": "prefill",
       "issueNoLocal": 28,
       "phonetic": "/ˈpriːfɪl/",
-      "pos": "n.、KV cache、prompt caching、context window）",
+      "pos": "n.",
       "posRaw": "n.（相关：decode、time to first token (TTFT)、KV cache、prompt caching、context window）",
       "related": [
         "decode",
-        "time to first token (TTFT"
+        "time to first token (TTFT)",
+        "KV cache",
+        "prompt caching",
+        "context window"
       ],
       "meaning": "【AI】预填充——大模型推理的**第一个阶段**：把整段输入提示（系统提示 + 对话历史 + 用户问题）一次性、并行地送进模型，算出每个位置的中间状态并写入 KV 缓存。它决定首字延迟（TTFT），计算量随输入长度增长，属**计算密集型（compute-bound）**",
       "gloss": "预填充",
