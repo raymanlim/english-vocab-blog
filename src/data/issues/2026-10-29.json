@@ -1,0 +1,208 @@
+{
+  "date": "2026-10-29",
+  "issueNo": 47,
+  "issueSpan": 1,
+  "issueLabel": "第 47 期",
+  "issueNoLabel": "47",
+  "theme": "模型世界的「骨架、捷径与户口本」与商业世界的「天花板与速度」（Transformer 架构 / 低秩适配 / 知识图谱 / 潜在市场总额 / 年复合增长率）",
+  "themeRaw": "模型世界的「骨架、捷径与户口本」与商业世界的「天花板与速度」（Transformer 架构 / 低秩适配 / 知识图谱 / 潜在市场总额 / 年复合增长率）",
+  "note": "本期 5 词（3 AI + 2 金融），已与前 46 期 230 词去重",
+  "title": "每日英语 5 词 · 2026-10-29",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "transformer",
+      "issueNoLocal": 47,
+      "phonetic": "/trænsˈfɔːrmər/",
+      "pos": "n.",
+      "posRaw": "n.（相关：attention、positional encoding、residual connection、layer normalization、encoder、decoder、self-attention、multi-head attention、BERT、GPT、scaling law、RNN、LSTM）",
+      "related": [
+        "attention",
+        "positional encoding",
+        "residual connection",
+        "layer normalization",
+        "encoder",
+        "decoder",
+        "self-attention",
+        "multi-head attention",
+        "BERT",
+        "GPT",
+        "scaling law",
+        "RNN",
+        "LSTM"
+      ],
+      "meaning": "【AI】Transformer——2017 年 Google 论文《Attention Is All You Need》提出的神经网络架构，以自注意力机制完全取代此前 RNN/LSTM 的循环结构：所有 token 并行处理，注意力权重直接捕捉任意距离的依赖关系。它是当今所有大语言模型（GPT、Claude、LLaMA、DeepSeek）的共同骨架——编码器架构催生了 BERT，解码器架构催生了 GPT 系列。其并行性还释放了 GPU 的算力红利：没有 Transformer 就没有 scaling law，也就没有这轮 AI 浪潮。近年来 Vision Transformer 把它带进图像，State Space Model（SSM/Mamba）则试图在长序列上挑战它",
+      "gloss": "Transformer",
+      "example": "The transformer replaced recurrent networks because self-attention could ingest an entire sentence in parallel instead of one token at a time.",
+      "exampleCn": "Transformer 取代了循环网络，因为自注意力可以并行处理整个句子，而不是逐个 token 依次处理。",
+      "memory": "**记忆锚点**：transformer = **会议室里每个人同时看到所有人，而不是逐个传话**——RNN 像传话游戏，信息传到末尾早已走样；Transformer 让每个 token 直接「注视」所有其他 token。**为什么重要**：① 它是这轮 AI 革命的统一底座：从 GPT 到 Sora 再到 AlphaFold，底层全是 Transformer 或其变体（接续 attention / scaling law）；② 它解释了「为什么大模型突然可行」——并行性让训练从「串行等待」变成「堆 GPU 就行」，训练效率提升数量级；③ 它把架构创新的方向从「设计更巧妙的单元」转向「堆更多数据与算力」——LSTM 时代的精度雕花被 scaling law 的大力出奇迹取代；④ 它的变体正在向外扩张：ViT 吃图像，SSM 试图在长序列上挑战它，但骨架地位至今未被撼动。**关键权衡**：① 注意力复杂度随序列长度平方增长——这正是 KV cache、FlashAttention、长上下文研究要解决的问题（接续 KV cache / FlashAttention / long context）；② 编码器 vs 解码器——BERT 式双向理解适合分类检索，GPT 式单向生成适合写作对话，GPT 路线最终胜出是因为生成能力更通用；③ 位置信息——自注意力本身没有顺序概念，需要 positional encoding 注入位置（接续 positional encoding）；④ 稠密 vs 稀疏——MoE 在 Transformer 骨架上把前馈层换成专家路由，用稀疏激活换效率（接续 mixture-of-experts）。**实践要点**：① 理解任何模型新闻先看它是编码器、解码器还是混合架构，这决定了用途与训练方式；② 上下文长度并非越大越好，注意力在超长输入上会「失焦」，lost in the middle 问题依然存在（接续 lost in the middle）；③ 评估模型时区分架构红利与数据红利——同架构下数据质量的差距往往大于架构差距。**易混点**：transformer（架构名）与 attention（其中的核心机制）是整体与部分的关系；与 RNN/LSTM（被取代者）对比，最大区别是并行与全连接依赖；与 diffusion model 不同，后者是生成过程的渐进式去噪机制，且通常也构建在 Transformer 组件之上",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "low-rank adaptation (LoRA)",
+      "issueNoLocal": 47,
+      "phonetic": "/loʊ ræŋk ˌædæpˈteɪʃn/",
+      "pos": "n.",
+      "posRaw": "n.（相关：parameter-efficient fine-tuning (PEFT)、adapter、full fine-tuning、rank、weight matrix、quantization、QLoRA、merge、overfitting、catastrophic forgetting、inference）",
+      "related": [
+        "parameter-efficient fine-tuning (PEFT)",
+        "adapter",
+        "full fine-tuning",
+        "rank",
+        "weight matrix",
+        "quantization",
+        "QLoRA",
+        "merge",
+        "overfitting",
+        "catastrophic forgetting",
+        "inference"
+      ],
+      "meaning": "【AI】低秩适配——一种参数高效微调技术：训练时冻结预训练模型的全部权重，只为每一层注入一对可训练的低秩矩阵（秩 r 通常取 8–64），用它们的乘积近似权重更新量 ΔW。由于可训练参数从数十亿骤降到几百万（不足原模型参数量的 1%），单张消费级显卡即可微调大模型；训出的 LoRA 权重只有几十 MB，可随插随拔、多风格热切换，也可合并回基座消除额外延迟。它是开源社区微调模型的事实标准：Hugging Face 上绝大多数教学与助手模型都是「基座 + LoRA」，QLoRA（量化基座 + LoRA）进一步把门槛降到单卡 24GB",
+      "gloss": "低秩适配",
+      "example": "With LoRA, a hobbyist fine-tuned a 7B model on a single RTX 4090 — full fine-tuning of the same model would need a multi-GPU cluster.",
+      "exampleCn": "借助 LoRA，一位爱好者在单张 RTX 4090 上微调了一个 70 亿参数模型——同样的全参数微调需要多卡集群。",
+      "memory": "**记忆锚点**：LoRA = **不改装整辆车，只换一套可拆卸的轮胎**——原车（基座权重）锁定不动，换上运动胎就是赛道版，换上雪地胎就是越野版，随换随走。**为什么重要**：① 它把微调成本从「公司级」降到「个人级」，是开源模型生态爆发的直接推手（接续 parameter-efficient fine-tuning）；② 它让「一个基座 + N 个 LoRA」成为部署范式——线上按需加载不同风格/领域的能力，而不是部署 N 个独立大模型；③ 它揭示微调的本质：权重更新矩阵 ΔW 通常是低秩的，表达任务适应并不需要动用全部参数；④ 它是「改造 vs 重训」这一成本权衡的答案，让业务迭代速度提升一个量级。**关键权衡**：① 秩 r 的选择——r 越大表达越强但越接近全量微调（更贵、更易过拟合），r 太小则学不动复杂任务；② LoRA vs 全量微调——简单任务与风格迁移 LoRA 足够，知识密集型任务（注入大量新知识）仍需全量微调；③ 注入位置——只加在注意力矩阵 vs 加到全部线性层，后者效果更好但参数更多；④ 数据量——LoRA 数据效率高，但数据太少同样会过拟合，灾难性遗忘依然可能发生（接续 catastrophic forgetting）。**实践要点**：① 先用 LoRA 跑通流程再考虑全量微调，九成的需求 LoRA 都能解决；② 用 merged 模型做推理可消除额外延迟，但会失去「多 LoRA 热切换」的灵活性，按场景取舍；③ 配合 QLoRA（4-bit 量化基座 + LoRA）进一步压显存；④ 记录实验时把秩 r、target_modules、学习率一起记——同样的 LoRA 秩在不同注入位置效果差异巨大。**易混点**：LoRA（低秩适配）与 adapter（在网络中插入额外模块）都属 PEFT，但 LoRA 不增加推理层数且可合并；与 prefix tuning / prompt tuning 不同，后者只调输入侧前缀；与 quantization 是正交技术，可叠加为 QLoRA",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "knowledge graph",
+      "issueNoLocal": 47,
+      "phonetic": "/ˈnɒlɪdʒ ɡrɑːf/",
+      "pos": "n.",
+      "posRaw": "n.（相关：entity、relation、triple、node、edge、ontology、retrieval-augmented generation (RAG)、vector database、grounding、knowledge base、structured data、semantic search、graph database、SPARQL）",
+      "related": [
+        "entity",
+        "relation",
+        "triple",
+        "node",
+        "edge",
+        "ontology",
+        "retrieval-augmented generation (RAG)",
+        "vector database",
+        "grounding",
+        "knowledge base",
+        "structured data",
+        "semantic search",
+        "graph database",
+        "SPARQL"
+      ],
+      "meaning": "【AI】知识图谱——以「实体—关系—实体」三元组（如「苹果公司—总部位于—库比蒂诺」）为基本单元的结构化知识表示，节点是实体，边是它们之间的语义关系。与向量数据库的「模糊相似」不同，知识图谱保存的是精确、可查、可推理的结构化事实，常作为 RAG 系统的事实层：先用图谱检索确切关系，再让 LLM 组织语言，从而显著降低幻觉（grounding）。企业级应用包括客户画像、风控、供应链追踪、药品研发；搜索引擎的知识面板、推荐系统、智能客服也大量依赖它。短板是构造成本高、维护重、难以覆盖长尾事实",
+      "gloss": "知识图谱",
+      "example": "The RAG pipeline pulled exact facts from the knowledge graph before letting the LLM draft the answer, halving the hallucination rate seen with pure vector search.",
+      "exampleCn": "这条 RAG 流水线先从知识图谱取出确切事实，再让 LLM 组织答案，把纯向量检索下的幻觉率降了一半。",
+      "memory": "**记忆锚点**：knowledge graph = **一张写满「谁—和谁—什么关系」的关系网**——向量数据库像「找长得像的人」，知识图谱像「查户口本」，要的是确定的关系链。**为什么重要**：① 它补齐了 RAG 的短板：向量检索擅长语义相近、弱在精确事实与多跳关系，图谱恰好相反，两者互补是当前企业 RAG 的主流架构（接续 RAG / vector database / grounding）；② 它让「可解释」成为可能——答案的每条断言都能回溯到具体三元组，满足金融、医疗的合规要求；③ 它是多跳推理的天然载体：从「A 投资 B」到「B 的子公司 C」再到「C 的主营是 D」，向量检索几乎做不到，图谱一条路径查询即可；④ 它是「数据资产」最容易被低估的形态——企业多年积累的 ERP/CRM 数据清洗成图谱后，直接成为 AI 可用的知识层。**关键权衡**：① 精确 vs 模糊——图谱精确但覆盖窄、维护贵，向量库模糊但便宜通用，工程上常按查询类型分流；② 人工本体 vs 自动抽取——严格本体（schema）保证质量但扩展慢，LLM 自动抽取快但噪声高，需要人工审核回路；③ 静态 vs 动态——事实会过时（高管变动、股权变更），图谱需要持续更新机制，否则会给出「正确但过期」的答案；④ 规模——百万级实体的查询性能要靠图数据库与索引保证，不能靠内存硬扛。**实践要点**：① 不要一上来就建「全公司知识图谱」，从单一高价值场景（如供应商风控）做起；② 「LLM 做信息抽取 + 图数据库做存储查询 + 严格约束卡质量」是当前性价比最高的组合；③ 评估图谱质量看覆盖率、准确率、时效性三指标，其中时效性最容易被忽视；④ 把图谱检索与向量检索的结果在 prompt 中混合，让 LLM 自己取舍，比强行二选一更稳。**易混点**：knowledge graph（结构化事实网络）与 vector database（语义相似度存储）是两种互补的知识表示，不是替代关系；与 ontology（本体/概念 schema）不同，本体是图谱的「设计图纸」，图谱是按图纸建好的「楼」；与「思维导图」完全不同——后者是个人思考工具，前者是机器可查询的事实库",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "total addressable market (TAM)",
+      "issueNoLocal": 47,
+      "phonetic": "/ˈtoʊtl əˈdresəbl ˈmɑːrkɪt/",
+      "pos": "n.",
+      "posRaw": "n.（相关：serviceable available market (SAM)、serviceable obtainable market (SOM)、market size、compound annual growth rate (CAGR)、revenue、pitch deck、venture capital (VC)、market share、bottom-up、top-down、unit economics）",
+      "related": [
+        "serviceable available market (SAM)",
+        "serviceable obtainable market (SOM)",
+        "market size",
+        "compound annual growth rate (CAGR)",
+        "revenue",
+        "pitch deck",
+        "venture capital (VC)",
+        "market share",
+        "bottom-up",
+        "top-down",
+        "unit economics"
+      ],
+      "meaning": "【金融】潜在市场总额——一款产品或服务理论上可覆盖的全部市场需求规模，是融资路演与战略规划的第一页数字。TAM 不代表你能赚到的钱，只回答「天花板有多高」；其下方还有 SAM（可服务市场，受地域与渠道限制）与 SOM（可获得市场，受竞争与执行力限制）两层向下收缩。测算方法分两派：自上而下（行业报告规模 × 增长率）看起来权威但常脱离实际；自下而上（目标客户数 × 客单价 × 复购）更扎实、更经得起推敲。投资人真正在意的不是 TAM 的绝对值，而是推导逻辑——一个 1000 亿美元的 TAM 若来自「全球人口 × 1 美元」式的拍脑袋，比一个 50 亿美元但逐客户累加的 TAM 更没有说服力",
+      "gloss": "潜在市场总额",
+      "example": "The pitch deck claimed a $500 billion TAM, but investors balked: it was just \"global population times $1\" with no bottom-up validation.",
+      "exampleCn": "融资简报号称潜在市场总额有 5000 亿美元，但投资人并不买账——那不过是「全球人口乘 1 美元」，毫无自下而上的验证。",
+      "memory": "**记忆锚点**：TAM = **「全中国每个人都买一杯奶茶」**——听起来很大，但它只回答「天花板有多高」，不回答「你能卖出去几杯」；SAM 是「你家方圆五公里的人」，SOM 是「明天愿意排队的那些人」。**为什么重要**：① 它是 VC 判断「值不值得投」的第一滤网：市场太小，再优秀的团队也做不出大象（接续 venture capital / unit economics）；② 它决定融资叙事的骨架——TAM 大 + 增速快 + 你占 1% 就是好故事，TAM 小就只能讲利润率；③ 它是判断「故事 vs 现实」的试金石：TAM 的推导方法比数字本身更暴露团队对市场的理解深度；④ 在 AI 领域它正被快速重估——同一个「客服软件」市场，加上 AI 前缀后 TAM 可以讲高三倍，但实际付费意愿与预算可能完全没变。**关键权衡**：① 自上而下 vs 自下而上——前者快且唬人，后者慢但真实，审慎的投资人只信后者；② TAM/SAM/SOM 的边界——故意模糊 SAM 与 TAM 是路演常见把戏（把「可服务」包装成「全部」），识破它就能看穿叙事的成色；③ 静态 vs 动态——市场在增长，今日 TAM 五年后可能翻倍，但竞争者也在涌入，份额比规模更难守；④ 全球 vs 本地——跨国扩张可以放大 TAM，但本地化成本、合规、渠道也会同步吃掉利润。**实践要点**：① 永远要求创业者展示自下而上的 TAM 拆解——「客户数 × 客单价 × 年复购」三项缺一不可；② 用 TAM 除以公司当前收入得到「渗透率」，渗透率 < 1% 通常说明增长空间真实但执行风险高；③ 警惕 TAM 里的「重复计数」——把产业链上下游的产值全算进 TAM 是常见注水手法；④ 对 AI 公司，把 TAM 拆成「新增预算 vs 替换原有预算」，替换型 TAM 的估值倍数远低于新增型。**易混点**：TAM（理论总需求）与 SAM（可服务部分）、SOM（可获得部分）是逐层收缩的三个口径；与 market share（你已占的份额）不同，TAM 是整个池子的大小；与 revenue 更是两码事——TAM 千亿、收入为零的公司照样满街都是",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "compound annual growth rate (CAGR)",
+      "issueNoLocal": 47,
+      "phonetic": "/ˈkɑːmpaʊnd ˈænjuəl ɡroʊθ reɪt/",
+      "pos": "n.",
+      "posRaw": "n.（相关：revenue growth、total addressable market (TAM)、geometric mean、arithmetic mean、volatility、smoothing、multiple、compounding、mean reversion、DCF、inflation、real return）",
+      "related": [
+        "revenue growth",
+        "total addressable market (TAM)",
+        "geometric mean",
+        "arithmetic mean",
+        "volatility",
+        "smoothing",
+        "multiple",
+        "compounding",
+        "mean reversion",
+        "DCF",
+        "inflation",
+        "real return"
+      ],
+      "meaning": "【金融】年复合增长率——一笔投资或一项业务在多年期内「每年等比增长」的统一化速率，公式为（期末值 ÷ 期初值）^（1÷年数）− 1。它把参差不齐的年度增速抹平成一个可比较的单一数字：三年从 100 到 200，听起来「翻倍」，但 CAGR 只有约 26%，与「每年稳定增长 26%」是同一个意思。CAGR 的价值在于跨主体比较——两家公司、两个行业、两个市场的长期增速可以同台对垒；也在于戳破「平均增速」的把戏：把 +100% 与 −20% 算术平均得到 40%，但几何口径只有 24.5%，算术平均永远高估真实复合增速",
+      "gloss": "年复合增长率",
+      "example": "Revenue \"averaged 40% a year,\" but the CAGR told the real story: one doubling year and one declining year compounded to just 24.5%.",
+      "exampleCn": "营收「年均增长 40%」，但 CAGR 说了实话：一年翻倍、一年下滑，年复合增长率只有 24.5%。",
+      "memory": "**记忆锚点**：CAGR = **复利的「稳定档位」**——就像把颠簸的山路换算成「全程匀速爬坡」，这个匀速坡度才适合和别的山比谁更高。**为什么重要**：① 它是衡量长期增长唯一诚实的口径：算术平均会被极端值「骗高一倍」，几何口径（CAGR）才反映真实的复利路径（接续 compounding / mean reversion）；② 它是估值的底层输入：DCF 里永续增长率的假设本质上就是对 CAGR 的判断，高估 5 个百分点，估值可以差一倍（接续 DCF）；③ 它让不同期限可比——3 年 3 倍与 7 年 8 倍，换算成 CAGR 才能直接对比；④ 它揭示波动的代价：同样的 CAGR 下，波动越大的路径实际体验越差，「先大亏后回本」对长期复利是毁灭性的。**关键权衡**：① 起点与终点的选择——挑一个低谷作起点、一个峰值作终点，CAGR 可以被随意美化，看区间必须结合波动；② 短期 vs 长期——1 年 CAGR 毫无意义（就是单年增速），5–10 年才反映真实动能；③ 名义 vs 实际——高通胀时代的名义 CAGR 会虚增真实增长，长期比较要用实际口径（接续 inflation / real return）；④ 历史 vs 前瞻——历史 CAGR 用来排雷，前瞻 CAGR 用来定价，两者常常严重背离。**实践要点**：① 看到「平均增速」先问是算术还是几何，年度波动大时算术平均能虚高 10 个百分点以上；② 计算区间内曾有大额增发或并购的公司时，收入 CAGR 要打折——增长可能是买来的，不是赚来的；③ 用 72 法则速查：72 ÷ CAGR ≈ 翻倍年数（CAGR 24% 约三年翻倍），谈判与速算时极好用；④ 把公司 CAGR 与行业 CAGR 并排——持续低于行业的 CAGR 意味着份额在流失，哪怕绝对增速还看得过去。**易混点**：CAGR（几何口径的年化增速）与 arithmetic mean growth rate（算术平均增速）区别在于是否考虑复利，前者总不高于后者；与 compounding（复利这一机制）不同，CAGR 是衡量复利速度的度量单位；与同期的 TAM 是一对常被捆绑使用的指标——「TAM × CAGR」几乎每个融资简报都会出现",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [
+    {
+      "no": "1",
+      "word": "transformer",
+      "phonetic": "/trænsˈfɔːrmər/",
+      "domain": "AI",
+      "point": "所有人同时看到所有人；自注意力以并行取代循环，释放算力红利，GPT/BERT 的共同骨架"
+    },
+    {
+      "no": "2",
+      "word": "low-rank adaptation (LoRA)",
+      "phonetic": "/loʊ ræŋk ˌædæpˈteɪʃn/",
+      "domain": "AI",
+      "point": "换轮胎不换整车；冻结基座只训低秩矩阵，单卡微调大模型，权重随插随换"
+    },
+    {
+      "no": "3",
+      "word": "knowledge graph",
+      "phonetic": "/ˈnɒlɪdʒ ɡrɑːf/",
+      "domain": "AI",
+      "point": "查户口本而非找相似；实体-关系三元组存精确事实，与向量库互补做 RAG 事实层"
+    },
+    {
+      "no": "4",
+      "word": "total addressable market (TAM)",
+      "phonetic": "/ˈtoʊtl əˈdresəbl ˈmɑːrkɪt/",
+      "domain": "金融",
+      "point": "天花板有多高；理论总需求，SAM/SOM 逐层收缩，投资人看推导逻辑而非数字"
+    },
+    {
+      "no": "5",
+      "word": "compound annual growth rate (CAGR)",
+      "phonetic": "/ˈkɑːmpaʊnd ˈænjuəl ɡroʊθ reɪt/",
+      "domain": "金融",
+      "point": "匀速爬坡的复利档位；几何口径年化增速，专治算术平均的虚高"
+    }
+  ],
+  "comparisons": [],
+  "progress": [
+    "本期：第 47 期，5 词",
+    "累计：**235 词**（141 AI + 94 金融）",
+    "归档格式：MD 词卡 + KAMI One-Pager PNG + Telegram 推送"
+  ]
+}

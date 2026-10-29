@@ -1,16 +1,39 @@
 {
-  "generatedAt": "2026-10-28T18:42:24.182Z",
+  "generatedAt": "2026-10-29T15:26:36.266Z",
   "source": "pinghe/english words",
   "totals": {
-    "issues": 46,
-    "days": 45,
-    "words": 230,
-    "ai": 138,
-    "finance": 92,
+    "issues": 47,
+    "days": 46,
+    "words": 235,
+    "ai": 141,
+    "finance": 94,
     "both": 0,
     "other": 0
   },
   "issues": [
+    {
+      "date": "2026-10-29",
+      "issueNo": 47,
+      "issueSpan": 1,
+      "issueLabel": "第 47 期",
+      "issueNoLabel": "47",
+      "theme": "模型世界的「骨架、捷径与户口本」与商业世界的「天花板与速度」（Transformer 架构 / 低秩适配 / 知识图谱 / 潜在市场总额 / 年复合增长率）",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 46 期 230 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "transformer",
+        "low-rank adaptation (LoRA)",
+        "knowledge graph",
+        "total addressable market (TAM)",
+        "compound annual growth rate (CAGR)"
+      ]
+    },
     {
       "date": "2026-10-28",
       "issueNo": 46,
