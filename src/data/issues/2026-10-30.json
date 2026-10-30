@@ -1,0 +1,206 @@
+{
+  "date": "2026-10-30",
+  "issueNo": 48,
+  "issueSpan": 1,
+  "issueLabel": "第 48 期",
+  "issueNoLabel": "48",
+  "theme": "训练配方里的三个隐形旋钮 · 定价桌上的两个隐形前提（优化器 / 激活函数 / 权重衰减 / 定价权 / 价格弹性）",
+  "themeRaw": "训练配方里的三个隐形旋钮 + 定价桌上的两个隐形前提（优化器 / 激活函数 / 权重衰减 / 定价权 / 价格弹性）",
+  "note": "本期 5 词（3 AI + 2 金融），已与前 47 期 235 词去重",
+  "title": "每日英语 5 词 · 2026-10-30",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "optimizer",
+      "issueNoLocal": 48,
+      "phonetic": "/ˈɑːptɪmaɪzər/",
+      "pos": "n.",
+      "posRaw": "n.（相关：Adam、AdamW、SGD、momentum、learning rate、weight decay、gradient descent、backpropagation、convergence、loss landscape、warmup、batch size、moment estimate）",
+      "related": [
+        "Adam",
+        "AdamW",
+        "SGD",
+        "momentum",
+        "learning rate",
+        "weight decay",
+        "gradient descent",
+        "backpropagation",
+        "convergence",
+        "loss landscape",
+        "warmup",
+        "batch size",
+        "moment estimate"
+      ],
+      "meaning": "【AI】优化器——决定「算出梯度之后，参数到底怎么挪」的那套更新规则，是训练配置里除学习率之外最关键的默认项。梯度下降只告诉你下坡方向，优化器决定你走多大步、要不要带上一步的惯性、要不要对每个参数用不同步长。三代主流：SGD + momentum（简单、泛化好，但调参辛苦）；Adam（对每个参数自适应缩放步长，2015 年起成为默认）；AdamW（把权重衰减从梯度里解耦出来，2019 年起成为大模型事实标准）。今天几乎所有 LLM 的训练配置表里写的都是 AdamW，β₁=0.9、β₂=0.95、ε=1e-8 这组数字几乎是行业通用默认值",
+      "gloss": "优化器",
+      "example": "The paper's training recipe fit on one line: AdamW with a peak learning rate of 3e-4, a 2,000-step warmup, and cosine decay — the optimizer mattered more than any architecture tweak they tried.",
+      "exampleCn": "这篇论文的训练配方一行就能写完：AdamW、峰值学习率 3e-4、2000 步预热、余弦衰减——优化器带来的差异比他们试过的任何架构改动都大。",
+      "memory": "**记忆锚点**：optimizer = **下山的走法**——梯度只说「下坡在哪个方向」，优化器决定「一步迈多大、要不要借上一步的惯性、要不要对陡坡和缓坡用不同步幅」。同一条山路，不同走法能差出几倍时间。**为什么重要**：① 它是最容易被忽略、却直接决定「模型能不能训起来」的变量：同一架构、同一数据，换优化器可以导致收敛失败或收敛快一倍；② Adam 的自适应步长解决了「不同参数梯度量级差几个数量级」的问题，这是深度网络能训练的直接原因之一（接续 gradient descent / backpropagation）；③ AdamW 的「解耦权重衰减」是一次纯工程发现——把正则项从梯度里拿出来单独施加，泛化明显变好，从此成为大模型标配（接续 weight decay）；④ 它解释了为什么复现别人的结果这么难：论文常只报峰值学习率和优化器名，warmup 步数、β₂、梯度裁剪阈值这些「次要参数」往往才是复现失败的真凶。**关键权衡**：① SGD vs Adam——SGD 泛化常更好但极依赖调参，Adam 开箱即用但有时泛化略差，视觉任务里这个争论至今未停；② 学习率与优化器强耦合——Adam 的合适学习率比 SGD 小一到两个数量级，换了优化器必须重调学习率，不能照搬；③ 显存开销——Adam 要为每个参数存一阶、二阶动量，显存占用是参数量的 3 倍（权重 + 两个动量），这是 ZeRO 要切分的主要对象（接续 ZeRO）；④ 大批量训练——batch size 变大时学习率要同步上调（线性缩放规则），否则等效步数变少、收敛变慢（接续 batch size）。**实践要点**：① 读模型技术报告先看优化器与学习率调度，比看架构图更能判断训练是否「下了功夫」；② 微调大模型时 AdamW + 小学习率（1e-5 ~ 2e-4）+ 短 warmup 是安全起点，别一上来就调 β；③ 训练不稳定（loss 尖刺）优先查三处：学习率是否过高、梯度裁剪是否缺失、warmup 是否太短；④ 记录实验时把优化器全部超参写进配置——只写「用了 AdamW」等于没写。**易混点**：optimizer（更新参数的算法）与 loss function（衡量错多少的标尺）是两个正交组件，一个管方向对不对、一个管怎么走；与 learning rate scheduler（步长随训练进程怎么变）不同，优化器管「怎么用这个步长」，调度器管「步长本身多大」；与 backpropagation 不同，后者只负责算梯度，不负责用梯度",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "activation function",
+      "issueNoLocal": 48,
+      "phonetic": "/ˌæktɪˈveɪʃn ˈfʌŋkʃn/",
+      "pos": "n.",
+      "posRaw": "n.（相关：ReLU、GELU、SiLU、SwiGLU、sigmoid、tanh、non-linearity、feed-forward network、dead neuron、gradient vanishing、universal approximation、MLP）",
+      "related": [
+        "ReLU",
+        "GELU",
+        "SiLU",
+        "SwiGLU",
+        "sigmoid",
+        "tanh",
+        "non-linearity",
+        "feed-forward network",
+        "dead neuron",
+        "gradient vanishing",
+        "universal approximation",
+        "MLP"
+      ],
+      "meaning": "【AI】激活函数——神经网络每层输出后套的那个非线性变换，作用是把「一堆线性矩阵乘法」掰弯，让网络有能力拟合非线性关系；没有它，一百层堆叠在数学上等价于一层。演进史就是一部「怎么让梯度更好流」的历史：sigmoid/tanh 会把梯度压扁导致深层网络训不动（梯度消失）；ReLU（2011 年起）用「负数归零、正数照传」让梯度在正区间恒为 1，一举解锁深网络，但有「神经元死亡」问题；GELU（BERT/GPT 系）用平滑版 ReLU 缓解；SwiGLU（LLaMA 系起）把门控机制引入前馈层，用约 1.5 倍的参数量换来明显更好的效果，已成为当代 LLM 前馈层的默认选择",
+      "gloss": "激活函数",
+      "example": "Swapping ReLU for SwiGLU in the feed-forward block gave a consistent loss improvement, at the cost of roughly 50% more parameters in that layer.",
+      "exampleCn": "把前馈层的 ReLU 换成 SwiGLU 带来了稳定的损失下降，代价是该层参数量增加约 50%。",
+      "memory": "**记忆锚点**：activation function = **每层之间的那道「弯」**——全是直线连接的网络，堆一万层也还是一条直线；激活函数负责在每一层拐个弯，堆得够多就能画出任意曲线。**为什么重要**：① 它是「深度」这件事成立的前提：没有非线性，深度毫无意义（接续 universal approximation）；② 它决定了梯度能不能传到底层——sigmoid 在饱和区导数趋近 0，十几层之后梯度就消失了，这是 2010 年前深度学习停滞的核心技术原因（接续 gradient vanishing）；③ 它是模型卡里最常被一笔带过、却直接影响参数量与算力预算的选项：SwiGLU 让前馈层参数增加约 50%，直接抬高显存与 FLOPs（接续 memory-bound）；④ 它的演进展示了深度学习的一条通用规律——**结构上微小的平滑化改动，往往比宏大的新架构更有效**。**关键权衡**：① ReLU vs GELU vs SwiGLU——越往后效果越好、算力越贵，小模型上差距可能不值那 50% 参数；② 平滑 vs 稀疏——ReLU 输出稀疏（省算力、可解释），GELU/SwiGLU 稠密（表达强、更贵）；③ 死亡神经元——ReLU 一旦输入长期为负就永久失活，用 LeakyReLU 或调小学习率可缓解；④ 与归一化的耦合——pre-norm 架构下激活函数的选择影响被削弱，改动收益不如 post-norm 时代明显（接续 layer normalization）。**实践要点**：① 读模型卡看到 SwiGLU，就知道它的前馈层参数比同 hidden size 的 ReLU 版本多约 50%，估算显存时要算进去；② 自己训小模型时先用 GELU 打底，效果不够再换 SwiGLU，不要一上来追新；③ 训练发散时检查激活函数输出范围——输出无界的（ReLU 系）更需要梯度裁剪；④ 对比不同论文的参数量时先确认激活函数与 FFN 倍率，否则数字不可比。**易混点**：activation function（层内的非线性变换）与 softmax（输出层把分数转成概率）不是一类东西，后者是归一化而非激活；与 attention（token 之间的信息路由）正交，一个管层内非线性、一个管跨位置交互；与 dropout（训练时随机失活）也不同，前者是确定性函数，后者是随机正则",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "weight decay",
+      "issueNoLocal": 48,
+      "phonetic": "/weɪt dɪˈkeɪ/",
+      "pos": "n.",
+      "posRaw": "n.（相关：regularization、L2 penalty、overfitting、AdamW、learning rate、dropout、early stopping、generalization、decoupled、shrinkage、norm penalty）",
+      "related": [
+        "regularization",
+        "L2 penalty",
+        "overfitting",
+        "AdamW",
+        "learning rate",
+        "dropout",
+        "early stopping",
+        "generalization",
+        "decoupled",
+        "shrinkage",
+        "norm penalty"
+      ],
+      "meaning": "【AI】权重衰减——每次参数更新时额外把权重往零的方向拉一点点（w = w − λ·w），本质是对大权重施加惩罚，迫使模型用更小、更分散的权重去拟合数据，从而抑制过拟合、改善泛化。传统做法是把 λ‖w‖² 加进损失函数（L2 正则），但 2019 年的 AdamW 发现：在自适应优化器里这样做会被动量与二阶矩缩放掉，等效正则强度随参数而变；正确做法是把它从梯度里「解耦」出来单独施加。这个看似纯工程的修正带来了稳定的泛化提升，如今几乎所有大模型训练都写 AdamW + weight decay 0.1",
+      "gloss": "权重衰减",
+      "example": "They kept the learning rate fixed and only raised weight decay from 0.01 to 0.1 — validation loss dropped even though training loss went up, which is exactly what better regularization looks like.",
+      "exampleCn": "他们固定学习率，只把权重衰减从 0.01 提到 0.1——验证损失下降了，尽管训练损失上升，这正是「正则化起作用」的样子。",
+      "memory": "**记忆锚点**：weight decay = **每次复习都顺手把笔记精简一遍**——不让你把每个细节都死记硬背（大权重＝死记硬背），逼你留下能推广的骨架。训练损失变差、验证损失变好，就是它生效的信号。**为什么重要**：① 它是「泛化」最便宜的一味药：不增加数据、不改架构，只改一个系数，就能显著缩小训练集与验证集的差距（接续 overfitting / dropout / early stopping）；② 它解释了深度学习里一个反直觉现象——**训练误差更高，模型反而更好**，这是所有正则化手段的共同签名；③ AdamW 的解耦发现说明「优化器与正则化的相互作用」本身是研究对象，不是可以想当然的细节（接续 optimizer）；④ 它是大模型训练配方里少数几个「几乎不用调、直接用 0.1」的参数，属于行业沉淀下来的默认值。**关键权衡**：① 太弱 vs 太强——λ 太小抑制不住过拟合，太大会把有用的大权重也压掉，模型欠拟合、容量被浪费；② 与学习率耦合——weight decay 的实际强度约等于 λ × 学习率，改学习率必须同步复查 λ，这是最常见的隐性错误；③ L2 正则 vs 解耦衰减——在 SGD 下两者等价，在 Adam 下不等价，只有后者是正确的；④ 与 dropout 的选择——两者都抑制过拟合但机制不同，大模型上通常用 weight decay 而少用 dropout（dropout 会拖慢收敛）。**实践要点**：① 判断是否生效看「训练损失↑、验证损失↓」这个组合，只看训练损失会误判为变差；② 微调时 weight decay 常设 0.01 而非预训练的 0.1，因为不想把预训练学到的权重压得太狠；③ 出现 loss 爆炸时优先降学习率而不是降 weight decay，两者作用点不同；④ 复现实验时务必记录 λ，它是「次要参数」里最容易导致复现失败的一个（与 warmup 并列）。**易混点**：weight decay（解耦式权重收缩）与 L2 regularization（损失函数里的惩罚项）在 SGD 下等效、在 Adam 下不等效，AdamW 的 W 就是「解耦」的意思；与 dropout（随机失活神经元）不同，前者作用于权重数值、后者作用于激活；与 early stopping（提前停训）不同，一个是每步施加的力，一个是停止条件",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "pricing power",
+      "issueNoLocal": 48,
+      "phonetic": "/ˈpraɪsɪŋ ˈpaʊər/",
+      "pos": "n.",
+      "posRaw": "n.（相关：inflation、gross margin、pass-through、price elasticity、moat、market share、commoditization、switching cost、average selling price (ASP)、operating leverage、customer concentration）",
+      "related": [
+        "inflation",
+        "gross margin",
+        "pass-through",
+        "price elasticity",
+        "moat",
+        "market share",
+        "commoditization",
+        "switching cost",
+        "average selling price (ASP)",
+        "operating leverage",
+        "customer concentration"
+      ],
+      "meaning": "【金融】定价权——企业在不显著流失客户的前提下提价的能力，是商业模式质量最核心、也最少被单独披露的指标。它不写在任何一张财务报表里，却决定毛利率能否在成本上涨时守住：有定价权的公司（台积电的先进制程、ASML 的 EUV、茅台、苹果的服务）能把成本上涨转嫁给下游；没有定价权的公司（大宗材料贸易、代工组装、同质化 SaaS）只能自己吞下成本，毛利率被通胀一点点磨掉。它的来源通常是四样：转换成本、网络效应、品牌、以及真实的供给稀缺。巴菲特的「护城河」最终都要落到「能不能涨价」这一个测试上",
+      "gloss": "定价权",
+      "example": "Management called 2022 \"a year of strong pricing power\" — they raised prices 12% and volumes still grew, which is the cleanest proof a moat exists.",
+      "exampleCn": "管理层把 2022 年称为「定价权强劲的一年」——提价 12% 而销量仍在增长，这是护城河存在最干净的证据。",
+      "memory": "**记忆锚点**：pricing power = **涨价之后客户还留着**——不是「我想涨多少」，而是「我涨了之后你还买不买」。提价 10%、销量掉 2% 是定价权；提价 10%、销量掉 15% 是自欺。**为什么重要**：① 它是通胀环境下唯一真正的护城河测试：成本普涨时，有定价权的公司毛利率扩张，没有的毛利率收缩，一次通胀就把两类公司彻底分开（接续 inflation / economic moat）；② 它比「市场份额」更能反映竞争格局——靠降价换来的份额是借来的，靠提价守住的份额才是真的（接续 market share）；③ 它是判断 B2B 材料生意的核心尺子：客户认证周期长、切换成本高（如半导体材料进产线要重新验证），定价权天然强于标准品贸易，这正是「卖方案」与「卖吨位」的分水岭（接续 switching cost / ASP）；④ 它在财报电话会上是最常被追问、也最容易被含糊其辞带过的问题——管理层的措辞本身就是信号。**关键权衡**：① 短期 vs 长期——一次性大幅提价能美化当年利润，但会加速客户寻找替代品，定价权是被消耗的存量；② 定价权 vs 份额——提价保利润还是降价抢份额，是每个周期行业都要做的取舍，选错方向会把公司钉在低端；③ 成本推动 vs 需求拉动——前者是被动转嫁（能转嫁已属不易），后者才是真定价权，两者在财报上的表现相似但可持续性天差地别；④ 客户集中度——单一客户占比过高时，名义上的定价权在谈判桌上会被瞬间收回（接续 customer concentration）。**实践要点**：① 验证定价权只看一个组合：**提价幅度 + 销量变化 + 毛利率变化**，三者同向才算成立；② 听电话会时搜 \"price increase\"、\"pass-through\"、\"mix shift\"，管理层的具体数字比形容词可靠；③ 对材料与零部件生意，把「客户认证周期」当作定价权的代理指标——认证越久，切换越难，议价越强；④ 警惕「结构性提价」的叙事：靠产品结构升级（卖更贵的型号）带来的均价上升，不等于同款产品能涨价，两者要分开看（接续 ASP）。**易混点**：pricing power（能否涨价）与 price elasticity（涨价后需求掉多少）是一体两面，前者是能力、后者是度量；与 market power（市场支配地位，含反垄断含义）不同，定价权可以存在于很小的细分市场；与 brand（品牌）不同，品牌只是定价权的来源之一，且不是充分条件——很多知名品牌照样没有提价空间",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "price elasticity",
+      "issueNoLocal": 48,
+      "phonetic": "/praɪs ɪˌlæˈstɪsəti/",
+      "pos": "n.",
+      "posRaw": "n.（相关：demand curve、substitute、inelastic、pass-through、pricing power、revenue、volume、churn、inflation、unit economics、cross elasticity、income elasticity）",
+      "related": [
+        "demand curve",
+        "substitute",
+        "inelastic",
+        "pass-through",
+        "pricing power",
+        "revenue",
+        "volume",
+        "churn",
+        "inflation",
+        "unit economics",
+        "cross elasticity",
+        "income elasticity"
+      ],
+      "meaning": "【金融】价格弹性——需求量对价格变化的敏感程度，公式为「需求量变动百分比 ÷ 价格变动百分比」。弹性大于 1（富有弹性）意味着提价会减少总收入：涨 10%、销量掉 20%，收入反而下降；弹性小于 1（缺乏弹性）意味着提价能增加收入：涨 10%、销量只掉 3%。必需品的短期弹性通常很低（药、燃料、认证过的工业材料），可选消费与同质化商品弹性很高（旅游、标准件、纯代工）。它是定价决策的数学底座：任何一次提价，最终都要回到「涨多少 × 掉多少」这一个乘法上",
+      "gloss": "价格弹性",
+      "example": "Demand for the certified material was highly inelastic in the short run — customers had no qualified second source, so a 15% increase barely moved volumes.",
+      "exampleCn": "这款认证材料的需求在短期内高度缺乏弹性——客户没有合格的第二供应商，因此 15% 的提价几乎没影响销量。",
+      "memory": "**记忆锚点**：price elasticity = **涨价这道题的「掉多少」**——涨 10% 之后销量掉 2%（弹性 0.2）还是掉 25%（弹性 2.5），决定了这次提价是加分还是自杀。**为什么重要**：① 它是定价决策唯一的定量依据：收入 = 价格 × 数量，两个因子反向变动，不看弹性就无法判断提价到底是增收还是减收；② 它把「定价权」从形容词变成数字——定价权强 = 弹性低，两者是同一件事的两种说法（接续 pricing power）；③ 它解释了为什么通胀对不同行业杀伤力不同：弹性低的行业能把成本转嫁出去（接续 inflation / pass-through）；④ 它是半导体材料这类生意的核心经济学——客户切换供应商要重新做可靠性验证，短期弹性接近零，这正是高毛利的来源，但长期弹性会随第二供应商成熟而快速上升。**关键权衡**：① 短期 vs 长期——短期弹性普遍低（合同、认证、习惯锁定），长期弹性高（替代方案终会出现），用短期弹性做长期定价是经典错误；② 提价 vs 销量目标——若公司考核销量，销售团队会本能抵制提价，激励结构决定了弹性被如何对待；③ 单一提价 vs 分层定价——对不同弹性客群定不同价格（学生票、大客户长约）能把总收入最大化，但需要可执行的区隔机制；④ 弹性估计的可靠性——历史数据估出的弹性在结构变化（新进入者、技术替代）后会失效，不能外推太远。**实践要点**：① 算一次提价的收入影响只需两个数：提价幅度、预期销量变化，先算再谈；② 判断弹性高低看四件事：替代品多少、切换成本、该支出占客户总成本的比例、是必需品还是可选品；③ B2B 场景里「认证周期」和「第二供应商状态」是弹性的最强预测变量，比历史价格数据更前瞻；④ 看到「提价后销量不降」先别急着庆祝，确认不是渠道提前囤货或合同锁价造成的滞后反应。**易混点**：price elasticity（价格变动引起需求量变动）与 income elasticity（收入变动引起需求变动）不同，后者解释高端消费品的周期属性；与 cross elasticity（A 涨价引起 B 需求变动）不同，后者用于判断两家公司是不是真正的竞品；与 pricing power 是度量与能力的关系——弹性是尺子，定价权是被量出来的东西",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [
+    {
+      "no": "1",
+      "word": "optimizer",
+      "phonetic": "/ˈɑːptɪmaɪzər/",
+      "domain": "AI",
+      "point": "下山的走法；梯度给方向、优化器定步幅与惯性，AdamW 已成大模型默认"
+    },
+    {
+      "no": "2",
+      "word": "activation function",
+      "phonetic": "/ˌæktɪˈveɪʃn ˈfʌŋkʃn/",
+      "domain": "AI",
+      "point": "每层之间那道弯；无非线性则深度无意义，SwiGLU 以 +50% 参数换效果"
+    },
+    {
+      "no": "3",
+      "word": "weight decay",
+      "phonetic": "/weɪt dɪˈkeɪ/",
+      "domain": "AI",
+      "point": "每次更新往零拉一点；训练损失↑验证损失↓即生效，AdamW 的 W 就是解耦"
+    },
+    {
+      "no": "4",
+      "word": "pricing power",
+      "phonetic": "/ˈpraɪsɪŋ ˈpaʊər/",
+      "domain": "金融",
+      "point": "涨价后客户还留着；不写在报表里，却决定通胀时毛利率是扩张还是收缩"
+    },
+    {
+      "no": "5",
+      "word": "price elasticity",
+      "phonetic": "/praɪs ɪˌlæˈstɪsəti/",
+      "domain": "金融",
+      "point": "涨价这道题的「掉多少」；弹性 <1 提价增收，>1 提价自杀，认证周期是其最强预测变量"
+    }
+  ],
+  "comparisons": [],
+  "progress": [
+    "本期：第 48 期，5 词",
+    "累计：**240 词**（144 AI + 96 金融）",
+    "归档格式：MD 词卡 + KAMI One-Pager PNG + Telegram 推送"
+  ]
+}

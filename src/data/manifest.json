@@ -1,16 +1,39 @@
 {
-  "generatedAt": "2026-10-29T15:26:36.266Z",
+  "generatedAt": "2026-10-30T03:36:03.233Z",
   "source": "pinghe/english words",
   "totals": {
-    "issues": 47,
-    "days": 46,
-    "words": 235,
-    "ai": 141,
-    "finance": 94,
+    "issues": 48,
+    "days": 47,
+    "words": 240,
+    "ai": 144,
+    "finance": 96,
     "both": 0,
     "other": 0
   },
   "issues": [
+    {
+      "date": "2026-10-30",
+      "issueNo": 48,
+      "issueSpan": 1,
+      "issueLabel": "第 48 期",
+      "issueNoLabel": "48",
+      "theme": "训练配方里的三个隐形旋钮 · 定价桌上的两个隐形前提（优化器 / 激活函数 / 权重衰减 / 定价权 / 价格弹性）",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 47 期 235 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "optimizer",
+        "activation function",
+        "weight decay",
+        "pricing power",
+        "price elasticity"
+      ]
+    },
     {
       "date": "2026-10-29",
       "issueNo": 47,
