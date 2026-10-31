@@ -1,16 +1,39 @@
 {
-  "generatedAt": "2026-10-30T03:36:03.233Z",
+  "generatedAt": "2026-10-31T03:38:24.371Z",
   "source": "pinghe/english words",
   "totals": {
-    "issues": 48,
-    "days": 47,
-    "words": 240,
-    "ai": 144,
-    "finance": 96,
+    "issues": 49,
+    "days": 48,
+    "words": 245,
+    "ai": 147,
+    "finance": 98,
     "both": 0,
     "other": 0
   },
   "issues": [
+    {
+      "date": "2026-10-31",
+      "issueNo": 49,
+      "issueSpan": 1,
+      "issueLabel": "第 49 期",
+      "issueNoLabel": "49",
+      "theme": "凭什么相信——输入决定上限、实验决定真伪 · 催化剂决定时点、情景决定幅度（特征工程 / 标签噪声 / A/B 测试 / 催化剂 / 情景分析）",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 48 期 240 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "feature engineering",
+        "label noise",
+        "A/B testing",
+        "catalyst",
+        "scenario analysis"
+      ]
+    },
     {
       "date": "2026-10-30",
       "issueNo": 48,

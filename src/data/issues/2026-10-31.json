@@ -1,0 +1,207 @@
+{
+  "date": "2026-10-31",
+  "issueNo": 49,
+  "issueSpan": 1,
+  "issueLabel": "第 49 期",
+  "issueNoLabel": "49",
+  "theme": "凭什么相信——输入决定上限、实验决定真伪 · 催化剂决定时点、情景决定幅度（特征工程 / 标签噪声 / A/B 测试 / 催化剂 / 情景分析）",
+  "themeRaw": "凭什么相信——输入决定上限、实验决定真伪 + 催化剂决定时点、情景决定幅度（特征工程 / 标签噪声 / A/B 测试 / 催化剂 / 情景分析）",
+  "note": "本期 5 词（3 AI + 2 金融），已与前 48 期 240 词去重",
+  "title": "每日英语 5 词 · 2026-10-31",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "feature engineering",
+      "issueNoLocal": 49,
+      "phonetic": "/ˈfiːtʃər ˌendʒɪˈnɪrɪŋ/",
+      "pos": "n.",
+      "posRaw": "n.（相关：feature、raw data、domain knowledge、one-hot encoding、normalization、feature store、embedding、data leakage、feature selection、tabular data、signal-to-noise、rolling window）",
+      "related": [
+        "feature",
+        "raw data",
+        "domain knowledge",
+        "one-hot encoding",
+        "normalization",
+        "feature store",
+        "embedding",
+        "data leakage",
+        "feature selection",
+        "tabular data",
+        "signal-to-noise",
+        "rolling window"
+      ],
+      "meaning": "【AI】特征工程——把原始数据加工成模型能有效利用的输入的那一整套人工设计工作：分箱、取比值、做滞后、做交叉、编码类别、统一量纲。它的前提假设是「模型不会自己发现这些关系」，因此在梯度提升树（XGBoost / LightGBM）主导的表格数据场景里，特征工程至今仍是效果的第一来源；在深度学习里这一层被 embedding 与表征学习部分接管，但并没有消失——它变成了「喂什么进去」的问题（上下文怎么组织、工具返回怎么截断、检索片段怎么拼接），这正是 context engineering 在讨论的东西。一句话：模型负责找函数，特征工程负责决定函数的自变量是什么。",
+      "gloss": "特征工程",
+      "example": "Half the gain in their churn model came not from a bigger network but from three engineered features — days since last login, support tickets per seat, and a 30-day rolling usage slope.",
+      "exampleCn": "他们流失模型一半的提升并非来自更大的网络，而是来自三个人工构造的特征——距上次登录天数、每席位工单数、30 天滚动使用斜率。",
+      "memory": "**记忆锚点**：feature engineering = **帮模型把「原始事实」翻译成「它看得懂的线索」**——原始日志里只有时间戳，你要算出「距上次登录几天」；只有金额，你要算出「环比增速」。模型不会替你想到这些。**为什么重要**：① 它决定模型能力的上限——同样的算法，输入里有没有关键信号，结果差一个量级；② 它是「领域知识变现」的唯一通道：懂半导体的人知道「客户认证周期」比「采购金额」更有预测力，这个判断算法永远学不到；③ 它解释了为什么表格数据上 GBDT 仍打得过深度学习——树模型吃人工特征效率极高，而神经网络在几千行样本上没机会自己学出这些关系；④ 在大模型时代它换了个名字但没消失：RAG 里 chunk 怎么切、检索结果怎么排序拼接，本质仍是特征工程（接续 chunking / context engineering）。**关键权衡**：① 人工特征 vs 表征学习——数据量大、模态非结构化（图像 / 文本）时让模型自己学；数据量小、结构化、可解释性要求高时人工特征更划算；② 特征数量 vs 过拟合——每加一个特征就多一个自由度，样本不足时会拟合噪声（接续 overfitting）；③ 上线成本——离线算一个特征容易，线上要保证「同一时刻能取到同一个值」，特征口径不一致是生产事故的头号来源；④ 可解释性 vs 精度——业务要能解释「为什么拒贷」，复杂交叉特征往往只能牺牲掉。**实践要点**：① 先做「时间穿越」检查：任何用到未来信息的特征都是数据泄漏，离线指标会漂亮得离谱、上线立刻崩；② 特征上线前必须过「训练 / 推理一致性」校验，同一特征在两条链路上的计算逻辑要逐字段比对；③ 优先构造「比值、增速、间隔」这类无量纲特征，比绝对值更稳、跨客户可比；④ 记录每个特征的业务假设——三个月后没人记得某个 magic feature 为什么有效，这是技术债。**易混点**：feature engineering（人造输入）与 feature selection（从已有输入里挑子集）不同，前者造、后者筛；与 embedding（模型学出的稠密向量表示）不同，前者是人设计、后者是机器学；与 data cleaning（修错、去重、补缺）不同，清洗是让数据可用，特征是让数据有用",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "label noise",
+      "issueNoLocal": 49,
+      "phonetic": "/ˈleɪbl nɔɪz/",
+      "pos": "n.",
+      "posRaw": "n.（相关：ground truth、annotation、data curation、overfitting、robustness、confident learning、inter-annotator agreement、synthetic data、data contamination、memorization、cleanlab、loss reweighting）",
+      "related": [
+        "ground truth",
+        "annotation",
+        "data curation",
+        "overfitting",
+        "robustness",
+        "confident learning",
+        "inter-annotator agreement",
+        "synthetic data",
+        "data contamination",
+        "memorization",
+        "cleanlab",
+        "loss reweighting"
+      ],
+      "meaning": "【AI】标签噪声——训练数据里「标注本身是错的」那一部分：图像被标错类别、客服对话意图标反、金融文本情感极性标错、众包标注员随手点。它和「特征噪声」（输入有误差）是两回事，危害更大：模型会认真地学会一个错误的映射，而且在训练集上表现完美——因为它把错误答案背下来了。经验值：真实数据集里 5%~20% 的标签错误很常见，众包与网络爬取的数据更差。工业界的应对有三层：清洗（找出来改掉）、鲁棒训练（损失函数对可疑样本降权）、以及接受它（大模型对随机标签噪声有一定容忍度，但对系统性偏差毫无抵抗力）。",
+      "gloss": "标签噪声",
+      "example": "They found that 8% of the training labels were wrong; fixing them raised accuracy more than doubling the model size did.",
+      "exampleCn": "他们发现 8% 的训练标签是错的；把这些改对，带来的准确率提升比把模型规模翻倍还大。",
+      "memory": "**记忆锚点**：label noise = **教材答案印错了**——学生越用功（模型容量越大、训练越久），越会把错答案背得滚瓜烂熟，考试（测试集）上照样错。**为什么重要**：① 它设定了模型能力的硬上限——标签错了，再好的架构也只能学到错的函数，这是「数据质量 > 模型规模」最直接的证据；② 它解释了「训练集准确率 99%、线上崩盘」的常见现象：模型学的是标注员的习惯，不是世界的规律（接续 overfitting / data contamination）；③ 它对大模型尤其危险：预训练数据来自网络，系统性偏差（某个来源的立场、某种模板化的错误）会被当成事实吸收，且无法靠增加数据量稀释；④ 它决定了评测的可信度——如果测试集本身有噪声，模型之间 1~2 个点的差异根本不可分辨（接续 ground truth / eval）。**关键权衡**：① 清洗成本 vs 收益——人工复核全量标注极贵，实践中用「模型找可疑样本 + 人工只审这批」的主动学习方式，成本能降一个量级；② 鲁棒损失 vs 收敛速度——对称交叉熵、co-teaching 这类方法能抗噪，但通常收敛更慢、在干净数据上略吃亏；③ 丢弃 vs 修正——直接删掉可疑样本简单但可能丢信息，修正需要额外标注预算；④ 容忍度与噪声类型——随机噪声（标错方向随机）大模型能吸收，系统性噪声（某类样本被系统性标错）几乎无法自愈。**实践要点**：① 先量化再处理：用小样本人工复核估出噪声率，再决定投入多少清洗预算；② 找可疑样本最有效的信号是「模型高置信度预测与标签不一致」，这类样本的噪声率远高于平均；③ 多标注员场景先算 inter-annotator agreement（Kappa），一致性低说明标注规范本身有问题，不是标注员不认真；④ 微调自己的数据时，几百条高质量样本胜过几千条脏样本——这是小团队最容易被忽略的杠杆。**易混点**：label noise（答案错）与 data contamination（测试题泄漏进训练集）不同，前者是标错、后者是作弊；与 distribution shift（线上分布变了）不同，前者是静态的数据缺陷、后者是动态的环境变化；与 class imbalance（类别比例失衡）不同，后者不是错，只是不均",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "A/B testing",
+      "issueNoLocal": 49,
+      "phonetic": "/ˌeɪ ˈbiː ˈtestɪŋ/",
+      "pos": "n.",
+      "posRaw": "n.（相关：controlled experiment、randomization、statistical significance、p-value、sample size、statistical power、guardrail metric、novelty effect、selection bias、holdout、uplift、peeking）",
+      "related": [
+        "controlled experiment",
+        "randomization",
+        "statistical significance",
+        "p-value",
+        "sample size",
+        "statistical power",
+        "guardrail metric",
+        "novelty effect",
+        "selection bias",
+        "holdout",
+        "uplift",
+        "peeking"
+      ],
+      "meaning": "【AI】A/B 测试——把用户随机分成两组，一组用旧方案（对照）、一组用新方案（实验），在相同时间段内比较关键指标，用统计检验判断差异是否真实。它是「因果推断」在工业界最普及的实现：随机化让两组除干预之外的一切（用户构成、时间、季节）在期望上相同，因此指标差异可以归因于干预本身。三条铁律：① 随机分配必须在用户看到实验之前完成；② 指标与样本量必须在开始前定好，不能边看边改；③ 一次只改一个主要变量，否则无法归因。它的边界同样清楚：只能回答「这个改动有没有用」，不能回答「为什么有用」，也无法评估长期影响与网络效应（比如社交产品的推荐改动）。",
+      "gloss": "A/B 测试",
+      "example": "The new ranking model looked better offline but lost 0.4% on session depth in the A/B test — a reminder that offline metrics are proxies, not outcomes.",
+      "exampleCn": "新的排序模型离线指标更好，但在 A/B 测试中会话深度下降 0.4%——提醒我们离线指标只是代理，不是结果本身。",
+      "memory": "**记忆锚点**：A/B testing = **同时开两家店，只改一个变量，看谁卖得多**——关键是「同时」和「只改一个」：分开时间比会被季节骗，改两个变量则不知道是谁的功劳。**为什么重要**：① 它是「离线指标好 ≠ 线上有用」的最终裁决：离线评测集永远只是真实分布的抽样，模型在它上面过拟合的方式你未必看得见（接续 eval / distribution shift）；② 它把「我觉得」变成「数据显示」，是产品决策唯一可复用的证据形式；③ 它揭示了统计显著与实际重要的差别——样本量够大时，0.1% 的提升也会显著，但可能不值得为此增加 20% 的推理成本；④ 它在大模型时代变得更难也更重要：模型输出是概率性的、体验是多维的（有用性 / 风格 / 延迟 / 成本），单一指标极易被优化坏。**关键权衡**：① 速度 vs 可信——样本量不足就提前看结果（peeking）会显著抬高假阳性率，这是工业界最常见的统计错误；② 局部指标 vs 全局指标——点击率涨了但留存跌了，说明优化的是「诱饵」不是「价值」，必须设 guardrail metric（护栏指标）；③ 短期 vs 长期——新奇效应会让新方案初期虚高，通常要看两周以上才能褪去；④ 实验 vs 全量——网络效应强的产品（社交、双边市场）做分流实验本身会污染两组，此时只能用 switchback 或地理实验。**实践要点**：① 上线前先算样本量与最小可检测效应（MDE），算不出来就别开实验；② 主指标只设一个，其余全设为护栏指标，避免「多指标里挑一个显著的」；③ 分层随机（按新老用户、地域分层）能大幅降方差，等效于免费增加样本量；④ 结论要写成「提升 X%，置信区间 [a, b]，成本增加 Y」，而不是「显著提升」。**易混点**：A/B testing（随机对照实验，能证因果）与 observational analysis（看历史数据相关性，只能提假设）本质不同，后者永远有混杂变量；与 multivariate testing（同时测多个变量组合）不同，后者样本量需求呈指数上升；与 canary release（灰度发布，先给小比例用户，主要看稳定性不看指标）不同，灰度是工程手段、A/B 是统计手段",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "catalyst",
+      "issueNoLocal": 49,
+      "phonetic": "/ˈkætəlɪst/",
+      "pos": "n.",
+      "posRaw": "n.（相关：earnings、guidance、product launch、M&A、regulatory approval、buyback、index inclusion、re-rating、event-driven、binary event、priced in、holding period）",
+      "related": [
+        "earnings",
+        "guidance",
+        "product launch",
+        "M&A",
+        "regulatory approval",
+        "buyback",
+        "index inclusion",
+        "re-rating",
+        "event-driven",
+        "binary event",
+        "priced in",
+        "holding period"
+      ],
+      "meaning": "【金融】催化剂——能让股价在可预见的时间窗口内重新定价的具体事件或信息：财报与指引、新品发布、监管批文、并购、回购、指数纳入、大客户订单、产能投放。它和「基本面好」是两件事：好公司可以三年不涨，因为没有触发重估的事件；而催化剂的作用是把「已经存在但未被定价的信息」推到市场面前。判断催化剂有三个维度：时点（什么时候发生）、方向（利好还是利空）、以及是否已被定价（priced in）——最后一个最容易被忽略，也最决定收益。",
+      "gloss": "催化剂",
+      "example": "The thesis was fine but had no catalyst for eighteen months, and the fund's holding period was twelve — being right too early is indistinguishable from being wrong.",
+      "exampleCn": "逻辑没问题，但十八个月内没有催化剂，而基金的持有期是十二个月——对得太早与错没有区别。",
+      "memory": "**记忆锚点**：catalyst = **让「我认为它值这个价」变成「市场也这么认为」的那根火柴**——干柴（基本面）可以堆很久，但没有火柴就不会烧。**为什么重要**：① 它补上了估值分析缺的那一维——**时间**：DCF 告诉你值多少，催化剂告诉你什么时候市场会认（接续 discounted cash flow）；② 它是「对得太早」这种失败的根源：逻辑正确但缺少触发事件，资金的时间成本会把正确变成亏损；③ 它让「已被定价」成为必查项——所有人都知道的利好，公告当天往往是卖点，这是 event-driven 策略的核心；④ 它直接对应半导体材料生意的节奏：客户认证通过、产线导入、批量订单，每一个都是可标注时点的催化剂，比「行业景气度」这种模糊判断可操作得多。**关键权衡**：① 催化剂密度 vs 估值——催化剂多的标的通常已被充分定价，便宜的公司往往缺催化剂，这是价值与动量的结构性矛盾；② 二元事件 vs 连续事件——审批通过 / 失败是二元的（赔率好但胜率难判，仓位要小），订单逐季放量是连续的（可加仓验证）；③ 短期博弈 vs 长期持有——围绕财报做交易需要极强的事件判断力，长期持有则应把催化剂当作加仓时点而非交易信号；④ 真催化剂 vs 叙事——「AI 赋能」不是催化剂，「下季度 AI 相关收入首次单独披露」才是。**实践要点**：① 建仓前写下三件事：催化剂是什么、预计何时、如果没发生我在什么价位认错——写不出来说明这是信仰不是投资；② 检查 priced in：看期权隐含波动率、分析师一致预期、以及股价在消息前的走势，市场提前反应是最强的「已定价」信号（接续 implied volatility / consensus estimate）；③ 财报是最密集的催化剂，但要区分「业绩超预期」与「指引上调」，后者对长期估值的影响大得多（接续 guidance）；④ 二元事件用小仓位 + 期权表达，不要用重仓赌单一结果。**易混点**：catalyst（触发重估的事件）与 driver（长期驱动因素）不同，前者有日期、后者没有；与 narrative（叙事）不同，叙事解释过去、催化剂指向未来；与 risk（下行事件）是一体两面——同一个财报既是催化剂也是风险，取决于你的持仓方向",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "scenario analysis",
+      "issueNoLocal": 49,
+      "phonetic": "/səˈnɑːrioʊ əˈnæləsɪs/",
+      "pos": "n.",
+      "posRaw": "n.（相关：base case、bull case、bear case、sensitivity analysis、Monte Carlo、probability weighting、expected value、stress test、margin of safety、key driver、downside、terminal value）",
+      "related": [
+        "base case",
+        "bull case",
+        "bear case",
+        "sensitivity analysis",
+        "Monte Carlo",
+        "probability weighting",
+        "expected value",
+        "stress test",
+        "margin of safety",
+        "key driver",
+        "downside",
+        "terminal value"
+      ],
+      "meaning": "【金融】情景分析——不预测单一结果，而是构造几个自洽的未来（基准 / 乐观 / 悲观），分别算出每种情景下的价值或收益，再看概率加权后的期望与最坏情况能否承受。它与敏感性分析的区别是：敏感性分析只动一个变量看结果怎么变，情景分析则要求整套假设同时自洽（悲观情景里收入下滑、毛利率收缩、估值倍数压缩会同时发生，而不是只动一个）。它的产出不是一个目标价，而是一个分布：如果悲观情景的跌幅你扛不住，那么基准情景多乐观都没有意义。",
+      "gloss": "情景分析",
+      "example": "Their scenario analysis put the bear case at −45%; the position was sized so that even that outcome would cost less than 2% of the portfolio.",
+      "exampleCn": "他们的情景分析给出的悲观情景是 −45%；仓位正是按「即使出现这个结果，损失也不超过组合的 2%」来定的。",
+      "memory": "**记忆锚点**：scenario analysis = **不只算「会怎样」，而是算「好的、坏的、难看的分别怎样」**——单点预测给你一个数字，情景分析给你一个范围，而投资决策靠的从来是范围的下沿。**为什么重要**：① 它把「预测」换成「准备」——没人能预测未来，但可以确保任何合理未来都不致命，这是仓位管理的逻辑起点（接续 position sizing）；② 它暴露单点模型的脆弱：DCF 里永续增长率从 3% 改到 2%，估值能差 30%，而这个参数没人真的知道（接续 discounted cash flow / terminal value）；③ 它强制假设自洽——悲观情景必须解释「为什么收入跌的同时成本不降」，逼你把因果链想清楚，这比任何单变量敏感性表都更有价值；④ 它是跨周期投资者的核心工具：半导体周期的上行与下行并不对称，用中周期均值做基准会系统性高估。**关键权衡**：① 情景数量 vs 可执行性——三情景（基准 / 乐观 / 悲观）足够决策，五个以上通常只是把不确定性包装得更精致；② 概率加权 vs 最坏情况——期望值适合可重复的赌注，单次重大决策应看下沿（这也是 margin of safety 的来源）；③ 精度 vs 诚实——给每个情景配上小数点后两位的概率是伪精确，用「大致 50/30/20」更接近真实认知；④ 情景 vs 压力测试——压力测试问「极端但可能的事件下我会不会死」，情景分析问「合理范围内我该期待什么」，两者互补不能替代。**实践要点**：① 每个情景必须写清三个驱动变量的取值（收入增速、毛利率、退出倍数），否则情景只是情绪；② 悲观情景要真的悲观：用上一轮周期的实际低点做锚，而不是「基准打八折」；③ 结论落在仓位上，不落在目标价上——先算悲观情景的跌幅，再反推能承受的仓位（接续 position sizing）；④ 定期复盘：三个月后回看哪个情景正在兑现，比预测下一个情景更有价值。**易混点**：scenario analysis（多个自洽的完整未来）与 sensitivity analysis（单变量扰动）不同，前者是联合假设、后者是偏导；与 forecasting（给一个最可能的点估计）不同，情景分析刻意不给单点；与 stress test（极端尾部事件下的生存检验）不同，情景分析的悲观情景仍在「合理」范围内",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [
+    {
+      "no": "1",
+      "word": "feature engineering",
+      "phonetic": "/ˈfiːtʃər ˌendʒɪˈnɪrɪŋ/",
+      "domain": "AI",
+      "point": "模型的自变量由人定；表格数据上它仍是效果第一来源，RAG 里它换了名字继续存在"
+    },
+    {
+      "no": "2",
+      "word": "label noise",
+      "phonetic": "/ˈleɪbl nɔɪz/",
+      "domain": "AI",
+      "point": "教材答案印错了；真实数据 5%~20% 标错，容量越大越会把错答案背熟"
+    },
+    {
+      "no": "3",
+      "word": "A/B testing",
+      "phonetic": "/ˌeɪ ˈbiː ˈtestɪŋ/",
+      "domain": "AI",
+      "point": "真伪由随机对照裁决；离线好≠线上有用，主指标只设一个，其余做护栏"
+    },
+    {
+      "no": "4",
+      "word": "catalyst",
+      "phonetic": "/ˈkætəlɪst/",
+      "domain": "金融",
+      "point": "让市场认账的那根火柴；没时点的逻辑只是信仰，先查是否已 priced in"
+    },
+    {
+      "no": "5",
+      "word": "scenario analysis",
+      "phonetic": "/səˈnɑːrioʊ əˈnæləsɪs/",
+      "domain": "金融",
+      "point": "先算难看的那种未来；悲观情景的跌幅决定仓位，不决定目标价"
+    }
+  ],
+  "comparisons": [],
+  "progress": [
+    "本期：第 49 期，5 词",
+    "累计：**245 词**（147 AI + 98 金融）",
+    "归档格式：MD 词卡 + KAMI One-Pager PNG + Telegram 推送"
+  ]
+}
