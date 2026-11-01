@@ -1,16 +1,39 @@
 {
-  "generatedAt": "2026-10-31T03:38:24.371Z",
+  "generatedAt": "2026-11-01T03:34:59.122Z",
   "source": "pinghe/english words",
   "totals": {
-    "issues": 49,
-    "days": 48,
-    "words": 245,
-    "ai": 147,
-    "finance": 98,
+    "issues": 50,
+    "days": 49,
+    "words": 250,
+    "ai": 150,
+    "finance": 100,
     "both": 0,
     "other": 0
   },
   "issues": [
+    {
+      "date": "2026-11-01",
+      "issueNo": 50,
+      "issueSpan": 1,
+      "issueLabel": "第 50 期",
+      "issueNoLabel": "50",
+      "theme": "从原始素材到可用资产——数据要造、要洗、要变成可检索的向量 · 标的要查到底、设备要摊到期（数据增强 / 去重 / 对比学习 / 尽职调查 / 折旧）",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 49 期 245 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "data augmentation",
+        "deduplication",
+        "contrastive learning",
+        "due diligence",
+        "depreciation"
+      ]
+    },
     {
       "date": "2026-10-31",
       "issueNo": 49,

@@ -1,0 +1,207 @@
+{
+  "date": "2026-11-01",
+  "issueNo": 50,
+  "issueSpan": 1,
+  "issueLabel": "第 50 期",
+  "issueNoLabel": "50",
+  "theme": "从原始素材到可用资产——数据要造、要洗、要变成可检索的向量 · 标的要查到底、设备要摊到期（数据增强 / 去重 / 对比学习 / 尽职调查 / 折旧）",
+  "themeRaw": "从原始素材到可用资产——数据要造、要洗、要变成可检索的向量 + 标的要查到底、设备要摊到期（数据增强 / 去重 / 对比学习 / 尽职调查 / 折旧）",
+  "note": "本期 5 词（3 AI + 2 金融），已与前 49 期 245 词去重",
+  "title": "每日英语 5 词 · 2026-11-01",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "data augmentation",
+      "issueNoLocal": 50,
+      "phonetic": "/ˈdeɪtə ˌɔːɡmenˈteɪʃn/",
+      "pos": "n.",
+      "posRaw": "n.（相关：synthetic data、regularization、overfitting、domain randomization、mixup、cutout、back-translation、label-preserving、test-time augmentation、data-efficient、few-shot、distribution shift）",
+      "related": [
+        "synthetic data",
+        "regularization",
+        "overfitting",
+        "domain randomization",
+        "mixup",
+        "cutout",
+        "back-translation",
+        "label-preserving",
+        "test-time augmentation",
+        "data-efficient",
+        "few-shot",
+        "distribution shift"
+      ],
+      "meaning": "【AI】数据增强——在不改变语义标签的前提下，对训练样本做变换以人工扩充数据集规模与多样性：图像翻转裁剪调色、文本回译同义替换、语音加噪变速、时序加抖动。它的本质是把「人类已知的、不改变答案的变换方式」直接告诉模型，让模型学会对这些变化不变，因此等效于一种带先验的正则化。大模型时代它的形态变了：从「像素级变换」转向「用生成模型造新样本」（synthetic data 的一种），以及「领域随机化」——在仿真里把光照、材质、噪声全部随机化，让策略迁移到真实世界也能用。",
+      "gloss": "数据增强",
+      "example": "Flipping and cropping every training image raised accuracy by four points — cheaper than collecting four thousand new labeled samples.",
+      "exampleCn": "对每张训练图做翻转与裁剪，让准确率提升了四个点——比再采集四千条标注样本便宜得多。",
+      "memory": "**记忆锚点**：data augmentation = **把同一句话用十种口音说十遍**——内容没变，只是外表变了，听多了就只抓内容、忽略口音。**为什么重要**：① 它是最便宜的「免费数据」：标注成本远高于计算成本，一次变换等于白得一份样本；② 它把「不变性」这个先验显式写进训练——你翻转图片，就是在告诉模型「左右不重要」，这比让它自己从数据里悟出来省几个数量级的数据；③ 它直接对抗过拟合（接续 overfitting / regularization），小样本场景下往往是第一优先手段；④ 它在工业界的形态已从「人工设计变换」转向「生成模型造样本」与「仿真环境随机化」，后者是具身智能与自动驾驶的核心工程手段。**关键权衡**：① 增强强度 vs 语义保真——增强过头会改变标签（把「6」旋转 180° 变成「9」），这是最常见的事故；② 多样性 vs 分布偏移——增强出来的分布若与真实推理分布不符，等于人为制造 distribution shift（接续 distribution shift）；③ 计算成本 vs 数据成本——训练时在线增强几乎免费但拖慢每步，离线预生成省算力但占存储；④ 通用增强 vs 领域增强——ImageNet 那套翻转裁剪搬到医疗影像，会把病灶翻到生理上不可能的位置。**实践要点**：① 先确认「这个变换真的不改变标签」，逐类检查，不要一套增强打天下；② 增强策略要在验证集上验证——验证集绝不做随机增强（test-time augmentation 是另一回事，它是对同一输入多次增强后投票聚合）；③ 小数据优先用强增强，大数据边际收益迅速递减；④ 文本增强比图像脆弱得多：同义替换容易改语义，回译（back-translation）相对安全但仍要人工抽查。**易混点**：data augmentation（变换已有样本）与 synthetic data（模型生成全新样本）不同，前者是保标签变换、后者是造新数据；与 data cleaning（去重、修错）方向相反，增强是「加」、清洗是「减」；与 test-time augmentation（推理时对同一输入做多种变换再聚合）不同，前者在训练期、后者在推理期",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "deduplication",
+      "issueNoLocal": 50,
+      "phonetic": "/diːˌdjuːplɪˈkeɪʃn/",
+      "pos": "n.",
+      "posRaw": "n.（相关：near-duplicate、MinHash、SimHash、shingling、data curation、data contamination、memorization、benchmark leakage、corpus quality、n-gram overlap、token budget、scaling law）",
+      "related": [
+        "near-duplicate",
+        "MinHash",
+        "SimHash",
+        "shingling",
+        "data curation",
+        "data contamination",
+        "memorization",
+        "benchmark leakage",
+        "corpus quality",
+        "n-gram overlap",
+        "token budget",
+        "scaling law"
+      ],
+      "meaning": "【AI】去重——在训练语料里找出并删除重复或高度相似的文档、段落、样本。它看起来只是数据清洗的一个小步骤，实际是大模型训练里回报率最高的操作之一：网络爬取的语料里同一篇新闻被转载几十次、同一套模板生成的页面铺满整站，重复样本会在训练中被反复加权，导致模型对少数内容过度记忆（memorization）、对真实多样性欠采样。工程上用 n-gram 重叠、MinHash + LSH、SimHash 做近似重复检测，在十亿级文档上把 O(n²) 的比较压到可接受成本。更隐蔽的一层是「测试集泄漏」——评测题目本身出现在预训练语料里，去重是防 benchmark contamination 的第一道闸。",
+      "gloss": "去重",
+      "example": "Deduplicating the corpus cut training tokens by 22% and improved the model at every scale — less data, trained better.",
+      "exampleCn": "对语料去重后训练 token 减少了 22%，而模型在各个规模上都更好——数据更少，但训练得更对。",
+      "memory": "**记忆锚点**：deduplication = **考前把同一道题抄了二十遍的笔记扔掉**——抄二十遍不会让你更懂，只会让你以为这道题最重要。**为什么重要**：① 它直接改善「有效数据量」：去掉重复后同样的 token 预算能覆盖更多真实内容，等效于免费扩容，这正是 scaling law 讨论里最常被忽略的一项；② 它抑制记忆化：重复样本被反复看到，模型会逐字背下来，既浪费容量又带来隐私与版权风险（接续 overfitting）；③ 它是 benchmark contamination 的第一道防线——测试题若在训练语料里出现过，所有评测分数都不可信（接续 data contamination / eval）；④ 它改变数据配比：某类内容重复率高，等于在训练里被隐式加权，模型风格会朝那一类偏移。**关键权衡**：① 精确重复 vs 近似重复——精确哈希只能抓完全相同的串，转载改写必须用近似算法，但阈值低了会误删有效内容；② 去重强度 vs 数据规模——过度去重可能把「合理复述」也删掉，反而损失多样性；③ 文档级 vs 段落级——文档级会漏掉「不同文档里的同一段」，段落级更彻底但计算量与误删风险都更高；④ 去重 vs 保留——代码与数学语料里重复往往有教学价值（同一模式多例），不能一刀切。**实践要点**：① 至少跑三档：精确哈希（完全相同）、MinHash 近似（转载改写）、模板检测（同一模板批量生成）；② 去重前后都要抽样人工看，误删比漏删更难发现；③ 建评测集时先与训练语料做交叉去重，否则指标虚高；④ 记录各数据源的去重率——某个源去重率异常高，通常说明它就是转载农场，应整体降权。**易混点**：deduplication（删重复）与 data cleaning（修错、补缺、过滤低质）不同，前者只针对「重复」这一个维度；与 data augmentation（增加样本）方向相反，两者常配合使用——先去重再加增强；与 pruning（删模型参数）完全不同，一个是删数据、一个是删权重",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "contrastive learning",
+      "issueNoLocal": 50,
+      "phonetic": "/kənˈtræstɪv ˈlɜːnɪŋ/",
+      "pos": "n.",
+      "posRaw": "n.（相关：positive pair、negative pair、embedding、cosine similarity、InfoNCE、SimCLR、triplet loss、hard negative、temperature、representation learning、self-supervised learning、CLIP）",
+      "related": [
+        "positive pair",
+        "negative pair",
+        "embedding",
+        "cosine similarity",
+        "InfoNCE",
+        "SimCLR",
+        "triplet loss",
+        "hard negative",
+        "temperature",
+        "representation learning",
+        "self-supervised learning",
+        "CLIP"
+      ],
+      "meaning": "【AI】对比学习——不直接预测标签，而是训练模型「把相似的样本拉近、把不相似的推远」：给定一个锚点，构造它的正样本（同一张图的不同裁剪、同一句话的两种说法），其余样本都视为负样本，用对比损失（InfoNCE 最常见）让锚点与正样本在向量空间里靠近、与负样本远离。它是自监督表征学习的主流范式，也是 CLIP 这类图文模型的训练方式：一批图文对里，配对的图文互为正样本、错配的全是负样本。它不产出「分类器」，只产出「好的向量」——而这正是检索、聚类、去重与 RAG 检索层真正需要的东西。",
+      "gloss": "对比学习",
+      "example": "They never labeled a single image; contrastive pre-training on 100 million unlabeled photos gave embeddings good enough to beat the supervised baseline on retrieval.",
+      "exampleCn": "他们一张图都没标注；在一亿张无标注照片上做对比预训练，得到的向量在检索任务上超过了有监督基线。",
+      "memory": "**记忆锚点**：contrastive learning = **教模型「这两个是一伙的，那个不是」**——不用告诉它「这是猫」，只要告诉它「这两张是同一只猫、那张是狗」，它自己就会把猫和狗分开。**为什么重要**：① 它把「标注」这个瓶颈绕过去了：正负样本可以从数据自身构造（同一图的不同裁剪、同一时间序列的相邻窗口），不需要人工打标签（接续 self-supervised learning）；② 它产出的向量质量直接决定检索效果——RAG 的召回上限、向量库的相似度质量、去重的准确率都建立在这一层上（接续 embedding / cosine similarity / vector database）；③ 它是多模态的地基：CLIP 用对比学习把图像与文本对齐到同一空间，才有了后来的文生图与视觉问答；④ 它解释了「为什么 embedding 模型要单独训练」——生成模型学到的表示是为「预测下一个 token」优化的，不是为「度量相似」优化的。**关键权衡**：① 负样本数量 vs 计算成本——负样本越多信号越强，但每个 batch 的对比矩阵是 O(n²)，这正是大批量训练与梯度缓存技术存在的原因；② 简单负样本 vs 困难负样本——全是简单负样本学不到东西，全是困难负样本又容易把「同类不同个体」错判为负（假阴性）；③ 温度系数——温度低时模型更关注最难的负样本、容易训崩，温度高时信号被平均掉；④ 数据增强即「正样本的定义」——增强方式选错，模型学到的不变性就是错的（接续 data augmentation）。**实践要点**：① 正样本构造要「同义不同形」，负样本要「同形不同义」，这两条决定了任务难度；② 假阴性是最大杀手——batch 里两只不同的狗被当成负样本，会把模型教坏，工业界用「监督对比」或「去偏」修正；③ 检索场景务必用「查询-文档」的真实分布构造正样本，不要用随机段落；④ 评测看下游任务（检索 recall@k、聚类纯度），不看对比损失本身。**易混点**：contrastive learning（拉近拉远、产出向量）与 classification（预测离散标签、产出分类器）不同，前者无标签、目标是表示；与 metric learning（同样学距离，但通常用三元组、有监督）高度重叠而侧重不同；与 triplet loss 是「范式 vs 损失函数」的关系，不是同义词",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "due diligence",
+      "issueNoLocal": 50,
+      "phonetic": "/ˌdjuː ˈdɪlɪdʒəns/",
+      "pos": "n.",
+      "posRaw": "n.（相关：financial DD、legal DD、commercial DD、technical DD、data room、quality of earnings、working capital adjustment、red flag、material adverse change、representations and warranties、escrow、earnout）",
+      "related": [
+        "financial DD",
+        "legal DD",
+        "commercial DD",
+        "technical DD",
+        "data room",
+        "quality of earnings",
+        "working capital adjustment",
+        "red flag",
+        "material adverse change",
+        "representations and warranties",
+        "escrow",
+        "earnout"
+      ],
+      "meaning": "【金融】尽职调查——在投资、并购、授信、上市之前，对标的做系统性核查：财务是否真实（quality of earnings）、法律权属是否干净（诉讼、知识产权、合规）、商业假设是否成立（客户集中度、竞争壁垒）、技术是否可交付。它的产出不是「投不投」的结论，而是一份把「卖方说法」逐条验证、并把发现写进交易条款的文件：价格调整、赔偿条款、托管账户、对赌安排都从这里长出来。核心心态是：所有未经第三方验证的数字都只是陈述，不是事实。",
+      "gloss": "尽职调查",
+      "example": "Due diligence found that the top two customers were the same distributor, which turned a 30% growth story into a customer-concentration problem.",
+      "exampleCn": "尽职调查发现前两大客户其实是同一家经销商，把一个 30% 增长的故事变成了客户集中度问题。",
+      "memory": "**记忆锚点**：due diligence = **买房前请人验房，而不是听中介说「结构很好」**——验房报告不会告诉你买不买，但会告诉你哪面墙要花钱、能不能砍价。**为什么重要**：① 它把「信息不对称」从劣势变成定价依据——卖方永远比买方知道得多，尽调是唯一合法的对冲手段；② 它的结论直接进入交易结构：发现的每一个问题都能换成价格调整、赔偿条款或托管金额，尽调不做等于白送议价空间；③ 它专治「漂亮数字」：营收增长可能来自放宽账期、毛利率可能来自一次性返利、EBITDA 调整项可能把经常性费用剔了出去（接续 quality of earnings / EBITDA）；④ 它对半导体材料生意同样适用：新客户的大单、供应商的产能承诺、代理商的独家授权，签之前都值得做一轮轻量尽调——查工商、查诉讼、查产能、查它有没有真的用过同类产品。**关键权衡**：① 深度 vs 时效——尽调做半年，标的可能已被别人买走或行业已经转向，通常按交易规模决定投入；② 成本 vs 信息价值——外部审计、专家访谈、专利检索都很贵，应优先投在「一旦错了就致命」的那几项（客户真实性、权属、隐性负债）；③ 发现 vs 谈判——问题如果在报价后才暴露，往往只能砍价；提前做则可以直接放弃；④ 卖方配合度本身是信号——数据室开得越晚、越不完整，通常说明问题越大。**实践要点**：① 先列「致命项清单」：客户是否真实存在、核心专利是否自有、有无未披露担保、大股东是否占用资金，其余可以后置；② 财务尽调必看三张表之间的勾稽，尤其经营现金流与净利润的长期背离（接续 free cash flow）；③ 客户集中度要用「穿透到最终用户」的口径算，经销商合并计算是标准动作；④ 把发现写成「事实 / 影响 / 建议条款」三列，而不是一篇散文——它要能直接进 SPA。**易混点**：due diligence（核查事实，为定价与条款提供依据）与 audit（对历史财报出具意见、有法定准则）不同，前者为交易服务、后者为合规服务；与 valuation（估算值多少）不同，尽调是「查它是不是真的」、估值是「算它值多少」；与 research（公开信息研究）不同，尽调能进数据室看未公开材料",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "depreciation",
+      "issueNoLocal": 50,
+      "phonetic": "/dɪˌpriːʃiˈeɪʃn/",
+      "pos": "n.",
+      "posRaw": "n.（相关：amortization、capex、useful life、salvage value、straight-line、accelerated depreciation、impairment、EBITDA、book value、PP&E、accumulated depreciation、capital intensity）",
+      "related": [
+        "amortization",
+        "capex",
+        "useful life",
+        "salvage value",
+        "straight-line",
+        "accelerated depreciation",
+        "impairment",
+        "EBITDA",
+        "book value",
+        "PP&E",
+        "accumulated depreciation",
+        "capital intensity"
+      ],
+      "meaning": "【金融】折旧——把厂房、设备、机器等**有形**长期资产的成本，按其预计使用年限系统分摊到各期费用的会计处理。它不涉及现金流出（钱在买资产那年就花掉了），只是把一次性支出在利润表上摊平，同时在资产负债表上把资产账面价值逐年调低。方法有直线法（每年等额）与加速法（前期多摊）。它与 amortization 的分工是：折旧针对有形资产（设备、厂房），摊销针对无形资产（专利、软件）；两者在现金流量表里都会被加回，这正是 EBITDA「息税折旧摊销前」这一口径的来源。",
+      "gloss": "折旧",
+      "example": "The plant is profitable on an EBITDA basis but barely breaks even after depreciation — the equipment is wearing out faster than the accounting assumes.",
+      "exampleCn": "这家工厂在 EBITDA 口径下是盈利的，但扣掉折旧后几乎打平——设备的老化速度比会计假设更快。",
+      "memory": "**记忆锚点**：depreciation = **把一台一千万的机器的账单，按十年切成十张一百万的单子**——钱在买的那天就付完了，但账上要分十年认这笔成本。**为什么重要**：① 它是「重资产 vs 轻资产」的分水岭：折旧占营收比例高的生意，每赚一块钱都要先填设备的坑，扩产必须持续投钱（接续 capital expenditure）；② 它解释 EBITDA 的盲区——把折旧加回等于假装设备永不磨损，对半导体这种设备五六年就技术性贬值的行业尤其危险（接续 EBITDA）；③ 折旧年限是管理层可调的自由裁量项：把十年改成十五年，当期利润立刻变好看，而现金流一分没变，这是财报粉饰最常见的手法之一（接续 quality of earnings）；④ 它是产能周期的会计投影：扩产期折旧先涨、产能利用率后涨，两者错配会让毛利率在周期底部被双杀。**关键权衡**：① 直线法 vs 加速法——直线法简单可比，加速法更贴近设备实际贬值曲线（技术迭代快的行业更真实）；② 会计折旧 vs 真实磨损——会计年限是估计，真实经济寿命要看技术迭代速度与维护投入，两者背离时账面利润会骗人；③ 折旧 vs 减值——折旧是「按计划变旧」，减值（impairment）是「突然发现不值这么多」，后者一次性且更难预测；④ 自有 vs 租赁——租赁资产现在也要上表计提折旧（IFRS 16），横向比较时必须确认口径一致。**实践要点**：① 算自由现金流时折旧要加回（非现金支出），但算「维持性资本开支」要用重置成本，不能直接用折旧额——通胀期折旧被系统性低估；② 对比同业时先统一折旧年限，否则毛利率差异可能只是会计政策差异；③ 关注「折旧年限变更」的公告，这是最容易被忽略的利润调节信号；④ 重资产企业看「折旧 / capex」比值：长期低于 1 说明投入不足，设备在老去而账面没体现。**易混点**：depreciation（有形资产分摊）与 amortization（无形资产分摊）分工不同，但都进 EBITDA 的加回项；与 impairment（一次性减值）不同，折旧是计划内的、减值是突发性的；与 capex（现金流出）不同，折旧是会计分摊、capex 是真实付钱——两者在时间上完全错位，这是现金流分析最容易搞混的一对",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [
+    {
+      "no": "1",
+      "word": "data augmentation",
+      "phonetic": "/ˈdeɪtə ˌɔːɡmenˈteɪʃn/",
+      "domain": "AI",
+      "point": "素材不够就自己造；变换必须保标签，增强过头等于人为制造分布偏移"
+    },
+    {
+      "no": "2",
+      "word": "deduplication",
+      "phonetic": "/diːˌdjuːplɪˈkeɪʃn/",
+      "domain": "AI",
+      "point": "同一份原料只算一次；去重 22% token 反而让模型更好，还防测试集泄漏"
+    },
+    {
+      "no": "3",
+      "word": "contrastive learning",
+      "phonetic": "/kənˈtræstɪv ˈlɜːnɪŋ/",
+      "domain": "AI",
+      "point": "拉近正样本、推远负样本；不产分类器只产向量，RAG 召回上限由此决定"
+    },
+    {
+      "no": "4",
+      "word": "due diligence",
+      "phonetic": "/ˌdjuː ˈdɪlɪdʒəns/",
+      "domain": "金融",
+      "point": "别信陈述只信验证；发现的问题要能换成价格调整与赔偿条款"
+    },
+    {
+      "no": "5",
+      "word": "depreciation",
+      "phonetic": "/dɪˌpriːʃiˈeɪʃn/",
+      "domain": "金融",
+      "point": "一次性投入摊到每一年；EBITDA 把它加回等于假装设备不磨损"
+    }
+  ],
+  "comparisons": [],
+  "progress": [
+    "本期：第 50 期，5 词",
+    "累计：**250 词**（150 AI + 100 金融）",
+    "归档格式：MD 词卡 + KAMI One-Pager PNG + Telegram 推送"
+  ]
+}
