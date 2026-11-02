@@ -1,0 +1,207 @@
+{
+  "date": "2026-11-02",
+  "issueNo": 51,
+  "issueSpan": 1,
+  "issueLabel": "第 51 期",
+  "issueNoLabel": "51",
+  "theme": "顺序与节奏——训练的步幅、次序与位置 · 生意的回款与周转（学习率调度 / 课程学习 / 旋转位置编码 / 应收账款周转天数 / 库存周转率）",
+  "themeRaw": "顺序与节奏——训练的步幅、次序与位置 + 生意的回款与周转（学习率调度 / 课程学习 / 旋转位置编码 / 应收账款周转天数 / 库存周转率）",
+  "note": "本期 5 词（3 AI + 2 金融），已与前 50 期 250 词去重",
+  "title": "每日英语 5 词 · 2026-11-02",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "learning rate schedule",
+      "issueNoLocal": 51,
+      "phonetic": "/ˈlɜːnɪŋ reɪt ˈʃedjuːl/",
+      "pos": "n.",
+      "posRaw": "n.（相关：warmup、cosine decay、linear decay、step decay、one-cycle、learning rate、AdamW、gradient clipping、loss spike、training instability、batch size、LR finder）",
+      "related": [
+        "warmup",
+        "cosine decay",
+        "linear decay",
+        "step decay",
+        "one-cycle",
+        "learning rate",
+        "AdamW",
+        "gradient clipping",
+        "loss spike",
+        "training instability",
+        "batch size",
+        "LR finder"
+      ],
+      "meaning": "【AI】学习率调度——不把学习率当常数，而是按预设规则让它随训练进度变化：开头 warmup 从近 0 线性升到峰值（防止早期大梯度把参数打飞），中段保持或缓降，末段用 cosine / linear / step 衰减到近 0（让模型在最优点附近收敛而不是来回跳）。它把「步长」从一个数字变成一个函数，是训练稳定性与最终 loss 最敏感的超参数之一：同样的模型与数据，调度选错可能差几个百分点，也可能直接发散（loss spike）。",
+      "gloss": "学习率调度",
+      "example": "Without warmup the first few hundred steps produced loss spikes that never recovered; a 2,000-step ramp made the same run stable.",
+      "exampleCn": "没有热身的前几百步产生了再也恢复不了的 loss 尖峰；加上 2000 步的爬坡后，同一次训练就稳定了。",
+      "memory": "**记忆锚点**：learning rate schedule = **下山时开头小步试探、中段放开走、快到谷底把步子收小**——全程用同一个步幅，要么摔下去，要么在谷底来回跨过去。**为什么重要**：① 它是训练能否启动的开关：warmup 之前参数是随机的，梯度方向噪声极大，一上来就用峰值学习率会把权重推到坏区域，这是大模型训练早期发散最常见的原因；② 它决定最终精度：收敛阶段学习率不收小，模型会在最优点附近持续抖动，loss 曲线尾部降不下去，白烧算力；③ 它与 batch size 强耦合：大批量训练通常要同步放大学习率并延长 warmup，否则每步更新过猛；④ 它是「免费」的收益来源——不改模型结构、不加数据，只调整调度曲线就能换来稳定的几个点。**关键权衡**：① warmup 太短 vs 太长——太短压不住早期噪声，太长浪费训练步数且可能让模型停在次优区域；② 衰减方式——cosine 平滑、末期收益好，step 简单但要手工设里程碑，linear 对大模型常更稳；③ 峰值学习率 vs 稳定性——峰值越高收敛越快但越容易发散，通常靠 LR finder 或小规模扫参确定；④ 固定学习率 vs 调度——短训练、微调场景固定学习率有时反而够用，调度主要价值在长训练。**实践要点**：① 先定 warmup 步数（常见为总步数的 1%~5%），再定峰值，最后定衰减形状，顺序不能反；② 盯 loss 曲线前 1% 的步数——尖峰几乎都在这里，出现就降峰值或延长 warmup；③ 微调通常只需很小的常数学习率，不要照搬预训练的 cosine 调度；④ 梯度裁剪与 warmup 是配套的，两者一起用才稳。**易混点**：learning rate schedule（学习率随时间的曲线）与 learning rate（某一时刻的数值）是「函数 vs 取值」的关系；与 warmup 是「整体 vs 开头那一段」的关系，warmup 只是调度的一种形态；与 weight decay 不同，后者是正则项、不随步数变化（除非显式调度）",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "curriculum learning",
+      "issueNoLocal": 51,
+      "phonetic": "/kəˈrɪkjələm ˈlɜːnɪŋ/",
+      "pos": "n.",
+      "posRaw": "n.（相关：data ordering、easy-to-hard、self-paced learning、data mixture、sequence length、annealing、sample difficulty、staged training、pretraining、fine-tuning、loss-based sampling、context extension）",
+      "related": [
+        "data ordering",
+        "easy-to-hard",
+        "self-paced learning",
+        "data mixture",
+        "sequence length",
+        "annealing",
+        "sample difficulty",
+        "staged training",
+        "pretraining",
+        "fine-tuning",
+        "loss-based sampling",
+        "context extension"
+      ],
+      "meaning": "【AI】课程学习——不把训练数据一次性打散随机喂，而是按难度或长度排序、分阶段推进：先易后难，或预训练早期用短序列、后期逐步加长。动机来自人类教学——先学加减再学微积分。它把「数据顺序」当成一个可优化的维度，与数据配比（data mixture）并列：配比决定喂什么，课程决定先喂什么。工程上最常见的两种形态是长度课程（context 从 4k 逐步扩到 32k，省算力）与难度课程（按 loss 或模型置信度给样本打分，先喂低 loss 样本）。争议在于：预训练数据量极大时，顺序效应会被平均掉，收益不像小数据集上那么确定。",
+      "gloss": "课程学习",
+      "example": "They trained on 4k-token sequences first and extended to 32k later — a length curriculum that cut pre-training cost without hurting final quality.",
+      "exampleCn": "他们先用 4k token 的序列训练、之后才扩到 32k——一个长度课程，降低了预训练成本而没损害最终质量。",
+      "memory": "**记忆锚点**：curriculum learning = **先做课本例题、再做竞赛题**——不是把两类题混在一起随机刷。**为什么重要**：① 它把「顺序」变成可调的杠杆：同样的数据、同样的算力，换个喂法就能省下大量计算——长度课程让早期短序列的注意力计算量按长度平方下降，这是长上下文训练能负担得起的关键；② 它对应真实的学习动力学：模型在早期只能拟合简单模式，硬塞难题等于让梯度在噪声里打转；③ 它与数据配比是一对：mixture 决定成分，curriculum 决定上菜顺序，两者共同决定有效训练信号；④ 它对微调同样适用：先用通用数据、再用领域数据、最后用高质量小样本，是常见的三阶段课程。**关键权衡**：① 收益 vs 复杂度——课程需要给样本打难度分、需要多阶段调度，工程复杂度不低，而大模型预训练上的收益证据并不强；② 难度定义——按 loss、按长度、按人工标注，不同定义导向完全不同的课程，选错等于制造分布偏移；③ 遗忘 vs 巩固——先学的简单样本在后期可能被覆盖（接续 catastrophic forgetting），需要混采或回放；④ 课程 vs 随机——随机打散本身就是一种隐式课程（每个 batch 难度自然混合），显式课程必须证明自己比这个基线更好。**实践要点**：① 先跑随机基线，再决定是否值得上课程；② 长度课程最稳、收益最确定，优先考虑；③ 难度课程要用模型当前 loss 而非人类直觉难度，两者经常不一致；④ 课程切换点要平滑，突变会造成 loss 台阶。**易混点**：curriculum learning（按难度或长度排序分阶段）与 data mixture（各类数据的配比）不同，前者是顺序、后者是成分；与 active learning（挑哪些样本标注）不同，课程学习通常不改变样本集合、只改变顺序；与 annealing（学习率或数据分布逐渐收紧）有重叠，但 annealing 常指训练末段的策略，课程覆盖全程",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "RoPE",
+      "issueNoLocal": 51,
+      "phonetic": "/ˈrəʊtəri pəˈzɪʃn ɪmˈbedɪŋ/",
+      "pos": "n.",
+      "posRaw": "n.（相关：positional encoding、absolute position、relative position、attention、long context、context window、NTK scaling、YaRN、ALiBi、length extrapolation、attention score、rotation matrix）",
+      "related": [
+        "positional encoding",
+        "absolute position",
+        "relative position",
+        "attention",
+        "long context",
+        "context window",
+        "NTK scaling",
+        "YaRN",
+        "ALiBi",
+        "length extrapolation",
+        "attention score",
+        "rotation matrix"
+      ],
+      "meaning": "【AI】旋转位置编码（rotary position embedding）——用旋转把位置信息编进 query 与 key：把每个位置映射成一个角度，对向量的每一对维度做二维旋转；两个 token 做点积时，结果只依赖它们的角度差，也就是相对距离，而与各自的绝对位置无关。它取代了可学习的绝对位置编码，成为 Llama / Qwen / DeepSeek 等主流模型的标配。两个关键好处：① 天然表达相对位置，符合注意力只关心谁离谁多近的本质；② 可通过调大旋转底数或做插值实现上下文外推——NTK-aware scaling、YaRN 都是在这上面做文章，把 4k 训练窗口拉到 128k。",
+      "gloss": "旋转位置编码",
+      "example": "Scaling the RoPE base from 10,000 to 500,000 let the model handle far longer inputs, but a short fine-tuning pass was needed to recover quality at short lengths.",
+      "exampleCn": "把 RoPE 的底数从 10000 放大到 500000，模型就能处理长得多的输入，但需要一小段微调来恢复短文本上的质量。",
+      "memory": "**记忆锚点**：RoPE = **不给你贴门牌号，只记「我离你几排」**——位置靠相对距离表达，座位怎么挪都不影响前后关系。**为什么重要**：① 注意力机制本身是置换不变的：把 token 顺序打乱，点积结果不变——不注入位置信息，模型看「猫追狗」和「狗追猫」是同一个东西，位置编码解决的就是这个问题；② RoPE 让相对位置直接进入点积，不需要额外学习相对位置表，参数更省、外推更好；③ 它是长上下文的技术底座：所有把 4k 扩到 128k 的方法（位置插值、NTK scaling、YaRN）都作用在 RoPE 的旋转频率上；④ 它解释了为什么训练长度是硬约束：超出训练时的位置范围，旋转角度进入模型没见过的区间，注意力分数失真，表现为长文记不住中间（接续 lost in the middle）。**关键权衡**：① 外推 vs 内插——直接外推（不调参数）几乎必崩，位置插值把超长位置压回训练区间但会损失分辨率，NTK/YaRN 在两者间折中；② 底数大小——底数越大能覆盖越长位置，但短距离的分辨率下降，需要微调补偿；③ RoPE vs ALiBi——ALiBi 用线性偏置惩罚远距离、外推更简单但表达力弱，RoPE 更灵活但需要调参；④ 绝对 vs 相对——RoPE 本质是相对，但实现上仍依赖绝对位置输入，两者不是非此即彼。**实践要点**：① 扩上下文不要只改配置，必须配一段长文本继续预训练，否则短任务质量会掉；② 记录训练时的最大长度，这是推理长度的硬上限，超出要显式处理；③ 排查长文效果差时，先看位置外推、再看检索（lost in the middle），两者症状相似但根因不同；④ 不要手工改旋转频率而不做验证，位置编码的改动会在评测上表现为全面轻微退化，很难归因。**易混点**：RoPE（旋转、相对位置）与 positional encoding（总称，含正弦、可学习、ALiBi）是「具体实现 vs 类别」的关系；与 absolute position embedding（给每个位置一个可学习向量）不同，后者参数量随最大长度增长、外推差；与 attention bias（在注意力分数上加偏置）不同，RoPE 改的是 q/k 本身",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "days sales outstanding (DSO)",
+      "issueNoLocal": 51,
+      "phonetic": "/deɪz seɪlz aʊtˈstændɪŋ/",
+      "pos": "n.",
+      "posRaw": "n.（相关：accounts receivable、cash conversion cycle (CCC)、days inventory outstanding (DIO)、days payable outstanding (DPO)、working capital、credit terms、collection period、aging schedule、bad debt、revenue recognition、channel stuffing、allowance for doubtful accounts）",
+      "related": [
+        "accounts receivable",
+        "cash conversion cycle (CCC)",
+        "days inventory outstanding (DIO)",
+        "days payable outstanding (DPO)",
+        "working capital",
+        "credit terms",
+        "collection period",
+        "aging schedule",
+        "bad debt",
+        "revenue recognition",
+        "channel stuffing",
+        "allowance for doubtful accounts"
+      ],
+      "meaning": "【金融】应收账款周转天数——衡量货卖出到钱收回平均要多少天：DSO = 应收账款 / 营收 × 天数。它是现金转换周期（CCC）的第一段，直接决定企业要先垫多少营运资金。DSO 上升有两种完全相反的解释：① 生意变差，客户拖欠、回款困难；② 生意变好但客户结构变了，大客户要求更长账期。区分要看账龄结构与坏账计提。它也是收入质量的照妖镜：为了让营收好看而放宽账期（channel stuffing），会出现营收涨、DSO 也涨、经营现金流反而恶化的组合。",
+      "gloss": "应收账款周转天数",
+      "example": "Revenue grew 25% but DSO jumped from 45 to 78 days — the growth was bought with credit, not with demand.",
+      "exampleCn": "营收增长 25%，但 DSO 从 45 天跳到 78 天——这个增长是用赊账买来的，不是需求带来的。",
+      "memory": "**记忆锚点**：DSO = **货已经出门、钱还在别人口袋里**——这个天数就是钱在外面待了多久。**为什么重要**：① 它把收入与现金的差距量化了：利润表确认收入的那一刻，钱可能还在客户账上，企业要先自己垫材料、人工、运费（接续 working capital）；② 它是现金转换周期的第一段，与库存天数、应付天数共同决定一块钱营收要垫多少现金；③ 它是识别激进确认收入的利器：营收增速长期高于经营现金流增速、同时 DSO 持续上升，通常意味着在用账期换增长；④ 对贸易生意尤其直接：给客户 90 天账期，等于自己做了三个月的无息贷款，这笔钱的机会成本必须算进报价。**关键权衡**：① 放宽账期 vs 抢订单——账期是最直接的竞争手段，但换来的增长要用营运资金支付；② DSO 低 vs 客户关系——逼得太紧会丢客户，尤其大客户议价能力强；③ 应收账款规模 vs 坏账风险——账龄拉长的部分要计提坏账准备，计提不足会让利润虚高；④ 保理或贴现 vs 自行持有——把应收账款卖掉能立刻回血，但要付贴现成本，且可能暴露客户质量。**实践要点**：① 看 DSO 必须同时看账龄结构：总额没变但 90 天以上占比上升，问题已经存在；② 用应收账款除以日均营收而非期末数，避免季节性失真；③ 对比同业时注意账期政策差异，直接比 DSO 绝对值会误导；④ 自己报价时把账期成本显式折进价格：90 天账期按资金成本折算，通常相当于让价 1.5%~3%。**易混点**：DSO（回款天数，应收侧）与 DPO（付款天数，应付侧）方向相反，一个越短越好、一个在合理范围内越长越好；与 DIO（库存天数）同属 CCC 的三个组成段，不要混为一谈；与 revenue recognition（何时确认收入）不同，DSO 衡量的是确认之后多久收到钱",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "inventory turnover",
+      "issueNoLocal": 51,
+      "phonetic": "/ˈɪnvəntri ˈtɜːnəʊvə/",
+      "pos": "n.",
+      "posRaw": "n.（相关：days inventory outstanding (DIO)、cost of goods sold (COGS)、working capital、obsolescence、write-down、supply chain、just-in-time、safety stock、cash conversion cycle (CCC)、gross margin、carrying cost、stockout）",
+      "related": [
+        "days inventory outstanding (DIO)",
+        "cost of goods sold (COGS)",
+        "working capital",
+        "obsolescence",
+        "write-down",
+        "supply chain",
+        "just-in-time",
+        "safety stock",
+        "cash conversion cycle (CCC)",
+        "gross margin",
+        "carrying cost",
+        "stockout"
+      ],
+      "meaning": "【金融】库存周转率——一年内存货被卖掉并补货多少次：存货周转率 = 销货成本 / 平均存货；取倒数乘 365 就是库存天数（DIO）。它衡量压在仓库里的现金转得多快。周转率高说明货走得快、占用资金少；但过高也可能是备货不足、缺货丢单。周转率低则是双重成本：资金占用 + 跌价风险（obsolescence）。对半导体材料这类价格波动大、技术迭代快的品类，库存天数是最敏感的经营指标——备多了怕跌价，备少了怕断供。",
+      "gloss": "库存周转率",
+      "example": "Inventory turnover fell from six times a year to four, and the write-down that followed wiped out two quarters of gross profit.",
+      "exampleCn": "库存周转率从一年六次降到四次，随后而来的存货跌价计提抹掉了两个季度的毛利。",
+      "memory": "**记忆锚点**：inventory turnover = **仓库是现金的停车场**——车停得越久，停车费（资金成本 + 跌价）越贵。**为什么重要**：① 它把库存从资产负债表上的一个数字，翻译成现金被锁住多久；② 它与 DSO、DPO 共同构成现金转换周期：周转慢一圈，等于多垫一整轮的材料款；③ 它是周期行业最灵敏的预警指标：需求转弱时，营收还没跌、库存天数已经先升，因为货卖不动但采购还在按计划进；④ 它直接连着毛利率：跌价计提走成本，库存周转一旦恶化，毛利率会在下一两个季度被反噬。**关键权衡**：① 周转快 vs 供应安全——JIT 把库存压到极限，但一次断供就停线，半导体材料的认证周期长，切换供应商成本极高；② 备货 vs 跌价——涨价周期里备货是利润来源，跌价周期里备货是亏损来源，同一个动作在周期不同位置含义完全相反；③ 周转率 vs 毛利率——低价清库存能拉高周转，但会牺牲毛利，两个指标必须一起看；④ 会计口径——用期末存货还是平均存货、用 COGS 还是营收，算出来的周转率差异很大，横向比较前先统一。**实践要点**：① 看库存天数而非周转率次数，天数更直观、也便于和账期对齐；② 拆分原材料 / 在制品 / 成品三段，成品积压与原料备货是完全不同的信号；③ 关注库存增速与营收增速的差：库存涨得比营收快，通常意味着渠道在压货或需求在转弱；④ 自己管库存时按金额乘持有天数乘资金成本，再加上跌价概率乘货值，估算持有成本，而不是只看仓储费。**易混点**：inventory turnover（一年转几次）与 DIO（转一次要几天）是同一件事的两种表达，互为倒数关系；与 asset turnover（总资产周转率）不同，后者分母是全部资产、衡量整体效率；与 sell-through（终端售出率）不同，turnover 看的是企业出货与补货，sell-through 看的是消费者真正买走多少，渠道压货时两者会背离",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [
+    {
+      "no": "1",
+      "word": "learning rate schedule",
+      "phonetic": "/ˈlɜːnɪŋ reɪt ˈʃedjuːl/",
+      "domain": "AI",
+      "point": "开头小步、中段放开、收尾收小；warmup 决定训练能不能启动"
+    },
+    {
+      "no": "2",
+      "word": "curriculum learning",
+      "phonetic": "/kəˈrɪkjələm ˈlɜːnɪŋ/",
+      "domain": "AI",
+      "point": "先易后难、先短后长；顺序本身是省算力的杠杆，但要先跑随机基线"
+    },
+    {
+      "no": "3",
+      "word": "RoPE",
+      "phonetic": "/ˈrəʊtəri pəˈzɪʃn ɪmˈbedɪŋ/",
+      "domain": "AI",
+      "point": "不贴门牌号只记相对距离；长上下文外推全靠旋转底数与插值"
+    },
+    {
+      "no": "4",
+      "word": "days sales outstanding (DSO)",
+      "phonetic": "/deɪz seɪlz aʊtˈstændɪŋ/",
+      "domain": "金融",
+      "point": "货出门到钱回口袋的天数；营收涨而 DSO 也涨，多半是赊账买增长"
+    },
+    {
+      "no": "5",
+      "word": "inventory turnover",
+      "phonetic": "/ˈɪnvəntri ˈtɜːnəʊvə/",
+      "domain": "金融",
+      "point": "仓库是现金的停车场；周期行业最灵敏的预警，跌价反噬毛利率"
+    }
+  ],
+  "comparisons": [],
+  "progress": [
+    "本期：第 51 期，5 词",
+    "累计：**255 词**（153 AI + 102 金融）",
+    "归档格式：MD 词卡 + KAMI One-Pager PNG + Telegram 推送"
+  ]
+}
