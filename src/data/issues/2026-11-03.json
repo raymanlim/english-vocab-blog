@@ -1,0 +1,205 @@
+{
+  "date": "2026-11-03",
+  "issueNo": 52,
+  "issueSpan": 1,
+  "issueLabel": "第 52 期",
+  "issueNoLabel": "52",
+  "theme": "智能体的「先想后做」 · 价值的锚与风险的护栏（规划 / 语义检索 / 自我反思 / 内在价值 / 止损）",
+  "themeRaw": "智能体的「先想后做」+ 价值的锚与风险的护栏（规划 / 语义检索 / 自我反思 / 内在价值 / 止损）",
+  "note": "本期 5 词（3 AI + 2 金融），已与前 51 期 255 词去重",
+  "title": "每日英语 5 词 · 2026-11-03",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "planning",
+      "issueNoLocal": 52,
+      "phonetic": "/ˈplænɪŋ/",
+      "pos": "n.",
+      "posRaw": "n.（相关：task decomposition、plan-and-execute、goal、subtask、reasoning、agent loop、tree of thoughts、ReAct、tool calling、orchestration、backtracking、verification）",
+      "related": [
+        "task decomposition",
+        "plan-and-execute",
+        "goal",
+        "subtask",
+        "reasoning",
+        "agent loop",
+        "tree of thoughts",
+        "ReAct",
+        "tool calling",
+        "orchestration",
+        "backtracking",
+        "verification"
+      ],
+      "meaning": "【AI】规划——智能体在动手前先生成达成目标的步骤序列（或树 / 图），再逐步执行并据反馈纠偏的能力。它与「直接反应式执行」（看到输入就答）相对：反应式快但容易在长任务里走偏，规划式先把问题拆成可验证的子目标，每完成一步检查是否偏离主路径。现代 agent 框架（plan-and-execute、Tree of Thoughts、Swarm 的 handoff 规划）都把规划当作「先想清楚再干」的元层。难点在于：计划本身可能错误，且环境变化会让原计划失效，所以需要「计划—执行—反思—重规划」的闭环，而不是一次成型。",
+      "gloss": "规划",
+      "example": "The agent stalled on a 12-step task until we added a planner that decomposed it into checkable subtasks; completion jumped from 40% to 92%.",
+      "exampleCn": "这个智能体在 12 步的任务上卡住了，直到我们加了一个把它拆成可核查子任务的规划器；完成率从 40% 跳到 92%。",
+      "memory": "**记忆锚点**：planning = **先画地图再出发**——不是看到路就走，而是先把整段路程拆成几个检查点，走一段就对一次坐标。**为什么重要**：① 它是长任务成功率的分水岭：超过 5 步的任务，纯反应式 agent 几乎必然在中段迷失（接续 lost in the middle / agent memory）；② 它把「目标」与「手段」解耦——先确定要什么，再决定怎么要，避免被局部信息带偏；③ 它让失败可定位：哪一步没达成一目了然，便于回溯而不是整体重来；④ 它与 reasoning、tool calling 是配套三件套：reasoning 想、planning 排、tool calling 做。**关键权衡**：① 规划开销 vs 收益——每步都重规划会拖慢简单任务，所以常对短任务跳过规划、长任务才启用；② 计划粒度——拆太粗会遗漏关键子目标，拆太细会增加计划本身的出错面；③ 静态计划 vs 动态重规划——环境稳定用静态，环境多变必须闭环重规划；④ 自我规划 vs 人类规划——agent 自己定的计划常漏掉领域约束，关键任务要 human-in-the-loop 把关。**实践要点**：① 给长任务强制加「计划—检查—重规划」循环，不要只靠 ReAct 一路试错；② 子目标要可验证（有明完成判据），否则计划只是空话；③ 把规划结果显式存进 agent memory，避免每次从零想；④ 评估 agent 时区分「会不会规划」和「规划对不对」——两者是不同能力。**易混点**：planning（生成步骤序列）与 reasoning（推导结论）不同，前者是「要做什么」的序列、后者是「为什么这样」的链条；与 orchestration（多 agent 协作编排）不同，planning 在单 agent 内部也能做；与 scheduling（排期定时间）相比，planning 更关心「做什么、以什么逻辑顺序」，scheduling 关心「何时做、谁来做」。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "semantic search",
+      "issueNoLocal": 52,
+      "phonetic": "/sɪˈmæntɪk sɜːrtʃ/",
+      "pos": "n.",
+      "posRaw": "n.（相关：embedding、vector、cosine similarity、dense retrieval、keyword search、lexical match、RAG、approximate nearest neighbor (ANN)、re-ranker、knowledge base、query understanding）",
+      "related": [
+        "embedding",
+        "vector",
+        "cosine similarity",
+        "dense retrieval",
+        "keyword search",
+        "lexical match",
+        "RAG",
+        "approximate nearest neighbor (ANN)",
+        "re-ranker",
+        "knowledge base",
+        "query understanding"
+      ],
+      "meaning": "【AI】语义检索——按「意思相近」而非「字面相同」来找内容：把查询和文档都编码成向量，用向量距离衡量语义匹配度，所以搜「怎么让模型不胡说」也能命中标题写「降低幻觉」的文章。它区别于关键词检索（必须命中 exact 词），也区别于传统数据库查询（按字段精确匹配）；是 RAG、推荐系统、企业知识库的底层能力。短处是「语义相近」不等于「事实正确」，且检索质量高度依赖 embedding 模型——embedding 没训好，语义检索就会搜出看似相关实则跑题的结果。",
+      "gloss": "语义检索",
+      "example": "Semantic search surfaced the right doc even though the query shared no keywords with its title — it matched on meaning, not wording.",
+      "exampleCn": "语义检索把正确的文档顶了上来，尽管查询和它的标题没有任何相同关键词——它匹配的是意思，不是字眼。",
+      "memory": "**记忆锚点**：semantic search = **按意思找人，不是按名字找人**——搜「怎么让模型闭嘴乱说」也能命中「降低幻觉的方法」。**为什么重要**：① 它解决了关键词检索的硬伤：用户不会总用文档里的原词提问，字面不匹配就搜不到，语义检索补上这一环（接续 embedding / cosine similarity / RAG）；② 它是 RAG 召回质量的上限——检索阶段没找对，生成阶段再强也是 garbage in；③ 它把「理解查询意图」从规则工程变成向量运算，可规模化、可微调；④ 它重新定义了企业搜索：员工用自然语言问「上季度华东区退货率为什么高」，系统直接定位到相关报告段落。**关键权衡**：① 语义 vs 字面——语义擅长同义改写，但精确标识符（型号、编号、专有名词）反而是关键词检索的强项，工程上常两者融合；② 召回率 vs 精度——放宽向量阈值能多召回，但噪声也多，通常需要 re-ranker 二次精排；③ embedding 质量 vs 领域适配——通用 embedding 在垂直领域（医疗、法律、半导体）常掉链子，要领域微调；④ 延迟与成本——向量检索本身快，但高质量 embedding + rerank 有算力开销，需按场景取舍。**实践要点**：① 别只上向量检索，关键词 + 向量混合（hybrid）通常是效果天花板；② 检索结果一定要接 re-ranker，尤其候选多时；③ 评估用「是否召回正确答案」而非「向量距离多近」，距离近不代表相关；④ embedding 模型要和业务语料同域，跨域直接套用通用模型会翻车。**易混点**：semantic search（按意思匹配）与 keyword search（按字面匹配）是互补的两种召回；与 vector database（存向量的库）不同，前者是检索方法、后者是存储基础设施；与 cosine similarity（相似度算法）是「方法 vs 度量」的关系，语义检索靠它来排远近。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "self-reflection",
+      "issueNoLocal": 52,
+      "phonetic": "/ˌself rɪˈflɛkʃən/",
+      "pos": "n.",
+      "posRaw": "n.（相关：reflection、critique、verifier、self-correction、Reflexion、reasoning、reward model、memory、iterative improvement、chain-of-thought、error analysis、meta-cognition）",
+      "related": [
+        "reflection",
+        "critique",
+        "verifier",
+        "self-correction",
+        "Reflexion",
+        "reasoning",
+        "reward model",
+        "memory",
+        "iterative improvement",
+        "chain-of-thought",
+        "error analysis",
+        "meta-cognition"
+      ],
+      "meaning": "【AI】自我反思——智能体在产出后回过头审视自己的答案或过程，发现错误、偏差或遗漏，再修正重来。它不是一次生成到底，而是「生成—批评—改进」的闭环（如 Reflexion 框架让 agent 把失败写成记忆，供下次避坑）。价值在于把一次性输出变成可迭代优化：复杂任务上，会反思的 agent 明显胜过「写完就交」的 agent。难点是反思本身也可能错（反思链出现幻觉），且多次反思会带来额外开销与延迟，需要设上限防止无限循环。",
+      "gloss": "自我反思",
+      "example": "After reflecting on its wrong answer, the agent spotted the flawed assumption and produced a correct solution on the second attempt.",
+      "exampleCn": "在反思了自己的错误答案后，这个智能体找出了那个有缺陷的假设，并在第二次尝试中给出了正确解。",
+      "memory": "**记忆锚点**：self-reflection = **写完再读一遍自己哪儿错了**——不是一次成型，而是「做—批—改」的闭环，比「写完就交」强得多。**为什么重要**：① 它直接抬升复杂任务的正确率：第一遍生成常带隐含错误假设，反思能把它暴露出来（接续 reasoning / verifier / reward model）；② 它把「经验」沉淀成可复用记忆——Reflexion 把失败教训写进 agent memory，下次同坑不踩第二次（接续 agent memory）；③ 它降低对超大模型的依赖：中等模型 + 反思循环，有时能逼近更大模型的单次输出；④ 它是 agent 自主性的关键一环——没有反思，agent 只是「会调用的函数」，有了反思才接近「会学习的助手」。**关键权衡**：① 反思次数 vs 成本——每多一轮反思就多一次 LLM 调用，要设上限防烧钱和延迟；② 自我反思 vs 外部批评——自己批自己容易「看不见自己的盲点」，关键任务用独立 verifier 或 human-in-the-loop 更稳；③ 反思深度 vs 实用性——浅反思抓语法错，深反思查逻辑错，但深反思更易产生新幻觉；④ 在线反思 vs 离线沉淀——当场改答案快，把教训存进记忆供长期改进更有复利。**实践要点**：① 给 agent 加一个固定的「复盘」步骤，不要只靠单次生成；② 反思结论要可验证，避免「反思出另一个错」；③ 把高频错误模式写进 system prompt 或知识库，让反思的成果跨会话复用；④ 评估反思效果看「二次尝试通过率」，而不是反思文本多长。**易混点**：self-reflection（生成后回看修正）与 reasoning（生成时的推导）不同，一个在产出后、一个在产出中；与 RLHF / reward model（用外部信号纠偏）不同，反思尽量靠模型自身完成；与 self-consistency（多采样投票）也不同，后者靠「多数」而非「回看」。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "intrinsic value",
+      "issueNoLocal": 52,
+      "phonetic": "/ɪnˈtrɪnzɪk ˈvæljuː/",
+      "pos": "n.",
+      "posRaw": "n.（相关：discounted cash flow (DCF)、free cash flow、discount rate、margin of safety、market price、growth rate、terminal value、book value、earnings power、fundamental analysis、Mr. Market、value investing）",
+      "related": [
+        "discounted cash flow (DCF)",
+        "free cash flow",
+        "discount rate",
+        "margin of safety",
+        "market price",
+        "growth rate",
+        "terminal value",
+        "book value",
+        "earnings power",
+        "fundamental analysis",
+        "Mr. Market",
+        "value investing"
+      ],
+      "meaning": "【金融】内在价值——一项资产「按道理值多少钱」的估算，是价值投资的核心标尺：用现金流折现（DCF）、股利折现等模型算出企业本身该值的价格，再与市价比，得出「被低估 / 高估」。它和「市场价格」是两回事——价格由供需与情绪决定、天天波动，内在价值由基本面决定、变动慢。难点在它高度依赖假设（增长率、折现率差一点，结果差很远），所以常被用作「安全边际」的锚，而非精确数字；巴菲特说的「用四毛钱买一块钱的东西」，锚的就是内在价值。",
+      "gloss": "内在价值",
+      "example": "The stock traded at $30 while his intrinsic-value model put fair value near $50 — a margin of safety he could not ignore.",
+      "exampleCn": "这只股票市价 30 美元，而他的内在价值模型算出的公允价值接近 50 美元——这个安全边际他无法忽视。",
+      "memory": "**记忆锚点**：intrinsic value = **企业「该值多少钱」的估算，不是「现在卖多少钱」**——前者看基本面，后者看情绪，两者常背离。**为什么重要**：① 它是买卖决策的锚：先有内在价值，才有「低估就买、高估就卖」的判断框架（接续 margin of safety / value investing）；② 它把投资从「猜涨跌」拉回「比价格」，用基本面替代盘面情绪，是抵御 FOMO 的 antidote；③ 它强制你面对假设——DCF 里增长率、折现率每个数字都要交代清楚，逼着你真的理解这门生意（接续 DCF / free cash flow / discount rate）；④ 它解释了为什么同一只股票有人买有人卖：买方看到的价格低于自己算的内在价值，卖方相反，分歧本质是模型假设的分歧。**关键权衡**：① 精确 vs 区间——内在价值永远是个区间而非定点，较真到小数点第二位是自欺，给 20%~30% 的安全边际才现实；② 假设敏感 vs 稳定——折现率和永续增长率动 1 个百分点，估值能差出 20% 以上，所以重点放在「假设是否稳健」而非「数字是否漂亮」；③ 内在价值 vs 市价——市价可以长期偏离内在价值（市场先生会发疯），价值投资赌的是「终会回归」，需要耐心和资金久期；④ 静态快照 vs 动态跟踪——内在价值随经营和宏观变化，要定期重算，不能一年算一次用十年。**实践要点**：① 永远用「区间 + 安全边际」表达内在价值，别给单点数字；② 把估值拆成「乐观 / 基准 / 悲观」三档情景，看最差情形是否还能接受（接续 scenario analysis）；③ 重点检验关键假设（增长率、折现率、终端价值占比），而不是纠结细枝末节；④ 市价远低于内在价值时，先问「是不是我漏看了风险」再下单，避免价值陷阱。**易混点**：intrinsic value（基本面该值多少）与 market price（当前成交价）是两本账，前者慢变、后者秒变；与 book value（账面净资产）不同，内在价值看未来现金流而非历史成本；与 valuation（估值这整个动作）是「结果 vs 过程」的关系。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "stop-loss",
+      "issueNoLocal": 52,
+      "phonetic": "/ˈstɒp lɒs/",
+      "pos": "n.",
+      "posRaw": "n.（相关：risk management、position sizing、drawdown、cut losses、disposition effect、support level、trailing stop、risk-reward ratio、maximum loss、exit rule、margin call）",
+      "related": [
+        "risk management",
+        "position sizing",
+        "drawdown",
+        "cut losses",
+        "disposition effect",
+        "support level",
+        "trailing stop",
+        "risk-reward ratio",
+        "maximum loss",
+        "exit rule",
+        "margin call"
+      ],
+      "meaning": "【金融】止损——预先设好「亏到这个数就认赔离场」的纪律线，是风险控制的硬约束：价格跌破止损位就机械卖出，不让主观希望覆盖规则。它用一次小额、确定的亏损，换取「不被单次判断错误拖垮」的生存权。难点在执行为——人天然厌恶兑现亏损（处置效应），总想「再等等说不定回本」，结果小亏变大亏。有效的止损要事前定、写进规则、到点就执行，而不是盘中靠感觉临时决断。",
+      "gloss": "止损",
+      "example": "He set a 5% stop-loss and was stopped out Monday — annoying, but it kept one bad call from wiping out the quarter.",
+      "exampleCn": "他设了 5% 止损，周一被扫损出局——虽烦，但保住了这一个错误判断不至于吞掉整个季度。",
+      "memory": "**记忆锚点**：stop-loss = **亏到这个数就走**——用一次小亏买「不被一单拖死」的生存权；难点是别让「再等等」战胜规则。**为什么重要**：① 它是仓位活的底线：再好的判断也有错的时候，止损保证「错一次不死」（接续 drawdown / position sizing / risk management）；② 它把情绪排除在决策外——规则写好，到点自动执行，避免盘中因恐惧或侥幸而扛单；③ 它定义了单笔最大亏损，让「风险收益比」可计算：进场前就知最坏亏多少、目标赚多少；④ 它与复利同向——少一次大亏，比多一次小赚对长期复利更重要（大亏要更高收益率才能回本，50% 亏损要 100% 盈利才能平）。**关键权衡**：① 止损太紧 vs 太松——太紧被正常波动扫掉（whipsaw），太松则失去保护，通常参考支撑位或固定比例（如 2%~5%）；② 固定止损 vs 移动止损（trailing stop）——固定简单但锁不住利润，移动止损随价格上涨上移、保护浮盈，但回撤更深；③ 机械执行 vs 人工判断——纯机械避免情绪，但极端事件（跳空低开）会直接击穿止损，需配合仓位上限；④ 止损 vs 不止损的价值投资——长期持有好公司有时「不止损」，但那是建立在深度研究 + 安全边际之上，不是无纪律硬扛。**实践要点**：① 止损必须在进场前写好，进场后只执行不讨论；② 止损位要有依据（支撑位 / 波动幅度 / 风险预算），不是拍脑袋；③ 被扫损后先复盘再决定要不要重新进场，别赌气追回；④ 用 position sizing 配合止损：单笔最大亏损 = 仓位 × 止损幅度，两者一起定才能控住总风险。**易混点**：stop-loss（亏损到线就卖）与 take-profit（盈利到线就卖）是出场的两端；与 trailing stop（随涨上移的止损）是「静态 vs 动态」关系；与 margin call（保证金不足被强平）不同，止损是主动纪律、强平是被动爆仓。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [
+    {
+      "no": "1",
+      "word": "planning",
+      "phonetic": "/ˈplænɪŋ/",
+      "domain": "AI",
+      "point": "先画地图再出发；长任务成功率分水岭，把目标拆成可核查子步骤"
+    },
+    {
+      "no": "2",
+      "word": "semantic search",
+      "phonetic": "/sɪˈmæntɪk sɜːrtʃ/",
+      "domain": "AI",
+      "point": "按意思而非字眼找内容；RAG 召回上限，靠 embedding + rerank"
+    },
+    {
+      "no": "3",
+      "word": "self-reflection",
+      "phonetic": "/ˌself rɪˈflɛkʃən/",
+      "domain": "AI",
+      "point": "写完再批自己；做—批—改闭环，复杂任务明显强于一次成型"
+    },
+    {
+      "no": "4",
+      "word": "intrinsic value",
+      "phonetic": "/ɪnˈtrɪnzɪk ˈvæljuː/",
+      "domain": "金融",
+      "point": "企业「该值多少」的锚；用区间 + 安全边际，别给单点数字"
+    },
+    {
+      "no": "5",
+      "word": "stop-loss",
+      "phonetic": "/ˈstɒp lɒs/",
+      "domain": "金融",
+      "point": "亏到这数就走；用小事纪律换生存权，难点在执行不扛单"
+    }
+  ],
+  "comparisons": [],
+  "progress": [
+    "本期：第 52 期，5 词",
+    "累计：**260 词**（156 AI + 104 金融）",
+    "归档格式：MD 词卡 + KAMI One-Pager PNG + Telegram 推送"
+  ]
+}

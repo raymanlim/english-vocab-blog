@@ -1,16 +1,39 @@
 {
-  "generatedAt": "2026-11-02T12:22:42.215Z",
+  "generatedAt": "2026-11-03T13:40:26.508Z",
   "source": "pinghe/english words",
   "totals": {
-    "issues": 51,
-    "days": 50,
-    "words": 255,
-    "ai": 153,
-    "finance": 102,
+    "issues": 52,
+    "days": 51,
+    "words": 260,
+    "ai": 156,
+    "finance": 104,
     "both": 0,
     "other": 0
   },
   "issues": [
+    {
+      "date": "2026-11-03",
+      "issueNo": 52,
+      "issueSpan": 1,
+      "issueLabel": "第 52 期",
+      "issueNoLabel": "52",
+      "theme": "智能体的「先想后做」 · 价值的锚与风险的护栏（规划 / 语义检索 / 自我反思 / 内在价值 / 止损）",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 51 期 255 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "planning",
+        "semantic search",
+        "self-reflection",
+        "intrinsic value",
+        "stop-loss"
+      ]
+    },
     {
       "date": "2026-11-02",
       "issueNo": 51,
