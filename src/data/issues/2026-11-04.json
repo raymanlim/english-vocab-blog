@@ -1,0 +1,206 @@
+{
+  "date": "2026-11-04",
+  "issueNo": 53,
+  "issueSpan": 1,
+  "issueLabel": "第 53 期",
+  "issueNoLabel": "53",
+  "theme": "看清底层，而不是看表面（幂等 / 尾延迟 / 数据飞轮 / 未平仓合约 / 成本基础）",
+  "themeRaw": "看清底层，而不是看表面（幂等 / 尾延迟 / 数据飞轮 / 未平仓合约 / 成本基础）",
+  "note": "本期 5 词（3 AI + 2 金融），已与前 52 期 260 词去重",
+  "title": "每日英语 5 词 · 2026-11-04",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "idempotency",
+      "issueNoLocal": 53,
+      "phonetic": "/ˌaɪdəmˈpoʊtənsi/",
+      "pos": "n.",
+      "posRaw": "n.（相关：idempotency key、retry、deduplication、exactly-once、at-least-once、side effect、timeout、backoff、transaction、tool calling、agent loop、reconciliation）",
+      "related": [
+        "idempotency key",
+        "retry",
+        "deduplication",
+        "exactly-once",
+        "at-least-once",
+        "side effect",
+        "timeout",
+        "backoff",
+        "transaction",
+        "tool calling",
+        "agent loop",
+        "reconciliation"
+      ],
+      "meaning": "【AI】幂等性——同一个操作执行一次与执行多次，对外部世界的最终效果相同。在 agent 里它解决的是「重试」这个必然后果：网络超时、模型中断、任务重跑都会让工具调用被重复发出，若写操作不幂等，就会重复下单、重复扣款、重复发邮件。工程上的标准做法是给每次写请求带一个唯一的幂等键（idempotency key），服务端见到同一个键只执行一次，后续请求直接返回首次结果。它与「重试」是一对：重试提高成功率，幂等保证重试不产生副作用，两者缺一不可。注意 HTTP 语义里 GET/PUT/DELETE 幂等、POST 不幂等，这决定了哪些接口可以无脑重试。",
+      "gloss": "幂等性",
+      "example": "Our agent double-charged three customers because the payment tool retried after a timeout; adding an idempotency key to every write call fixed it.",
+      "exampleCn": "我们的 agent 给三位客户重复扣款，因为支付工具在超时后重试了；给每个写调用加上幂等键后问题消失。",
+      "memory": "**记忆锚点**：idempotency = **连按两次电梯按钮，电梯只来一趟**——动作重复，结果不变。**为什么重要**：① 它把「重试」从危险动作变成安全动作：没有幂等，超时重试就是重复扣款；有幂等，重试只是把没送达的请求再送一次（接续 tool calling / agent loop）；② 它是「至少一次投递」语义下的必备补丁——消息队列天然会重复投递，靠幂等键在消费端去重；③ 它决定了 agent 能否自主恢复：能安全重试的 agent 才敢在失败后自己再来一遍，而不是把烂摊子交给人；④ 它是审计与对账的前提：有唯一键才能把「同一笔业务」的多条请求归并成一条。**关键权衡**：① 幂等键的成本 vs 收益——生成、存储、过期清理键都有开销，内部脚本可能不值，涉及钱的接口必须做；② 强幂等 vs 弱幂等——服务端记住所有键会无限膨胀，通常设 TTL（如 24 小时），超窗后的重复请求可能再次生效；③ 幂等 vs 一致性——幂等只保证「不重复」，不保证「一定成功」，仍需配合重试与对账；④ 客户端生成键 vs 服务端内容去重——客户端键跨请求稳定更可靠，服务端按内容哈希去重则可能误合并两笔合法的相同请求。**实践要点**：① 所有有副作用的工具调用（下单、付款、发消息、写库）都必须带幂等键；② 键要在重试之间保持不变，不能每次重试都新生成；③ 读接口天然幂等，写接口才需要设计；④ 把「超时」当作「可能已成功」处理，而不是「一定失败」——这正是重复扣款的根源。**易混点**：idempotency（重复执行结果相同）与 retry（重复执行这个动作）是「性质 vs 动作」；与 exactly-once（恰好一次，通常由「至少一次 + 去重」实现）不同，幂等是实现它的手段；与 transaction（原子性，要么全成要么全败）不同，幂等管重复、事务管部分失败。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "tail latency",
+      "issueNoLocal": 53,
+      "phonetic": "/teɪl ˈleɪtənsi/",
+      "pos": "n.",
+      "posRaw": "n.（相关：p50、p95、p99、percentile、mean、median、straggler、queueing、timeout、hedged request、load shedding、latency amplification、throughput、time to first token (TTFT)）",
+      "related": [
+        "p50",
+        "p95",
+        "p99",
+        "percentile",
+        "mean",
+        "median",
+        "straggler",
+        "queueing",
+        "timeout",
+        "hedged request",
+        "load shedding",
+        "latency amplification",
+        "throughput",
+        "time to first token (TTFT)"
+      ],
+      "meaning": "【AI】尾延迟——延迟分布里最慢那一小撮请求的耗时（常看 p95 / p99 / p999），而不是平均值或中位数。平均值会把少数极慢请求稀释掉：p50 是 180ms、p99 是 2.4s 的系统，用户抱怨的永远是那 2.4 秒。在 LLM 服务里尾部尤其重要，因为生成时长随输出长度、排队深度、批处理策略剧烈波动；一个慢请求还会在 fan-out 场景被放大——一次请求打 50 个下游，只要一个慢，整体就慢（tail latency amplification）。治理手段包括超时、对冲请求（hedged request，慢就再发一份取先回的）、负载丢弃、请求分级，以及减少排队与 GC 停顿。",
+      "gloss": "尾延迟",
+      "example": "Median latency looked fine at 180 ms, but p99 was 2.4 s — and that tail is what users actually remember.",
+      "exampleCn": "中位延迟 180 毫秒看着不错，但 p99 是 2.4 秒——而用户真正记住的正是这条尾巴。",
+      "memory": "**记忆锚点**：tail latency = **体检别只看平均分，要看最差那几次**——平均 180ms 的系统，可能每 100 次就有一次卡 2.4 秒。**为什么重要**：① 均值是骗人的：少数长尾会把平均数掩盖或拉偏，而体验由最慢的那几次决定（接续 latency / throughput）；② 它是 SLO 的语言：对外承诺通常写「p99 < 500ms」而非「平均 < 200ms」，后者无法约束最差体验；③ 在 agent / RAG 里尾部会被放大：一次请求扇出到检索、重排、多个工具，任何一个慢都拖垮整体；④ 它暴露系统性病因：GC 停顿、缓存击穿、热点分片、排队——这些都不体现在中位数上。**关键权衡**：① 优化尾部 vs 优化均值——压均值便宜（加缓存），压尾部贵（要消除毛刺源），但收益更直接；② 对冲请求 vs 成本——多发一份请求能显著降尾延迟，但算力翻倍，通常只对高价值请求开启；③ 严格超时 vs 完成率——超时设短能保住 p99，却会增加失败率，需按业务容忍度调；④ 批处理 vs 单请求延迟——批得越大吞吐越高、尾延迟越差（要等最慢那条凑批）。**实践要点**：① 监控必须看分位数，且按接口、按模型、按输入长度分组，否则全局 p99 会掩盖局部灾难；② 先找「谁在制造尾巴」（GC、冷启动、锁、下游），再谈优化；③ 给下游调用设超时 + 重试预算，避免一个慢依赖吃掉整个请求预算；④ LLM 场景把 TTFT 与总生成时间分开看，二者尾部成因不同。**易混点**：tail latency（延迟分布的尾部）与 average latency（均值）是两种世界观；与 timeout（超时阈值）不同，前者是观测指标、后者是控制手段；与 throughput（单位时间处理量）常此消彼长，压尾延迟往往要牺牲部分吞吐。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "data flywheel",
+      "issueNoLocal": 53,
+      "phonetic": "/ˈdeɪtə ˈflaɪwiːl/",
+      "pos": "n.",
+      "posRaw": "n.（相关：feedback loop、data network effect、cold start、compounding、reinforcement learning from human feedback (RLHF)、usage data、personalization、moat、retention、virtuous cycle、self-improving）",
+      "related": [
+        "feedback loop",
+        "data network effect",
+        "cold start",
+        "compounding",
+        "usage data",
+        "personalization",
+        "moat",
+        "retention",
+        "virtuous cycle",
+        "self-improving"
+      ],
+      "meaning": "【AI】数据飞轮——「产品被使用 → 产生数据 → 数据改进模型 → 产品更好用 → 更多使用」的自我强化循环。它是 AI 公司叙事里最常见的护城河论证：用户越多，行为数据越丰富，模型越准，体验越好，留存越高，又带来更多数据。飞轮成立的前提是「数据能真的改进产品」且「改进能被用户感知」，否则只是自我安慰的循环论证。它的反面是冷启动：没有用户就没有数据，没有数据产品就不够好——所以早期产品常靠人工规则、合成数据或单点场景破局。此外飞轮有边际递减：数据从 1 万条到 100 万条提升巨大，从 1 亿到 10 亿可能几乎没有增量。",
+      "gloss": "数据飞轮",
+      "example": "The recommendation engine's data flywheel only started spinning once daily active users passed the threshold where each new session measurably improved the next ranking.",
+      "exampleCn": "这个推荐引擎的数据飞轮，直到日活用户越过某个门槛——每次新会话都能可测量地改善下一次排序——才真正转起来。",
+      "memory": "**记忆锚点**：data flywheel = **越用越准，越准越有人用**——一个自己给自己加速的轮子，前提是「数据真的能改进产品」。**为什么重要**：① 它解释了 AI 产品的竞争终局：模型可以买、算力可以租，唯独用户行为数据买不到，这是最难的护城河（接续 moat / economic moat）；② 它把「增长」与「模型能力」绑成一个系统：增长不只是拉新，更是给模型喂数据；③ 它决定了评估口径：若新增数据不能提升关键指标，飞轮就是空转，融资故事不成立；④ 它是复利思维在产品上的投影——每轮循环都让下一轮起点更高（接续 compounding）。**关键权衡**：① 数据量 vs 数据质量——脏数据、偏差数据会让飞轮反向转（garbage in, worse out）；② 飞轮速度 vs 隐私合规——用得越深，越容易踩数据授权与隐私红线；③ 通用能力 vs 场景数据——通用大模型的数据飞轮属于巨头，创业公司的飞轮只能建在垂直场景的私有数据上；④ 短期指标 vs 长期复利——为飞轮优化可能牺牲当期收入（如免费额度换数据）。**实践要点**：① 先验证「数据 → 指标」的因果链，再谈飞轮，否则只是相关性幻觉；② 明确飞轮的「燃料」是什么数据、由哪个环节产生、如何回流到模型；③ 冷启动阶段别硬等飞轮，先用规则 / 合成数据 / 人工标注把产品做到可用；④ 警惕边际递减，找到「数据增益拐点」后把资源转向分发与留存。**易混点**：data flywheel（数据驱动的自我强化循环）与 network effect（用户越多直接越好用，如社交）不同，前者靠数据改进产品、后者靠连接密度；与 feedback loop（反馈回路，可正可负）是「特例 vs 一般」；与 scaling law（靠参数扩张带来能力提升）不同，飞轮靠数据回流。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "open interest",
+      "issueNoLocal": 53,
+      "phonetic": "/ˈoʊpən ˈɪntrəst/",
+      "pos": "n.",
+      "posRaw": "n.（相关：volume、derivative、futures、options、strike price、expiration、rollover、max pain、position、liquidity、short interest、settlement）",
+      "related": [
+        "volume",
+        "derivative",
+        "futures",
+        "options",
+        "strike price",
+        "expiration",
+        "rollover",
+        "max pain",
+        "position",
+        "liquidity",
+        "short interest",
+        "settlement"
+      ],
+      "meaning": "【金融】未平仓合约数——市场上尚未平仓或交割的衍生品合约总数，衡量的是「有多少仓位还挂着」，而不是「今天成交了多少」。它与成交量（volume）是两回事：成交量算的是当天换手次数，未平仓合约算的是留到明天的敞口。两者配合看能读出资金意图：价涨 + 量增 + 未平仓增，说明新资金进场做多；价涨 + 量增 + 未平仓减，多是空头回补（旧仓平掉）而非新多入场。在期权里，未平仓集中在哪些行权价，往往就是做市商对冲与「钉住」效应的来源，也是判断流动性与最大痛点的常用输入。",
+      "gloss": "未平仓合约数",
+      "example": "Volume spiked fourfold, but open interest barely moved — that was day traders churning, not new positioning.",
+      "exampleCn": "成交量放大到四倍，但未平仓合约几乎没动——那是日内交易者在来回倒手，不是新仓位进场。",
+      "memory": "**记忆锚点**：open interest = **还挂在桌上的筹码，不是今天过了几手**——成交量是流水，未平仓是存量。**为什么重要**：① 它区分「新钱」与「旧仓平掉」：同样是放量大涨，未平仓增代表新多进场（可持续），未平仓减代表空头回补（容易熄火）；② 它是流动性的真实刻度：某个行权价未平仓厚，买卖价差通常更窄、冲击成本更低，适合建仓；③ 它是期权策略的定位工具：未平仓集中在某几个行权价，说明市场共识的「磁吸位」在那里，也影响做市商对冲行为；④ 它帮你看穿假突破：价格破了关键位但未平仓没跟上，多半是情绪而非资金。**关键权衡**：① 未平仓大 vs 流动性好——未平仓大通常流动性好，但临近到期、深度虚值合约可能未平仓不小而盘口很薄；② 单看未平仓 vs 结合价格——未平仓本身无方向，必须与价格、成交量三者一起读；③ 期货 vs 期权——期货未平仓反映整体敞口，期权还要按行权价与看涨/看跌拆开看；④ 总量 vs 结构——总量告诉你热度，分各行权价的结构才告诉你「押在哪」。**实践要点**：① 把「价、量、未平仓」当成三件套一起看，不要单指标下结论；② 期权建仓前先看目标行权价的未平仓与盘口，别在无人区挂单；③ 到期日前留意未平仓的迁移（rollover），它预示下一轮资金往哪个月份 / 行权价去；④ 未平仓骤降常伴随集中平仓，波动会放大，仓位要相应收敛。**易混点**：open interest（未平仓合约存量）与 volume（当日成交流量）是最常被混淆的一对；与 short interest（股票被做空的股数）不同，前者是衍生品合约、后者是现货融券；与 position（自己的持仓）不同，open interest 是全市场合计。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "cost basis",
+      "issueNoLocal": 53,
+      "phonetic": "/kɔːst ˈbeɪsɪs/",
+      "pos": "n.",
+      "posRaw": "n.（相关：capital gains、realized gain、unrealized gain、adjusted cost basis、specific identification、FIFO、wash sale、return of capital、stock split、dividend reinvestment、tax lot）",
+      "related": [
+        "capital gains",
+        "realized gain",
+        "unrealized gain",
+        "adjusted cost basis",
+        "specific identification",
+        "FIFO",
+        "wash sale",
+        "return of capital",
+        "stock split",
+        "dividend reinvestment",
+        "tax lot"
+      ],
+      "meaning": "【金融】成本基础——为计税而记录的资产原始取得成本，是计算资本利得的起点：卖出价减成本基础等于应税收益。它不是「你记忆里的买入价」——拆股、送股、分红再投资、资本返还、佣金都会调整它（adjusted cost basis）。同一只股票分批买入时，每一批是一个独立的 tax lot，卖出时可以选择先进先出（FIFO，多数券商默认）或指定批次（specific identification），选哪个直接决定当期税负。在美国市场还要注意 wash sale 规则：卖出亏损后 30 天内买回同一证券，亏损不允许抵扣，而是加到新仓位的成本基础上。成本基础算错，轻则多缴税，重则申报不实。",
+      "gloss": "成本基础",
+      "example": "After two splits and years of reinvested dividends, his adjusted cost basis was nowhere near the $120 purchase price he remembered.",
+      "exampleCn": "经历两次拆股和多年分红再投资后，他的调整后成本基础早已不是记忆里的 120 美元买入价。",
+      "memory": "**记忆锚点**：cost basis = **算税的起跑线，不是你记忆里的买入价**——拆股、分红再投资、资本返还都会把它挪走。**为什么重要**：① 它直接决定税单：卖出价减成本基础就是应税收益，基础记错一元，税就错一元（接续 capital gains）；② 它影响卖出决策：同样一笔浮盈，卖高基础的批次税负更轻，指定批次卖出是合法的税务优化；③ 它是长期复利的一部分：每年少缴的税继续留在场内滚，长期差距可观；④ 它防止「感觉赚钱实际亏钱」：把分红再投资计入基础后，很多「翻倍」的持仓真实收益要打折。**关键权衡**：① FIFO vs 指定批次——FIFO 省事但常卖掉最早、成本最低的批次（税负最重），指定批次省税但操作繁琐、部分券商不支持；② 税务优化 vs 组合纪律——为省税而死守亏损仓位（不愿实现亏损）是典型的处置效应；③ 精确记录 vs 依赖券商——券商报表可能只覆盖转入后的历史，跨券商迁移时基础常丢失，必须自己留底；④ 长期持有 vs 短期交易——长期资本利得税率通常更低，但「为了税率而拖延卖出」也可能放大回撤。**实践要点**：① 每次买入、拆股、分红再投资都更新成本基础台账，别等到报税才回忆；② 卖出前先确认券商默认的批次规则，需要时改成指定批次；③ 亏损卖出后 30 天内别买回同一证券，避免 wash sale 让亏损白卖；④ 跨境持仓要区分「本地成本」与「税务成本」，汇率与预扣税都会影响最终税基。**易混点**：cost basis（计税成本）与 average cost（持仓均价，用于看盈亏）不同，前者为税、后者为账；与 book value（公司账面价值）无关，那是公司会计概念；与 strike price（期权行权价）不同，一个是已付成本、一个是未来执行价。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [
+    {
+      "no": "1",
+      "word": "idempotency",
+      "phonetic": "/ˌaɪdəmˈpoʊtənsi/",
+      "domain": "AI",
+      "point": "重试不出错的前提；写操作带幂等键，超时=可能已成功"
+    },
+    {
+      "no": "2",
+      "word": "tail latency",
+      "phonetic": "/teɪl ˈleɪtənsi/",
+      "domain": "AI",
+      "point": "看 p99 不看均值；扇出会放大尾部，靠超时与对冲治理"
+    },
+    {
+      "no": "3",
+      "word": "data flywheel",
+      "phonetic": "/ˈdeɪtə ˈflaɪwiːl/",
+      "domain": "AI",
+      "point": "越用越准的自我强化；先验因果链，警惕边际递减"
+    },
+    {
+      "no": "4",
+      "word": "open interest",
+      "phonetic": "/ˈoʊpən ˈɪntrəst/",
+      "domain": "金融",
+      "point": "存量而非流量；价量仓三件套才读得出新钱还是回补"
+    },
+    {
+      "no": "5",
+      "word": "cost basis",
+      "phonetic": "/kɔːst ˈbeɪsɪs/",
+      "domain": "金融",
+      "point": "算税起跑线；拆股分红都会调整，批次选择直接改税负"
+    }
+  ],
+  "comparisons": [],
+  "progress": [
+    "本期：第 53 期，5 词",
+    "累计：**265 词**（159 AI + 106 金融）",
+    "归档格式：MD 词卡 + KAMI One-Pager PNG + Telegram 推送"
+  ]
+}

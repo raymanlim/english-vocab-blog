@@ -1,16 +1,39 @@
 {
-  "generatedAt": "2026-11-03T13:40:26.508Z",
+  "generatedAt": "2026-11-04T03:48:12.913Z",
   "source": "pinghe/english words",
   "totals": {
-    "issues": 52,
-    "days": 51,
-    "words": 260,
-    "ai": 156,
-    "finance": 104,
+    "issues": 53,
+    "days": 52,
+    "words": 265,
+    "ai": 159,
+    "finance": 106,
     "both": 0,
     "other": 0
   },
   "issues": [
+    {
+      "date": "2026-11-04",
+      "issueNo": 53,
+      "issueSpan": 1,
+      "issueLabel": "第 53 期",
+      "issueNoLabel": "53",
+      "theme": "看清底层，而不是看表面（幂等 / 尾延迟 / 数据飞轮 / 未平仓合约 / 成本基础）",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 52 期 260 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "idempotency",
+        "tail latency",
+        "data flywheel",
+        "open interest",
+        "cost basis"
+      ]
+    },
     {
       "date": "2026-11-03",
       "issueNo": 52,
