@@ -1,16 +1,39 @@
 {
-  "generatedAt": "2026-11-04T03:48:12.913Z",
+  "generatedAt": "2026-11-05T03:44:37.734Z",
   "source": "pinghe/english words",
   "totals": {
-    "issues": 53,
-    "days": 52,
-    "words": 265,
-    "ai": 159,
-    "finance": 106,
+    "issues": 54,
+    "days": 53,
+    "words": 270,
+    "ai": 162,
+    "finance": 108,
     "both": 0,
     "other": 0
   },
   "issues": [
+    {
+      "date": "2026-11-05",
+      "issueNo": 54,
+      "issueSpan": 1,
+      "issueLabel": "第 54 期",
+      "issueNoLabel": "54",
+      "theme": "LLM 调用的容错与恢复 · 期权的收益边界",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 53 期 265 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "exponential backoff",
+        "circuit breaker",
+        "fallback",
+        "moneyness",
+        "covered call"
+      ]
+    },
     {
       "date": "2026-11-04",
       "issueNo": 53,
