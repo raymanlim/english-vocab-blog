@@ -1,16 +1,39 @@
 {
-  "generatedAt": "2026-11-05T03:44:37.734Z",
+  "generatedAt": "2026-11-06T03:50:20.707Z",
   "source": "pinghe/english words",
   "totals": {
-    "issues": 54,
-    "days": 53,
-    "words": 270,
-    "ai": 162,
-    "finance": 108,
+    "issues": 55,
+    "days": 54,
+    "words": 275,
+    "ai": 165,
+    "finance": 110,
     "both": 0,
     "other": 0
   },
   "issues": [
+    {
+      "date": "2026-11-06",
+      "issueNo": 55,
+      "issueSpan": 1,
+      "issueLabel": "第 55 期",
+      "issueNoLabel": "55",
+      "theme": "长任务的上下文经济 · 长期投资的成本与节奏",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 54 期 270 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "context compaction",
+        "handoff",
+        "token budget",
+        "expense ratio",
+        "dollar-cost averaging (DCA)"
+      ]
+    },
     {
       "date": "2026-11-05",
       "issueNo": 54,
