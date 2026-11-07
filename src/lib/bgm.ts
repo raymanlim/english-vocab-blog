@@ -43,18 +43,20 @@ function fmt(sec: number): string {
 }
 
 export function initBgm(): void {
-  const root = $("[data-bgm]");
+  /* DOM 由 index.html 静态保证存在；集中判空后统一用非空断言，
+     避免 strict 空值检查对后续每个引用的投诉 */
+  const root = $("[data-bgm]") as HTMLElement;
   if (!root) return;
-  const audio = $("#bgm-audio", root) as HTMLAudioElement | null;
-  const toggle = $("[data-bgm-toggle]", root) as HTMLButtonElement | null;
-  const panel = $("#bgm-panel", root);
-  const closeBtn = $("[data-bgm-close]", root) as HTMLButtonElement | null;
-  const playBtn = $("[data-bgm-play]", root) as HTMLButtonElement | null;
-  const muteBtn = $("[data-bgm-mute]", root) as HTMLButtonElement | null;
-  const seek = $("[data-bgm-seek]", root) as HTMLInputElement | null;
-  const volume = $("[data-bgm-volume]", root) as HTMLInputElement | null;
-  const curEl = $("[data-bgm-current]", root);
-  const totalEl = $("[data-bgm-total]", root);
+  const audio = $("#bgm-audio", root) as HTMLAudioElement;
+  const toggle = $("[data-bgm-toggle]", root) as HTMLButtonElement;
+  const panel = $("#bgm-panel", root) as HTMLElement;
+  const closeBtn = $("[data-bgm-close]", root) as HTMLButtonElement;
+  const playBtn = $("[data-bgm-play]", root) as HTMLButtonElement;
+  const muteBtn = $("[data-bgm-mute]", root) as HTMLButtonElement;
+  const seek = $("[data-bgm-seek]", root) as HTMLInputElement;
+  const volume = $("[data-bgm-volume]", root) as HTMLInputElement;
+  const curEl = $("[data-bgm-current]", root) as HTMLElement;
+  const totalEl = $("[data-bgm-total]", root) as HTMLElement;
   if (!audio || !toggle || !panel || !playBtn || !muteBtn || !seek || !volume) return;
 
   const state = readJSON(LS_KEY, {});
