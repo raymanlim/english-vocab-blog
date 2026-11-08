@@ -1,16 +1,39 @@
 {
-  "generatedAt": "2026-11-07T03:39:30.353Z",
+  "generatedAt": "2026-11-08T03:42:26.090Z",
   "source": "pinghe/english words",
   "totals": {
-    "issues": 56,
-    "days": 55,
-    "words": 280,
-    "ai": 168,
-    "finance": 112,
+    "issues": 57,
+    "days": 56,
+    "words": 285,
+    "ai": 171,
+    "finance": 114,
     "both": 0,
     "other": 0
   },
   "issues": [
+    {
+      "date": "2026-11-08",
+      "issueNo": 57,
+      "issueSpan": 1,
+      "issueLabel": "第 57 期",
+      "issueNoLabel": "57",
+      "theme": "把模型输出变成可交付的服务 · 期权合约的两块价格基石",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 56 期 280 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "semantic cache",
+        "constrained decoding",
+        "trace",
+        "strike price",
+        "option premium"
+      ]
+    },
     {
       "date": "2026-11-07",
       "issueNo": 56,
