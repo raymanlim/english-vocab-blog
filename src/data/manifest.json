@@ -1,16 +1,39 @@
 {
-  "generatedAt": "2026-11-08T03:42:26.090Z",
+  "generatedAt": "2026-11-09T03:43:17.107Z",
   "source": "pinghe/english words",
   "totals": {
-    "issues": 57,
-    "days": 56,
-    "words": 285,
-    "ai": 171,
-    "finance": 114,
+    "issues": 58,
+    "days": 57,
+    "words": 290,
+    "ai": 174,
+    "finance": 116,
     "both": 0,
     "other": 0
   },
   "issues": [
+    {
+      "date": "2026-11-09",
+      "issueNo": 58,
+      "issueSpan": 1,
+      "issueLabel": "第 58 期",
+      "issueNoLabel": "58",
+      "theme": "上线之后如何持续可信（影子验证 · 漂移监控 · 可靠性预算） · 账面数字背后的两条隐藏规则",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 57 期 285 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "shadow deployment",
+        "model drift",
+        "error budget",
+        "wash sale",
+        "NAV (net asset value)"
+      ]
+    },
     {
       "date": "2026-11-08",
       "issueNo": 57,
