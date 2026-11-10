@@ -1,16 +1,39 @@
 {
-  "generatedAt": "2026-11-09T03:43:17.107Z",
+  "generatedAt": "2026-11-10T03:41:34.106Z",
   "source": "pinghe/english words",
   "totals": {
-    "issues": 58,
-    "days": 57,
-    "words": 290,
-    "ai": 174,
-    "finance": 116,
+    "issues": 59,
+    "days": 58,
+    "words": 295,
+    "ai": 177,
+    "finance": 118,
     "both": 0,
     "other": 0
   },
   "issues": [
+    {
+      "date": "2026-11-10",
+      "issueNo": 59,
+      "issueSpan": 1,
+      "issueLabel": "第 59 期",
+      "issueNoLabel": "59",
+      "theme": "把「对了多少」算清楚（查准 · 查全 · 评分量表） · 别只看胜率，分母与盈亏比才决定期望",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 58 期 290 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "precision",
+        "recall",
+        "rubric",
+        "win rate",
+        "risk-reward ratio"
+      ]
+    },
     {
       "date": "2026-11-09",
       "issueNo": 58,
