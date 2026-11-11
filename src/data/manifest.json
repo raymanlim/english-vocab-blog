@@ -1,16 +1,39 @@
 {
-  "generatedAt": "2026-11-10T03:41:34.106Z",
+  "generatedAt": "2026-11-11T03:46:12.663Z",
   "source": "pinghe/english words",
   "totals": {
-    "issues": 59,
-    "days": 58,
-    "words": 295,
-    "ai": 177,
-    "finance": 118,
+    "issues": 60,
+    "days": 59,
+    "words": 300,
+    "ai": 180,
+    "finance": 120,
     "both": 0,
     "other": 0
   },
   "issues": [
+    {
+      "date": "2026-11-11",
+      "issueNo": 60,
+      "issueSpan": 1,
+      "issueLabel": "第 60 期",
+      "issueNoLabel": "60",
+      "theme": "把「够不够好」写成可核对的数字（服务目标 · 超时 · 背压） · 实际减预期，以及差值该用什么单位读",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 59 期 295 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "SLO (service level objective)",
+        "timeout",
+        "backpressure",
+        "earnings surprise",
+        "percentage point"
+      ]
+    },
     {
       "date": "2026-11-10",
       "issueNo": 59,
