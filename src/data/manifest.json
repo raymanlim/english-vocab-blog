@@ -1,16 +1,39 @@
 {
-  "generatedAt": "2026-11-11T03:46:12.663Z",
+  "generatedAt": "2026-11-12T04:24:56.304Z",
   "source": "pinghe/english words",
   "totals": {
-    "issues": 60,
-    "days": 59,
-    "words": 300,
-    "ai": 180,
-    "finance": 120,
+    "issues": 61,
+    "days": 60,
+    "words": 305,
+    "ai": 183,
+    "finance": 122,
     "both": 0,
     "other": 0
   },
   "issues": [
+    {
+      "date": "2026-11-12",
+      "issueNo": 61,
+      "issueSpan": 1,
+      "issueLabel": "第 61 期",
+      "issueNoLabel": "61",
+      "theme": "一个分数不够，先拆结构再找参照（混淆矩阵 · F1 · 基线） · 风险调整收益改分母、公司规模看乘积",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 60 期 300 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "confusion matrix",
+        "F1 score",
+        "baseline",
+        "Sortino ratio",
+        "market capitalization"
+      ]
+    },
     {
       "date": "2026-11-11",
       "issueNo": 60,

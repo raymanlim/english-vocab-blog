@@ -1,0 +1,213 @@
+{
+  "date": "2026-11-12",
+  "issueNo": 61,
+  "issueSpan": 1,
+  "issueLabel": "第 61 期",
+  "issueNoLabel": "61",
+  "theme": "一个分数不够，先拆结构再找参照（混淆矩阵 · F1 · 基线） · 风险调整收益改分母、公司规模看乘积",
+  "themeRaw": "一个分数不够，先拆结构再找参照（混淆矩阵 · F1 · 基线）+ 风险调整收益改分母、公司规模看乘积",
+  "note": "本期 5 词（3 AI + 2 金融），已与前 60 期 300 词去重",
+  "title": "每日英语 5 词 · 2026-11-12",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "confusion matrix",
+      "issueNoLocal": 61,
+      "phonetic": "/kənˈfjuːʒn ˈmeɪtrɪks/",
+      "pos": "n.",
+      "posRaw": "n.（相关：true positive、false positive、precision、recall、F1 score、accuracy、class imbalance、threshold、eval、ground truth、label noise、ROC / AUC）",
+      "related": [
+        "true positive",
+        "false positive",
+        "precision",
+        "recall",
+        "F1 score",
+        "accuracy",
+        "class imbalance",
+        "threshold",
+        "eval",
+        "ground truth",
+        "label noise",
+        "ROC",
+        "AUC"
+      ],
+      "meaning": "【AI】混淆矩阵——把分类模型的预测结果按「真实类别 × 预测类别」摊成一张四格表：TP（真阳性，判对的正例）、FP（假阳性，把负例误判为正）、FN（假阴性，漏掉的正例）、TN（真阴性，判对的负例）。它是几乎所有分类指标的共同母体：precision = TP/(TP+FP) 问「报出来的有多少是真的」，recall = TP/(TP+FN) 问「真的有多少被报出来」，accuracy = (TP+TN)/总数，F1（本期）由前两者合成。它真正的价值是**逼你看见错误的类型而不只是一个分数**：在欺诈检测、内容审核、医疗筛查这类正负样本极不均衡的场景里，一个把所有样本都判为负的模型可以有 99.9% accuracy，却漏掉全部正例（FN 爆表），单看准确率完全发现不了。矩阵的第二个用途是调阈值：分类模型输出的是概率，移动阈值就是在 FP 与 FN 之间做交换，两者代价通常不对称——把正常交易判成欺诈（FP）只是多一次人工复核，把欺诈判成正常（FN）是真实资金损失，所以业务上常按代价矩阵选阈值而非默认 0.5。多分类时矩阵扩展为 N×N，对角线是判对的、非对角线揭示「最常把哪两类搞混」，是定位标注问题（已学 label noise）与类别定义重叠的第一手证据。另需注意它只反映某一阈值下的快照，且依赖测试集的类别先验，线上分布漂移（已学 distribution shift / model drift）后必须按时间窗重算。（接续 eval / ground truth / precision / recall）",
+      "gloss": "混淆矩阵",
+      "example": "The confusion matrix showed 99.9% accuracy was worthless: the model flagged zero fraud cases, so every positive landed in the false-negative cell.",
+      "exampleCn": "混淆矩阵显示 99.9% 的准确率毫无意义：模型一笔欺诈都没报出来，所有正例全落进了假阴性那一格。",
+      "memory": "**记忆锚点**：confusion matrix = 把「模型以为」和「事实是」摆成一张 2×2 对照表，四个格子分别是判对的两种与判错的两种——分数会骗人，格子不会。**为什么重要**：① 它是 precision / recall / accuracy / F1（已学/本期）唯一的共同来源，看懂四格就不必再死记公式；② 在不平衡数据上 accuracy 是最危险的指标，矩阵能一眼看出模型是不是「全猜多数类」；③ 它把抽象的「模型不准」拆成 FP / FN 两类可分别定价的错误，直接决定阈值与产品策略；④ 多分类的非对角元素是定位标注噪声与类别重叠的最短路径（接续 eval / label noise）。**关键权衡**：① FP vs FN 代价不对称——风控宁可多拦（高 FP），疾病筛查更不能忍漏诊（高 FN），没有通用「最优」阈值；② 单一阈值 vs 分层处置——高置信直接放行/拒绝、中间地带转人工，比一刀切更省成本；③ 离线矩阵 vs 线上分布——离线测得漂亮，上线后类别先验一变（接续 distribution shift / model drift）矩阵即失真，需按时间窗重算；④ 总体 vs 分群——总体矩阵会掩盖某个子群体上的系统性误判，公平性审查必须分群拆表。**实践要点**：① 评测报告先贴矩阵再贴分数，并标注正类定义（哪一类算 positive）；② 用业务代价给 FP / FN 赋权，按期望损失选阈值，别默认 0.5；③ 明确写出统计时间窗与样本量，避免用不平衡测试集外推线上；④ 多分类重点看非对角最大的几格，回查标注规范；⑤ 按用户群 / 地区 / 时段切片，防止总体指标掩盖局部失效（接续 observability）。**易混点**：confusion matrix（四格计数表）与 precision / recall（由格子算出的比率）是原始数据与派生指标；与 accuracy（(TP+TN)/全部，不平衡时失真）是结构信息与单一汇总数；与 F1 score（本期，由 P/R 合成）是表格与合成分；与 ROC / AUC（扫遍所有阈值得到的曲线与面积）是单阈值快照与全阈值概览；TP 里的 positive 指「被定义为正的那个类」而非「预测正确」，正负定义一换四格全变；与 ground truth（标注真值）是被对照的基准，矩阵本身不含真值质量信息。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "F1 score",
+      "issueNoLocal": 61,
+      "phonetic": "/ˌef ˈwʌn skɔːr/",
+      "pos": "n.",
+      "posRaw": "n.（相关：precision、recall、harmonic mean、confusion matrix、class imbalance、macro average、micro average、Fβ score、threshold、PR curve、AUC、eval、rubric、calibration）",
+      "related": [
+        "precision",
+        "recall",
+        "harmonic mean",
+        "confusion matrix",
+        "class imbalance",
+        "macro average",
+        "micro average",
+        "Fβ score",
+        "threshold",
+        "PR curve",
+        "AUC",
+        "eval",
+        "rubric",
+        "calibration"
+      ],
+      "meaning": "【AI】F1 分数——precision（查准率）与 recall（查全率）的调和平均数，F1 = 2·P·R/(P+R)，取值 0–1。它是「用一个数比较两个模型」时最常用的分类指标，关键不在公式而在**为什么用调和平均**：调和平均对较小值极度敏感，只要 P 或 R 有一个接近 0，F1 就被拉下来，而算术平均 (P+R)/2 会被另一个高分掩盖。这正好对应检索与抽取的真实需求——只返回一条最确定的结果（P=1、R≈0）或把所有结果都返回（R=1、P≈0）都是无用的极端策略，F1 同时惩罚两者。它继承自本期的 confusion matrix 四格：P = TP/(TP+FP)、R = TP/(TP+FN)，F1 可写成 2TP/(2TP+FP+FN)，完全不依赖 TN，因此在负样本占绝对多数、TN 巨大的不平衡场景里比 accuracy 稳健。三个常见陷阱：一是多分类聚合方式——macro-F1 对每类算 F1 再平均（平等看待小类，能暴露少数类失效），micro-F1 先汇总所有 TP/FP/FN 再算（被大类主导），同一模型两个数字可能差很远，报告必须写明；二是 Fβ 可加权，β>1 更看重 recall（如疾病筛查）、β<1 更看重 precision（如自动发消息），F1 只是 β=1 的特例；三是 F1 仍依赖阈值与正类定义，不评估排序质量、不评估置信度校准（已学 calibration），生成式任务（摘要、翻译、开放问答）没有清晰的 TP/FP，通常用 rubric / LLM-as-a-judge（已学）等替代。另须警惕它是单点指标，同一模型换阈值结论可能反转，全面比较要看 PR 曲线。（接续 precision / recall / confusion matrix / eval）",
+      "gloss": "F1 分数",
+      "example": "We report macro-F1, not accuracy — with 1% positives, a do-nothing model scores 99% accuracy but an F1 of zero.",
+      "exampleCn": "我们报告宏平均 F1 而不是准确率——正例只占 1% 时，一个什么都不做的模型准确率 99%，F1 却是 0。",
+      "memory": "**记忆锚点**：F1 = 给「查得准」和「查得全」各发一张否决票——用调和平均而非算术平均，任何一项塌了总分就跟着塌，逼你别靠极端策略刷分。**为什么重要**：① 它把两个互相拉扯的比率压成一个可比数字，是模型选型、A/B 对照（已学 A/B testing）与排行榜的默认口径；② 调和平均的「短板惩罚」正好克制 P=1 只返一条、R=1 全量返回这两类作弊；③ 公式 2TP/(2TP+FP+FN) 不含 TN，在极不平衡数据上比 accuracy 可靠得多；④ 它直接连回已学的 precision / recall 与本期的 confusion matrix，构成完整评测链。**关键权衡**：① macro vs micro——macro 平等看待每类、能暴露少数类失效但易被噪声小类拉低，micro 反映整体样本却由大类主导，报哪个取决于业务是否在乎少数类；② F1 vs Fβ——漏报代价高就 β>1 偏 recall，误报代价高就 β<1 偏 precision，F1 隐含假设两者等权；③ 单点 vs 曲线——F1 是单一阈值下的快照，换阈值结论可能反转，全面比较要看 PR 曲线 / AUC；④ 分类可用 vs 生成失效——开放生成没有明确 TP/FP，硬套 F1 会误导，应改用 rubric / LLM-as-a-judge（已学）。**实践要点**：① 报告时同时写 P、R、F1 与正类定义、阈值，单给 F1 无法复盘；② 多分类明确标注 macro / micro / weighted，跨论文比较先对齐口径；③ 按业务代价决定 β，别默认等权；④ 类别先验随季节漂移时（接续 distribution shift / model drift）用同一时间窗重算并留版本；⑤ 把 F1 与 calibration、人工抽检并列，避免单一指标被优化到失真（接续 reward hacking）。**易混点**：F1（P 与 R 的调和平均）与 accuracy（(TP+TN)/全部）是短板敏感与整体正确率，不平衡数据上结论常相反；与 precision / recall 是合成分与两个分量；与 macro-F1 / micro-F1 是「类间平均」与「全局汇总」两种聚合；与 Fβ 是 β=1 的特例与可调权重族；与 confusion matrix（四格计数）是派生指标与原始表；与 AUC / PR-AUC（跨阈值）是单点与曲线；调和平均 ≠ 算术平均，(1+0)/2 = 0.5 而 F1 = 0，这个差距正是设计意图；别把 F1 用在没有明确正类的生成式任务上。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "baseline",
+      "issueNoLocal": 61,
+      "phonetic": "/ˈbeɪslaɪn/",
+      "pos": "n.",
+      "posRaw": "n.（相关：benchmark、control group、eval、A/B testing、ablation study、ground truth、sanity check、regression test、majority class、naive forecast、zero-shot、leaderboard、model card）",
+      "related": [
+        "benchmark",
+        "control group",
+        "eval",
+        "A",
+        "B testing",
+        "ablation study",
+        "ground truth",
+        "sanity check",
+        "regression test",
+        "majority class",
+        "naive forecast",
+        "zero-shot",
+        "leaderboard",
+        "model card"
+      ],
+      "meaning": "【AI】基线——一个刻意做得简单、成本极低的参照方法，用来回答「新模型到底有没有带来真实提升」。典型基线包括多数类预测（永远猜样本最多的类）、随机猜测、关键词/正则规则、上一版生产模型、零样本直接调用大模型，以及金融里的买入持有 / naive forecast。它的作用不是赢，而是**给所有指标提供刻度**：一个 F1 = 0.92 听起来很好，若多数类基线就有 0.91，那这套复杂系统的净增益几乎为零；反过来，一个看似朴素的规则基线常常打败精调模型，从而在早期省下大量训练与推理成本。它和已学的 benchmark 容易混：benchmark 是「一套公开的题与评分标准」（标准数据集与排行榜），baseline 是「在这套题上一个最低限度的解法」，前者是考场、后者是及格参照。实践中基线还承担三个工程角色：sanity check（若模型连基线都打不过，先查数据泄漏、标签错位或评测脚本 bug）、ablation study（已学）里的对照组、以及线上 A/B testing（已学）里的 control 组。两个常见误区：一是用「零模型」当唯一基线，标准太低以致任何改进都显得显著；二是拿不同数据切分、不同预处理、不同阈值下的基线数字与新模型直接比较，得出虚假提升——基线必须与新方案在同一份测试集、同一评测口径下跑出来，且随数据分布更新（接续 distribution shift / data contamination）。（接续 benchmark / eval / A/B testing / ablation study）",
+      "gloss": "基线",
+      "example": "Before shipping the fine-tuned model, we checked it against a keyword baseline — it only gained 1.2 F1 points, so we kept the cheaper rules.",
+      "exampleCn": "上线微调模型前我们先跟关键词基线比了一次——F1 只提升 1.2 个点，于是保留了更便宜的规则。",
+      "memory": "**记忆锚点**：baseline = 给「有没有进步」装一把零点刻度——不确定「不折腾能做到多好」，就没法判断折腾值不值。**为什么重要**：① 任何绝对分数脱离参照都无意义，基线把 F1 / accuracy / 收益这类数字变成可解释的增量；② 简单规则基线常能击败复杂模型，是最省成本的方案筛选器；③ 它是 sanity check 第一道关——连基线都打不过，优先怀疑标签错位、数据泄漏（已学 data contamination）或评测脚本错误，而不是调超参；④ 它是 ablation study（已学）对照组与 A/B testing（已学）control 组的共同底座。**关键权衡**：① 基线太弱 vs 太强——只比随机猜测会让提升显得虚高，只比 SOTA 又会让工程迭代显得无意义，成熟做法是同时报「弱基线 + 强基线 / 上一版生产模型」两档；② 复杂度 vs 增益——+1.2 F1 是否值得引入一套训练与推理服务，要把延迟、成本、维护一起算（接续 latency / token budget）；③ 静态 vs 动态——基线固定不变会随类别先验漂移而失真，应定期在最新测试集上重跑；④ 离线 vs 线上——离线基线漂亮不代表线上 control 组同样表现，须以 A/B 实测收口。**实践要点**：① 每个评测报告至少列一条多数类 / 规则基线，并与新方案用同一测试集、同一指标口径、同一阈值；② 同时报绝对分数与相对基线的增量及置信区间，别只报「提升 X%」；③ 把基线纳入 regression test（已学 regression test），模型或数据管线一改就自动复跑；④ 记录基线版本与数据时间窗，跨期比较前先确认口径一致；⑤ 上线决策里把「相比基线多出的成本」显式列出，避免为微小增益付高额工程代价。**易混点**：baseline（最低限度的参照解法）与 benchmark（公开的题集与评分标准）是「及格参照」与「考场」，最常被互换；与 SOTA / leaderboard（当前最好成绩）是下限参照与上限目标；与 control group（A/B 实验里不接受处理的那组）是离线方法与在线实验设计；与 ablation study（拆掉某组件看掉多少）是外部参照与内部消融；与 ground truth（标注真值）是模型输出与评判依据；与 zero-shot（已学）不同——zero-shot 可以充当基线，但它本身是一种推理设置；别把「上一版模型」与「基线」混为一谈，前者是强基线，后者通常特指最简解法；baseline 在金融里也指「买入持有」这类朴素对照，含义一致。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "Sortino ratio",
+      "issueNoLocal": 61,
+      "phonetic": "/sɔːrˈtiːnoʊ ˈreɪʃioʊ/",
+      "pos": "n.",
+      "posRaw": "n.（相关：Sharpe ratio、downside deviation、risk-free rate、volatility、drawdown、value at risk (VaR)、minimum acceptable return (MAR)、information ratio (IR)、tail risk、performance attribution、scenario analysis、skewness）",
+      "related": [
+        "Sharpe ratio",
+        "downside deviation",
+        "risk-free rate",
+        "volatility",
+        "drawdown",
+        "value at risk (VaR)",
+        "minimum acceptable return (MAR)",
+        "information ratio (IR)",
+        "tail risk",
+        "performance attribution",
+        "scenario analysis",
+        "skewness"
+      ],
+      "meaning": "【金融】索提诺比率——风险调整收益指标，形式为（组合年化收益 − 目标收益 MAR）/ 下行标准差，其中下行标准差只统计**低于目标收益**的收益波动。它是对已学 Sharpe ratio 的直接修正：Sharpe 的分母是总波动率，把「超预期上涨」也算作风险加以惩罚，而投资者真正厌恶的是亏损方向的波动；Sortino 把上行波动从分母中剔除，因此在收益分布右偏（趋势策略、期权卖方、早期风投、加密资产）时，同一策略的 Sortino 会显著高于 Sharpe，排序结论可能与 Sharpe 相反。关键参数 MAR（minimum acceptable return，最低可接受收益）常被设成 0、无风险利率（已学 risk-free rate）或业绩比较基准，设定不同结果不可比——这正是「分母决定含义」（第 59 期）在风险指标上的翻版。它的局限同样明确：只衡量下行波动的离散度，不刻画极端尾部单次巨亏（接续 tail risk / VaR / drawdown），也不反映亏损发生的顺序与连续性；样本量小或亏损月份少时下行标准差估计不稳；与 Sharpe 一样假设收益可按标量风险线性比较，对非线性 payoff（期权、可转债）会失真。因此实务上通常三个一起看——Sharpe 看总体效率、Sortino 看下行效率、最大回撤 / VaR 看极端损失，再补 performance attribution（已学）拆解收益来源。（接续 Sharpe ratio / volatility / VaR / drawdown）",
+      "gloss": "索提诺比率",
+      "example": "The fund's Sharpe looked mediocre, but its Sortino was 2.1 — almost all the volatility came from upside spikes, not losses.",
+      "exampleCn": "这只基金的夏普看着平平，索提诺却有 2.1——波动几乎全来自上行跳涨，而不是亏损。",
+      "memory": "**记忆锚点**：Sortino = 把夏普比率分母里「涨得太猛」那部分删掉——风险只该算往下走的波动，往上跳不该被罚。**为什么重要**：① 它修正了 Sharpe（已学）最反直觉的假设「上行波动也是风险」，在右偏收益策略上给出更贴近体感的评价；② 同一策略 Sharpe 与 Sortino 排序可能相反，只用一个指标选基金会系统性错杀趋势 / 期权类策略；③ 它逼你显式写出 MAR（0 / 无风险利率 / 基准），把「跟什么比」从隐含变成明示；④ 与已学的 risk-free rate、VaR、drawdown、information ratio 构成完整的风险调整收益工具箱。**关键权衡**：① 上行波动该不该罚——若投资者确实在意净值曲线平滑度（如需要稳定赎回），Sharpe 的「全波动」口径反而更合适；② MAR 取值敏感——设 0 与设无风险利率会明显改变分母，跨基金比较必须先对齐；③ 二阶矩 vs 尾部——下行标准差仍是方差类指标，捕捉不了单日 −20% 这种肥尾（接续 tail risk / VaR），必须与最大回撤并列；④ 可被博弈——通过平滑估值、少报亏损月份或选择性区间就能美化下行偏差，需结合持仓与归因核查（接续 performance attribution / quality of earnings 的思路）。**实践要点**：① 同时报 Sharpe、Sortino、最大回撤与 VaR，任何单一风险调整指标都不足以定仓位；② 明确写出 MAR、年化方式、收益频率与样本区间，跨报告比较先对齐口径；③ 对含期权或非线性 payoff 的组合，用 scenario analysis（已学）补标量指标的不足；④ 检查收益分布偏度与峰度，判断是否值得用 Sortino 补充 Sharpe；⑤ 样本期覆盖至少一轮完整回撤，否则下行偏差会被低估。**易混点**：Sortino（分母 = 下行标准差）与 Sharpe（分母 = 总标准差）是「只罚亏损」与「上下都罚」；与 information ratio（已学，超额收益 / 跟踪误差）是绝对风险效率与相对基准的主动风险效率；与 VaR（已学，分位点损失上限）是波动类与尾部类风险；与 drawdown（已学，峰值到谷底回撤）是离散度与路径依赖；与 volatility（已学，总波动）是筛选后的子集与全量；MAR ≠ risk-free rate，前者是你设的最低目标、后者是市场给定的无风险利率，两者相等只是常见选择；别把「Sortino 高」直接读成「策略安全」——它可能只是亏损样本少或区间选得巧。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "market capitalization",
+      "issueNoLocal": 61,
+      "phonetic": "/ˈmɑːrkɪt ˈkæpɪtələˈzeɪʃn/",
+      "pos": "n.",
+      "posRaw": "n.（相关：share price、shares outstanding、enterprise value (EV)、price-to-earnings (P/E) ratio、dilution、share buyback、free float、stock split、intrinsic value、margin of safety、comparable company analysis (comps)、TAM）",
+      "related": [
+        "share price",
+        "shares outstanding",
+        "enterprise value (EV)",
+        "price-to-earnings (P",
+        "E) ratio",
+        "dilution",
+        "share buyback",
+        "free float",
+        "stock split",
+        "intrinsic value",
+        "margin of safety",
+        "comparable company analysis (comps)",
+        "TAM"
+      ],
+      "meaning": "【金融】市值（market cap）——公司股权的市场总价值，等于每股价格 × 流通在外股数（shares outstanding）；按规模常分为 large-cap / mid-cap / small-cap。它是所有相对估值与公司间比较的**规模基准**：P/E（已学）= 市值 / 净利润，EV（已学）= 市值 + 净债务，市销率 = 市值 / 营收，FCF yield（已学）= 自由现金流 / 市值——分子分母换了，比出来的东西完全不同。它的第一大认知陷阱是「股价高 = 公司大」：一家股价 1000 美元但只有 100 万股的公司市值仅 10 亿美元，另一家股价 10 美元却有 100 亿股的公司市值 1000 亿美元；股价是**任意的分割单位**，会被拆股（stock split）与合股随意改变，而拆股本身不创造任何价值。第二个陷阱是市值 ≠ 企业价值（EV，已学）：EV 还要加净债务、少数股东权益并扣现金，所以两家市值相同的公司，负债结构不同，收购成本可以差很远；用市值做 EV/EBITDA（已学）的分母是常见错误。第三，市值随股价每分每秒波动，是市场共识的即时定价，不等于内在价值（已学 intrinsic value），也不等于账面净资产；股本变动同样改变市值含义——增发（dilution，已学）、回购（share buyback，已学）、可转债转股都会改变 shares outstanding，因此「市值增长」未必来自经营改善。实务上还要区分总市值与 free float 流通市值（剔除限售股、内部人持股），指数权重与流动性评估通常按后者计算。（接续 enterprise value (EV) / P/E / dilution / share buyback / intrinsic value）",
+      "gloss": "市值",
+      "example": "A 10-for-1 stock split cut the share price to $42 but left market capitalization unchanged — no value was created or destroyed.",
+      "exampleCn": "1 拆 10 的拆股把股价压到 42 美元，市值却纹丝不动——没有价值被创造，也没有被消灭。",
+      "memory": "**记忆锚点**：market cap = 股价 × 股数，看的是整块蛋糕多大，不是每一块切得多小——股价只是切法，拆股能把一块切成十块，蛋糕还是那块。**为什么重要**：① 它是 P/E（已学）、EV（已学）、市销率、FCF yield（已学）等几乎所有相对估值的共同起点，分子分母口径一错，估值全错；② 它决定公司规模分层、指数权重、可容纳仓位与流动性预期，是 asset allocation（已学）的第一层筛选；③ 拆股、增发（dilution，已学）、回购（share buyback，已学）都会改变股数或股价，理解公式才不会被「股价便宜」或「市值增长」的表象误导；④ 它是内在价值（已学 intrinsic value）的市场对照，两者的差正是价值投资者的切入点（接续 margin of safety）。**关键权衡**：① 股价 vs 市值——面向散户的叙事常强调「股价便宜」，但低价股未必小、更未必低估，跨公司比较必须换成市值；② 市值 vs EV——股权口径忽略债务，高杠杆公司的收购成本被系统性低估，做 comps（已学）时分子分母必须同口径；③ 总市值 vs 流通市值——限售股与内部人持股不参与交易，指数权重与冲击成本估算应用 free float；④ 市值 vs 内在价值——市值是即时共识、含情绪与流动性溢价（接续 liquidity premium），不能当成公司「值多少」的结论。**实践要点**：① 看任何「贵 / 便宜」判断前，先把股价换算成市值与 EV，并确认用的是同一时点；② 做可比公司分析（已学 comps）时，EV/EBITDA 用 EV、P/E 用市值，绝不混用；③ 遇到拆股、增发、回购，用复权价格与期末股数重算历史序列，否则增长率失真；④ 规模分层按流通市值并注明币种与汇率口径；⑤ 把市值与净债务、现金、内在价值区间并列，再谈 margin of safety（已学）。**易混点**：market capitalization（股权市值 = 股价 × 股数）与 enterprise value（已学，股权市值 + 净债务）是股东口径与整个经营资产口径，差别正是资本结构；与 share price（每股价格，受拆股影响）是总量与任意分割单位；与账面净资产（book value）是市场定价与会计历史成本，P/B 就是两者之比；与 intrinsic value（已学）是市场共识与估算真实价值；与 AUM（资产管理规模）是公司市值与基金受托资产，主体完全不同；与 TAM（已学，潜在市场空间）是当下公司规模与行业天花板；加密资产的「market cap」（流通量 × 币价）机制相同，但无 shares outstanding 的法律定义；别把拆股后的股价下跌当成市值缩水，也别把增发带来的市值上升当成经营改善。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [
+    {
+      "no": "1",
+      "word": "confusion matrix",
+      "phonetic": "/kənˈfjuːʒn ˈmeɪtrɪks/",
+      "domain": "AI",
+      "point": "四格计数表，分类指标之母；不平衡数据下 accuracy 会骗人，格子不会"
+    },
+    {
+      "no": "2",
+      "word": "F1 score",
+      "phonetic": "/ˌef ˈwʌn skɔːr/",
+      "domain": "AI",
+      "point": "P/R 的调和平均，惩罚短板；macro vs micro 口径必须先对齐"
+    },
+    {
+      "no": "3",
+      "word": "baseline",
+      "phonetic": "/ˈbeɪslaɪn/",
+      "domain": "AI",
+      "point": "最简参照解法，给指标零点刻度；与 benchmark（考场）不是一回事"
+    },
+    {
+      "no": "4",
+      "word": "Sortino ratio",
+      "phonetic": "/sɔːrˈtiːnoʊ ˈreɪʃioʊ/",
+      "domain": "金融",
+      "point": "只罚下行波动，修正 Sharpe 把上涨也当风险；MAR 口径敏感"
+    },
+    {
+      "no": "5",
+      "word": "market capitalization",
+      "phonetic": "/ˈmɑːrkɪt ˈkæpɪtələˈzeɪʃn/",
+      "domain": "金融",
+      "point": "股价 × 股数；拆股不改市值，市值 ≠ EV ≠ 内在价值"
+    }
+  ],
+  "comparisons": [],
+  "progress": [
+    "本期：第 61 期，5 词",
+    "累计：**305 词**（183 AI + 122 金融）",
+    "归档格式：MD 词卡 + KAMI One-Pager PNG + Telegram 推送"
+  ]
+}
