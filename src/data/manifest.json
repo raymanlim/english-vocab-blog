@@ -1,16 +1,62 @@
 {
-  "generatedAt": "2026-11-12T04:24:56.304Z",
+  "generatedAt": "2026-11-16T13:24:51.595Z",
   "source": "pinghe/english words",
   "totals": {
-    "issues": 61,
-    "days": 60,
-    "words": 305,
-    "ai": 183,
-    "finance": 122,
+    "issues": 63,
+    "days": 62,
+    "words": 315,
+    "ai": 189,
+    "finance": 126,
     "both": 0,
     "other": 0
   },
   "issues": [
+    {
+      "date": "2026-11-16",
+      "issueNo": 63,
+      "issueSpan": 1,
+      "issueLabel": "第 63 期",
+      "issueNoLabel": "63",
+      "theme": "让训练真的跑稳、跑完的三件工程保险（梯度裁剪 · 学习率预热 · 检查点） · 让报价真的能成交的两层市场微观结构（买卖价差 · 订单簿）",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 62 期 310 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "gradient clipping",
+        "warmup",
+        "checkpoint",
+        "bid-ask spread",
+        "order book"
+      ]
+    },
+    {
+      "date": "2026-11-15",
+      "issueNo": 62,
+      "issueSpan": 1,
+      "issueLabel": "第 62 期",
+      "issueNoLabel": "62",
+      "theme": "让模型「学新东西但不跑偏」的三道安全阀（参考模型 · 裁剪比率 · KL 惩罚） · 因子投资的两块地基（风格因子 · 因子暴露）",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 61 期 305 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "reference model",
+        "clip ratio",
+        "KL penalty",
+        "style factor",
+        "factor exposure"
+      ]
+    },
     {
       "date": "2026-11-12",
       "issueNo": 61,
