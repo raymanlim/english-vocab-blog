@@ -1,16 +1,39 @@
 {
-  "generatedAt": "2026-11-16T13:24:51.595Z",
+  "generatedAt": "2026-11-17T04:29:51.676Z",
   "source": "pinghe/english words",
   "totals": {
-    "issues": 63,
-    "days": 62,
-    "words": 315,
-    "ai": 189,
-    "finance": 126,
+    "issues": 64,
+    "days": 63,
+    "words": 320,
+    "ai": 192,
+    "finance": 128,
     "both": 0,
     "other": 0
   },
   "issues": [
+    {
+      "date": "2026-11-17",
+      "issueNo": 64,
+      "issueSpan": 1,
+      "issueLabel": "第 64 期",
+      "issueNoLabel": "64",
+      "theme": "让训练收敛得更稳的三个内部旋钮（动量 · 批归一化 · 标签平滑） · 让风险可度量、可分配的两面镜子（已实现波动率 · 风险平价）",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 63 期 315 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "momentum",
+        "batch normalization",
+        "label smoothing",
+        "realized volatility",
+        "risk parity"
+      ]
+    },
     {
       "date": "2026-11-16",
       "issueNo": 63,
