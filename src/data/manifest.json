@@ -1,16 +1,39 @@
 {
-  "generatedAt": "2026-11-17T04:29:51.676Z",
+  "generatedAt": "2026-11-20T03:41:37.842Z",
   "source": "pinghe/english words",
   "totals": {
-    "issues": 64,
-    "days": 63,
-    "words": 320,
-    "ai": 192,
-    "finance": 128,
+    "issues": 65,
+    "days": 64,
+    "words": 325,
+    "ai": 195,
+    "finance": 130,
     "both": 0,
     "other": 0
   },
   "issues": [
+    {
+      "date": "2026-11-20",
+      "issueNo": 65,
+      "issueSpan": 1,
+      "issueLabel": "第 65 期",
+      "issueNoLabel": "65",
+      "theme": "生成模型的三条技术路线（对抗生成 · 变分生成 · 扩散生成） · 风险的两分法（不可分散的系统性风险 · 可分散的特异性风险）",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 64 期 320 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "generative adversarial network (GAN)",
+        "variational autoencoder (VAE)",
+        "denoising diffusion probabilistic model (DDPM)",
+        "systematic risk",
+        "idiosyncratic risk"
+      ]
+    },
     {
       "date": "2026-11-17",
       "issueNo": 64,

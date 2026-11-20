@@ -1,0 +1,209 @@
+{
+  "date": "2026-11-20",
+  "issueNo": 65,
+  "issueSpan": 1,
+  "issueLabel": "第 65 期",
+  "issueNoLabel": "65",
+  "theme": "生成模型的三条技术路线（对抗生成 · 变分生成 · 扩散生成） · 风险的两分法（不可分散的系统性风险 · 可分散的特异性风险）",
+  "themeRaw": "生成模型的三条技术路线（对抗生成 · 变分生成 · 扩散生成）+ 风险的两分法（不可分散的系统性风险 · 可分散的特异性风险）",
+  "note": "本期 5 词（3 AI + 2 金融），已与前 64 期 320 词去重",
+  "title": "每日英语 5 词 · 2026-11-20",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "generative adversarial network (GAN)",
+      "issueNoLocal": 65,
+      "phonetic": "/ˈdʒenərətɪv ˌædvɜːˈsɔːriəl ˈnetwɜːk/",
+      "pos": "n.",
+      "posRaw": "n.（相关：generator、discriminator、minimax game、diffusion、VAE、latent space、mode collapse、JS divergence、Wasserstein distance、WGAN、conditional GAN、FID、adversarial example、Nash equilibrium）",
+      "related": [
+        "generator",
+        "discriminator",
+        "minimax game",
+        "diffusion",
+        "VAE",
+        "latent space",
+        "mode collapse",
+        "JS divergence",
+        "Wasserstein distance",
+        "WGAN",
+        "conditional GAN",
+        "FID",
+        "adversarial example",
+        "Nash equilibrium"
+      ],
+      "meaning": "【AI】生成对抗网络——由两个网络构成的生成框架：生成器（generator）G 从随机噪声 z 合成假样本，判别器（discriminator）D 判断输入是真实样本还是 G 造的假，两者构成一个极小极大博弈（minimax game）：D 力求把真判真、把假判假，G 力求骗过 D，目标函数 min_G max_D V(D, G) = E_x[log D(x)] + E_z[log(1 − D(G(z)))]。训练到纳什均衡时 D 对真假难辨（输出约 0.5），G 的分布逼近真实数据分布。它与 diffusion（已学）、VAE（本期）并称生成模型三大路线：GAN 走「对抗博弈」、不显式建模数据似然，单次前向即出图、速度快，但训练不稳、易 mode collapse（模式坍缩，只生成少数几类样本）；VAE 显式最大化证据下界、训练稳但样本偏糊；diffusion 走「逐步去噪」，样本质量高但采样慢。关键权衡：① 博弈本质使训练像「军备竞赛」，需精细平衡两者容量与学习率，否则一方碾压另一方；② JS 散度在两分布支撑不重叠时梯度消失，WGAN 改用 Wasserstein distance 缓解；③ 判别器过强导致梯度饱和，常用 non-saturating loss 或 label smoothing（已学）；④ 无显式似然，难以用 log-likelihood 评估，靠 FID / IS 等感知指标。定位：它是「一次前向、以假乱真」路线的代表；理解它就能理解扩散模型为何后来居上——用训练稳定性换取采样成本。（接续 diffusion / latent space / eval）",
+      "gloss": "生成对抗网络",
+      "example": "Although GANs once dominated image synthesis with single-pass generation, their notorious training instability eventually gave way to diffusion models.",
+      "exampleCn": "尽管 GAN 曾凭单次生成主导图像合成，但其臭名昭著的训练不稳定性最终让位于扩散模型。",
+      "memory": "**记忆锚点**：GAN = 一个「造假者」(G) 对一个「鉴宝师」(D)——造假者进步逼鉴宝师变严，鉴宝师变严又逼造假者更真，互卷到造假者能以假乱真。**为什么重要**：① 它开了「用对抗博弈代替显式似然」的先河，是理解现代生成模型的起点；② mode collapse / 训练不稳是对抗训练的共性难题，可迁移到 adversarial example（对抗样本）等概念；③ 它解释了「为何扩散赢得图像生成」——稳定压倒速度。**关键权衡**：① 生成器 vs 判别器容量平衡——一方过强则训练崩；② JS 散度（梯度消失）vs Wasserstein（更平滑）；③ 单次采样快 vs 训练不稳；④ 无显式似然——评估只能靠 FID / IS 等代理指标。**实践要点**：① 用 spectral normalization / gradient penalty 稳住 D；② 监控 FID 而非只看肉眼样本；③ conditional GAN 用标签引导缓解 mode collapse；④ 与 diffusion（已学）对比抓「对抗 vs 去噪、快 vs 稳」主轴；⑤ 与 VAE（本期）、DDPM（本期）构成三代生成模型对照。**易混点**：GAN 的 discriminator（判别器，训练时的对手）与 verifier（已学，推理时校验）完全不同；与 adversarial example（对抗样本，攻击已训练模型）同名不同用途——一个用于训练、一个用于攻击；generative 在这里指「生成数据」，与 generative AI 泛指同根；别把「博弈均衡」误当「损失收敛到 0」——均衡时 D 输出 0.5、损失约 0.69。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "variational autoencoder (VAE)",
+      "issueNoLocal": 65,
+      "phonetic": "/ˌveriˈeɪʃənl ˈɔːtəʊˌenˈkəʊdə(r)/",
+      "pos": "n.",
+      "posRaw": "n.（相关：autoencoder、latent space、encoder、decoder、evidence lower bound (ELBO)、reparameterization trick、KL divergence、prior、posterior、GAN、diffusion、regularization、generative model）",
+      "related": [
+        "autoencoder",
+        "latent space",
+        "encoder",
+        "decoder",
+        "evidence lower bound (ELBO)",
+        "reparameterization trick",
+        "KL divergence",
+        "prior",
+        "posterior",
+        "GAN",
+        "diffusion",
+        "regularization",
+        "generative model"
+      ],
+      "meaning": "【AI】变分自编码器——一种显式建模数据生成过程的生成模型，由编码器（encoder）与解码器（decoder）组成：编码器把输入 x 映射为潜空间（latent space，已学）中一个概率分布的参数（均值 μ 与方差 σ²），而非一个确定向量；从中采样一个潜码 z，解码器再把 z 还原为 x。它要最大化数据似然，但真实后验 p(z|x) 不可解，于是用变分推断引入可学的近似后验 q(z|x)，把目标转成证据下界 ELBO = E_q[log p(x|z)] − KL(q(z|x) ‖ p(z))：第一项是重建质量，第二项把潜分布拉向先验（通常标准正态），起正则化作用。关键技术是重参数化技巧（reparameterization trick）——把 z = μ + σ·ε、ε 取自标准正态，让随机采样可微、反向传播得以进行。与 GAN（本期）对比：VAE 显式最大化下界、训练稳定、潜空间连续可插值，但样本偏模糊（因高斯假设与逐像素重建）；GAN 出图锐利但训练不稳。与 diffusion（已学）对比：VAE 是「一步生成」，diffusion 是「多步去噪」但质量更高，现代潜扩散（latent diffusion）正是把 diffusion 搬进 VAE 学出的潜空间以省算力。关键权衡：① 重建项 vs KL 项——β-VAE 加大 KL 权重换得更解耦的潜表示，但牺牲重建清晰度；② 高斯先验太弱会 posterior collapse（潜码被忽略、解码器退化成普通自回归）；③ 逐像素 MSE 导致模糊，常换感知损失或谱归一化改善；④ 评估有显式下界可算，但 ELBO 与样本质量不完全正相关。（接续 latent space / KL divergence / regularization）",
+      "gloss": "变分自编码器",
+      "example": "The VAE trades sharper samples for a smooth, interpolable latent space, which is why latent diffusion models borrow its encoder rather than its decoder.",
+      "exampleCn": "VAE 用更锐利的样本换取平滑可插值的潜空间，这正是潜扩散模型借用它的编码器而非解码器的原因。",
+      "memory": "**记忆锚点**：VAE = 给自编码器加装「概率管道」——编码器不吐一个死向量，而是吐一个「均值+方差」的云团，从云里抽样再还原；KL 项像橡皮筋把云团拴在标准正态上，重参数化让这根橡皮筋可求导。**为什么重要**：① 它是「显式似然 + 变分近似」的教科书范例，ELBO 是理解生成模型目标函数的关键；② 潜空间连续性是可控生成、插值的基石，也是 latent diffusion 的地基；③ 它把 regularization（已学）用 KL 项落地，展示「正则即先验」的统一视角。**关键权衡**：① 重建 vs KL——β 越大越解耦、越模糊；② 高斯先验 vs 表达力——太简单易 posterior collapse；③ 训练稳、可评估 vs 样本糊——与 GAN（本期）正好互补；④ 一步生成快 vs 质量不及 diffusion。**实践要点**：① 监控 KL 项是否趋零（posterior collapse 信号）；② 用重参数化而非直接采样，否则梯度断；③ 做可控生成时在潜空间插值/算术，比像素空间更有语义；④ 与 GAN / DDPM（本期三者）按「稳 vs 锐 vs 质量」选型；⑤ 潜扩散用它的 encoder 压缩、不用它的模糊 decoder。**易混点**：VAE 的 encoder/decoder 是概率生成框架的一部分，与普通 autoencoder（确定性压缩、无 KL、无采样）不同；ELBO 是下界、不等于精确似然；与 GAN 的 discriminator（本期）无关——VAE 没有对抗对手；reparameterization trick 不是数据增强（已学），而是让随机节点可导的变换；别把 posterior collapse 误判为训练收敛。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "denoising diffusion probabilistic model (DDPM)",
+      "issueNoLocal": 65,
+      "phonetic": "/ˈdiːˌnɔɪzɪŋ dɪˈfjuːʒən ˌprɒbəbɪˈlɪstɪk ˈmɒdl/",
+      "pos": "n.",
+      "posRaw": "n.（相关：diffusion、forward process、reverse process、noise schedule、denoising、U-Net、score matching、 classifier-free guidance、latent diffusion、DDIM、 sampler、GAN、VAE、Markov chain）",
+      "related": [
+        "diffusion",
+        "forward process",
+        "reverse process",
+        "noise schedule",
+        "denoising",
+        "U-Net",
+        "score matching",
+        "classifier-free guidance",
+        "latent diffusion",
+        "DDIM",
+        "sampler",
+        "GAN",
+        "VAE",
+        "Markov chain"
+      ],
+      "meaning": "【AI】去噪扩散概率模型——当前图像/视频生成主流的扩散模型（diffusion，已学）的具体实现：分两个过程。前向过程（forward process）按预设噪声表（noise schedule，如 β_t）在 T 步内逐步向真实样本 x₀ 注入高斯噪声，直到变成近似纯高斯噪声 x_T；反向过程（reverse process）训练一个网络（常为 U-Net）学习逐步去噪，从 x_T 一步步还原出样本。训练目标是预测加到 x_t 上的噪声 ε（简化损失 ‖ε − ε_θ(x_t, t)‖²），比早期 score matching 更稳；采样时用 classifier-free guidance 在条件与无条件预测间插值以控制生成强度。相比 GAN（本期）与 VAE（本期）：DDPM 训练稳定、样本多样性与质量高，但需数十到上千步逐步采样，速度慢——DDIM、consistency model 等少步采样器即为加速而生；把整个过程放进 VAE（本期）学出的潜空间就是潜扩散（latent diffusion），大幅降低算力，是 Stable Diffusion 一类系统的核心。关键权衡：① 步数多质量高 vs 采样慢——用 distillation / DDIM 换速度但可能掉多样性；② 噪声表设计——cosine 表比线性表更平缓；③ 条件引导强度——guidance scale 太大损害多样性、太小失控；④ 训练目标从「预测噪声」到「预测 x₀ / v」影响稳定性。（接续 diffusion / VAE / GAN）",
+      "gloss": "去噪扩散概率模型",
+      "example": "DDPM learns to reverse a gradual noising process, trading the GAN's single-step speed for stable training and superior sample diversity.",
+      "exampleCn": "DDPM 学会逆转一个渐进加噪过程，用 GAN 的单步速度换取稳定训练与更优的样本多样性。",
+      "memory": "**记忆锚点**：DDPM = 把一张清晰照片一步步糊成雪花噪点，再训练网络学会「倒着放录像」把雪花一步步擦回照片；生成就是从纯噪声开始倒放。**为什么重要**：① 它是 diffusion 从概念走向工程主流的具体形态，Stable Diffusion 等系统直接建其上；② 它把生成建模成「预测噪声」的监督任务，避开了 GAN 的博弈不稳；③ 潜扩散借 VAE（本期）压缩后再去噪，是三者融合的范例。**关键权衡**：① 采样步数 vs 速度——质量与延迟直接对冲；② guidance scale——可控性与多样性此消彼长；③ 噪声表与训练目标影响稳定；④ 训练稳、质量高 vs 无单次前向的速度优势。**实践要点**：① 用 DDIM / 少步采样器加速；② 调 guidance scale 找多样性与可控的平衡；③ 用潜扩散把去噪放进压缩空间省算力；④ 从噪声预测 vs x₀/v 预测按分辨率选目标；⑤ 与 GAN / VAE（本期）按场景权衡快与稳。**易混点**：DDPM 是 diffusion 的一种具体参数化实现，并非与 diffusion 并列的另一类；forward process 加噪是固定的、不需学习，reverse process 才需训练；classifier-free guidance 不需要额外分类器，靠随机丢弃条件标签实现；别把 noise schedule 与 learning rate schedule（已学）混为一谈——前者管加噪节奏、后者管训练步长；sample 慢是推理瓶颈，不等同训练慢。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "systematic risk",
+      "issueNoLocal": 65,
+      "phonetic": "/ˌsɪstəˈmætɪk rɪsk/",
+      "pos": "n.",
+      "posRaw": "n.（相关：idiosyncratic risk、market risk、diversification、beta、CAPM、factor exposure、correlation、asset allocation、hedge、tail risk、bear market）",
+      "related": [
+        "idiosyncratic risk",
+        "market risk",
+        "diversification",
+        "beta",
+        "CAPM",
+        "factor exposure",
+        "correlation",
+        "asset allocation",
+        "hedge",
+        "tail risk",
+        "bear market"
+      ],
+      "meaning": "【金融】系统性风险——影响整个市场或资产类别、无法通过分散化消除的风险，也叫市场风险（market risk）或不可分散风险。根源是共同的宏观驱动因素：利率、通胀、经济周期、地缘事件等，它们几乎同时作用于所有资产，因而成分股再多也稀释不掉；典型例子是 2008 年全球金融危机中「覆巢之下无完卵」。在 CAPM 框架里，系统性风险是唯一获得风险溢价补偿的风险，用 beta（已学）度量——beta 越高，对市场波动越敏感、要求的预期回报越高；其对应概念是可分散的特异性风险（本期）。关键权衡：① 分散化只能消除特异性风险，对系统性风险无效，只能靠资产配置（已学）、对冲（hedge，已学）或降低 beta 敞口管理；② 系统性风险常藏于尾部——平时相关系数低，危机中 correlation（已学）趋近 1，分散化在最需要时失效；③ 因子视角（factor exposure，已学）可把系统性风险拆成市场、利率、通胀等可度量因子；④ 「系统性重要」（systemically important）在监管语境指机构倒闭会拖累整个系统，「大而不能倒」。（接续 beta / correlation / asset allocation）",
+      "gloss": "系统性风险",
+      "example": "Diversification removed the idiosyncratic risk, but the systematic risk remained — when the market fell 20%, every sleeve fell with it.",
+      "exampleCn": "分散化消除了特异性风险，但系统性风险仍在——市场跌 20% 时，每个仓位都跟着跌。",
+      "memory": "**记忆锚点**：系统性风险 = 「水涨船高、水落船沉」的那片水——你换多少条船（分散多少只股票）都没用，因为水是整个市场。**为什么重要**：① 它是「分散化有边界」的理论根基，解释了为何组合仍有下限波动；② 它是 CAPM 里唯一被定价的风险，把 beta（已学）与预期回报连起来；③ 危机中相关性趋同、分散失效，是 tail risk（已学）管理的重点。**关键权衡**：① 分散能消特异性、消不了系统性——只能靠配置/对冲降 beta；② 平时低相关、危机高相关——分散在最需要时失效；③ 因子拆解可度量 vs 宏观冲击难预测；④ 承担系统性风险有溢价 vs 尾部巨亏。**实践要点**：① 用 beta 与 factor exposure 量化系统性敞口；② 压力测试假设 correlation → 1 的极端情形；③ 用 hedge（已学）或降低股票仓位管理；④ 别把「分散化」当万能护身符；⑤ 与特异性风险（本期）配对记忆，构成风险两分法。**易混点**：systematic（系统的、成体系的）与 systemic（全身的/整个系统的）拼写相近——金融里 systematic risk 指市场性风险，systemically important 指牵一发动全身的机构，勿混；与 market risk 基本同义；与 specific / idiosyncratic risk（本期）是一对，前者可分散、后者不可分散；与 beta 是「风险类别」与「度量指标」的关系，不是同义词。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "idiosyncratic risk",
+      "issueNoLocal": 65,
+      "phonetic": "/ˌɪdɪəʊsɪŋˈkrætɪk rɪsk/",
+      "pos": "n.",
+      "posRaw": "n.（相关：systematic risk、specific risk、diversification、alpha、beta、firm-specific、earnings surprise、residual risk、modern portfolio theory、concentration risk）",
+      "related": [
+        "systematic risk",
+        "specific risk",
+        "diversification",
+        "alpha",
+        "beta",
+        "firm-specific",
+        "earnings surprise",
+        "residual risk",
+        "modern portfolio theory",
+        "concentration risk"
+      ],
+      "meaning": "【金融】特异性风险——只属于某家公司或某个资产、与市场整体无关的风险，也叫特定风险（specific risk）、公司特有风险（firm-specific risk）或残余风险（residual risk），来源如财报暴雷（earnings surprise，已学）、管理层变动、产品失败、诉讼、工厂事故等。其核心性质是可通过分散化消除：现代组合理论指出，随着持仓数增加，各资产互不相关的公司特有波动彼此抵消，组合的残余波动趋近于零，只剩不可分散的系统性风险（本期）；因此在 CAPM 中特异性风险不获风险溢价补偿——市场不会为「本可以分散掉却没分散」的风险付钱。它是主动管理的双刃剑：一方面 alpha（已学，超额收益）往往来自对个股特有信息的正确判断，另一方面过度集中（concentration risk）会把特异性风险放大成组合的主要波动来源。关键权衡：① 分散化消除 vs 集中押注博取 alpha——承担特异性风险未必有补偿，需有信息优势才值得；② 个股波动率高不等于风险大——若高波动来自可分散的特异性成分，对组合的边际风险有限；③ 小盘/高波动股票特异性占比更高；④ 对冲工具多针对系统性风险，特异性风险难低成本对冲。（接续 systematic risk / diversification / earnings surprise）",
+      "gloss": "特异性风险",
+      "example": "Her concentrated portfolio was dominated by idiosyncratic risk — one earnings surprise wiped out a quarter of the fund's gains.",
+      "exampleCn": "她的集中持仓组合由特异性风险主导——一次财报暴雷就抹掉了基金四分之一的收益。",
+      "memory": "**记忆锚点**：特异性风险 = 「每家公司自己的私事」——CEO 离职、产品翻车，只波及这一家；多买几只互不相关的股票，这些私事就互相抵消掉了。**为什么重要**：① 它是「分散化为何有效」的微观基础，理解了它才懂组合波动从何而来；② 它解释了 CAPM 为何只给系统性风险（本期）定价——可分散的风险没有溢价；③ 它提醒「集中 vs 分散」的取舍：alpha 来自个股判断，但过度集中让特有风险反噬。**关键权衡**：① 分散消除 vs 集中博 alpha——无信息优势的特异性承担是「裸露的风险」；② 个股高波动未必增加组合风险——看可分散成分占比；③ 小盘股特异性占比高；④ 特异性风险难低成本对冲，系统性风险可。**实践要点**：① 用组合残差波动衡量剩余特异性风险；② 分散到 20–30 只低相关标的可消除大部分；③ 集中押注前自问是否有信息优势，否则只是在赌；④ 与 earnings surprise（已学）联动评估暴雷敞口；⑤ 与系统性风险（本期）配对，构成「可分散 / 不可分散」完整框架。**易混点**：idiosyncratic（特有的、特异的）强调「个体独有」，与 systematic（本期，市场共有）是一对；specific risk / firm-specific / residual risk 基本同义；与 alpha 不同——alpha 是超额收益结果，特异性风险是风险来源；别用「个股波动率高」直接等同于「组合风险高」，可分散部分会被抵消；与 concentration risk（集中风险）相关但不同，后者是敞口集中的状态。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [
+    {
+      "no": "1",
+      "word": "generative adversarial network (GAN)",
+      "phonetic": "/ˈdʒenərətɪv ˌædvɜːˈsɔːriəl ˈnetwɜːk/",
+      "domain": "AI",
+      "point": "生成器与判别器极小极大博弈，一次出图快但训练不稳、易模式坍缩"
+    },
+    {
+      "no": "2",
+      "word": "variational autoencoder (VAE)",
+      "phonetic": "/ˌveriˈeɪʃənl ˈɔːtəʊˌenˈkəʊdə(r)/",
+      "domain": "AI",
+      "point": "最大化证据下界 ELBO + 重参数化，潜空间连续可插值但样本偏糊"
+    },
+    {
+      "no": "3",
+      "word": "denoising diffusion probabilistic model (DDPM)",
+      "phonetic": "/ˈdiːˌnɔɪzɪŋ dɪˈfjuːʒən ˌprɒbəbɪˈlɪstɪk ˈmɒdl/",
+      "domain": "AI",
+      "point": "前向加噪、反向学去噪，训练稳质量高但采样慢"
+    },
+    {
+      "no": "4",
+      "word": "systematic risk",
+      "phonetic": "/ˌsɪstəˈmætɪk rɪsk/",
+      "domain": "金融",
+      "point": "市场共有、无法分散，CAPM 中唯一被定价、用 beta 度量"
+    },
+    {
+      "no": "5",
+      "word": "idiosyncratic risk",
+      "phonetic": "/ˌɪdɪəʊsɪŋˈkrætɪk rɪsk/",
+      "domain": "金融",
+      "point": "公司特有、可分散，无风险溢价，集中持仓时反噬组合"
+    }
+  ],
+  "comparisons": [],
+  "progress": [
+    "本期：第 65 期，5 词",
+    "累计：**325 词**（195 AI + 130 金融）",
+    "归档格式：MD 词卡 + KAMI One-Pager PNG + Telegram 推送"
+  ]
+}
