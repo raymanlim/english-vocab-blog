@@ -1,0 +1,210 @@
+{
+  "date": "2026-11-23",
+  "issueNo": 66,
+  "issueSpan": 1,
+  "issueLabel": "第 66 期",
+  "issueNoLabel": "66",
+  "theme": "Transformer 块的三块积木（多头注意力 · 前馈网络 · RMS 归一化） · 估值与盈利的两面镜子（市净率 · 资产收益率）",
+  "themeRaw": "Transformer 块的三块积木（多头注意力 · 前馈网络 · RMS 归一化）+ 估值与盈利的两面镜子（市净率 · 资产收益率）",
+  "note": "本期 5 词（3 AI + 2 金融），已与前 65 期 325 词去重",
+  "title": "每日英语 5 词 · 2026-11-23",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "multi-head attention (MHA)",
+      "issueNoLocal": 66,
+      "phonetic": "/ˈmʌlti hed əˈtenʃn/",
+      "pos": "n.",
+      "posRaw": "n.（相关：attention、self-attention、scaled dot-product attention、query、key、value、softmax、transformer、head、projection、concatenation、cross-attention、grouped-query attention (GQA)、FlashAttention、KV cache）",
+      "related": [
+        "attention",
+        "self-attention",
+        "scaled dot-product attention",
+        "query",
+        "key",
+        "value",
+        "softmax",
+        "transformer",
+        "head",
+        "projection",
+        "concatenation",
+        "cross-attention",
+        "grouped-query attention (GQA)",
+        "FlashAttention",
+        "KV cache"
+      ],
+      "meaning": "【AI】多头注意力——Transformer 中注意力机制（attention，已学）的标准工程形态：不再只算一组注意力，而是把输入投影到 h 个子空间（head），每个 head 各自做缩放点积注意力 head_i = softmax(Q_i K_iᵀ / √d_k) V_i，其中 Q_i = XW_i^Q、K_i = XW_i^K、V_i = XW_i^V 是各头独立的线性投影，d_k 为单头维度；最后把各头输出拼接（concat）再过线性投影 W^O 混合：MHA(X) = Concat(head_1, …, head_h) W^O。「多头」的意义在于让模型在不同子空间、不同位置关系上并行学习——有的头关注局部语法、有的头关注长程指代、有的头关注特定语义角色；单头只能用一种方式聚合信息，多头相当于多个视角同时读同一句话。实践里常固定总维度 d_model、令每头 d_k = d_model / h，因此加头数不增参数量与算力（算力主要由 d_model 决定）；现代变体为省 KV cache（已学）显存改用 grouped-query attention（GQA，已学）——多个 query 头共享一组 K/V 头。关键权衡：① 头越多视角越丰富，但每头维度变小、单头表达力下降，且头间可能冗余（可剪枝）；② 拼接后再投影是必要的，否则各头输出无法交互；③ 缩放因子 √d_k 防止点积过大导致 softmax 梯度消失；④ O(n²) 复杂度与头数无关，长序列瓶颈在序列长度而非头数。（接续 attention / softmax / grouped-query attention (GQA)）",
+      "gloss": "多头注意力",
+      "example": "Multi-head attention lets the model attend to syntax in one head and coreference in another, all within the same layer.",
+      "exampleCn": "多头注意力让模型在同一个层里，一个头关注语法、另一个头关注指代关系。",
+      "memory": "**记忆锚点**：多头注意力 = 同时派 h 个「观察员」看同一句话，每人戴不同颜色的眼镜（不同的 W^Q/W^K/W^V 投影），一个盯语法、一个盯指代、一个盯情绪，最后把 h 份报告拼起来再综合（W^O）。**为什么重要**：① 它是 Transformer 的核心计算单元，理解它就理解了 LLM「如何在一句话里建立任意两词的关系」；② 它把 attention（已学）从概念落到可并行工程实现；③ GQA / FlashAttention / KV cache（均已学）等优化都围绕它展开。**关键权衡**：① 头数多＝视角多但每头维度小、可能冗余；② 总维度固定时头数不增算力，算力看 d_model 不看 h；③ 拼接后必须再投影才能混合各头信息；④ 复杂度 O(n²) 与头数无关，瓶颈在序列长度。**实践要点**：① 调 h 时保持 d_model / h 为整数、每头维度别太小（常见 64–128）；② 用注意力可视化检查头是否学到不同模式，冗余头可剪；③ 长序列配合 GQA / FlashAttention 省显存；④ 别把「头数」当「模型容量」——它改变信息组织的并行度，不是参数总量。**易混点**：head 是注意力子空间，不是「层」——多头在同一层内并行，与层数无关；MHA 与 self-attention（Q/K/V 来自同一序列）、cross-attention（Q 与 K/V 来自不同序列）是正交维度，MHA 说的是「多视角」、self/cross 说的是「信息从哪来」；别把 h 个头误解为 h 次完整注意力后取平均——是拼接再投影，不是平均；缩放因子 √d_k 防 softmax 饱和，作用类似 temperature（已学）但不是同一参数。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "feed-forward network (FFN)",
+      "issueNoLocal": 66,
+      "phonetic": "/fiːd ˈfɔːwəd ˈnetwɜːk/",
+      "pos": "n.",
+      "posRaw": "n.（相关：transformer、multi-layer perceptron (MLP)、activation function、ReLU、GELU、SwiGLU、parameter、residual connection、layer normalization、mixture-of-experts (MoE)、hidden dimension、up-projection、down-projection）",
+      "related": [
+        "transformer",
+        "multi-layer perceptron (MLP)",
+        "activation function",
+        "ReLU",
+        "GELU",
+        "SwiGLU",
+        "parameter",
+        "residual connection",
+        "layer normalization",
+        "mixture-of-experts (MoE)",
+        "hidden dimension",
+        "up-projection",
+        "down-projection"
+      ],
+      "meaning": "【AI】前馈网络——Transformer 块中紧跟注意力子层之后的逐位置（position-wise）小型神经网络，是 Transformer 参数量占比最大的部分（通常约 2/3）：标准两层形式 FFN(x) = W₂ · σ(W₁ x + b₁) + b₂，W₁ 把 d_model 升到更高hidden 维度（如 4×d_model），σ 为非线性激活（已学，如 ReLU / GELU / SwiGLU），W₂ 再投影回 d_model。「逐位置」指它对序列里每个 token 独立、同权重地应用——不像注意力那样跨 token 混合信息；注意力负责「token 之间交换信息」，FFN 负责「每个 token 内部做非线性变换、提升表达力」，二者交替堆叠构成Transformer 层。现代 LLM 常用 SwiGLU（门控线性单元变体）替代 ReLU，引入第三个投影做门控换更好表达力；MoE（已学）则把 FFN 替换成多个专家、每 token 只激活少数，用条件计算在不大增推理成本下扩大参数规模。关键权衡：① hidden 维度越大表达力越强，但参数与算力线性增加，4× 是常见折中；② FFN 逐位置、参数量与序列长度无关，长序列时其算力占比相对注意力下降；③ 激活函数影响稳定与效果——ReLU 简单但有 dead ReLU，GELU / SwiGLU 更平滑；④ 它是 MoE 改造的主要对象，因为 FFN 天然按 token 独立、便于路由。（接续 attention / activation function / mixture-of-experts (MoE)）",
+      "gloss": "前馈网络",
+      "example": "In a transformer block, attention mixes information across tokens while the feed-forward network refines each token representation independently.",
+      "exampleCn": "在 Transformer 块中，注意力跨 token 混合信息，而前馈网络则独立地精炼每个 token 的表示。",
+      "memory": "**记忆锚点**：FFN = 注意力开完「跨部门会议」（token 间交换信息）后，每个人回自己工位做的「独立消化」——同一套流程、各加工各的，先把信息摊开（升维）、非线性过一遍、再收回去（降维）。**为什么重要**：① 它与注意力是 Transformer 的两大半身——一个管「关系」、一个管「变换」，缺一不可；② 它是模型参数主要所在，理解它才懂「参数量从哪来」；③ MoE（已学）改造的就是它，是理解稀疏大模型的关键。**关键权衡**：① hidden 维度（常 4×d_model）——表达力 vs 参数/算力；② 逐位置独立——不能跨 token，但参数量与序列长度无关；③ 激活 ReLU / GELU / SwiGLU——简单 vs 平滑表达力；④ FFN 占参数大头，是 MoE 与量化的主要优化目标。**实践要点**：① 改 hidden 维度时同步估算显存与吞吐；② 现代 LLM 优先 SwiGLU 并相应调整中间维度（常约 8/3× 以保参数量相当）；③ 分析参数分布时记住 FFN 约占 2/3；④ 做 MoE 时把 experts 放在 FFN 位置、按 token 路由。**易混点**：FFN 是逐位置（position-wise）的，对每个 token 用同一权重，不 flatten 整个序列；feed-forward 指无循环、无反馈连接，与自动控制里的前馈控制同词不同域；别把 FFN 内部升维与 residual connection（已学）的旁路相加混为一谈——残差是跨子层的短路，升维是 W₁ 的内部变换；FFN 与 MLP 基本同义，Transformer 文献里更常用 FFN。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "RMSNorm",
+      "issueNoLocal": 66,
+      "phonetic": "/ˌɑːr em ˈnɔːm/",
+      "pos": "n.",
+      "posRaw": "n.（相关：layer normalization、batch normalization、root mean square、normalization、residual connection、transformer、pre-norm、post-norm、Llama、scale-invariant、gamma parameter）",
+      "related": [
+        "layer normalization",
+        "batch normalization",
+        "root mean square",
+        "normalization",
+        "residual connection",
+        "transformer",
+        "pre-norm",
+        "post-norm",
+        "Llama",
+        "scale-invariant",
+        "gamma parameter"
+      ],
+      "meaning": "【AI】RMS 归一化——一种轻量归一化（normalization）方法，常见于现代 LLM（Llama、Mistral、Qwen 等）：与层归一化（layer normalization，已学）同时减均值、除标准差不同，RMSNorm 只按均方根缩放、不做中心化——RMS(x) = √(1/d · Σ x_i²)，输出 y_i = (x_i / RMS(x)) · γ，γ 为可学的逐维缩放参数。它去掉均值中心化，动机是实证发现 LayerNorm 的重缩放才是稳定训练的主要贡献、中心化作用有限；省掉均值计算后运算更省、数值更稳，效果与 LayerNorm 相当或略优。在 Transformer 里归一化位置也关键：pre-norm（先归一化再进注意力/FFN，残差通路保持「干净」）是现代大模型主流、训练更稳；post-norm（残差相加后再归一化）是原始 Transformer 做法、梯度更棘手。关键权衡：① 不减均值——省算但对输入偏移（mean shift）更敏感；② 只留 γ、不要 β——参数更少；③ 与 LayerNorm 效果接近但实现更简单、速度更快，已成 Llama 系事实标准；④ 归一化在残差前（pre-norm）还是后（post-norm）影响大模型训练稳定性，与 RMSNorm 的选型相互独立。（接续 layer normalization / residual connection / batch normalization）",
+      "gloss": "RMS 归一化",
+      "example": "Llama replaced layer normalization with RMSNorm in a pre-norm configuration, dropping the mean-centering step to simplify computation without hurting stability.",
+      "exampleCn": "Llama 在 pre-norm 配置中用 RMSNorm 取代层归一化，省去均值中心化步骤，在不损害稳定性的前提下简化计算。",
+      "memory": "**记忆锚点**：RMSNorm = 只「缩放」不「搬移」的归一化——LayerNorm 先把数据云团整体挪到原点（减均值）再按标准差缩，RMSNorm 懒得挪，直接按均方根把整体尺寸调匀，配上可学的 γ。**为什么重要**：① 它是当代主流 LLM 的标配组件，读 Llama / Qwen 等模型结构必然遇到；② 它体现「实证驱动简化」——去掉中心化仍够稳就用更便宜的版本；③ 与 layer normalization（已学）、batch normalization（已学）构成归一化方法谱系。**关键权衡**：① 去均值——省算 vs 对偏移敏感；② 仅 γ 无 β——参数少 vs 表达力略降；③ 效果与 LayerNorm 相当但更快，已成开源大模型主流；④ pre-norm / post-norm 是位置问题，与选哪种归一化正交。**实践要点**：① 复现现代 LLM 时优先 RMSNorm + pre-norm；② 注意 RMSNorm 无 β，别照搬 LayerNorm 的偏置初始化；③ 混合精度下用 fp32 累加求 RMS 以保数值稳定；④ 与 LayerNorm 对比只抓「中心化」这一核心差别。**易混点**：RMSNorm 与 LayerNorm 的区别仅在「减不减均值、用标准差还是均方根」，作用范围都在特征维；RMS（均方根）≠ RMSE（均方根误差，回归指标）；γ 是可学缩放，不是学习率（已学）；pre-norm / post-norm 说的是归一化相对残差相加的位置，与 RMSNorm / LayerNorm 是两种独立选择，不要混为一谈。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "price-to-book (P/B) ratio",
+      "issueNoLocal": 66,
+      "phonetic": "/praɪs tuː bʊk ˈreɪʃiəʊ/",
+      "pos": "n.",
+      "posRaw": "n.（相关：price-to-earnings (P/E) ratio、book value、equity、market capitalization、valuation、return on equity (ROE)、price-to-sales、Tobin's Q、intangible asset、goodwill、net asset value (NAV)、financials）",
+      "related": [
+        "price-to-earnings (P",
+        "E) ratio",
+        "book value",
+        "equity",
+        "market capitalization",
+        "valuation",
+        "return on equity (ROE)",
+        "price-to-sales",
+        "Tobin's Q",
+        "intangible asset",
+        "goodwill",
+        "net asset value (NAV)",
+        "financials"
+      ],
+      "meaning": "【金融】市净率——每股股价与每股账面价值（book value per share）之比，即 P/B = 市值（market capitalization，已学）/ 净资产（股东权益 equity，已学），是常用估值倍数（multiple，已学）。账面价值是资产负债表上「资产减负债」的会计净值，代表股东投入与留存收益的累计账面记录；P/B 回答「市场愿为每 1 元账面净资产付多少钱」：P/B = 1 即按账面价交易，<1 为破净（常见于银行、周期股低谷或市场极度悲观时），>1 说明市场认为资产有超额盈利能力或存在未入账的无形资产。它与市盈率（P/E，已学）互补——P/E 看盈利、P/B 看资产，故更适用于资产密集、盈利波动大的行业（银行、保险、地产、周期制造）；对轻资产、研发驱动的科技公司参考性弱，因为其价值多在未入账的品牌、代码、人才中，账面净值严重低估真实价值。与杜邦分析相连：ROE（已学）= 净利润/净资产 = (净利润/市值) × (市值/净资产) = (1/P/E) × P/B，即 P/B ≈ ROE × P/E——高 ROE 支撑高 P/B，这是估值与盈利能力的桥梁。关键权衡：① 跨行业可比性差——重资产与轻资产的合理 P/B 天差地别；② 账面价值受会计政策影响（历史成本、折旧、goodwill 减值已学），可能滞后于真实经济价值；③ P/B 低不必然便宜——可能是价值陷阱（ROE 持续恶化的信号）；④ 通胀下历史成本计量的账面价值低估资产重置成本。（接续 P/E / ROE / valuation）",
+      "gloss": "市净率",
+      "example": "The bank traded at 0.7× book, a discount the market justified by pointing to its persistently subdued return on equity.",
+      "exampleCn": "这家银行以 0.7 倍市净率交易，市场以其持续低迷的净资产收益率来证明这一折价合理。",
+      "memory": "**记忆锚点**：市净率 = 「花多少钱买账本上 1 块钱的家底」——1 倍是按账面原价买，低于 1 倍是「打折甩卖」，高于 1 倍是「为未来赚钱能力加价」。**为什么重要**：① 它是与 P/E（已学）并列的估值基本尺子，一个看资产、一个看盈利；② 它把估值与 ROE（已学）用 P/B ≈ ROE × P/E 连起来，是理解「高 ROE 支撑高估值」的关键；③ 它是银行、周期股等资产密集行业的首选估值锚。**关键权衡**：① 破净（<1）可能是机会也可能是价值陷阱——看 ROE 趋势；② 账面价值受会计政策影响，可能滞后于经济现实；③ 轻资产公司 P/B 会「虚高」且失真；④ 跨行业直接比 P/B 无意义。**实践要点**：① 只在资产密集、账面价值有意义的行业用 P/B；② 与 ROE 一起看——低 P/B + 高 ROE 才值得深挖；③ 检查 goodwill / 无形资产占比，避免账面虚胖或虚瘦；④ 与 P/E、DCF（已学）交叉验证，别用单一倍数下结论。**易混点**：book value（账面价值，会计口径）≠ intrinsic value（内在价值，已学，经济口径）≠ market value（市值）；P/B 分母是净资产（equity），不是总资产；与 NAV（已学，基金每份净值）相似但适用场景不同，NAV 多用于基金/ETF；Tobin's Q 用市场价值/资产重置成本，与 P/B 用账面净值不同；破净不自动等于被低估——持续低 ROE 可以是合理折价。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "return on assets (ROA)",
+      "issueNoLocal": 66,
+      "phonetic": "/rɪˈtɜːn ɒn ˈæsets/",
+      "pos": "n.",
+      "posRaw": "n.（相关：return on equity (ROE)、net income、total assets、leverage、profitability、DuPont analysis、asset turnover、net margin、return on invested capital (ROIC)、financial leverage、interest coverage ratio）",
+      "related": [
+        "return on equity (ROE)",
+        "net income",
+        "total assets",
+        "leverage",
+        "profitability",
+        "DuPont analysis",
+        "asset turnover",
+        "net margin",
+        "return on invested capital (ROIC)",
+        "financial leverage",
+        "interest coverage ratio"
+      ],
+      "meaning": "【金融】资产收益率——净利润与平均总资产之比，ROA = 净利润 / 平均总资产，衡量公司「每 1 元资产能赚多少净利润」，是资产使用效率与盈利能力的综合指标。与净资产收益率（ROE，已学，净利润/股东权益）相比，ROA 分母包含负债融资的全部资产，因此不被财务杠杆（leverage，已学）放大——ROE 可通过借债（资产回报为正时）被人为抬高，ROA 则更纯粹反映经营效率；两者经杜邦分析关联：ROE = ROA × 权益乘数（Assets / Equity），即 ROA = ROE / 杠杆倍数；ROA 又可拆为净利率（net margin）× 资产周转率（asset turnover），揭示「赚得多」还是「转得快」两条提升路径。银行、保险等高杠杆行业 ROA 通常很低（1% 上下即算不错），因分母庞大；轻资产科技/软件公司 ROA 往往较高。关键权衡：① 不受杠杆扭曲——跨资本结构可比性优于 ROE，但不直接反映股东实际回报；② 分母用期末还是平均总资产——平均更准确（匹配全年利润）；③ 资产密集、重折旧行业 ROA 天然偏低，跨行业比较需谨慎；④ 一次性损益、资产减值（goodwill impairment 已学）会扭曲当期 ROA，宜看多年均值。（接续 ROE / leverage / ROIC）",
+      "gloss": "资产收益率",
+      "example": "The company's ROE looked impressive, but its modest ROA revealed that most of the return came from leverage rather than operating efficiency.",
+      "exampleCn": "这家公司的 ROE 看起来亮眼，但其平平的 ROA 暴露出大部分回报来自杠杆而非经营效率。",
+      "memory": "**记忆锚点**：ROA = 「整个摊子（含借来的钱）每 1 元一年挣多少」；ROE = 「股东自己掏的那 1 元挣多少」。借债能让 ROE 好看，却改变不了 ROA——ROA 是照妖镜。**为什么重要**：① 它是识别「真经营效率」还是「杠杆化妆」的关键工具；② 与 ROE（已学）、权益乘数构成杜邦分析主干；③ 它是 ROIC（已学）的近亲——ROA 看全部资产，ROIC 看投入资本。**关键权衡**：① 不受杠杆放大——可比性好 vs 不直接代表股东回报；② 资产密集行业 ROA 天然低——跨行业比需谨慎；③ 分母取平均更准；④ 一次性损益会扭曲——看多年趋势。**实践要点**：① ROE 高但 ROA 低时，先查杠杆与偿债风险；② 用杜邦拆解 ROA = 净利率 × 资产周转率定位改善来源；③ 银行股用 ROA 而非 ROE 做跨行比较；④ 与 ROIC、WACC（已学）联看——ROA 长期低于资金成本说明在毁损价值。**易混点**：ROA 分母是总资产（含负债融资），ROE 分母是股东权益，别混；ROA 与 ROIC 不同——后者分母是投入资本（有息负债 + 权益），剔除无息负债影响；用期末还是平均总资产会造成口径差异，比较时统一；高 ROA 不等于高股东回报——低杠杆下 ROA ≈ ROE，高杠杆下 ROE 远高于 ROA；ROA 里的 return 指会计净利润，不是现金流回报。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [
+    {
+      "no": "1",
+      "word": "multi-head attention (MHA)",
+      "phonetic": "/ˈmʌlti hed əˈtenʃn/",
+      "domain": "AI",
+      "point": "多子空间并行算注意力再拼接投影，多视角建模，头数不增算力"
+    },
+    {
+      "no": "2",
+      "word": "feed-forward network (FFN)",
+      "phonetic": "/fiːd ˈfɔːwəd ˈnetwɜːk/",
+      "domain": "AI",
+      "point": "逐位置升维+非线性+降维，参数占大头，MoE 改造对象"
+    },
+    {
+      "no": "3",
+      "word": "RMSNorm",
+      "phonetic": "/ˌɑːr em ˈnɔːm/",
+      "domain": "AI",
+      "point": "只按均方根缩放不减均值，比 LayerNorm 更省更快，LLM 标配"
+    },
+    {
+      "no": "4",
+      "word": "price-to-book (P/B) ratio",
+      "phonetic": "/praɪs tuː bʊk ˈreɪʃiəʊ/",
+      "domain": "金融",
+      "point": "市值/净资产，看资产的估值尺，P/B ≈ ROE × P/E"
+    },
+    {
+      "no": "5",
+      "word": "return on assets (ROA)",
+      "phonetic": "/rɪˈtɜːn ɒn ˈæsets/",
+      "domain": "金融",
+      "point": "净利润/总资产，不受杠杆放大，照出经营效率真相"
+    }
+  ],
+  "comparisons": [],
+  "progress": [
+    "本期：第 66 期，5 词",
+    "累计：**330 词**（198 AI + 132 金融）",
+    "归档格式：MD 词卡 + KAMI One-Pager PNG + Telegram 推送"
+  ]
+}

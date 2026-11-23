@@ -1,16 +1,39 @@
 {
-  "generatedAt": "2026-11-20T03:41:37.842Z",
+  "generatedAt": "2026-11-23T03:42:30.840Z",
   "source": "pinghe/english words",
   "totals": {
-    "issues": 65,
-    "days": 64,
-    "words": 325,
-    "ai": 195,
-    "finance": 130,
+    "issues": 66,
+    "days": 65,
+    "words": 330,
+    "ai": 198,
+    "finance": 132,
     "both": 0,
     "other": 0
   },
   "issues": [
+    {
+      "date": "2026-11-23",
+      "issueNo": 66,
+      "issueSpan": 1,
+      "issueLabel": "第 66 期",
+      "issueNoLabel": "66",
+      "theme": "Transformer 块的三块积木（多头注意力 · 前馈网络 · RMS 归一化） · 估值与盈利的两面镜子（市净率 · 资产收益率）",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 65 期 325 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "multi-head attention (MHA)",
+        "feed-forward network (FFN)",
+        "RMSNorm",
+        "price-to-book (P/B) ratio",
+        "return on assets (ROA)"
+      ]
+    },
     {
       "date": "2026-11-20",
       "issueNo": 65,
