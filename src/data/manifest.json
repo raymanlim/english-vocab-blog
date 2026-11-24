@@ -1,16 +1,39 @@
 {
-  "generatedAt": "2026-11-23T03:42:30.840Z",
+  "generatedAt": "2026-11-24T03:40:26.484Z",
   "source": "pinghe/english words",
   "totals": {
-    "issues": 66,
-    "days": 65,
-    "words": 330,
-    "ai": 198,
-    "finance": 132,
+    "issues": 67,
+    "days": 66,
+    "words": 335,
+    "ai": 201,
+    "finance": 134,
     "both": 0,
     "other": 0
   },
   "issues": [
+    {
+      "date": "2026-11-24",
+      "issueNo": 67,
+      "issueSpan": 1,
+      "issueLabel": "第 67 期",
+      "issueNoLabel": "67",
+      "theme": "分词与注意力的工程取舍（字节对编码 · 多查询注意力 · 梯度累积） · 估值与回报的两把尺（市销率 · 股息率）",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 66 期 330 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "byte-pair encoding (BPE)",
+        "multi-query attention (MQA)",
+        "gradient accumulation",
+        "price-to-sales (P/S) ratio",
+        "dividend yield"
+      ]
+    },
     {
       "date": "2026-11-23",
       "issueNo": 66,

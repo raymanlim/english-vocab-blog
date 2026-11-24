@@ -1,0 +1,209 @@
+{
+  "date": "2026-11-24",
+  "issueNo": 67,
+  "issueSpan": 1,
+  "issueLabel": "第 67 期",
+  "issueNoLabel": "67",
+  "theme": "分词与注意力的工程取舍（字节对编码 · 多查询注意力 · 梯度累积） · 估值与回报的两把尺（市销率 · 股息率）",
+  "themeRaw": "分词与注意力的工程取舍（字节对编码 · 多查询注意力 · 梯度累积）+ 估值与回报的两把尺（市销率 · 股息率）",
+  "note": "本期 5 词（3 AI + 2 金融），已与前 66 期 330 词去重",
+  "title": "每日英语 5 词 · 2026-11-24",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "byte-pair encoding (BPE)",
+      "issueNoLocal": 67,
+      "phonetic": "/baɪt peər ˈenkəʊdɪŋ/",
+      "pos": "n.",
+      "posRaw": "n.（相关：tokenization、subword、vocabulary、SentencePiece、WordPiece、byte-level BPE、token budget、embedding、out-of-vocabulary (OOV)、Unicode、merge operation）",
+      "related": [
+        "tokenization",
+        "subword",
+        "vocabulary",
+        "SentencePiece",
+        "WordPiece",
+        "byte-level BPE",
+        "token budget",
+        "embedding",
+        "out-of-vocabulary (OOV)",
+        "Unicode",
+        "merge operation"
+      ],
+      "meaning": "【AI】字节对编码——一种子词（subword）分词（tokenization，已学）算法，是现代 LLM 构建词表（vocabulary）的主流方法：从字符（或字节）级基础单元出发，迭代统计相邻符号对的出现频率，把最高频的一对合并成一个新符号，反复进行直到词表达到预设大小。例如 \"low\" 与 \"er\" 频繁相邻就合并为 \"lower\"。分词时按学到的合并规则（merge）从长到短贪心切分，把任意词（包括从未见过的词）拆解成已知子词序列——这解决了 out-of-vocabulary（OOV，词表外词）问题：无需为罕见词保留独立条目，也能低成本表示。GPT-2 起采用 byte-level BPE：基础单元是 256 个字节而非字符，可编码任意 Unicode 文本（含 emoji、生僻字），从根本上消除 UNK（未知标记）。与之并列的还有 WordPiece（BERT 用，按似然增益合并）与 SentencePiece（语言无关、直接对原始字符串操作）。关键权衡：① 词表越大，单 token 承载语义越多、序列越短、推理越省，但 embedding 与输出 softmax 层参数随词表线性增长；② 子词切分不符合人类语义边界（\"hugging\" 可能被切成 \"hug\" + \"ging\"），影响字符级任务与数字处理；③ 合并规则由语料频率决定，领域外文本可能被切得很碎；④ token budget（已学）的计算依赖分词器，换分词器等于换「计数单位」。（接续 tokenization / embedding / token budget）",
+      "gloss": "字节对编码",
+      "example": "Byte-pair encoding merges the most frequent character pairs iteratively, letting the model represent rare words as sequences of learned subwords.",
+      "exampleCn": "字节对编码迭代合并最高频的字符对，使模型能把罕见词表示为已学子词的序列。",
+      "memory": "**记忆锚点**：BPE = 「从最小积木开始，哪两块最常粘在一起就先粘成一块」，像搭乐高——先把最常用的砖块预拼好，新词来了用现成的拼。**为什么重要**：① 它是 LLM 分词的事实标准，理解它就懂「为什么 token 数 ≠ 字数、中文与代码为何更费 token」；② 它是 tokenization（已学）的具体落地算法，也是 token budget（已学）的计量基础。**关键权衡**：① 词表大→序列短但参数多；② 子词边界 ≠ 语义边界，坑字符级/数字任务；③ 领域外文本切得碎；④ 分词器换了计数单位就变。**实践要点**：① 估算上下文/成本要用实际分词器，别按字数拍脑袋；② 中文常 1 字 1–2 token，代码与数字偏费；③ 跨语言语料要看词表覆盖率；④ 微调与预训练必须用同一分词器。**易混点**：BPE 是分词算法，不是模型；byte-level BPE 用字节作基础单元可编码任意字符，字符级 BPE 不行；BPE 与 WordPiece / SentencePiece 是不同实现，别混用；subword（子词）≠ morpheme（词素），切分是统计驱动而非语言学驱动。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "multi-query attention (MQA)",
+      "issueNoLocal": 67,
+      "phonetic": "/ˈmʌlti kwɪəri əˈtenʃn/",
+      "pos": "n.",
+      "posRaw": "n.（相关：multi-head attention (MHA)、grouped-query attention (GQA)、KV cache、attention、key、value、query、head、self-attention、decoding、memory bandwidth、FlashAttention、throughput）",
+      "related": [
+        "multi-head attention (MHA)",
+        "grouped-query attention (GQA)",
+        "KV cache",
+        "attention",
+        "key",
+        "value",
+        "query",
+        "head",
+        "self-attention",
+        "decoding",
+        "memory bandwidth",
+        "FlashAttention",
+        "throughput"
+      ],
+      "meaning": "【AI】多查询注意力——一种注意力变体，让多个 query（查询）头共享同一组 key/value（键/值）头（通常 1 个 KV 头服务所有 Q 头），由 Shazeer 于 2019 年提出，专攻自回归解码（decoding）时的推理瓶颈。标准多头注意力（MHA，已学）每个头都有独立的 K/V 投影，KV cache（已学）要为每个头缓存 K、V，长序列下显存与内存带宽占用巨大、成为生成速度瓶颈；MQA 把 K/V 头压缩到 1 个，KV cache 缩小约 h 倍（h 为头数），大幅降低显存与带宽压力、提升吞吐。代价是表达力下降——所有 Q 头看同一份 K/V，牺牲了多头从不同子空间读取信息的能力。grouped-query attention（GQA，已学）正是二者的折中：把 Q 头分成若干组、每组共享一个 KV 头，在速度与质量间取平衡（Llama 2/3 采用）。关键权衡：① KV cache 省约 h 倍 vs 建模能力下降；② 收益在长上下文、大 batch 推理最明显，短序列几乎无差；③ 需重新训练或从 MHA 模型蒸馏转换，不能即插即用；④ 与 FlashAttention（已学）正交——后者优化计算访存、前者压缩缓存结构，常叠加使用。（接续 MHA / grouped-query attention (GQA) / KV cache）",
+      "gloss": "多查询注意力",
+      "example": "Multi-query attention shares a single key-value head across all query heads, slashing the KV cache and speeding up long-sequence generation.",
+      "exampleCn": "多查询注意力让所有查询头共享单一键值头，大幅削减 KV cache 并加速长序列生成。",
+      "memory": "**记忆锚点**：MHA 是「每个观察员自带一套 K/V 笔记本」，MQA 是「全组共用一本笔记本」——笔记本（KV cache）从 h 本降到 1 本，背包（显存）瞬间轻了，但大家看的资料一样、视角变单一。**为什么重要**：① 它是 LLM 推理提速的关键工程手段，直接决定长上下文服务的成本；② 它把 GQA（已学）放回光谱——MHA（h 个 KV 头）→ GQA（若干组）→ MQA（1 个），三者是同一取舍的不同档位。**关键权衡**：① 省缓存 vs 表达力；② 长序列/大 batch 收益大；③ 要重训或蒸馏转换；④ 与 FlashAttention 正交可叠加。**实践要点**：① 长上下文、高并发服务优先考虑 GQA/MQA；② 从 MHA 转 MQA 通常用知识蒸馏补质量；③ 质量敏感场景选 GQA 折中；④ 评估看 KV cache 占用与吞吐，别只看参数量。**易混点**：MQA 共享的是 K/V 头，Q 头仍是多个独立投影；它改的是推理时的缓存结构，不改变注意力公式本身；与 GQA 区别仅在 KV 头数量；别以为它能直接加载 MHA 权重。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "gradient accumulation",
+      "issueNoLocal": 67,
+      "phonetic": "/ˈɡreɪdiənt ˌækjumjuˈleɪʃn/",
+      "pos": "n.",
+      "posRaw": "n.（相关：batch size、backpropagation、gradient descent、learning rate、optimizer、epoch、step、memory-bound、gradient checkpointing、mixed precision、loss scaling）",
+      "related": [
+        "batch size",
+        "backpropagation",
+        "gradient descent",
+        "learning rate",
+        "optimizer",
+        "epoch",
+        "step",
+        "memory-bound",
+        "gradient checkpointing",
+        "mixed precision",
+        "loss scaling"
+      ],
+      "meaning": "【AI】梯度累积——一种在显存受限时模拟大批次（large batch）训练的工程技巧：不每处理一个 mini-batch 就更新参数，而是连续累积 k 个小批次（micro-batch）的梯度——反向传播做 k 次、optimizer.step() 每 k 次才执行一次，等效 batch size = micro-batch × k。做法是把每个小批次的 loss 除以 k 再反向传播，使 k 次累加的梯度约等于一次大批次的梯度。动机：显存装不下大 batch 时，用小 micro-batch 多次前向/反向「凑」出大批次的统计效果——大批次梯度更稳、收敛更平滑，但显存占用随 batch 线性增长。关键权衡：① 显存省约 k 倍 vs 总算力不省（计算拆开做，只是省峰值显存）；② 更新频率降为 1/k，需相应放大 learning rate（常按 sqrt(k) 或线性缩放）并配 warmup（已学）才能保持收敛；③ optimizer step 之间存在延迟，batch normalization（已学）等依赖批统计的层要注意统计口径（通常仍在 micro-batch 上算）；④ 与 gradient checkpointing（已学）、mixed precision（已学）是互补的省显存手段，可叠加使用。（接续 batch size / gradient descent / learning rate）",
+      "gloss": "梯度累积",
+      "example": "With a micro-batch of 8 and accumulation steps of 4, the effective batch size becomes 32 without exceeding GPU memory.",
+      "exampleCn": "micro-batch 为 8、累积步数为 4 时，等效批大小达到 32，而不超出 GPU 显存。",
+      "memory": "**记忆锚点**：梯度累积 = 「分四次把购物车装满再结账」——一次买不起一大车（显存不够），就分几次攒，钱（梯度）先记账不结账，攒够一整车的量再一次性付款（更新参数）。**为什么重要**：① 它是有限显存下训练大模型/大 batch 的必备技巧，理解它才懂「为什么 effective batch 能大于显存上限」；② 它把 batch size（已学）、learning rate（已学）、收敛稳定性串成一条链。**关键权衡**：① 省显存 k 倍 vs 总算力不省；② 更新变稀，学习率要按比例放大 + warmup；③ batch norm 统计口径要留意；④ 与 checkpointing / mixed precision 叠加更省。**实践要点**：① loss 记得除以累积步数，别漏；② 缩放学习率并配 warmup；③ 梯度裁剪在累积后、step 前做；④ 记录 effective batch 便于复现。**易混点**：梯度累积不减少总计算量，只是把一次大更新拆成多次小计算；它不同于 gradient checkpointing（用时间换激活显存）；accumulation steps ≠ epoch（前者是一步内的切分，后者是数据遍历次数）。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "price-to-sales (P/S) ratio",
+      "issueNoLocal": 67,
+      "phonetic": "/praɪs tuː seɪlz ˈreɪʃiəʊ/",
+      "pos": "n.",
+      "posRaw": "n.（相关：price-to-earnings (P/E) ratio、price-to-book (P/B) ratio、market capitalization、revenue、valuation、multiple、gross margin、net margin、enterprise value、EV/Sales、PEG ratio、growth stock）",
+      "related": [
+        "price-to-earnings (P",
+        "E) ratio",
+        "price-to-book (P",
+        "B) ratio",
+        "market capitalization",
+        "revenue",
+        "valuation",
+        "multiple",
+        "gross margin",
+        "net margin",
+        "enterprise value",
+        "EV",
+        "Sales",
+        "PEG ratio",
+        "growth stock"
+      ],
+      "meaning": "【金融】市销率——市值（market capitalization，已学）与过去 12 个月营业收入（revenue）之比，P/S = 市值 / 营收（或每股股价 / 每股营收），是最常用的估值倍数（multiple，已学）之一。它回答「市场愿为每 1 元销售收入付多少钱」：P/S 越低看似越便宜。与市盈率（P/E，已学）相比，营收不会为负、受会计操纵空间小、周期性波动小于利润，因此 P/S 适用于亏损或利润波动大的公司（早期成长股、周期股谷底、SaaS 公司）——这些场景 P/E 失真或为负。局限：① 完全不反映成本与盈利能力——两家同 P/S 的公司，净利率 30% 与 3% 的价值天差地别，必须配合毛利率/净利率看；② 跨行业不可比（软件公司 P/S 天然高于零售）；③ 高增长可支撑高 P/S（与 PEG 思路相通），低增长的低 P/S 未必便宜。杜邦式串联：P/S = P/E × 净利率（net margin），因为 P/E = 价格/利润、净利率 = 利润/营收，相乘即价格/营收——这一恒等式说明同一 P/S 可由「高估值 + 低利润率」或「低估值 + 高利润率」构成，必须拆开判断。企业价值口径的对应指标是 EV/Sales，剔除资本结构差异。（接续 P/E / P/B / valuation）",
+      "gloss": "市销率",
+      "example": "The unprofitable SaaS company traded at 15 times sales, a premium the market justified by its 80% gross margin and rapid growth.",
+      "exampleCn": "这家尚未盈利的 SaaS 公司以 15 倍市销率交易，市场以其 80% 的毛利率和高速增长为这一溢价背书。",
+      "memory": "**记忆锚点**：市销率 = 「花多少钱买 1 块钱的营业额」——P/E 看利润、P/B 看资产、P/S 看收入，三者是估值三面镜；收入最不易造假，但「卖得多」不等于「赚得多」。**为什么重要**：① 它是亏损/高波动公司的估值锚，补上 P/E 失效的盲区；② P/S = P/E × 净利率 把估值与盈利串起来，是判断「高 P/S 是否合理」的钥匙。**关键权衡**：① 营收稳健抗操纵 vs 完全不管成本盈利；② 跨行业不可比；③ 增速与利润率决定合理 P/S 区间。**实践要点**：① 必须配毛利率/净利率一起看；② 只在同行业比 P/S；③ 增长股看 P/S 随增速/利润率的变化趋势；④ 与 EV/Sales、DCF（已学）交叉验证。**易混点**：P/S 分母是营收（损益表流量），P/B 分母是净资产（资产负债表存量）；P/S 低可能是价值陷阱（利润率崩塌）；P/S = P/E × 净利率 是恒等式，别当成独立信息重复计算；EV/Sales 用企业价值，含债务口径不同。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "dividend yield",
+      "issueNoLocal": 67,
+      "phonetic": "/ˈdɪvɪdend jiːld/",
+      "pos": "n.",
+      "posRaw": "n.（相关：dividend、payout ratio、yield、dividend discount model (DDM)、total return、capital gain、current yield、yield on cost、ex-dividend date、dividend growth、REIT、bond yield）",
+      "related": [
+        "dividend",
+        "payout ratio",
+        "yield",
+        "dividend discount model (DDM)",
+        "total return",
+        "capital gain",
+        "current yield",
+        "yield on cost",
+        "ex-dividend date",
+        "dividend growth",
+        "REIT",
+        "bond yield"
+      ],
+      "meaning": "【金融】股息率——年度每股股息与当前股价之比，dividend yield = 年股息 / 股价，衡量「按现价买入、仅股息一项的年化现金回报率」，是收益型投资者筛选高息股的核心指标。它与派息率（payout ratio，已学，股息/盈利）是不同维度：股息率看「投资者拿到多少」，取决于股息与股价；派息率看「公司分出多少利润」，取决于股息与盈利——同样的股息率，可能因股价大跌（分母缩水）而「被动升高」，这就是「高息陷阱」的典型来源。与总回报（total return）关系：总回报 = 股息率 + 资本利得（capital gain，已学）收益率，高股息通常伴随低增长，二者是增长与收益的取舍。理论上有股息贴现模型（DDM，dividend discount model，以股息折现估值的方法），戈登增长模型中 P = D₁/(r−g)，故 dividend yield = D₁/P = r − g——股息率等于要求回报率减增长率，揭示高股息往往意味着低预期增长。关键权衡：① 提供真实现金流、下行有缓冲 vs 高息常伴随低增长与股价承压；② 股价下跌会机械推高股息率，需分辨是「便宜」还是「陷阱」；③ 股息需缴税，税后到手更少；④ 股息非承诺，公司可削减（周期股尤其）。（接续 dividend / payout ratio / total return）",
+      "gloss": "股息率",
+      "example": "A 6% dividend yield looks attractive, but if the payout ratio exceeds 90% and earnings are falling, the dividend is likely to be cut.",
+      "exampleCn": "6% 的股息率看起来诱人，但如果派息率超过 90% 且盈利下滑，股息很可能被削减。",
+      "memory": "**记忆锚点**：股息率 = 「买 100 块股票，一年现金分红多少」——它像债券的票息，是到手的真金白银；但股价跌一半，股息率自动翻倍，那是「跌出来的高息」不是「赚出来的高息」。**为什么重要**：① 它是收益投资与高息筛选的入口指标；② 与 payout ratio（已学）一「投资者视角」一「公司视角」，合看才能识别高息陷阱；③ DDM 中 dividend yield = r − g，把它和增长预期直接挂钩。**关键权衡**：① 现金回报 vs 常伴低增长；② 股价跌会虚高股息率；③ 税后缩水；④ 股息可削减非承诺。**实践要点**：① 高股息率必查派息率与盈利趋势；② 看股息连续增长年数而非单年高低；③ 用 total return 评估整体回报；④ 注意除息日（ex-dividend date）与税务。**易混点**：dividend yield（股息/股价）≠ payout ratio（股息/盈利）≠ yield on cost（股息/买入成本，随持有期变化）；高股息率 ≠ 高回报，股价下跌可抵消股息；债券 current yield 与股票股息率机制类似，但一个是契约、一个非承诺。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [
+    {
+      "no": "1",
+      "word": "byte-pair encoding (BPE)",
+      "phonetic": "/baɪt peər ˈenkəʊdɪŋ/",
+      "domain": "AI",
+      "point": "迭代合并高频字节对构建子词表，解决 OOV，LLM 分词事实标准"
+    },
+    {
+      "no": "2",
+      "word": "multi-query attention (MQA)",
+      "phonetic": "/ˈmʌlti kwɪəri əˈtenʃn/",
+      "domain": "AI",
+      "point": "所有 Q 头共享 1 个 KV 头，KV cache 省 h 倍，推理提速但损表达力"
+    },
+    {
+      "no": "3",
+      "word": "gradient accumulation",
+      "phonetic": "/ˈɡreɪdiənt ˌækjumjuˈleɪʃn/",
+      "domain": "AI",
+      "point": "累积 k 个小批梯度再更新，省显存模拟大批次，需缩放学习率"
+    },
+    {
+      "no": "4",
+      "word": "price-to-sales (P/S) ratio",
+      "phonetic": "/praɪs tuː seɪlz ˈreɪʃiəʊ/",
+      "domain": "金融",
+      "point": "市值/营收，亏损股估值锚，P/S = P/E × 净利率，须配利润率看"
+    },
+    {
+      "no": "5",
+      "word": "dividend yield",
+      "phonetic": "/ˈdɪvɪdend jiːld/",
+      "domain": "金融",
+      "point": "年股息/股价，现金回报率，须查派息率防「高息陷阱」"
+    }
+  ],
+  "comparisons": [],
+  "progress": [
+    "本期：第 67 期，5 词",
+    "累计：**335 词**（201 AI + 134 金融）",
+    "归档格式：MD 词卡 + KAMI One-Pager PNG + Telegram 推送"
+  ]
+}
