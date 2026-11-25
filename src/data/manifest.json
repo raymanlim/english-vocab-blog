@@ -1,16 +1,39 @@
 {
-  "generatedAt": "2026-11-24T03:40:26.484Z",
+  "generatedAt": "2026-11-25T03:58:16.792Z",
   "source": "pinghe/english words",
   "totals": {
-    "issues": 67,
-    "days": 66,
-    "words": 335,
-    "ai": 201,
-    "finance": 134,
+    "issues": 68,
+    "days": 67,
+    "words": 340,
+    "ai": 204,
+    "finance": 136,
     "both": 0,
     "other": 0
   },
   "issues": [
+    {
+      "date": "2026-11-25",
+      "issueNo": 68,
+      "issueSpan": 1,
+      "issueLabel": "第 68 期",
+      "issueNoLabel": "68",
+      "theme": "注意力的三种工程变体（滑动窗口注意力 · 交叉注意力 · 线性注意力） · 估值与景气的两把尺（企业价值倍数 · 产能利用率）",
+      "note": "本期 5 词（3 AI + 2 金融），已与前 67 期 335 词去重",
+      "wordCount": 5,
+      "counts": {
+        "ai": 3,
+        "finance": 2,
+        "both": 0,
+        "other": 0
+      },
+      "words": [
+        "sliding window attention (SWA)",
+        "cross-attention",
+        "linear attention",
+        "EV/EBITDA",
+        "capacity utilization"
+      ]
+    },
     {
       "date": "2026-11-24",
       "issueNo": 67,

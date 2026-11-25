@@ -1,0 +1,212 @@
+{
+  "date": "2026-11-25",
+  "issueNo": 68,
+  "issueSpan": 1,
+  "issueLabel": "第 68 期",
+  "issueNoLabel": "68",
+  "theme": "注意力的三种工程变体（滑动窗口注意力 · 交叉注意力 · 线性注意力） · 估值与景气的两把尺（企业价值倍数 · 产能利用率）",
+  "themeRaw": "注意力的三种工程变体（滑动窗口注意力 · 交叉注意力 · 线性注意力）+ 估值与景气的两把尺（企业价值倍数 · 产能利用率）",
+  "note": "本期 5 词（3 AI + 2 金融），已与前 67 期 335 词去重",
+  "title": "每日英语 5 词 · 2026-11-25",
+  "counts": {
+    "ai": 3,
+    "finance": 2,
+    "both": 0,
+    "other": 0
+  },
+  "words": [
+    {
+      "no": 1,
+      "word": "sliding window attention (SWA)",
+      "issueNoLocal": 68,
+      "phonetic": "/ˈslaɪdɪŋ ˈwɪndəʊ əˈtenʃn/",
+      "pos": "n.",
+      "posRaw": "n.（相关：attention、self-attention、multi-head attention (MHA)、long context、KV cache、attention sink、FlashAttention、RoPE、perplexity、transformer、receptive field、dilated attention）",
+      "related": [
+        "attention",
+        "self-attention",
+        "multi-head attention (MHA)",
+        "long context",
+        "KV cache",
+        "attention sink",
+        "FlashAttention",
+        "RoPE",
+        "perplexity",
+        "transformer",
+        "receptive field",
+        "dilated attention"
+      ],
+      "meaning": "【AI】滑动窗口注意力——一种局部注意力（local attention）机制，把每个 token 的可见范围限制在固定宽度 W 的邻近窗口内：token i 只关注 [i−W, i+W]（或仅回看 [i−W, i] 的因果窗口）内的 token，而非序列全部位置。标准全注意力（full attention）的算力与显存随序列长度平方增长 O(n²)，长上下文下不可承受；SWA 把复杂度降到 O(n·W)——W 固定时近似线性，是处理超长序列的核心工程手段。典型实现是 Mistral 7B 的 sliding window attention：每层关注过去 4096 个 token，配合滚动缓存（rolling buffer cache）只保留窗口内的 KV，使显存不随总长度增长。关键点：① 窗口是「每层看局部」，但堆叠多层后高层神经元的感受野（receptive field）逐层扩大，仍能聚合远距离信息——类似 CNN 的层级感受野；② 纯局部窗口会丢失精确的远距离 token 直连，需与全局层或 attention sink（注意力汇聚点）配合，后者保留序列开头若干 token 作为「锚点」防止长文本质量崩塌；③ 与 FlashAttention（已学）正交——后者优化全注意力的访存、SWA 改变注意力结构本身；④ 窗口大小 W 是质量与成本的核心旋钮。（接续 long context / multi-head attention (MHA) / KV cache）",
+      "gloss": "滑动窗口注意力",
+      "example": "Sliding window attention caps each token's receptive field at W neighbors, cutting attention cost from quadratic to near-linear in sequence length.",
+      "exampleCn": "滑动窗口注意力把每个 token 的可见范围限制在 W 个邻居内，将注意力开销从序列长度的平方级降到近似线性。",
+      "memory": "**记忆锚点**：SWA = 「每个人只和邻座 W 个人说话，而不是全场喊话」——会场人数（序列长度）翻倍，总对话量不再四倍暴涨，而是近似翻倍；但想听远处的话，得靠一层层「传话」（堆叠层数扩大感受野）。**为什么重要**：① 它是长上下文推理降本的主干技术，直接决定超长文档服务的可行性；② 它把 long context（已学）、KV cache（已学）、MHA（已学）串成「结构—缓存—算力」一条链。**关键权衡**：① 算力从 O(n²) 降到 O(n·W) vs 丢失远距离直连；② 堆叠层数扩大感受野但不如全注意力直接；③ 需配 attention sink / 全局层防止长文本坍塌；④ W 越大质量越好但越贵。**实践要点**：① 窗口大小按任务调优，长文档检索与摘要需求不同；② 与滚动 KV 缓存配套才真正省显存；③ 与 FlashAttention 叠加可再降访存；④ 评估长文本要看「大海捞针」式远距离召回，别只看 perplexity。**易混点**：SWA 改的是注意力「看谁能看谁」的掩码结构，不是注意力公式本身；local attention ≠ sparse attention（后者是按模式稀疏采样，机制更泛）；堆叠的感受野是线性增长，不等于全注意力的全局视野；窗口内仍可做多头与 RoPE（已学）。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 2,
+      "word": "cross-attention",
+      "issueNoLocal": 68,
+      "phonetic": "/krɒs əˈtenʃn/",
+      "pos": "n.",
+      "posRaw": "n.（相关：self-attention、multi-head attention (MHA)、attention、query、key、value、encoder-decoder、transformer、multimodal alignment、diffusion、text-to-image、conditioning）",
+      "related": [
+        "self-attention",
+        "multi-head attention (MHA)",
+        "attention",
+        "query",
+        "key",
+        "value",
+        "encoder-decoder",
+        "transformer",
+        "multimodal alignment",
+        "diffusion",
+        "text-to-image",
+        "conditioning"
+      ],
+      "meaning": "【AI】交叉注意力——注意力机制的一种配置，其中 query（查询）来自一个序列、而 key/value（键/值）来自另一个序列，与自注意力（self-attention，Q/K/V 同源同序列）相对。它是 encoder-decoder Transformer（如原始 Transformer、T5、BART）的核心：decoder 的每层先对自身输出做 self-attention，再通过 cross-attention「回头看」encoder 的编码结果——Q 来自 decoder 当前状态，K/V 来自 encoder 输出，从而把源序列信息注入生成过程（机器翻译中即「生成每个目标词时对齐原文相关位置」）。在多模态模型中用途更广：文本到图像扩散模型（如 Stable Diffusion）用 cross-attention 把文本条件（conditioning）注入图像特征——Q 来自图像空间位置、K/V 来自文本 embedding，实现图文对齐（multimodal alignment，已学）；Flamingo、BLIP-2 等多模态大模型同样以 cross-attention 桥接视觉编码器与语言模型。关键权衡：① 实现「两个序列的信息融合」这一self-attention做不到的能力 vs 引入额外参数与计算；② 交叉层数是融合深度的旋钮——太少融合不足、太多易过拟合；③ K/V 序列长度直接影响成本（长文本条件很贵）。（接续 attention / multi-head attention (MHA) / multimodal alignment）",
+      "gloss": "交叉注意力",
+      "example": "In text-to-image diffusion, cross-attention injects the text conditioning into visual features by taking queries from image tokens and keys and values from text embeddings.",
+      "exampleCn": "在文生图扩散模型中，交叉注意力以图像 token 为查询、文本 embedding 为键和值，把文本条件注入视觉特征。",
+      "memory": "**记忆锚点**：self-attention 是「自己和自己开会」，cross-attention 是「一个部门拿着问题（Q）去另一个部门翻资料（K/V）」——问的人和被翻的资料来自两个不同序列，桥梁就这么搭起来。**为什么重要**：① 它是 encoder-decoder 与多模态融合的「接口」，理解它就懂翻译对齐、图文条件注入的统一机制；② 它把 attention（已学）、MHA（已学）、multimodal alignment（已学）落到具体架构位置。**关键权衡**：① 跨序列融合能力强 vs 额外参数与算力；② 交叉层数控制融合深度；③ 条件序列越长越贵。**实践要点**：① 看清 Q 与 K/V 各来自哪个模态/序列——这是判断架构的钥匙；② 多模态里注意条件序列长度带来的成本；③ 常与 self-attention 交替堆叠，别混为一谈；④ 可视化 cross-attention 权重是分析对齐质量的重要手段。**易混点**：cross-attention 与 self-attention 唯一区别是 Q 与 K/V 的来源是否同一序列，公式完全相同；别以为它只在翻译里用——文生图、多模态 LLM 同样大量使用；Q 来自 decoder/目标模态、K/V 来自 encoder/条件模态是常见方向，但具体实现可反过来，看定义为准。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 3,
+      "word": "linear attention",
+      "issueNoLocal": 68,
+      "phonetic": "/ˈlɪniə əˈtenʃn/",
+      "pos": "n.",
+      "posRaw": "n.（相关：attention、softmax、self-attention、kernel trick、feature map、complexity、state space model (SSM)、Mamba、recurrent、FlashAttention、casual masking、performer、retention）",
+      "related": [
+        "attention",
+        "softmax",
+        "self-attention",
+        "kernel trick",
+        "feature map",
+        "complexity",
+        "state space model (SSM)",
+        "Mamba",
+        "recurrent",
+        "FlashAttention",
+        "casual masking",
+        "performer",
+        "retention"
+      ],
+      "meaning": "【AI】线性注意力——一类通过改写注意力计算顺序、把复杂度从 O(n²) 降到 O(n) 的注意力变体。标准 softmax attention 的输出为 softmax(QKᵀ/√d)V，矩阵乘法 QKᵀ 产生 n×n 的注意力矩阵，是平方复杂度的根源。线性注意力用核技巧（kernel trick）：把 softmax 近似为特征映射（feature map）φ 的内积 φ(Q)φ(K)ᵀ，利用矩阵乘法结合律改写为 φ(Q)(φ(K)ᵀV)——先算 d×d 的 φ(K)ᵀV 再左乘 φ(Q)，避免显式构造 n×n 矩阵，复杂度降为 O(n·d²)。这一形式带来两个重要性质：① 因果（自回归）情形下可写成循环（recurrent）更新——维护一个累积状态 S=Σφ(kᵢ)vᵢᵀ，每步增量更新，推理时类似 RNN、显存恒定；② 与 state space model（SSM，已学）、Mamba、RetNet 等「线性复杂度序列模型」同属一条技术路线。代价是表达力下降：核近似难以精确复现 softmax 的尖锐选择性，在需要精确检索、复制、长距离精确匹配的任务上通常弱于全注意力，因此实践中多为混合方案（部分层线性、部分层全注意力）。（接续 attention / softmax / state space model (SSM)）",
+      "gloss": "线性注意力",
+      "example": "Linear attention uses a kernel feature map to reassociate the matmul as φ(Q)(φ(K)^T V), avoiding the quadratic attention matrix and enabling constant-memory recurrent decoding.",
+      "exampleCn": "线性注意力用核特征映射把矩阵乘重排为 φ(Q)(φ(K)^T V)，避开平方级注意力矩阵，实现恒定显存的循环解码。",
+      "memory": "**记忆锚点**：普通注意力是「先把 n×n 的关系表整张印出来（QKᵀ），再按表取货」；线性注意力是「先把货按类别打包成小账本（φ(K)ᵀV），来查询时直接翻账本」——账本是 d×d 而非 n×n，所以序列再长也不爆炸。**为什么重要**：① 它揭示了「平方复杂度来自显式 n×n 矩阵」这一本质，是理解所有高效注意力（含 FlashAttention、SSM）的关键；② 它把 kernel trick、recurrent 解码、SSM（已学）串成线性复杂度序列模型一脉。**关键权衡**：① O(n) 与恒定推理显存 vs 核近似损失表达力；② 精确检索/复制任务偏弱；③ 常需混合全注意力层补质量。**实践要点**：① 结合律改写是核心——先聚合 K/V 再乘 Q；② 注意 φ 的选择决定近似质量与代价；③ 因果模式可写成循环状态，推理省显存；④ 与 FlashAttention 区别：后者算精确 softmax 但优化访存，前者改公式做近似。**易混点**：linear attention 是「近似 softmax 的省算力变体」，不是把注意力变成线性层；与 FlashAttention（精确计算、工程优化）本质不同；与 SSM/Mamba 是不同实现路径（后者源于状态空间方程），但共享「线性复杂度 + 循环解码」的目标；线性复杂度 ≠ 线性模型，仍有非线性特征映射。",
+      "domain": "ai",
+      "domainLabel": "AI"
+    },
+    {
+      "no": 4,
+      "word": "EV/EBITDA",
+      "issueNoLocal": 68,
+      "phonetic": "/ˌiː ˈviː ˌəʊvə ˌiː ˈbɪt də/",
+      "pos": "n.",
+      "posRaw": "n.（相关：enterprise value (EV)、EBITDA、valuation、multiple、price-to-earnings (P/E) ratio、net debt、market capitalization、capital expenditure (capex)、depreciation、amortization、free cash flow、EV/Sales）",
+      "related": [
+        "enterprise value (EV)",
+        "EBITDA",
+        "valuation",
+        "multiple",
+        "price-to-earnings (P",
+        "E) ratio",
+        "net debt",
+        "market capitalization",
+        "capital expenditure (capex)",
+        "depreciation",
+        "amortization",
+        "free cash flow",
+        "EV",
+        "Sales"
+      ],
+      "meaning": "【金融】企业价值倍数——企业价值（enterprise value，已学）与息税折旧摊销前利润（EBITDA，已学）之比，EV/EBITDA = EV / EBITDA，是跨公司估值最常用的倍数（multiple，已学）之一。EV = 市值（market capitalization，已学）+ 净债务（net debt = 总债务 − 现金），代表「买下整个公司所需付出的总价」；EBITDA = 息税前利润 + 折旧 + 摊销，代表「不含资本结构、税率与折旧政策影响的经营利润」。二者相除的意义：① 分子用 EV 而非市值，把债务也计入收购成本，使不同杠杆水平的公司可比；② 分母用 EBITDA 剔除利息（融资方式）、税（税率/地区）、折旧摊销（资产年龄与会计政策），使不同资本结构、不同税务环境、不同资产结构的公司可比。因此它特别适合重资产、跨国、杠杆差异大的行业（电信、能源、工业、半导体制造），也是私募股权与并购（M&A）定价的通用语言。局限：① 完全忽略资本开支（capex，已学）——对需要持续巨额再投资的重资产公司，EBITDA 高估了可自由支配的现金，须配 free cash flow（已学）看；② EBITDA 是非 GAAP 指标，管理层可通过调整「一次性费用」美化；③ 租赁、股权激励等口径差异影响可比性。（接续 enterprise value (EV) / EBITDA / valuation）",
+      "gloss": "企业价值倍数",
+      "example": "The chipmaker traded at 9x EV/EBITDA, a discount to peers, but its heavy capex means free cash flow told a much less flattering story.",
+      "exampleCn": "这家芯片制造商以 9 倍企业价值倍数交易，较同业折价，但其巨额资本开支意味着自由现金流讲述的故事远没有那么好看。",
+      "memory": "**记忆锚点**：EV/EBITDA = 「把公司整个买下来（连债一起接）要花几年经营利润回本」——分子算全价（市值 + 净债务），分母算不含利息/税/折旧的纯经营利润，两把尺都刻意剔除了「会计与融资的差异」。**为什么重要**：① 它是跨资本结构、跨税率比较公司的通用估值语言，并购定价的核心锚；② 它把 EV（已学）、EBITDA（已学）组合成实战指标，与 P/E（已学）形成「含债/不含债、含折旧/不含折旧」的对照。**关键权衡**：① 跨公司高可比 vs 完全无视资本开支；② 非 GAAP 易被调整美化；③ 口径差异影响可比。**实践要点**：① 重资产行业必配 FCF / capex 一起看，别只看 EBITDA；② 同行业比，跨行业倍数天然不同；③ 关注 EBITDA 的调整项（股权激励、一次性费用）；④ 与 DCF（已学）、EV/Sales（已学）交叉验证。**易混点**：EV/EBITDA 分母不含折旧摊销，P/E 分母含——所以 EV/EBITDA 恒低于同等口径的盈利倍数；EV 含净债务而非总资产；EBITDA 不等于现金流，资本开支与营运资本变化都不体现在里面；别用 EV 配净利润（口径错配），EV 要配 EBITDA / EBIT / 营收这类「全资本口径」的分母。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    },
+    {
+      "no": 5,
+      "word": "capacity utilization",
+      "issueNoLocal": 68,
+      "phonetic": "/kəˈpæsəti ˌjuːtɪlaɪˈzeɪʃn/",
+      "pos": "n.",
+      "posRaw": "n.（相关：capacity、utilization rate、production capacity、output、fab、semiconductor、capex、cyclical、book-to-bill ratio、supply and demand、operating leverage、fixed cost、throughput、yield）",
+      "related": [
+        "capacity",
+        "utilization rate",
+        "production capacity",
+        "output",
+        "fab",
+        "semiconductor",
+        "capex",
+        "cyclical",
+        "book-to-bill ratio",
+        "supply and demand",
+        "operating leverage",
+        "fixed cost",
+        "throughput",
+        "yield"
+      ],
+      "meaning": "【金融】产能利用率——实际产出与设计产能（production capacity）之比，capacity utilization = 实际产量 / 满负荷产能，制造业与周期行业最核心的景气温度计。在半导体行业，它通常指晶圆厂（fab）的稼动率：产线满负荷运转接近 100%，低于 70–80% 往往意味着需求疲软、供给过剩。它的投资意义在于：① 高稼动率（>85–90%）表明需求强劲、产能紧张，厂商议价力与毛利率上升，也预示扩产（capex，已学）意愿增强——这是资本开支周期的领先信号；② 低稼动率意味着供过于求、价格与利润承压，且固定成本摊薄不足（operating leverage，已学，反向放大利润下滑）；③ 与 book-to-bill ratio（订单出货比，已学）配合可判断景气拐点——订单回升 + 稼动率触底是周期复苏的典型组合。对上游材料与耗材供应商（如陶瓷吸嘴、浆料、结构件）而言，客户稼动率直接决定耗材消耗速度，是需求跟踪的高频先行指标。局限：① 口径不统一（按设备工时、按产出、按良率折算结果不同）；② 高利用率不等于高盈利——价格战、低良率（yield）、折旧压力仍可能侵蚀利润；③ 周期性极强，需结合库存与资本开支周期综合判断。（接续 book-to-bill ratio / operating leverage / capex）",
+      "gloss": "产能利用率",
+      "example": "Foundry utilization climbed above 90%, tightening supply and lifting prices, while equipment makers read the same number as a signal to expand capex.",
+      "exampleCn": "晶圆代工稼动率升破 90%，供给趋紧、价格上涨，而设备厂商把同一数字解读为扩产的信号。",
+      "memory": "**记忆锚点**：产能利用率 = 「工厂这条线开到了几成」——像水龙头的开度：开到九成说明订单满、要涨价、要扩产；开到五成说明需求冷、价格松、固定成本摊不动。同一数字，对厂商是盈利信号，对上游耗材供应商是「客户用得快不快」的先行指标。**为什么重要**：① 它是制造业景气与资本开支周期的高频温度计，半导体投资必看；② 它把 book-to-bill（已学）、operating leverage（已学）、capex（已学）串成「需求—价格—扩产」的链条；③ 对材料/耗材贸易，客户稼动率直接决定消耗与补货节奏。**关键权衡**：① 高利用率预示涨价与扩产 vs 周期顶部可能反转；② 低利用率放大固定成本压力；③ 口径不统一、高利用率不等于高盈利。**实践要点**：① 结合 book-to-bill 与库存看拐点；② 关注分制程/分产品线利用率，别只看公司均值；③ 上游供应商把客户稼动率当需求先行指标；④ 与毛利率、capex 指引交叉验证。**易混点**：utilization（利用率，开到几成）≠ yield（良率，做出来多少是好的）≠ throughput（吞吐，单位时间产出）；高稼动率 ≠ 高利润，价格与良率同样关键；它是实时经营状态，与产能「总量」是两回事——扩产增加的是产能上限，不是当期利用率。",
+      "domain": "finance",
+      "domainLabel": "Finance"
+    }
+  ],
+  "summary": [
+    {
+      "no": "1",
+      "word": "sliding window attention (SWA)",
+      "phonetic": "/ˈslaɪdɪŋ ˈwɪndəʊ əˈtenʃn/",
+      "domain": "AI",
+      "point": "局部窗口把 O(n²) 降到 O(n·W)，靠堆叠扩感受野，配 attention sink 防坍塌"
+    },
+    {
+      "no": "2",
+      "word": "cross-attention",
+      "phonetic": "/krɒs əˈtenʃn/",
+      "domain": "AI",
+      "point": "Q 与 K/V 来自不同序列，encoder-decoder 与多模态融合的接口"
+    },
+    {
+      "no": "3",
+      "word": "linear attention",
+      "phonetic": "/ˈlɪniə əˈtenʃn/",
+      "domain": "AI",
+      "point": "核技巧重排矩阵乘为 O(n)，可循环解码，近似换效率、表达力偏弱"
+    },
+    {
+      "no": "4",
+      "word": "EV/EBITDA",
+      "phonetic": "/ˌiː ˈviː ˌəʊvə ˌiː ˈbɪt də/",
+      "domain": "金融",
+      "point": "EV/息税折旧摊销前利润，跨资本结构可比，须配 FCF 防忽视 capex"
+    },
+    {
+      "no": "5",
+      "word": "capacity utilization",
+      "phonetic": "/kəˈpæsəti ˌjuːtɪlaɪˈzeɪʃn/",
+      "domain": "金融",
+      "point": "实际产出/设计产能，制造业景气温度计，半导体稼动率是需求先行指标"
+    }
+  ],
+  "comparisons": [],
+  "progress": [
+    "本期：第 68 期，5 词",
+    "累计：**340 词**（204 AI + 136 金融）",
+    "归档格式：MD 词卡 + KAMI One-Pager PNG + Telegram 推送"
+  ]
+}
